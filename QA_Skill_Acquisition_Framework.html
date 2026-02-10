@@ -1,0 +1,2922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Skill Acquisition Framework - Dreyfus Model</title>
+    
+    <!-- Copyright & Ownership -->
+    <meta name="author" content="Aditya Mirza Bahari">
+    <meta name="copyright" content="© 2025 Aditya Mirza Bahari. All Rights Reserved.">
+    <meta name="description" content="QA Skill Acquisition Framework based on Dreyfus Model - A comprehensive skill assessment tool for Quality Assurance professionals">
+    <meta name="keywords" content="QA, Quality Assurance, Skill Acquisition Framework, Dreyfus Model, Skill Assessment">
+    
+    <!--
+    ╔═══════════════════════════════════════════════════════════════════════════╗
+    ║                                                                           ║
+    ║   QA SKILL ACQUISITION FRAMEWORK                                          ║
+    ║   Based on Dreyfus Model of Skill Acquisition                             ║
+    ║                                                                           ║
+    ║   Created by: Aditya Mirza Bahari                                         ║
+    ║   Copyright © 2025 Aditya Mirza Bahari. All Rights Reserved.              ║
+    ║                                                                           ║
+    ║   This work is protected by copyright law. Unauthorized reproduction,     ║
+    ║   distribution, or modification is prohibited without written consent.    ║
+    ║                                                                           ║
+    ╚═══════════════════════════════════════════════════════════════════════════╝
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Fresh Teal Theme - Slightly Darker */
+            --bg-dark: #e6f7f5;
+            --bg-card: #f8fffe;
+            --bg-hover: #d5f0ed;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --accent-blue: #0d9488;
+            --accent-purple: #0891b2;
+            --accent-green: #059669;
+            --accent-orange: #d97706;
+            --accent-red: #dc2626;
+            --accent-pink: #db2777;
+            --level-1: #fecaca;
+            --level-2: #fde68a;
+            --level-3: #bbf7d0;
+            --level-4: #a5f3fc;
+            --level-5: #c4b5fd;
+            --border: #a7e8df;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.08) 0%, rgba(8, 145, 178, 0.08) 100%);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(13, 148, 136, 0.08);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0d9488, #0891b2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .header .subtitle {
+            display: inline-block;
+            background: var(--bg-card);
+            padding: 0.5rem 1.5rem;
+            border-radius: 100px;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Dreyfus Info Box */
+        .dreyfus-info {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .dreyfus-info-header {
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .dreyfus-info-header:hover {
+            background: var(--bg-hover);
+        }
+
+        .dreyfus-info-header h2 {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .dreyfus-info-content {
+            display: none;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .dreyfus-info.expanded .dreyfus-info-content {
+            display: block;
+        }
+
+        .dreyfus-info .info-toggle {
+            background: #b8ebe4;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #0d9488;
+            transition: all 0.2s;
+        }
+
+        .dreyfus-info.expanded .info-toggle {
+            background: #0d9488;
+            color: white;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-section {
+            background: #e0f5f2;
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid #b8ebe4;
+        }
+
+        .info-section h3 {
+            font-size: 0.95rem;
+            color: #0d9488;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-section p, .info-section li {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .info-section ul {
+            margin-top: 0.5rem;
+            padding-left: 1.25rem;
+        }
+
+        .info-section li {
+            margin-bottom: 0.4rem;
+        }
+
+        .level-detail {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .level-detail:last-child {
+            margin-bottom: 0;
+        }
+
+        .level-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .level-detail-header .level-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+        .level-detail-header h4 {
+            font-size: 0.9rem;
+        }
+
+        .level-detail p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .level-detail.l1 .level-badge { background: var(--level-1); }
+        .level-detail.l2 .level-badge { background: var(--level-2); }
+        .level-detail.l3 .level-badge { background: var(--level-3); }
+        .level-detail.l4 .level-badge { background: var(--level-4); }
+        .level-detail.l5 .level-badge { background: var(--level-5); }
+
+        /* Dreyfus Scale */
+        .dreyfus-scale {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .dreyfus-level {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .dreyfus-level .number {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #1e293b;
+        }
+
+        .dreyfus-level.l1 .number { background: var(--level-1); }
+        .dreyfus-level.l2 .number { background: var(--level-2); }
+        .dreyfus-level.l3 .number { background: var(--level-3); }
+        .dreyfus-level.l4 .number { background: var(--level-4); }
+        .dreyfus-level.l5 .number { background: var(--level-5); }
+
+        /* Mindmap Container */
+        .mindmap {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1200px) {
+            .mindmap {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mindmap {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Bucket Card */
+        .bucket {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .bucket:hover {
+            border-color: #0d9488;
+            box-shadow: 0 8px 30px rgba(13, 148, 136, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .bucket-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .bucket-header:hover {
+            background: var(--bg-hover);
+        }
+
+        .bucket-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .bucket:nth-child(1) .bucket-icon { background: linear-gradient(135deg, #14b8a6, #0d9488); }
+        .bucket:nth-child(2) .bucket-icon { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .bucket:nth-child(3) .bucket-icon { background: linear-gradient(135deg, #10b981, #059669); }
+        .bucket:nth-child(4) .bucket-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .bucket:nth-child(5) .bucket-icon { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+        .bucket:nth-child(6) .bucket-icon { background: linear-gradient(135deg, #f472b6, #ec4899); }
+
+        .bucket-title {
+            flex: 1;
+        }
+
+        .bucket-title h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .bucket-title .count {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .bucket-toggle {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #b8ebe4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+            color: #0d9488;
+        }
+
+        .bucket.expanded .bucket-toggle {
+            transform: rotate(180deg);
+        }
+
+        /* Sub-Competencies */
+        .sub-competencies {
+            padding: 0 1.5rem 1.5rem;
+            display: none;
+        }
+
+        .bucket.expanded .sub-competencies {
+            display: block;
+        }
+
+        .sub-comp {
+            background: #e0f5f2;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            border: 1px solid #b8ebe4;
+        }
+
+        .sub-comp:last-child {
+            margin-bottom: 0;
+        }
+
+        .sub-comp-header {
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .sub-comp-header:hover {
+            background: rgba(13, 148, 136, 0.05);
+        }
+
+        .sub-comp-header h3 {
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sub-comp-header h3::before {
+            content: '◆';
+            color: #0d9488;
+            font-size: 0.6rem;
+        }
+
+        .expand-btn {
+            font-size: 0.75rem;
+            color: #0d9488;
+            background: #b8ebe4;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .sub-comp.expanded .expand-btn {
+            background: #0d9488;
+            color: white;
+        }
+
+        /* Levels Grid */
+        .levels-grid {
+            display: none;
+            padding: 0 1.25rem 1.25rem;
+        }
+
+        .sub-comp.expanded .levels-grid {
+            display: block;
+        }
+
+        .level-card {
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .level-header {
+            padding: 0.75rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .level-card.l1 .level-header { background: var(--level-1); color: #7f1d1d; }
+        .level-card.l2 .level-header { background: var(--level-2); color: #78350f; }
+        .level-card.l3 .level-header { background: var(--level-3); color: #14532d; }
+        .level-card.l4 .level-header { background: var(--level-4); color: #1e3a8a; }
+        .level-card.l5 .level-header { background: var(--level-5); color: #4c1d95; }
+
+        .level-statements {
+            background: rgba(255,255,255,0.7);
+            padding: 0.75rem 1rem;
+        }
+
+        .level-statements li {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            padding: 0.4rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+            line-height: 1.5;
+        }
+
+        .level-statements li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+        }
+
+        /* Persona Section */
+        .persona-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .persona-section-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1) 0%, rgba(8, 145, 178, 0.1) 100%);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .persona-section-header:hover {
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.15) 0%, rgba(8, 145, 178, 0.15) 100%);
+        }
+
+        .persona-section-header h2 {
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .persona-section-header p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .persona-content {
+            display: none;
+            padding: 1.5rem 2rem 2rem;
+        }
+
+        .persona-section.expanded .persona-content {
+            display: block;
+        }
+
+        /* Pathway Visual */
+        .pathway-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #e0f5f2 0%, #d5f0ed 100%);
+            border-radius: 16px;
+        }
+
+        .pathway-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #0d9488;
+            min-width: 140px;
+        }
+
+        .pathway-step-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pathway-step-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .pathway-step-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #0d9488;
+            text-align: center;
+        }
+
+        .pathway-arrow {
+            font-size: 1.5rem;
+            color: #0d9488;
+        }
+
+        @media (max-width: 768px) {
+            .pathway-visual {
+                flex-direction: column;
+            }
+            .pathway-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* Persona Grid */
+        .persona-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .persona-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .persona-card {
+            background: #f8fffe;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .persona-card:hover {
+            border-color: #0d9488;
+            box-shadow: 0 8px 25px rgba(13, 148, 136, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .persona-card-header {
+            padding: 1.25rem;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .persona-emoji {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .persona-info {
+            flex: 1;
+        }
+
+        .persona-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .persona-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .persona-pain {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            background: #fef3c7;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: #92400e;
+        }
+
+        .persona-expand-btn {
+            font-size: 0.75rem;
+            padding: 0.4rem 0.8rem;
+            background: #b8ebe4;
+            color: #0d9488;
+            border-radius: 6px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            align-self: flex-start;
+        }
+
+        .persona-card.expanded .persona-expand-btn {
+            background: #0d9488;
+            color: white;
+        }
+
+        /* Persona Journey Details */
+        .persona-journey {
+            display: none;
+            padding: 0 1.25rem 1.25rem;
+        }
+
+        .persona-card.expanded .persona-journey {
+            display: block;
+        }
+
+        .journey-section {
+            background: #e0f5f2;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid #b8ebe4;
+        }
+
+        .journey-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .journey-section h4 {
+            font-size: 0.85rem;
+            color: #0d9488;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .journey-section ul {
+            padding-left: 1.25rem;
+        }
+
+        .journey-section li {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+            line-height: 1.5;
+        }
+
+        .journey-section p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .journey-level-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .journey-level-badge.l1 { background: var(--level-1); color: #7f1d1d; }
+        .journey-level-badge.l2 { background: var(--level-2); color: #78350f; }
+        .journey-level-badge.l3 { background: var(--level-3); color: #14532d; }
+        .journey-level-badge.l4 { background: var(--level-4); color: #1e3a8a; }
+        .journey-level-badge.l5 { background: var(--level-5); color: #4c1d95; }
+
+        .competency-tag {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            background: #ffffff;
+            border: 1px solid #0d9488;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: #0d9488;
+            margin-right: 0.35rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .action-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: linear-gradient(135deg, #0d9488, #0891b2);
+            color: white;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-decoration: none;
+            margin-top: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .action-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+        }
+
+        /* Quick Courses Preview */
+        .quick-courses {
+            background: linear-gradient(135deg, #f0fdf4, #ecfeff);
+            border: 1px solid #a7f3d0;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        .quick-courses h5 {
+            font-size: 0.8rem;
+            color: #059669;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .quick-course-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.6rem;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .quick-course-item:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .quick-course-item .course-icon {
+            font-size: 1rem;
+        }
+
+        .quick-course-item .course-name {
+            flex: 1;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .quick-course-item .course-platform {
+            padding: 0.15rem 0.4rem;
+            background: var(--accent-primary);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        .quick-course-item .course-platform.free {
+            background: #059669;
+        }
+
+        .view-all-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: 0.75rem;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .view-all-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Persona Filter Tabs */
+        .persona-filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            justify-content: center;
+        }
+
+        .filter-tab {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--accent-primary);
+            background: white;
+            color: var(--accent-primary);
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-tab:hover {
+            background: var(--accent-light);
+        }
+
+        .filter-tab.active {
+            background: linear-gradient(135deg, #0d9488, #0891b2);
+            color: white;
+            border-color: transparent;
+        }
+
+        .persona-card.hidden {
+            display: none;
+        }
+
+        /* Summary Section */
+        .summary {
+            margin-top: 3rem;
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .summary h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .summary-item {
+            background: #e0f5f2;
+            padding: 1.25rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            border: 1px solid #b8ebe4;
+        }
+
+        .summary-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #0d9488, #0891b2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+            color: white;
+        }
+
+        .summary-content h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-content p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            .bucket, .sub-comp {
+                break-inside: avoid;
+            }
+            .bucket.expanded .sub-competencies,
+            .sub-comp.expanded .levels-grid {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎯 QA Skill Acquisition Framework</h1>
+            <p>Based on the Dreyfus Model of Skill Acquisition</p>
+            <div class="subtitle">Find your path, discover your level, and plan your growth journey</div>
+            <a href="QA_Learning_Plan.html" style="display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.6rem 1.2rem; background: linear-gradient(135deg, #0d9488, #0891b2); color: white; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: 500; transition: all 0.2s;">📚 View Learning Plan & Courses →</a>
+        </header>
+
+        <!-- Find Your Path Section - FIRST for immediate engagement -->
+        <div class="persona-section expanded" onclick="if(event.target.closest('.persona-section-header')) this.classList.toggle('expanded')">
+            <div class="persona-section-header">
+                <h2>🧭 Find Your Path — Which QA Are You?</h2>
+                <p>Select your profile to get a personalized learning roadmap based on Dreyfus levels</p>
+                <span class="info-toggle" style="margin-top: 0.75rem; display: inline-block;">Collapse</span>
+            </div>
+            <div class="persona-content" onclick="event.stopPropagation()">
+                <!-- Pathway Visual -->
+                <div class="pathway-visual">
+                    <div class="pathway-step">
+                        <span class="pathway-step-icon">👤</span>
+                        <span class="pathway-step-title">Step 1</span>
+                        <span class="pathway-step-text">Who Are You?</span>
+                    </div>
+                    <span class="pathway-arrow">→</span>
+                    <div class="pathway-step">
+                        <span class="pathway-step-icon">📊</span>
+                        <span class="pathway-step-title">Step 2</span>
+                        <span class="pathway-step-text">Assess Level</span>
+                    </div>
+                    <span class="pathway-arrow">→</span>
+                    <div class="pathway-step">
+                        <span class="pathway-step-icon">🗺️</span>
+                        <span class="pathway-step-title">Step 3</span>
+                        <span class="pathway-step-text">Your Roadmap</span>
+                    </div>
+                    <span class="pathway-arrow">→</span>
+                    <div class="pathway-step">
+                        <span class="pathway-step-icon">🚀</span>
+                        <span class="pathway-step-title">Step 4</span>
+                        <span class="pathway-step-text">Take Action!</span>
+                    </div>
+                </div>
+
+                <!-- Quick Dreyfus Reference inline -->
+                <div style="display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; padding: 1rem; background: rgba(255,255,255,0.5); border-radius: 12px;">
+                    <div style="display: flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.75rem; background: var(--level-1); border-radius: 6px; font-size: 0.75rem; font-weight: 600;">1 Novice</div>
+                    <span style="color: var(--text-muted);">→</span>
+                    <div style="display: flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.75rem; background: var(--level-2); border-radius: 6px; font-size: 0.75rem; font-weight: 600;">2 Beginner</div>
+                    <span style="color: var(--text-muted);">→</span>
+                    <div style="display: flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.75rem; background: var(--level-3); border-radius: 6px; font-size: 0.75rem; font-weight: 600;">3 Competent</div>
+                    <span style="color: var(--text-muted);">→</span>
+                    <div style="display: flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.75rem; background: var(--level-4); border-radius: 6px; font-size: 0.75rem; font-weight: 600;">4 Proficient</div>
+                    <span style="color: var(--text-muted);">→</span>
+                    <div style="display: flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.75rem; background: var(--level-5); border-radius: 6px; font-size: 0.75rem; font-weight: 600;">5 Expert</div>
+                </div>
+
+                <!-- Persona Filter Tabs -->
+                <div class="persona-filter-tabs">
+                    <button class="filter-tab active" data-filter="all">All Profiles</button>
+                    <button class="filter-tab" data-filter="ladder">📈 Professional Ladder</button>
+                    <button class="filter-tab" data-filter="switch">🔄 Career & Skill Switch</button>
+                    <button class="filter-tab" data-filter="situational">🎯 Situational</button>
+                </div>
+
+                <!-- Persona Grid -->
+                <div class="persona-grid">
+                    <!-- Persona 1: Fresh Graduate -->
+                    <div class="persona-card" data-category="ladder" onclick="togglePersona(this)">
+                        <div class="persona-card-header">
+                            <span class="persona-emoji">🎓</span>
+                            <div class="persona-info">
+                                <div class="persona-title">The Fresh Graduate</div>
+                                <div class="persona-subtitle">Just landed my first QA job!</div>
+                                <div class="persona-pain">💭 "I don't know what I don't know"</div>
+                            </div>
+                            <span class="persona-expand-btn">View Path</span>
+                        </div>
+                        <div class="persona-journey">
+                            <div class="journey-section">
+                                <h4>📍 Where You Are</h4>
+                                <p>You're at <span class="journey-level-badge l1">Level 1 — Novice</span> in most areas. This is normal! Everyone starts here.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🎯 Your Goal</h4>
+                                <p>Build a strong foundation. Move to <span class="journey-level-badge l2">Level 2 — Advanced Beginner</span> within your first 6-12 months.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🗺️ Your Learning Path</h4>
+                                <ul>
+                                    <li><strong>Priority 1:</strong> Master Test Design basics — learn to write clear test cases</li>
+                                    <li><strong>Priority 2:</strong> Build System Understanding — know your product inside-out</li>
+                                    <li><strong>Priority 3:</strong> Develop Bug Reporting skills — write bugs developers can fix</li>
+                                    <li><strong>Priority 4:</strong> Learn Communication basics — update status, ask questions</li>
+                                </ul>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🏷️ Focus Competencies</h4>
+                                <span class="competency-tag">Test Design</span>
+                                <span class="competency-tag">System Understanding</span>
+                                <span class="competency-tag">Bug Reporting</span>
+                                <span class="competency-tag">Reliability</span>
+                            </div>
+                            <div class="journey-section">
+                                <h4>✅ Next Actions</h4>
+                                <ul>
+                                    <li>Shadow a senior QA for 1 week — observe how they think</li>
+                                    <li>Write 10 test cases daily — build the habit</li>
+                                    <li>Read every bug report in your backlog — learn patterns</li>
+                                    <li>Keep a learning journal — document what you don't understand</li>
+                                </ul>
+                                <div class="quick-courses">
+                                    <h5>⚡ Quick Start Courses</h5>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🎯</span>
+                                        <span class="course-name">Software Testing Fundamentals</span>
+                                        <span class="course-platform">Coursera</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">📝</span>
+                                        <span class="course-name">Intro to Selenium WebDriver</span>
+                                        <span class="course-platform free">Free</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🐛</span>
+                                        <span class="course-name">Bug Reporting Best Practices</span>
+                                        <span class="course-platform">LinkedIn</span>
+                                    </div>
+                                    <a href="QA_Learning_Plan.html#fresh-grad" class="view-all-link">View all 8+ courses →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Persona 2: Stuck Mid-Career -->
+                    <div class="persona-card" data-category="ladder" onclick="togglePersona(this)">
+                        <div class="persona-card-header">
+                            <span class="persona-emoji">😐</span>
+                            <div class="persona-info">
+                                <div class="persona-title">The Stuck Mid-Career</div>
+                                <div class="persona-subtitle">3-5 years in, feeling plateaued</div>
+                                <div class="persona-pain">💭 "I'm doing the same thing, not growing"</div>
+                            </div>
+                            <span class="persona-expand-btn">View Path</span>
+                        </div>
+                        <div class="persona-journey">
+                            <div class="journey-section">
+                                <h4>📍 Where You Are</h4>
+                                <p>You're likely at <span class="journey-level-badge l2">Level 2</span> or <span class="journey-level-badge l3">Level 3</span> — competent at daily tasks but stuck in a comfort zone.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🎯 Your Goal</h4>
+                                <p>Break the plateau! Move to <span class="journey-level-badge l3">Level 3 — Competent</span> (own outcomes) or <span class="journey-level-badge l4">Level 4 — Proficient</span> (see the big picture).</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🗺️ Your Learning Path</h4>
+                                <ul>
+                                    <li><strong>Problem:</strong> You're executing tasks but not owning outcomes</li>
+                                    <li><strong>Fix:</strong> Take ownership of a feature end-to-end — from requirements to production</li>
+                                    <li><strong>Stretch:</strong> Lead a QA improvement initiative — automate something, fix a process</li>
+                                    <li><strong>Level-up:</strong> Start mentoring juniors — teaching forces growth</li>
+                                </ul>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🏷️ Focus Competencies</h4>
+                                <span class="competency-tag">PIC Behavior</span>
+                                <span class="competency-tag">Risk Assessment</span>
+                                <span class="competency-tag">Process Improvement</span>
+                                <span class="competency-tag">Dev/PM Alignment</span>
+                            </div>
+                            <div class="journey-section">
+                                <h4>✅ Next Actions</h4>
+                                <ul>
+                                    <li>Volunteer to own a complex feature no one wants</li>
+                                    <li>Propose one process improvement this quarter</li>
+                                    <li>Ask for a stretch assignment outside your comfort zone</li>
+                                    <li>Start 1:1 mentoring with a junior QA</li>
+                                </ul>
+                                <div class="quick-courses">
+                                    <h5>⚡ Recommended Courses</h5>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">📊</span>
+                                        <span class="course-name">Test Automation for Beginners</span>
+                                        <span class="course-platform free">Free</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🎯</span>
+                                        <span class="course-name">Risk-Based Testing</span>
+                                        <span class="course-platform">Udemy</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🧠</span>
+                                        <span class="course-name">Leadership for Testers</span>
+                                        <span class="course-platform">LinkedIn</span>
+                                    </div>
+                                    <a href="QA_Learning_Plan.html#stuck-mid" class="view-all-link">View all 10+ courses →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Persona 3: Senior/Expert -->
+                    <div class="persona-card" data-category="ladder" onclick="togglePersona(this)">
+                        <div class="persona-card-header">
+                            <span class="persona-emoji">🎖️</span>
+                            <div class="persona-info">
+                                <div class="persona-title">The Senior/Expert QA</div>
+                                <div class="persona-subtitle">7+ years, highly skilled</div>
+                                <div class="persona-pain">💭 "What's next? Lead? Architect? Switch?"</div>
+                            </div>
+                            <span class="persona-expand-btn">View Path</span>
+                        </div>
+                        <div class="persona-journey">
+                            <div class="journey-section">
+                                <h4>📍 Where You Are</h4>
+                                <p>You're at <span class="journey-level-badge l4">Level 4 — Proficient</span> or <span class="journey-level-badge l5">Level 5 — Expert</span> in technical areas. But you're facing a career crossroads.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🎯 Your Options</h4>
+                                <p>Three paths available: <strong>Technical Expert</strong> (stay deep), <strong>People Leader</strong> (lead teams), or <strong>Quality Strategist</strong> (influence org-wide).</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🗺️ Path Options</h4>
+                                <ul>
+                                    <li><strong>Technical Expert:</strong> Specialize (Performance, Security, Automation Architecture). Become THE authority.</li>
+                                    <li><strong>People Leader:</strong> Develop coaching, team building, and organizational skills. Lead a QA team.</li>
+                                    <li><strong>Quality Strategist:</strong> Shape org-wide quality vision. Influence beyond QA to product & engineering.</li>
+                                </ul>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🏷️ Focus Competencies</h4>
+                                <span class="competency-tag">QA Strategy</span>
+                                <span class="competency-tag">Standards & Frameworks</span>
+                                <span class="competency-tag">Stakeholder Trust</span>
+                                <span class="competency-tag">Prevention Mindset</span>
+                            </div>
+                            <div class="journey-section">
+                                <h4>✅ Next Actions</h4>
+                                <ul>
+                                    <li>Reflect: What energizes you? Coding? People? Strategy?</li>
+                                    <li>Talk to leaders in each path — learn their reality</li>
+                                    <li>Try leading a cross-functional initiative to test leadership</li>
+                                    <li>Write/speak externally — build your industry reputation</li>
+                                </ul>
+                                <div class="quick-courses">
+                                    <h5>⚡ Recommended Courses</h5>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🏗️</span>
+                                        <span class="course-name">Test Architecture Principles</span>
+                                        <span class="course-platform">Udemy</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">👥</span>
+                                        <span class="course-name">Engineering Management 101</span>
+                                        <span class="course-platform">Coursera</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🎤</span>
+                                        <span class="course-name">Technical Speaking</span>
+                                        <span class="course-platform">LinkedIn</span>
+                                    </div>
+                                    <a href="QA_Learning_Plan.html#senior-expert" class="view-all-link">View all 12+ courses →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Persona 4: Ambitious Climber -->
+                    <div class="persona-card" data-category="situational" onclick="togglePersona(this)">
+                        <div class="persona-card-header">
+                            <span class="persona-emoji">🧗</span>
+                            <div class="persona-info">
+                                <div class="persona-title">The Ambitious Climber</div>
+                                <div class="persona-subtitle">Junior/Medior, hungry for growth</div>
+                                <div class="persona-pain">💭 "How do I level up faster?"</div>
+                            </div>
+                            <span class="persona-expand-btn">View Path</span>
+                        </div>
+                        <div class="persona-journey">
+                            <div class="journey-section">
+                                <h4>📍 Where You Are</h4>
+                                <p>You're at <span class="journey-level-badge l2">Level 2</span> trying to reach <span class="journey-level-badge l3">Level 3</span>. You have energy and drive — now you need direction.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🎯 Your Goal</h4>
+                                <p>Reach <span class="journey-level-badge l3">Level 3 — Competent</span> in your core areas. Become someone others rely on.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🗺️ Fast-Track Strategy</h4>
+                                <ul>
+                                    <li><strong>Visibility:</strong> Volunteer for high-impact projects — get noticed</li>
+                                    <li><strong>Depth:</strong> Go deep on one area (automation, API testing, domain expertise)</li>
+                                    <li><strong>Initiative:</strong> Don't wait to be asked — propose improvements</li>
+                                    <li><strong>Relationships:</strong> Build trust with developers and PMs</li>
+                                </ul>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🏷️ Focus Competencies</h4>
+                                <span class="competency-tag">Test Design</span>
+                                <span class="competency-tag">PIC Behavior</span>
+                                <span class="competency-tag">Root Cause Analysis</span>
+                                <span class="competency-tag">Dev/PM Alignment</span>
+                            </div>
+                            <div class="journey-section">
+                                <h4>✅ Next Actions</h4>
+                                <ul>
+                                    <li>Tell your manager your career goals explicitly</li>
+                                    <li>Identify one senior QA to learn from — shadow them</li>
+                                    <li>Take ownership of something others avoid</li>
+                                    <li>Learn one new skill this quarter (automation, performance, etc.)</li>
+                                </ul>
+                                <div class="quick-courses">
+                                    <h5>⚡ Recommended Courses</h5>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🔍</span>
+                                        <span class="course-name">Advanced Test Case Design</span>
+                                        <span class="course-platform">Udemy</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">📈</span>
+                                        <span class="course-name">ISTQB Advanced Level</span>
+                                        <span class="course-platform">ISTQB</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🚀</span>
+                                        <span class="course-name">Cypress End-to-End Testing</span>
+                                        <span class="course-platform free">Free</span>
+                                    </div>
+                                    <a href="QA_Learning_Plan.html#ambitious" class="view-all-link">View all 10+ courses →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Persona 5: Career Switcher -->
+                    <div class="persona-card" data-category="switch" onclick="togglePersona(this)">
+                        <div class="persona-card-header">
+                            <span class="persona-emoji">🔄</span>
+                            <div class="persona-info">
+                                <div class="persona-title">The Career Switcher</div>
+                                <div class="persona-subtitle">From Dev/BA/Support to QA</div>
+                                <div class="persona-pain">💭 "I have skills but need QA context"</div>
+                            </div>
+                            <span class="persona-expand-btn">View Path</span>
+                        </div>
+                        <div class="persona-journey">
+                            <div class="journey-section">
+                                <h4>📍 Where You Are</h4>
+                                <p>Mixed levels! You might be <span class="journey-level-badge l3">Level 3</span> in Communication but <span class="journey-level-badge l1">Level 1</span> in Test Design. Your existing skills are assets!</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🎯 Your Goal</h4>
+                                <p>Level up QA-specific skills while leveraging your transferable expertise.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🗺️ Your Learning Path</h4>
+                                <ul>
+                                    <li><strong>From Developer:</strong> Your coding helps with automation. Focus on Test Design thinking & user perspective.</li>
+                                    <li><strong>From BA/PM:</strong> Your requirements skills help with risk assessment. Focus on technical testing skills.</li>
+                                    <li><strong>From Support:</strong> Your user empathy is gold. Focus on systematic test approaches.</li>
+                                </ul>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🏷️ Focus Competencies</h4>
+                                <span class="competency-tag">Test Design</span>
+                                <span class="competency-tag">Bug Analysis</span>
+                                <span class="competency-tag">System Understanding</span>
+                                <span class="competency-tag">QA Standards</span>
+                            </div>
+                            <div class="journey-section">
+                                <h4>✅ Next Actions</h4>
+                                <ul>
+                                    <li>Take an ISTQB Foundation course — learn QA vocabulary</li>
+                                    <li>Document how your previous skills translate to QA value</li>
+                                    <li>Pair with an experienced QA for first 3 months</li>
+                                    <li>Keep a "QA mindset" journal — document your learning</li>
+                                </ul>
+                                <div class="quick-courses">
+                                    <h5>⚡ Recommended Courses</h5>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">📜</span>
+                                        <span class="course-name">ISTQB Foundation Level</span>
+                                        <span class="course-platform">ISTQB</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🎯</span>
+                                        <span class="course-name">Software Testing Fundamentals</span>
+                                        <span class="course-platform">Coursera</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🐛</span>
+                                        <span class="course-name">Bug Hunting Techniques</span>
+                                        <span class="course-platform">Udemy</span>
+                                    </div>
+                                    <a href="QA_Learning_Plan.html#switcher" class="view-all-link">View all 9+ courses →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Persona 6: Manual to Automation -->
+                    <div class="persona-card" data-category="switch" onclick="togglePersona(this)">
+                        <div class="persona-card-header">
+                            <span class="persona-emoji">🤖</span>
+                            <div class="persona-info">
+                                <div class="persona-title">Manual → Automation Seeker</div>
+                                <div class="persona-subtitle">Manual QA wanting to automate</div>
+                                <div class="persona-pain">💭 "Everyone says learn automation"</div>
+                            </div>
+                            <span class="persona-expand-btn">View Path</span>
+                        </div>
+                        <div class="persona-journey">
+                            <div class="journey-section">
+                                <h4>📍 Where You Are</h4>
+                                <p>You're <span class="journey-level-badge l3">Level 3</span> in manual testing but <span class="journey-level-badge l1">Level 1</span> in automation. That's okay — automation is a new skill!</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🎯 Your Goal</h4>
+                                <p>Don't abandon manual skills! Add automation to your toolkit. Become a <strong>hybrid QA</strong> who knows when to automate.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🗺️ Your Learning Path</h4>
+                                <ul>
+                                    <li><strong>Week 1-4:</strong> Learn a scripting language (Python or JavaScript)</li>
+                                    <li><strong>Week 5-8:</strong> Learn one automation tool (Cypress, Playwright, or Selenium)</li>
+                                    <li><strong>Week 9-12:</strong> Automate 5 of your existing manual test cases</li>
+                                    <li><strong>Ongoing:</strong> Automate strategically — not everything needs automation</li>
+                                </ul>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🏷️ Focus Competencies</h4>
+                                <span class="competency-tag">Process Improvement</span>
+                                <span class="competency-tag">Prevention Mindset</span>
+                                <span class="competency-tag">Standards & Frameworks</span>
+                            </div>
+                            <div class="journey-section">
+                                <h4>✅ Next Actions</h4>
+                                <ul>
+                                    <li>Pick ONE automation tool — don't try to learn everything</li>
+                                    <li>Find a small, stable feature to automate first</li>
+                                    <li>Join an automation study group or course</li>
+                                    <li>Remember: good test design > automation speed</li>
+                                </ul>
+                                <div class="quick-courses">
+                                    <h5>⚡ Recommended Courses</h5>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🤖</span>
+                                        <span class="course-name">Selenium WebDriver with Python</span>
+                                        <span class="course-platform free">Free</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🎭</span>
+                                        <span class="course-name">Playwright Complete Guide</span>
+                                        <span class="course-platform">Udemy</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🐍</span>
+                                        <span class="course-name">Python for Test Automation</span>
+                                        <span class="course-platform">Coursera</span>
+                                    </div>
+                                    <a href="QA_Learning_Plan.html#automation" class="view-all-link">View all 12+ courses →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Persona 7: Solo QA -->
+                    <div class="persona-card" data-category="situational" onclick="togglePersona(this)">
+                        <div class="persona-card-header">
+                            <span class="persona-emoji">🦸</span>
+                            <div class="persona-info">
+                                <div class="persona-title">The Solo QA in a Startup</div>
+                                <div class="persona-subtitle">Only QA in the company</div>
+                                <div class="persona-pain">💭 "I need to do everything, where to start?"</div>
+                            </div>
+                            <span class="persona-expand-btn">View Path</span>
+                        </div>
+                        <div class="persona-journey">
+                            <div class="journey-section">
+                                <h4>📍 Where You Are</h4>
+                                <p>You need to be a generalist! Being solo is challenging but accelerates growth. You're building multiple competencies simultaneously.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🎯 Your Goal</h4>
+                                <p>Create <strong>maximum impact with limited time</strong>. Focus on high-risk areas. Build processes that scale.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🗺️ Survival Strategy</h4>
+                                <ul>
+                                    <li><strong>Week 1:</strong> Map the system — understand the riskiest areas</li>
+                                    <li><strong>Week 2:</strong> Create a lightweight QA process — don't over-engineer</li>
+                                    <li><strong>Week 3:</strong> Establish communication norms with dev/PM</li>
+                                    <li><strong>Ongoing:</strong> Test smart, not exhaustive — prioritize ruthlessly</li>
+                                </ul>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🏷️ Focus Competencies</h4>
+                                <span class="competency-tag">Risk Assessment</span>
+                                <span class="competency-tag">PIC Behavior</span>
+                                <span class="competency-tag">Stakeholder Trust</span>
+                                <span class="competency-tag">Process Improvement</span>
+                            </div>
+                            <div class="journey-section">
+                                <h4>✅ Next Actions</h4>
+                                <ul>
+                                    <li>Create a "Definition of Done" with the team</li>
+                                    <li>Set up smoke tests for critical paths only</li>
+                                    <li>Build relationships with every developer</li>
+                                    <li>Document as you go — you'll need to scale later</li>
+                                </ul>
+                                <div class="quick-courses">
+                                    <h5>⚡ Recommended Courses</h5>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">⚡</span>
+                                        <span class="course-name">Agile Testing Essentials</span>
+                                        <span class="course-platform">LinkedIn</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">📊</span>
+                                        <span class="course-name">Risk-Based Testing</span>
+                                        <span class="course-platform">Udemy</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🔧</span>
+                                        <span class="course-name">Setting Up CI/CD for Testing</span>
+                                        <span class="course-platform free">Free</span>
+                                    </div>
+                                    <a href="QA_Learning_Plan.html#solo" class="view-all-link">View all 8+ courses →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Persona 8: New QA Lead -->
+                    <div class="persona-card" data-category="situational" onclick="togglePersona(this)">
+                        <div class="persona-card-header">
+                            <span class="persona-emoji">👔</span>
+                            <div class="persona-info">
+                                <div class="persona-title">The New QA Lead/Manager</div>
+                                <div class="persona-subtitle">Just promoted to lead a team</div>
+                                <div class="persona-pain">💭 "How do I grow my team?"</div>
+                            </div>
+                            <span class="persona-expand-btn">View Path</span>
+                        </div>
+                        <div class="persona-journey">
+                            <div class="journey-section">
+                                <h4>📍 Where You Are</h4>
+                                <p>You're <span class="journey-level-badge l4">Level 4</span> in QA skills but <span class="journey-level-badge l1">Level 1</span> in people leadership. Leadership is a new skill to develop!</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🎯 Your Goal</h4>
+                                <p>Shift from <strong>doing</strong> to <strong>enabling</strong>. Your job is now to make your team successful.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🗺️ Leadership Transition</h4>
+                                <ul>
+                                    <li><strong>Let go:</strong> You can't test everything anymore — trust your team</li>
+                                    <li><strong>Focus on:</strong> Removing blockers, coaching, setting standards</li>
+                                    <li><strong>Learn:</strong> 1:1s, feedback, career development conversations</li>
+                                    <li><strong>Build:</strong> Team culture, processes, growth paths</li>
+                                </ul>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🏷️ Focus Competencies</h4>
+                                <span class="competency-tag">Stakeholder Trust</span>
+                                <span class="competency-tag">QA Strategy</span>
+                                <span class="competency-tag">Standards & Frameworks</span>
+                                <span class="competency-tag">Humility & Learning</span>
+                            </div>
+                            <div class="journey-section">
+                                <h4>✅ Next Actions</h4>
+                                <ul>
+                                    <li>Set up regular 1:1s with every team member</li>
+                                    <li>Use this framework to assess and develop your team</li>
+                                    <li>Find a leadership mentor outside your team</li>
+                                    <li>Read "The Manager's Path" or similar leadership book</li>
+                                </ul>
+                                <div class="quick-courses">
+                                    <h5>⚡ Recommended Courses</h5>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">👥</span>
+                                        <span class="course-name">New Manager Foundations</span>
+                                        <span class="course-platform">LinkedIn</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">📈</span>
+                                        <span class="course-name">Building High-Performing Teams</span>
+                                        <span class="course-platform">Coursera</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">💬</span>
+                                        <span class="course-name">Giving Effective Feedback</span>
+                                        <span class="course-platform">LinkedIn</span>
+                                    </div>
+                                    <a href="QA_Learning_Plan.html#lead" class="view-all-link">View all 10+ courses →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Persona 9: Specialist Seeker -->
+                    <div class="persona-card" data-category="switch" onclick="togglePersona(this)">
+                        <div class="persona-card-header">
+                            <span class="persona-emoji">🔬</span>
+                            <div class="persona-info">
+                                <div class="persona-title">The Specialist Seeker</div>
+                                <div class="persona-subtitle">Generalist QA wanting to specialize</div>
+                                <div class="persona-pain">💭 "Should I focus on perf/security/mobile?"</div>
+                            </div>
+                            <span class="persona-expand-btn">View Path</span>
+                        </div>
+                        <div class="persona-journey">
+                            <div class="journey-section">
+                                <h4>📍 Where You Are</h4>
+                                <p>You're <span class="journey-level-badge l3">Level 3</span> in general QA. Now you want to go <span class="journey-level-badge l5">deep</span> in one area to stand out.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🎯 Your Options</h4>
+                                <p>Choose based on what your company needs AND what excites you:</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🗺️ Specialization Paths</h4>
+                                <ul>
+                                    <li><strong>Performance Testing:</strong> JMeter, Gatling, load testing, profiling</li>
+                                    <li><strong>Security Testing:</strong> OWASP, penetration testing, vulnerability scanning</li>
+                                    <li><strong>Mobile Testing:</strong> iOS/Android specifics, device labs, Appium</li>
+                                    <li><strong>API Testing:</strong> REST/GraphQL, contract testing, Postman/Newman</li>
+                                    <li><strong>Automation Architecture:</strong> Framework design, CI/CD integration</li>
+                                </ul>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🏷️ Focus Competencies</h4>
+                                <span class="competency-tag">Standards & Frameworks</span>
+                                <span class="competency-tag">System Understanding</span>
+                                <span class="competency-tag">Process Improvement</span>
+                            </div>
+                            <div class="journey-section">
+                                <h4>✅ Next Actions</h4>
+                                <ul>
+                                    <li>Talk to specialists in each area — understand daily reality</li>
+                                    <li>Check job market — which specialty is in demand?</li>
+                                    <li>Get a certification in your chosen area</li>
+                                    <li>Volunteer for projects in that specialty</li>
+                                </ul>
+                                <div class="quick-courses">
+                                    <h5>⚡ Recommended Courses</h5>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">⚡</span>
+                                        <span class="course-name">Performance Testing with JMeter</span>
+                                        <span class="course-platform">Udemy</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🔐</span>
+                                        <span class="course-name">Web Security Testing (OWASP)</span>
+                                        <span class="course-platform free">Free</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">📱</span>
+                                        <span class="course-name">Mobile Testing with Appium</span>
+                                        <span class="course-platform">Udemy</span>
+                                    </div>
+                                    <a href="QA_Learning_Plan.html#specialist" class="view-all-link">View all 15+ courses →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Persona 10: Burnout Recovery -->
+                    <div class="persona-card" data-category="situational" onclick="togglePersona(this)">
+                        <div class="persona-card-header">
+                            <span class="persona-emoji">🔥</span>
+                            <div class="persona-info">
+                                <div class="persona-title">The Burnout Recovery</div>
+                                <div class="persona-subtitle">Tired, lost passion for QA</div>
+                                <div class="persona-pain">💭 "I used to love QA, now I'm just tired"</div>
+                            </div>
+                            <span class="persona-expand-btn">View Path</span>
+                        </div>
+                        <div class="persona-journey">
+                            <div class="journey-section">
+                                <h4>📍 Where You Are</h4>
+                                <p>Burnout doesn't mean lack of skill. You might be <span class="journey-level-badge l4">Level 4</span> but feeling like <span class="journey-level-badge l1">Level 1</span>. This is a recovery journey, not a skill journey.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🎯 Your Goal</h4>
+                                <p>Recover first. Rediscover what you loved about QA. It's okay to slow down.</p>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🗺️ Recovery Path</h4>
+                                <ul>
+                                    <li><strong>Step 1:</strong> Identify what's burning you out (workload? politics? boredom?)</li>
+                                    <li><strong>Step 2:</strong> Set boundaries — say no to extra commitments</li>
+                                    <li><strong>Step 3:</strong> Reconnect with purpose — why did you choose QA?</li>
+                                    <li><strong>Step 4:</strong> Find one small thing that sparks joy in your work</li>
+                                </ul>
+                            </div>
+                            <div class="journey-section">
+                                <h4>🏷️ Focus Competencies</h4>
+                                <span class="competency-tag">Humility & Learning</span>
+                                <span class="competency-tag">Professionalism</span>
+                                <span class="competency-tag">Reliability</span>
+                            </div>
+                            <div class="journey-section">
+                                <h4>✅ Next Actions</h4>
+                                <ul>
+                                    <li>Talk to your manager about your workload — be honest</li>
+                                    <li>Take your vacation days — actually rest</li>
+                                    <li>Consider if a role change would help (team, company, specialty)</li>
+                                    <li>Remember: your worth isn't defined by your productivity</li>
+                                </ul>
+                                <div class="quick-courses">
+                                    <h5>⚡ Recommended Courses</h5>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🧘</span>
+                                        <span class="course-name">Managing Stress at Work</span>
+                                        <span class="course-platform">LinkedIn</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">⏰</span>
+                                        <span class="course-name">Time Management Fundamentals</span>
+                                        <span class="course-platform">Coursera</span>
+                                    </div>
+                                    <div class="quick-course-item">
+                                        <span class="course-icon">🌱</span>
+                                        <span class="course-name">Career Pivot Strategies</span>
+                                        <span class="course-platform">LinkedIn</span>
+                                    </div>
+                                    <a href="QA_Learning_Plan.html#burnout" class="view-all-link">View all 6+ courses →</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Dreyfus Model Information - Now after Find Your Path for context -->
+        <div class="dreyfus-info" onclick="if(event.target.classList.contains('dreyfus-info-header') || event.target.closest('.dreyfus-info-header')) this.classList.toggle('expanded')">
+            <div class="dreyfus-info-header">
+                <h2>📚 What is the Dreyfus Model of Skill Acquisition?</h2>
+                <span class="info-toggle">Expand</span>
+            </div>
+            <div class="dreyfus-info-content" onclick="event.stopPropagation()">
+                <div class="info-grid">
+                    <div class="info-section">
+                        <h3>📖 Origin & Background</h3>
+                        <p>The <strong>Dreyfus Model of Skill Acquisition</strong> was developed in 1980 by brothers <strong>Stuart Dreyfus</strong> (mathematician) and <strong>Hubert Dreyfus</strong> (philosopher) at the University of California, Berkeley.</p>
+                        <p style="margin-top: 0.75rem;">Originally created to study how pilots and chess players develop expertise, the model has since been widely adopted in education, nursing, software development, and professional training across industries.</p>
+                    </div>
+                    <div class="info-section">
+                        <h3>🎯 Why Use It for QA?</h3>
+                        <p>The Dreyfus Model is ideal for QA competency assessment because:</p>
+                        <ul>
+                            <li><strong>QA is judgment-based</strong> — not just following rules, but knowing when to break them</li>
+                            <li><strong>Pattern recognition matters</strong> — experienced QA sees risks others miss</li>
+                            <li><strong>Context is everything</strong> — same test approach doesn't work everywhere</li>
+                            <li><strong>Intuition develops over time</strong> — experts "feel" where bugs hide</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1rem; color: var(--text-primary);">📊 The Five Stages of Skill Acquisition</h3>
+                
+                <div class="level-detail l1">
+                    <div class="level-detail-header">
+                        <span class="level-badge">1</span>
+                        <h4>Novice — "Tell me what to do"</h4>
+                    </div>
+                    <p><strong>Characteristics:</strong> Relies on rules and checklists. Needs clear instructions. Cannot adapt to context. Makes decisions based on explicit guidelines only.</p>
+                    <p style="margin-top: 0.5rem;"><strong>QA Example:</strong> Follows test cases exactly as written. Asks "what should I test?" Cannot prioritize without guidance. Reports bugs but doesn't analyze patterns.</p>
+                </div>
+
+                <div class="level-detail l2">
+                    <div class="level-detail-header">
+                        <span class="level-badge">2</span>
+                        <h4>Advanced Beginner — "I recognize this situation"</h4>
+                    </div>
+                    <p><strong>Characteristics:</strong> Starts recognizing patterns from experience. Can handle routine situations independently. Still needs help with complex scenarios. Begins to see similarities across tasks.</p>
+                    <p style="margin-top: 0.5rem;"><strong>QA Example:</strong> Writes test cases independently for familiar features. Recognizes common bug types. Can identify when something "feels wrong" but may not know why.</p>
+                </div>
+
+                <div class="level-detail l3">
+                    <div class="level-detail-header">
+                        <span class="level-badge">3</span>
+                        <h4>Competent — "I can plan and prioritize"</h4>
+                    </div>
+                    <p><strong>Characteristics:</strong> Can create plans and set priorities. Takes responsibility for outcomes. Sees work as part of larger goals. Handles complexity but may be slower than experts. Emotionally invested in results.</p>
+                    <p style="margin-top: 0.5rem;"><strong>QA Example:</strong> Owns feature quality end-to-end. Creates test strategies based on risk. Identifies gaps in requirements proactively. Drives issues to resolution.</p>
+                </div>
+
+                <div class="level-detail l4">
+                    <div class="level-detail-header">
+                        <span class="level-badge">4</span>
+                        <h4>Proficient — "I see the big picture"</h4>
+                    </div>
+                    <p><strong>Characteristics:</strong> Sees situations holistically, not as fragments. Intuition guides decision-making. Knows what's important without being told. Adapts approach to context. Can mentor others effectively.</p>
+                    <p style="margin-top: 0.5rem;"><strong>QA Example:</strong> Immediately spots high-risk areas. Designs test strategies tailored to the project. Mentors junior QA. Influences development practices to improve quality.</p>
+                </div>
+
+                <div class="level-detail l5">
+                    <div class="level-detail-header">
+                        <span class="level-badge">5</span>
+                        <h4>Expert — "I just know"</h4>
+                    </div>
+                    <p><strong>Characteristics:</strong> Works from intuition, not rules. No longer "thinks" about basics — they're automatic. Sees what others cannot. Innovates and shapes practices. Transcends standard approaches. Others seek their judgment.</p>
+                    <p style="margin-top: 0.5rem;"><strong>QA Example:</strong> Predicts where bugs will be before testing. Defines quality standards for the organization. Innovates testing methodologies. Is consulted for critical go/no-go decisions.</p>
+                </div>
+
+                <div class="info-section" style="margin-top: 1.5rem;">
+                    <h3>💡 Key Insight</h3>
+                    <p>The biggest shift happens between <strong>Competent (3)</strong> and <strong>Proficient (4)</strong>. At Level 3, you consciously analyze situations and apply rules. At Level 4, you start to "see" the right answer intuitively — pattern recognition becomes automatic.</p>
+                    <p style="margin-top: 0.75rem;"><em>"The expert doesn't solve problems and doesn't make decisions; they do what normally works." — Hubert Dreyfus</em></p>
+                </div>
+
+                <!-- Universal Examples Section -->
+                <h3 style="margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1rem; color: var(--text-primary);">🌍 Dreyfus in Everyday Terms (For Non-QA Audiences)</h3>
+                
+                <div class="info-section">
+                    <h3>🚗 Think of Learning to Drive</h3>
+                    <p>The Dreyfus Model is like learning to drive a car:</p>
+                    <ul style="margin-top: 0.5rem;">
+                        <li><strong>Level 1 (Novice):</strong> You consciously think about every action — "Press clutch, shift gear, release slowly, check mirror..." You need explicit rules.</li>
+                        <li><strong>Level 2 (Advanced Beginner):</strong> You can drive around your neighborhood. You recognize familiar situations but still think about what to do.</li>
+                        <li><strong>Level 3 (Competent):</strong> You can drive in traffic, plan routes, and handle normal situations. You make decisions but still need to concentrate.</li>
+                        <li><strong>Level 4 (Proficient):</strong> Driving becomes natural. You "feel" when something's wrong with the car. You adapt to rain or traffic without thinking.</li>
+                        <li><strong>Level 5 (Expert):</strong> You can teach others. You anticipate problems before they happen. You could be a driving instructor or race car driver.</li>
+                    </ul>
+                </div>
+
+                <div class="info-grid" style="margin-top: 1rem;">
+                    <div class="info-section">
+                        <h3>👨‍💻 For Engineering Teams</h3>
+                        <p>Think about coding:</p>
+                        <ul>
+                            <li><strong>Novice:</strong> Copies code snippets, follows tutorials step-by-step</li>
+                            <li><strong>Beginner:</strong> Writes simple functions, recognizes common patterns</li>
+                            <li><strong>Competent:</strong> Designs modules, debugs independently, estimates work</li>
+                            <li><strong>Proficient:</strong> Architects systems, mentors juniors, sees performance issues instantly</li>
+                            <li><strong>Expert:</strong> Creates frameworks others use, shapes industry practices</li>
+                        </ul>
+                    </div>
+                    <div class="info-section">
+                        <h3>📚 For HR & L&D Teams</h3>
+                        <p>Think about hiring interviews:</p>
+                        <ul>
+                            <li><strong>Novice:</strong> Follows a script of questions exactly</li>
+                            <li><strong>Beginner:</strong> Asks follow-ups, recognizes good vs bad answers</li>
+                            <li><strong>Competent:</strong> Adapts questions based on responses, assesses fit</li>
+                            <li><strong>Proficient:</strong> Reads between the lines, spots red flags intuitively</li>
+                            <li><strong>Expert:</strong> Can assess a candidate in 5 minutes, trains other interviewers</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-section" style="margin-top: 1rem;">
+                    <h3>🎯 Why Dreyfus Matters for Any Skill Development</h3>
+                    <div class="info-grid" style="margin-top: 0.75rem; gap: 1rem;">
+                        <div>
+                            <p><strong>1. Not all experience is equal</strong></p>
+                            <p style="font-size: 0.82rem; color: var(--text-muted);">10 years doing the same thing ≠ 10 years of growth. You can be stuck at Level 2 for years without deliberate practice.</p>
+                        </div>
+                        <div>
+                            <p><strong>2. Different levels need different training</strong></p>
+                            <p style="font-size: 0.82rem; color: var(--text-muted);">Novices need rules & checklists. Experts need case studies & mentoring opportunities. One-size-fits-all training fails.</p>
+                        </div>
+                        <div>
+                            <p><strong>3. Intuition is earned, not magic</strong></p>
+                            <p style="font-size: 0.82rem; color: var(--text-muted);">When experts say "I just know," they're using pattern recognition built from thousands of experiences. It looks like intuition but it's learned.</p>
+                        </div>
+                        <div>
+                            <p><strong>4. Context matters more at higher levels</strong></p>
+                            <p style="font-size: 0.82rem; color: var(--text-muted);">Novices apply rules universally. Experts know when to break rules because they understand context deeply.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-section" style="margin-top: 1rem; background: linear-gradient(135deg, #e0f5f2, #d5f0ed);">
+                    <h3>💬 How to Explain Dreyfus in 30 Seconds</h3>
+                    <p style="font-style: italic; font-size: 0.95rem; line-height: 1.7; padding: 0.5rem; background: white; border-radius: 8px; margin-top: 0.5rem;">
+                        "The Dreyfus Model describes how people go from beginner to expert in any skill. At first, you need explicit rules and checklists. As you gain experience, you start recognizing patterns. Eventually, you develop intuition — you just 'know' the right answer without consciously thinking. The model has 5 levels: Novice, Advanced Beginner, Competent, Proficient, and Expert. Most people in any profession are at Level 2-3. True experts are rare because reaching Level 4-5 requires years of deliberate practice and varied experiences."
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="dreyfus-scale">
+            <div class="dreyfus-level l1">
+                <span class="number">1</span>
+                <span>Novice</span>
+            </div>
+            <div class="dreyfus-level l2">
+                <span class="number">2</span>
+                <span>Advanced Beginner</span>
+            </div>
+            <div class="dreyfus-level l3">
+                <span class="number">3</span>
+                <span>Competent</span>
+            </div>
+            <div class="dreyfus-level l4">
+                <span class="number">4</span>
+                <span>Proficient</span>
+            </div>
+            <div class="dreyfus-level l5">
+                <span class="number">5</span>
+                <span>Expert</span>
+            </div>
+        </div>
+
+        <!-- Skill Acquisition Framework Section -->
+        <div class="dreyfus-info expanded" onclick="if(event.target.classList.contains('dreyfus-info-header') || event.target.closest('.dreyfus-info-header')) this.classList.toggle('expanded')">
+            <div class="dreyfus-info-header">
+                <h2>🎯 QA Skill Acquisition Framework — 6 Buckets & 15 Sub-Competencies</h2>
+                <span class="info-toggle">Collapse</span>
+            </div>
+            <div class="dreyfus-info-content" onclick="event.stopPropagation()">
+                <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Click on each bucket to explore sub-competencies. Click on sub-competencies to view detailed "I can..." statements for each Dreyfus level.</p>
+                
+                <div class="mindmap">
+                    <!-- Bucket 1: Functional Excellence -->
+            <div class="bucket" onclick="toggleBucket(this)">
+                <div class="bucket-header">
+                    <div class="bucket-icon">🔬</div>
+                    <div class="bucket-title">
+                        <h2>Functional Excellence</h2>
+                        <span class="count">3 Sub-Competencies</span>
+                    </div>
+                    <div class="bucket-toggle">▼</div>
+                </div>
+                <div class="sub-competencies">
+                    <!-- Test Design -->
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>Test Design & Coverage</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I can create test cases by copying and modifying existing TCs</li>
+                                    <li>I can follow a test case template to document my tests</li>
+                                    <li>I can identify happy path scenarios from requirements</li>
+                                    <li>I need guidance to determine what scenarios to test</li>
+                                    <li>I execute test cases step by step as written</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I can write test cases independently for assigned features</li>
+                                    <li>I can identify basic positive and negative test scenarios</li>
+                                    <li>I can apply simple equivalence partitioning for input fields</li>
+                                    <li>I can create test cases from user stories and acceptance criteria</li>
+                                    <li>I understand the difference between functional and non-functional tests</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I can apply boundary value analysis systematically</li>
+                                    <li>I can create decision tables for complex business logic</li>
+                                    <li>I can design state transition test cases</li>
+                                    <li>I can identify edge cases and corner cases proactively</li>
+                                    <li>I can prioritize test cases based on risk and impact</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I can design risk-based test strategies for complex features</li>
+                                    <li>I can identify test scenarios that others might miss</li>
+                                    <li>I can optimize test suites for maximum coverage with minimum cases</li>
+                                    <li>I can mentor others on test design techniques</li>
+                                    <li>I can review and improve test cases written by others</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I can innovate new test design approaches for emerging technologies</li>
+                                    <li>I can define test design standards for the organization</li>
+                                    <li>I can teach advanced test design workshops</li>
+                                    <li>I am consulted as the authority on test design decisions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Understanding -->
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>System & Domain Understanding</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I understand the basic functionality of my assigned feature</li>
+                                    <li>I can navigate the application UI for my testing scope</li>
+                                    <li>I need help understanding how my feature connects to others</li>
+                                    <li>I rely on documentation to understand system behavior</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I understand how my feature integrates with adjacent modules</li>
+                                    <li>I can identify basic dependencies between components</li>
+                                    <li>I can explain the business purpose of features I test</li>
+                                    <li>I recognize when a change might affect related features</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I understand the end-to-end flow of major business processes</li>
+                                    <li>I can identify integration points and potential failure modes</li>
+                                    <li>I understand the data flow across system components</li>
+                                    <li>I can predict impact of changes on downstream systems</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I have deep knowledge of system architecture and design patterns</li>
+                                    <li>I can identify performance bottlenecks and scalability concerns</li>
+                                    <li>I am the go-to person for system knowledge in my area</li>
+                                    <li>I can onboard new team members on system understanding</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I have comprehensive mental model of the entire ecosystem</li>
+                                    <li>I influence architectural decisions with quality perspective</li>
+                                    <li>I am consulted for critical system decisions</li>
+                                    <li>I can identify opportunities for system-wide improvements</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bug Analysis -->
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>Bug Analysis & Reporting</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I can report bugs with basic information (title, steps, actual/expected)</li>
+                                    <li>I follow the bug report template provided</li>
+                                    <li>I include screenshots to support my bug reports</li>
+                                    <li>I need help determining bug severity and priority</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I can write clear, reproducible bug reports</li>
+                                    <li>I can determine appropriate severity and priority</li>
+                                    <li>I can isolate bugs to specific steps or conditions</li>
+                                    <li>I can identify if a bug is a duplicate of existing issues</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I can identify the probable component/module causing the bug</li>
+                                    <li>I can suggest potential root causes to developers</li>
+                                    <li>I can identify patterns across multiple bugs</li>
+                                    <li>I can write bugs that developers can fix without clarification</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I can trace bugs to code level (with logs/debugging)</li>
+                                    <li>I can analyze bug trends to identify quality hotspots</li>
+                                    <li>I can mentor others on effective bug reporting</li>
+                                    <li>I can facilitate bug triage meetings effectively</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I can predict defect-prone areas before testing begins</li>
+                                    <li>I can design defect prevention strategies</li>
+                                    <li>I drive quality improvements based on defect insights</li>
+                                    <li>I am consulted for critical production issues</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bucket 2: Problem Solving -->
+            <div class="bucket" onclick="toggleBucket(this)">
+                <div class="bucket-header">
+                    <div class="bucket-icon">🧩</div>
+                    <div class="bucket-title">
+                        <h2>Problem Solving</h2>
+                        <span class="count">3 Sub-Competencies</span>
+                    </div>
+                    <div class="bucket-toggle">▼</div>
+                </div>
+                <div class="sub-competencies">
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>Root Cause Analysis</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I can describe what went wrong (the symptom)</li>
+                                    <li>I can gather basic information about the problem</li>
+                                    <li>I escalate issues when I cannot solve them</li>
+                                    <li>I need guidance on how to investigate issues</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I can ask 'why' to dig deeper into problems</li>
+                                    <li>I can check logs and error messages for clues</li>
+                                    <li>I can compare working vs non-working scenarios</li>
+                                    <li>I can rule out common causes systematically</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I can apply 5-Whys technique systematically</li>
+                                    <li>I can use fishbone diagrams for complex problems</li>
+                                    <li>I can document RCA findings for knowledge sharing</li>
+                                    <li>I can propose solutions that address root cause</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I can connect root causes across multiple incidents</li>
+                                    <li>I can lead RCA sessions with cross-functional teams</li>
+                                    <li>I can design experiments to validate hypotheses</li>
+                                    <li>I can mentor others on RCA techniques</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I can design RCA frameworks for the organization</li>
+                                    <li>I can build systems that prevent problems from recurring</li>
+                                    <li>I am the escalation point for critical RCA</li>
+                                    <li>I influence engineering practices based on RCA insights</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>Risk Assessment</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I am learning to identify what could go wrong</li>
+                                    <li>I follow risk checklists when provided</li>
+                                    <li>I report concerns to senior team members</li>
+                                    <li>I focus on completing my assigned tasks</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I can identify obvious risks in my testing area</li>
+                                    <li>I understand the difference between high and low risk</li>
+                                    <li>I can identify risks related to new functionality</li>
+                                    <li>I ask about risks during requirement discussions</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I proactively identify and document risks</li>
+                                    <li>I can assess likelihood and impact of risks</li>
+                                    <li>I can prioritize testing based on risk levels</li>
+                                    <li>I can propose mitigation strategies for risks</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I can quantify business impact of quality risks</li>
+                                    <li>I can create risk matrices for complex releases</li>
+                                    <li>I can influence release decisions based on risk</li>
+                                    <li>I can design risk-based testing strategies</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I can shape release strategy based on holistic risk view</li>
+                                    <li>I can establish risk management frameworks</li>
+                                    <li>I can advise leadership on quality risk decisions</li>
+                                    <li>I am consulted for critical go/no-go decisions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>Prevention Mindset</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I find bugs during testing (reactive)</li>
+                                    <li>I report issues I discover</li>
+                                    <li>I follow the testing process defined by the team</li>
+                                    <li>I focus on my immediate testing tasks</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I suggest fixes for bugs I find</li>
+                                    <li>I share learnings from bugs with the team</li>
+                                    <li>I understand the value of early testing</li>
+                                    <li>I participate in requirement reviews when invited</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I propose process improvements to prevent bugs</li>
+                                    <li>I actively participate in requirement/design reviews</li>
+                                    <li>I suggest automation for repetitive checks</li>
+                                    <li>I create checklists to prevent common issues</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I implement automated quality gates in CI/CD</li>
+                                    <li>I design shift-left testing strategies</li>
+                                    <li>I coach developers on testing practices</li>
+                                    <li>I lead initiatives to reduce defect injection</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I create a culture where quality is everyone's responsibility</li>
+                                    <li>I design organization-wide defect prevention programs</li>
+                                    <li>I am a thought leader on quality engineering</li>
+                                    <li>I drive industry best practices adoption</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bucket 3: Impact & Ownership -->
+            <div class="bucket" onclick="toggleBucket(this)">
+                <div class="bucket-header">
+                    <div class="bucket-icon">🎯</div>
+                    <div class="bucket-title">
+                        <h2>Impact & Ownership</h2>
+                        <span class="count">2 Sub-Competencies</span>
+                    </div>
+                    <div class="bucket-toggle">▼</div>
+                </div>
+                <div class="sub-competencies">
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>PIC (Person-In-Charge) Behavior</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I complete tasks assigned to me</li>
+                                    <li>I ask for help when I am stuck</li>
+                                    <li>I wait for instructions on what to do next</li>
+                                    <li>I am learning the team processes</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I take ownership of my assigned test areas</li>
+                                    <li>I proactively update status without being asked</li>
+                                    <li>I identify blockers and escalate appropriately</li>
+                                    <li>I take initiative on small improvements</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I own the quality of features end-to-end</li>
+                                    <li>I drive issues to resolution, not just report them</li>
+                                    <li>I coordinate with developers and PMs proactively</li>
+                                    <li>I am accountable for release quality of my features</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I own quality for my product area across releases</li>
+                                    <li>I take ownership of problems even outside my scope</li>
+                                    <li>I am accountable for outcomes, not just activities</li>
+                                    <li>I am trusted to handle ambiguous situations</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I own organizational quality standards and practices</li>
+                                    <li>The buck stops with me for critical quality decisions</li>
+                                    <li>I am accountable for quality strategy and direction</li>
+                                    <li>I own the quality reputation of the organization</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>End-to-End Accountability</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I test the specific scenarios assigned to me</li>
+                                    <li>I verify my test cases pass or fail</li>
+                                    <li>I focus on my assigned scope</li>
+                                    <li>I need guidance on what 'done' looks like</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I consider how my feature affects adjacent areas</li>
+                                    <li>I verify basic integration points work</li>
+                                    <li>I follow up on bugs until they are fixed</li>
+                                    <li>I validate fixes before closing bugs</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I validate complete user journeys, not just features</li>
+                                    <li>I verify production readiness (logs, monitoring)</li>
+                                    <li>I consider non-functional aspects (performance, security)</li>
+                                    <li>I validate deployment and rollback procedures</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I ensure production readiness across teams</li>
+                                    <li>I validate cross-system dependencies work</li>
+                                    <li>I consider customer experience end-to-end</li>
+                                    <li>I coordinate quality across multiple teams</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I ensure business outcomes are protected by quality</li>
+                                    <li>I ensure quality across the entire value stream</li>
+                                    <li>I am accountable for customer satisfaction</li>
+                                    <li>I validate strategic initiatives deliver value</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bucket 4: Communication -->
+            <div class="bucket" onclick="toggleBucket(this)">
+                <div class="bucket-header">
+                    <div class="bucket-icon">💬</div>
+                    <div class="bucket-title">
+                        <h2>Communication</h2>
+                        <span class="count">2 Sub-Competencies</span>
+                    </div>
+                    <div class="bucket-toggle">▼</div>
+                </div>
+                <div class="sub-competencies">
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>Dev/PM Alignment</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I report bugs and test results</li>
+                                    <li>I ask developers for help with issues</li>
+                                    <li>I attend team meetings</li>
+                                    <li>I am learning team communication norms</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I explain the impact of bugs clearly</li>
+                                    <li>I discuss test scenarios with developers</li>
+                                    <li>I clarify requirements with PMs when unclear</li>
+                                    <li>I participate in sprint ceremonies actively</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I negotiate bug priorities with dev and PM</li>
+                                    <li>I provide quality input during planning</li>
+                                    <li>I challenge requirements that are unclear or risky</li>
+                                    <li>I represent quality perspective in discussions</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I influence sprint planning with quality insights</li>
+                                    <li>I am a trusted partner to dev and PM leads</li>
+                                    <li>I facilitate quality discussions across functions</li>
+                                    <li>I coach others on effective communication</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I shape product roadmap with quality perspective</li>
+                                    <li>I influence product strategy and priorities</li>
+                                    <li>I represent quality at leadership discussions</li>
+                                    <li>I am a trusted advisor to product leadership</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>Stakeholder Trust</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I provide basic status updates when asked</li>
+                                    <li>I attend meetings I am invited to</li>
+                                    <li>I am building credibility with the team</li>
+                                    <li>I follow through on my commitments</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I provide clear and honest status updates</li>
+                                    <li>I escalate blockers proactively</li>
+                                    <li>I am transparent about what I don't know</li>
+                                    <li>I meet my commitments consistently</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I build confidence through consistent delivery</li>
+                                    <li>I provide context and recommendations, not just status</li>
+                                    <li>I am trusted for accurate quality assessments</li>
+                                    <li>Stakeholders rely on my judgment for my areas</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I am a trusted advisor to stakeholders</li>
+                                    <li>Stakeholders seek my opinion on quality matters</li>
+                                    <li>I can deliver difficult messages to senior stakeholders</li>
+                                    <li>I build trust with new stakeholders quickly</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I am the go-to person for critical quality decisions</li>
+                                    <li>Leadership trusts my quality assessments implicitly</li>
+                                    <li>I can influence decisions at executive level</li>
+                                    <li>I build organizational trust in quality function</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bucket 5: Process & Strategy -->
+            <div class="bucket" onclick="toggleBucket(this)">
+                <div class="bucket-header">
+                    <div class="bucket-icon">⚙️</div>
+                    <div class="bucket-title">
+                        <h2>Process & Strategy</h2>
+                        <span class="count">2 Sub-Competencies</span>
+                    </div>
+                    <div class="bucket-toggle">▼</div>
+                </div>
+                <div class="sub-competencies">
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>QA Process Improvement</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I follow the QA processes defined by the team</li>
+                                    <li>I learn and adopt team practices</li>
+                                    <li>I ask questions about why we do things</li>
+                                    <li>I am open to feedback on my practices</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I suggest small improvements to processes</li>
+                                    <li>I identify inefficiencies in my daily work</li>
+                                    <li>I share ideas in retrospectives</li>
+                                    <li>I help document team processes</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I propose and implement process improvements</li>
+                                    <li>I measure the impact of process changes</li>
+                                    <li>I introduce automation for manual processes</li>
+                                    <li>I drive improvements in my area of responsibility</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I lead QA improvement initiatives</li>
+                                    <li>I design and implement QA frameworks</li>
+                                    <li>I benchmark practices against industry standards</li>
+                                    <li>I influence practices beyond my immediate team</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I design QA strategy for the organization</li>
+                                    <li>I establish QA centers of excellence</li>
+                                    <li>I set the vision for quality engineering</li>
+                                    <li>I am recognized as a thought leader</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>Standards & Frameworks</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I am learning about QA standards</li>
+                                    <li>I follow standards and guidelines provided</li>
+                                    <li>I am getting familiar with testing frameworks</li>
+                                    <li>I complete training on team tools</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I consistently follow team standards</li>
+                                    <li>I understand the purpose of our standards</li>
+                                    <li>I use testing frameworks effectively</li>
+                                    <li>I can explain our standards to new joiners</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I contribute to creating team standards</li>
+                                    <li>I ensure standards are applied in my area</li>
+                                    <li>I evaluate and recommend tools/frameworks</li>
+                                    <li>I help onboard others to our standards</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I own quality standards for my product area</li>
+                                    <li>I establish frameworks adopted by multiple teams</li>
+                                    <li>I lead standards adoption across teams</li>
+                                    <li>I mentor others on applying standards</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I set quality vision and standards for the organization</li>
+                                    <li>I design frameworks used organization-wide</li>
+                                    <li>I establish quality governance models</li>
+                                    <li>I am the authority on quality standards</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bucket 6: Culture & Values -->
+            <div class="bucket" onclick="toggleBucket(this)">
+                <div class="bucket-header">
+                    <div class="bucket-icon">💎</div>
+                    <div class="bucket-title">
+                        <h2>Culture & Values</h2>
+                        <span class="count">3 Sub-Competencies</span>
+                    </div>
+                    <div class="bucket-toggle">▼</div>
+                </div>
+                <div class="sub-competencies">
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>Professionalism</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I am learning workplace norms and expectations</li>
+                                    <li>I arrive on time and meet basic commitments</li>
+                                    <li>I am respectful to colleagues</li>
+                                    <li>I am building my professional reputation</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I meet expectations consistently</li>
+                                    <li>I communicate professionally</li>
+                                    <li>I handle feedback constructively</li>
+                                    <li>I represent the team positively</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I exceed expectations regularly</li>
+                                    <li>I maintain high standards for my work</li>
+                                    <li>I handle difficult situations professionally</li>
+                                    <li>I take pride in quality of my deliverables</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I am a role model for professionalism</li>
+                                    <li>I set high standards for others to follow</li>
+                                    <li>I represent the organization positively</li>
+                                    <li>I am trusted with sensitive matters</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I define the standard for professional excellence</li>
+                                    <li>I am an ambassador for the organization</li>
+                                    <li>I shape organizational culture</li>
+                                    <li>I inspire others through my example</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>Reliability & Dependability</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I am learning to manage my commitments</li>
+                                    <li>I sometimes need reminders on deadlines</li>
+                                    <li>I ask for help when I might miss a deadline</li>
+                                    <li>I am learning to estimate my work</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I meet my commitments most of the time</li>
+                                    <li>I communicate if I might miss a deadline</li>
+                                    <li>I am becoming predictable in my delivery</li>
+                                    <li>I am improving my estimation skills</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I consistently deliver on my commitments</li>
+                                    <li>I am reliable and predictable</li>
+                                    <li>I manage my workload effectively</li>
+                                    <li>I follow through without being reminded</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I am trusted with critical and ambiguous work</li>
+                                    <li>I deliver reliably even under pressure</li>
+                                    <li>I help others become more reliable</li>
+                                    <li>I am the go-to person for important tasks</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I am trusted with organization-level commitments</li>
+                                    <li>I am the ultimate backstop for critical delivery</li>
+                                    <li>Leadership depends on my delivery</li>
+                                    <li>I am the standard for reliability</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sub-comp" onclick="event.stopPropagation(); toggleSubComp(this)">
+                        <div class="sub-comp-header">
+                            <h3>Humility & Learning</h3>
+                            <span class="expand-btn">View Levels</span>
+                        </div>
+                        <div class="levels-grid">
+                            <div class="level-card l1">
+                                <div class="level-header">📘 Level 1 — Novice</div>
+                                <ul class="level-statements">
+                                    <li>I am learning and absorbing information</li>
+                                    <li>I acknowledge when I don't know something</li>
+                                    <li>I am open to learning from others</li>
+                                    <li>I ask questions to understand better</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l2">
+                                <div class="level-header">📗 Level 2 — Advanced Beginner</div>
+                                <ul class="level-statements">
+                                    <li>I accept feedback and try to improve</li>
+                                    <li>I acknowledge my mistakes</li>
+                                    <li>I learn from my errors</li>
+                                    <li>I recognize there is much to learn</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l3">
+                                <div class="level-header">📙 Level 3 — Competent</div>
+                                <ul class="level-statements">
+                                    <li>I actively seek feedback</li>
+                                    <li>I admit gaps in my knowledge openly</li>
+                                    <li>I credit others for their contributions</li>
+                                    <li>I help others without seeking credit</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l4">
+                                <div class="level-header">📕 Level 4 — Proficient</div>
+                                <ul class="level-statements">
+                                    <li>I model humility for others</li>
+                                    <li>I learn from junior team members</li>
+                                    <li>I celebrate team success over personal achievement</li>
+                                    <li>I create safe spaces for others to learn</li>
+                                </ul>
+                            </div>
+                            <div class="level-card l5">
+                                <div class="level-header">📓 Level 5 — Expert</div>
+                                <ul class="level-statements">
+                                    <li>I am known for humility despite expertise</li>
+                                    <li>I inspire a culture of learning</li>
+                                    <li>I elevate others over myself</li>
+                                    <li>I am a servant leader</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="summary">
+            <h2>📊 Framework Summary</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-number">6</div>
+                    <div class="summary-content">
+                        <h4>Competency Buckets</h4>
+                        <p>Core areas of QA expertise</p>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">15</div>
+                    <div class="summary-content">
+                        <h4>Sub-Competencies</h4>
+                        <p>Specific skills to develop</p>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">5</div>
+                    <div class="summary-content">
+                        <h4>Dreyfus Levels</h4>
+                        <p>Novice → Expert progression</p>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-number">300+</div>
+                    <div class="summary-content">
+                        <h4>"I Can..." Statements</h4>
+                        <p>Clear behavioral indicators</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>QA Skill Acquisition Framework • Based on Dreyfus Model</p>
+            <p style="margin-top: 0.5rem; opacity: 0.7;">Click on competency buckets to expand • Click on sub-competencies to view level details</p>
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                    <strong>Created by Aditya Mirza Bahari</strong>
+                </p>
+                <p style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.6;">
+                    © 2025 Aditya Mirza Bahari. All Rights Reserved.<br>
+                    This framework is proprietary. Unauthorized reproduction or distribution is prohibited.
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function toggleBucket(element) {
+            element.classList.toggle('expanded');
+        }
+
+        function toggleSubComp(element) {
+            element.classList.toggle('expanded');
+        }
+
+        function togglePersona(element) {
+            element.classList.toggle('expanded');
+        }
+
+        // Persona filter tabs functionality
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Update active tab
+                document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter personas
+                const filter = this.dataset.filter;
+                document.querySelectorAll('.persona-card').forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Update toggle button text for info sections
+        document.querySelectorAll('.dreyfus-info').forEach(section => {
+            section.addEventListener('click', function(e) {
+                if (e.target.closest('.dreyfus-info-header')) {
+                    const toggle = this.querySelector('.info-toggle');
+                    if (toggle) {
+                        setTimeout(() => {
+                            toggle.textContent = this.classList.contains('expanded') ? 'Collapse' : 'Expand';
+                        }, 10);
+                    }
+                }
+            });
+        });
+
+        // Update toggle button text for persona section
+        document.querySelectorAll('.persona-section').forEach(section => {
+            section.addEventListener('click', function(e) {
+                if (e.target.closest('.persona-section-header')) {
+                    const toggle = this.querySelector('.info-toggle');
+                    if (toggle) {
+                        setTimeout(() => {
+                            toggle.textContent = this.classList.contains('expanded') ? 'Collapse' : 'Click to Explore';
+                        }, 10);
+                    }
+                }
+            });
+        });
+
+        // Expand all for printing
+        function expandAll() {
+            document.querySelectorAll('.bucket, .sub-comp, .dreyfus-info').forEach(el => {
+                el.classList.add('expanded');
+            });
+            document.querySelectorAll('.info-toggle').forEach(el => {
+                el.textContent = 'Collapse';
+            });
+        }
+
+        // Keyboard shortcut: Press 'E' to expand all
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'e' || e.key === 'E') {
+                expandAll();
+            }
+        });
+    </script>
+</body>
+</html>
+

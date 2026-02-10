@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Learning Plan - Training Course Mapping</title>
+    
+    <!-- Copyright & Ownership -->
+    <meta name="author" content="Aditya Mirza Bahari">
+    <meta name="copyright" content="© 2025 Aditya Mirza Bahari. All Rights Reserved.">
+    <meta name="description" content="QA Learning Plan with curated training courses mapped to QA personas and Dreyfus skill levels">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #e6f7f5;
+            --bg-card: #f8fffe;
+            --bg-hover: #d5f0ed;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --accent-primary: #0d9488;
+            --accent-secondary: #0891b2;
+            --accent-green: #059669;
+            --accent-orange: #d97706;
+            --accent-purple: #7c3aed;
+            --accent-pink: #ec4899;
+            --border: #a7e8df;
+            --level-1: #fecaca;
+            --level-2: #fde68a;
+            --level-3: #bbf7d0;
+            --level-4: #a5f3fc;
+            --level-5: #c4b5fd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2.5rem 2rem;
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.08) 0%, rgba(8, 145, 178, 0.08) 100%);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0d9488, #0891b2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.6rem 1.2rem;
+            background: var(--accent-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover {
+            background: #0f766e;
+            transform: translateY(-1px);
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .nav-tab {
+            padding: 0.6rem 1rem;
+            background: #e0f5f2;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .nav-tab:hover {
+            background: #b8ebe4;
+        }
+
+        .nav-tab.active {
+            background: var(--accent-primary);
+            color: white;
+            border-color: var(--accent-primary);
+        }
+
+        .nav-tab .emoji {
+            margin-right: 0.35rem;
+        }
+
+        .nav-tab.hidden {
+            display: none;
+        }
+
+        /* Category Filter Tabs */
+        .category-filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            justify-content: center;
+        }
+
+        .category-filter {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--accent-primary);
+            background: white;
+            color: var(--accent-primary);
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .category-filter:hover {
+            background: #e0f5f2;
+        }
+
+        .category-filter.active {
+            background: linear-gradient(135deg, #0d9488, #0891b2);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Persona Sections */
+        .persona-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .persona-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .persona-header {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .persona-emoji-large {
+            font-size: 3rem;
+        }
+
+        .persona-details h2 {
+            font-size: 1.4rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .persona-details .subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .persona-details .pain-point {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #fef3c7;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #92400e;
+            font-style: italic;
+        }
+
+        .level-badges {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .level-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .level-badge.from { background: var(--level-2); color: #78350f; }
+        .level-badge.to { background: var(--level-4); color: #1e3a8a; }
+        .level-badge.arrow { background: transparent; color: var(--text-muted); }
+
+        /* Course Tables */
+        .course-category {
+            background: var(--bg-card);
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .category-header {
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1) 0%, rgba(8, 145, 178, 0.1) 100%);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .category-header h3 {
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-toggle {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: #b8ebe4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-primary);
+            transition: transform 0.3s;
+        }
+
+        .course-category.expanded .category-toggle {
+            transform: rotate(180deg);
+        }
+
+        .category-content {
+            display: none;
+            padding: 1rem 1.5rem 1.5rem;
+        }
+
+        .course-category.expanded .category-content {
+            display: block;
+        }
+
+        /* Course Cards */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1rem;
+        }
+
+        .course-card {
+            background: #e0f5f2;
+            border: 1px solid #b8ebe4;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            transition: all 0.2s;
+        }
+
+        .course-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.1);
+        }
+
+        .course-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .course-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .course-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.2rem 0.5rem;
+            background: white;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .course-tag.platform {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .course-tag.free {
+            background: var(--accent-green);
+            color: white;
+        }
+
+        .course-tag.duration {
+            background: #ddd6fe;
+            color: #5b21b6;
+        }
+
+        .course-objective {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .course-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .course-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Free Resources Section */
+        .free-resources {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .free-resources h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .resource-card {
+            background: #e0f5f2;
+            border: 1px solid #b8ebe4;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .resource-card h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .resource-card p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-card a {
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+        }
+
+        /* Cost Summary */
+        .cost-summary {
+            background: linear-gradient(135deg, #0d9488, #0891b2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: white;
+        }
+
+        .cost-summary h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cost-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .cost-card {
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .cost-card h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .cost-card .price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .cost-card p {
+            font-size: 0.75rem;
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .persona-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print */
+        @media print {
+            .nav-tabs { display: none; }
+            .persona-section { display: block !important; page-break-before: always; }
+            .course-category { break-inside: avoid; }
+            .course-category.expanded .category-content { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📚 QA Learning Plan</h1>
+            <p>Curated training courses mapped to your QA journey</p>
+            <a href="QA_Skill_Acquisition_Framework.html" class="back-link">← Back to Skill Framework</a>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <!-- Category Filter Tabs -->
+        <div class="category-filter-tabs">
+            <button class="category-filter active" data-filter="all">All Personas</button>
+            <button class="category-filter" data-filter="ladder">📈 Professional Ladder</button>
+            <button class="category-filter" data-filter="switch">🔄 Career & Skill Switch</button>
+            <button class="category-filter" data-filter="situational">🎯 Situational</button>
+        </div>
+
+        <div class="nav-tabs">
+            <div class="nav-tab active" data-category="ladder" onclick="showPersona('fresh-grad')"><span class="emoji">🎓</span>Fresh Graduate</div>
+            <div class="nav-tab" data-category="ladder" onclick="showPersona('stuck-mid')"><span class="emoji">😐</span>Stuck Mid-Career</div>
+            <div class="nav-tab" data-category="ladder" onclick="showPersona('senior-expert')"><span class="emoji">🎖️</span>Senior/Expert</div>
+            <div class="nav-tab" data-category="situational" onclick="showPersona('ambitious')"><span class="emoji">🧗</span>Ambitious Climber</div>
+            <div class="nav-tab" data-category="switch" onclick="showPersona('switcher')"><span class="emoji">🔄</span>Career Switcher</div>
+            <div class="nav-tab" data-category="switch" onclick="showPersona('automation')"><span class="emoji">🤖</span>Manual→Automation</div>
+            <div class="nav-tab" data-category="situational" onclick="showPersona('solo')"><span class="emoji">🦸</span>Solo QA</div>
+            <div class="nav-tab" data-category="situational" onclick="showPersona('lead')"><span class="emoji">👔</span>New QA Lead</div>
+            <div class="nav-tab" data-category="switch" onclick="showPersona('specialist')"><span class="emoji">🔬</span>Specialist</div>
+            <div class="nav-tab" data-category="situational" onclick="showPersona('burnout')"><span class="emoji">🔥</span>Burnout Recovery</div>
+        </div>
+
+        <!-- Persona 1: Fresh Graduate -->
+        <div id="fresh-grad" class="persona-section active">
+            <div class="persona-header">
+                <span class="persona-emoji-large">🎓</span>
+                <div class="persona-details">
+                    <h2>The Fresh Graduate</h2>
+                    <p class="subtitle">Just landed my first QA job!</p>
+                    <div class="pain-point">💭 "I don't know what I don't know"</div>
+                    <div class="level-badges">
+                        <span class="level-badge from">Level 1 — Novice</span>
+                        <span class="level-badge arrow">→</span>
+                        <span class="level-badge to">Level 2 — Advanced Beginner</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category expanded" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>📘 QA Fundamentals & Certification</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Software Testing Fundamentals for ISTQB Exams Prep</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">12 weeks</span>
+                                <span class="course-tag">Board Infinity</span>
+                            </div>
+                            <p class="course-objective">Master foundational testing principles, techniques, and tools. Prepare for ISTQB certification.</p>
+                            <a href="https://www.coursera.org/specializations/istqb-ctfl-prep" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">ISTQB Certified Tester Foundation Level (CTFL v4.0)</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">ISTQB Official</span>
+                                <span class="course-tag duration">Self-paced</span>
+                                <span class="course-tag">Exam ~$250</span>
+                            </div>
+                            <p class="course-objective">Industry-recognized certification proving QA fundamentals knowledge.</p>
+                            <a href="https://istqb.org/certifications/" target="_blank" class="course-link">View Certification →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Essential Testing Techniques in Software Development</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">4 weeks</span>
+                            </div>
+                            <p class="course-objective">Learn essential testing techniques for software development lifecycle.</p>
+                            <a href="https://www.coursera.org/learn/essential-testing-techniques-in-software-development" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>🐛 Bug Reporting & Test Case Writing</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Writing Test Cases from User Stories</div>
+                            <div class="course-meta">
+                                <span class="course-tag free">FREE</span>
+                                <span class="course-tag platform">Test Automation U</span>
+                                <span class="course-tag duration">1 hour</span>
+                            </div>
+                            <p class="course-objective">Learn to translate user stories into effective test cases.</p>
+                            <a href="https://testautomationu.applitools.com/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Exploring Service APIs through Test Automation</div>
+                            <div class="course-meta">
+                                <span class="course-tag free">FREE</span>
+                                <span class="course-tag platform">Test Automation U</span>
+                                <span class="course-tag duration">2 hours</span>
+                            </div>
+                            <p class="course-objective">Understand API basics and how to document test scenarios.</p>
+                            <a href="https://testautomationu.applitools.com/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Persona 2: Stuck Mid-Career -->
+        <div id="stuck-mid" class="persona-section">
+            <div class="persona-header">
+                <span class="persona-emoji-large">😐</span>
+                <div class="persona-details">
+                    <h2>The Stuck Mid-Career</h2>
+                    <p class="subtitle">3-5 years in, feeling plateaued</p>
+                    <div class="pain-point">💭 "I'm doing the same thing, not growing"</div>
+                    <div class="level-badges">
+                        <span class="level-badge from">Level 2-3 — Competent</span>
+                        <span class="level-badge arrow">→</span>
+                        <span class="level-badge to">Level 4 — Proficient</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category expanded" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>🎯 Ownership & Leadership</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Coaching Skills for Leaders and Managers</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">LinkedIn Learning</span>
+                                <span class="course-tag duration">33 min</span>
+                                <span class="course-tag">Sara Canaday</span>
+                            </div>
+                            <p class="course-objective">Learn GROW coaching model, feedback techniques, and mentoring fundamentals.</p>
+                            <a href="https://www.linkedin.com/learning/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Grow Your Impact as a Mentor</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">LinkedIn Learning</span>
+                                <span class="course-tag duration">8 hours</span>
+                                <span class="course-tag">13 courses</span>
+                            </div>
+                            <p class="course-objective">Comprehensive mentoring path covering relationship building and career guidance.</p>
+                            <a href="https://www.linkedin.com/learning/" target="_blank" class="course-link">View Path →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Managing as a Coach</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">4 weeks</span>
+                                <span class="course-tag">UC Davis</span>
+                            </div>
+                            <p class="course-objective">Develop coaching approach to team development and performance.</p>
+                            <a href="https://www.coursera.org/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>⚙️ Process Improvement</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Six Sigma Yellow Belt Specialization</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">3 months</span>
+                            </div>
+                            <p class="course-objective">Learn systematic process improvement methodology.</p>
+                            <a href="https://www.coursera.org/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">ISTQB Advanced Test Analyst</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">ISTQB Official</span>
+                                <span class="course-tag duration">Self-paced</span>
+                                <span class="course-tag">Exam ~$350</span>
+                            </div>
+                            <p class="course-objective">Advanced certification for risk-based testing and test techniques.</p>
+                            <a href="https://istqb.org/certifications/" target="_blank" class="course-link">View Certification →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Persona 3: Senior/Expert -->
+        <div id="senior-expert" class="persona-section">
+            <div class="persona-header">
+                <span class="persona-emoji-large">🎖️</span>
+                <div class="persona-details">
+                    <h2>The Senior/Expert QA</h2>
+                    <p class="subtitle">7+ years, highly skilled</p>
+                    <div class="pain-point">💭 "What's next? Lead? Architect? Switch?"</div>
+                    <div class="level-badges">
+                        <span class="level-badge from">Level 4-5 — Expert</span>
+                        <span class="level-badge arrow">→</span>
+                        <span class="level-badge to">Leadership / Specialization</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category expanded" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>👔 People Leader Path</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Essential Skills for First-Time Managers Specialization</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">4 weeks</span>
+                                <span class="course-tag">11 courses</span>
+                            </div>
+                            <p class="course-objective">Comprehensive leadership fundamentals: communication, EQ, team performance.</p>
+                            <a href="https://www.coursera.org/specializations/essential-skills-for-new-managers" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Succeeding as a New Manager Professional Certificate</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">LinkedIn Learning</span>
+                                <span class="course-tag duration">11 hours</span>
+                                <span class="course-tag">12 courses</span>
+                            </div>
+                            <p class="course-objective">Transition from IC to manager with coaching, change management skills.</p>
+                            <a href="https://www.linkedin.com/learning/" target="_blank" class="course-link">View Path →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>🧠 Strategist Path</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Software Quality Assurance</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">4 weeks</span>
+                                <span class="course-tag">U of Minnesota</span>
+                            </div>
+                            <p class="course-objective">Strategic view of quality assurance and organizational practices.</p>
+                            <a href="https://www.coursera.org/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Building Your Personal Brand</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">LinkedIn Learning</span>
+                                <span class="course-tag duration">2 hours</span>
+                            </div>
+                            <p class="course-objective">Establish thought leadership and industry presence.</p>
+                            <a href="https://www.linkedin.com/learning/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Persona 4: Ambitious Climber -->
+        <div id="ambitious" class="persona-section">
+            <div class="persona-header">
+                <span class="persona-emoji-large">🧗</span>
+                <div class="persona-details">
+                    <h2>The Ambitious Climber</h2>
+                    <p class="subtitle">Junior/Medior, hungry for growth</p>
+                    <div class="pain-point">💭 "How do I level up faster?"</div>
+                    <div class="level-badges">
+                        <span class="level-badge from">Level 2 — Advanced Beginner</span>
+                        <span class="level-badge arrow">→</span>
+                        <span class="level-badge to">Level 3 — Competent</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category expanded" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>🚀 Skill Acceleration</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Cypress: Web Automation Testing from Zero to Hero</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Udemy</span>
+                                <span class="course-tag duration">25 hours</span>
+                                <span class="course-tag">~$15</span>
+                            </div>
+                            <p class="course-objective">Master modern automation framework to stand out from peers.</p>
+                            <a href="https://www.udemy.com/course/cypress-web-automation-testing-from-zero-to-hero/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Postman Tutorial: Getting Started with API Testing</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">7 hours</span>
+                            </div>
+                            <p class="course-objective">Add API testing to your skillset — high demand skill.</p>
+                            <a href="https://www.coursera.org/learn/packt-postman-tutorial-getting-started-with-api-testing-rvdov" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Root Cause Analysis: Solving Complex Problems</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">LinkedIn Learning</span>
+                                <span class="course-tag duration">1 hour</span>
+                            </div>
+                            <p class="course-objective">Develop analytical skills that set you apart.</p>
+                            <a href="https://www.linkedin.com/learning/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Persona 5: Career Switcher -->
+        <div id="switcher" class="persona-section">
+            <div class="persona-header">
+                <span class="persona-emoji-large">🔄</span>
+                <div class="persona-details">
+                    <h2>The Career Switcher</h2>
+                    <p class="subtitle">From Dev/BA/Support to QA</p>
+                    <div class="pain-point">💭 "I have skills but need QA context"</div>
+                    <div class="level-badges">
+                        <span class="level-badge from">Mixed Levels</span>
+                        <span class="level-badge arrow">→</span>
+                        <span class="level-badge to">Consistent Competent</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category expanded" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>📚 QA Foundation Building</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Software Testing Fundamentals for ISTQB Exams Prep</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">12 weeks</span>
+                            </div>
+                            <p class="course-objective">Learn QA vocabulary, concepts, and industry-standard practices.</p>
+                            <a href="https://www.coursera.org/specializations/istqb-ctfl-prep" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Foundations of Software Testing and Validation</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">4 weeks</span>
+                                <span class="course-tag">Free audit</span>
+                            </div>
+                            <p class="course-objective">Understand QA mindset and testing methodologies.</p>
+                            <a href="https://www.coursera.org/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Agile with Atlassian Jira</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">4 weeks</span>
+                            </div>
+                            <p class="course-objective">Understand Agile/SDLC and how QA fits into sprints.</p>
+                            <a href="https://www.coursera.org/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Persona 6: Manual to Automation -->
+        <div id="automation" class="persona-section">
+            <div class="persona-header">
+                <span class="persona-emoji-large">🤖</span>
+                <div class="persona-details">
+                    <h2>Manual → Automation Seeker</h2>
+                    <p class="subtitle">Manual QA wanting to automate</p>
+                    <div class="pain-point">💭 "Everyone says learn automation"</div>
+                    <div class="level-badges">
+                        <span class="level-badge from">Level 1 — Automation Novice</span>
+                        <span class="level-badge arrow">→</span>
+                        <span class="level-badge to">Level 2-3 — Hybrid QA</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category expanded" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>💻 Programming Fundamentals</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Python Programming</div>
+                            <div class="course-meta">
+                                <span class="course-tag free">FREE</span>
+                                <span class="course-tag platform">Test Automation U</span>
+                                <span class="course-tag duration">3 hours</span>
+                            </div>
+                            <p class="course-objective">Python basics specifically for test automation.</p>
+                            <a href="https://testautomationu.applitools.com/python-tutorial/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">JavaScript Tutorial</div>
+                            <div class="course-meta">
+                                <span class="course-tag free">FREE</span>
+                                <span class="course-tag platform">Test Automation U</span>
+                                <span class="course-tag duration">2 hours</span>
+                            </div>
+                            <p class="course-objective">JavaScript fundamentals for Cypress/Playwright.</p>
+                            <a href="https://testautomationu.applitools.com/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>🔧 Automation Frameworks</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Cypress: Web Automation Testing from Zero to Hero</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Udemy</span>
+                                <span class="course-tag duration">25 hours</span>
+                                <span class="course-tag">4.7★</span>
+                            </div>
+                            <p class="course-objective">Most popular Cypress course. Beginner-friendly with modern practices.</p>
+                            <a href="https://www.udemy.com/course/cypress-web-automation-testing-from-zero-to-hero/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Playwright: Web Automation Testing From Zero to Hero</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Udemy</span>
+                                <span class="course-tag duration">15 hours</span>
+                                <span class="course-tag">4.8★</span>
+                            </div>
+                            <p class="course-objective">Microsoft's modern automation tool. Great for cross-browser testing.</p>
+                            <a href="https://www.udemy.com/course/playwright-from-zero-to-hero/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Introduction to Cypress</div>
+                            <div class="course-meta">
+                                <span class="course-tag free">FREE</span>
+                                <span class="course-tag platform">Test Automation U</span>
+                                <span class="course-tag duration">2 hours</span>
+                            </div>
+                            <p class="course-objective">Quick start with Cypress basics before investing in paid course.</p>
+                            <a href="https://testautomationu.applitools.com/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Selenium WebDriver with Java</div>
+                            <div class="course-meta">
+                                <span class="course-tag free">FREE</span>
+                                <span class="course-tag platform">Test Automation U</span>
+                                <span class="course-tag duration">3 hours</span>
+                            </div>
+                            <p class="course-objective">Classic automation framework still widely used in enterprise.</p>
+                            <a href="https://testautomationu.applitools.com/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>🔄 CI/CD Integration</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">CI/CD for Test Automation: Jenkins & GitHub Actions</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">16 modules</span>
+                            </div>
+                            <p class="course-objective">Run automated tests in CI/CD pipelines.</p>
+                            <a href="https://www.coursera.org/learn/packt-ci-cd-for-test-automation-jenkins-github-actions-unxfy" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Learning GitHub Actions for DevOps CI/CD</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">5 hours</span>
+                            </div>
+                            <p class="course-objective">Master GitHub Actions for test automation pipelines.</p>
+                            <a href="https://www.coursera.org/learn/packt-learning-github-actions-for-devops-ci-cd-jb7lj" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Persona 7: Solo QA -->
+        <div id="solo" class="persona-section">
+            <div class="persona-header">
+                <span class="persona-emoji-large">🦸</span>
+                <div class="persona-details">
+                    <h2>The Solo QA in a Startup</h2>
+                    <p class="subtitle">Only QA in the company</p>
+                    <div class="pain-point">💭 "I need to do everything, where to start?"</div>
+                    <div class="level-badges">
+                        <span class="level-badge from">Generalist</span>
+                        <span class="level-badge arrow">→</span>
+                        <span class="level-badge to">Efficient Generalist</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category expanded" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>🎯 Prioritization & Process</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Agile Project Management by Google</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">6 weeks</span>
+                            </div>
+                            <p class="course-objective">Work effectively in startup agile environments.</p>
+                            <a href="https://www.coursera.org/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Technical Writing by Google</div>
+                            <div class="course-meta">
+                                <span class="course-tag free">FREE</span>
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">5 hours</span>
+                            </div>
+                            <p class="course-objective">Document processes efficiently for scaling.</p>
+                            <a href="https://www.coursera.org/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Introduction to Cypress</div>
+                            <div class="course-meta">
+                                <span class="course-tag free">FREE</span>
+                                <span class="course-tag platform">Test Automation U</span>
+                                <span class="course-tag duration">2 hours</span>
+                            </div>
+                            <p class="course-objective">Quick automation for critical smoke tests.</p>
+                            <a href="https://testautomationu.applitools.com/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Persona 8: New QA Lead -->
+        <div id="lead" class="persona-section">
+            <div class="persona-header">
+                <span class="persona-emoji-large">👔</span>
+                <div class="persona-details">
+                    <h2>The New QA Lead/Manager</h2>
+                    <p class="subtitle">Just promoted to lead a team</p>
+                    <div class="pain-point">💭 "How do I grow my team?"</div>
+                    <div class="level-badges">
+                        <span class="level-badge from">Level 1 — Leadership Novice</span>
+                        <span class="level-badge arrow">→</span>
+                        <span class="level-badge to">Level 3 — Competent Leader</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category expanded" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>👥 Leadership Fundamentals</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Management Skills for New Managers</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">5 hours</span>
+                                <span class="course-tag">4.8★</span>
+                            </div>
+                            <p class="course-objective">Delegation, communication dynamics, performance management.</p>
+                            <a href="https://coursera.org/learn/management-skills-for-new-managers" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Essential Skills for First-Time Managers</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">4 weeks</span>
+                                <span class="course-tag">11 courses</span>
+                            </div>
+                            <p class="course-objective">Comprehensive leadership specialization.</p>
+                            <a href="https://www.coursera.org/specializations/essential-skills-for-new-managers" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Coaching Skills for Leaders and Managers</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">LinkedIn Learning</span>
+                                <span class="course-tag duration">33 min</span>
+                                <span class="course-tag">4.7★</span>
+                            </div>
+                            <p class="course-objective">GROW model, feedback, goal setting for team development.</p>
+                            <a href="https://www.linkedin.com/learning/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>📚 Recommended Reading</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">The Manager's Path</div>
+                            <div class="course-meta">
+                                <span class="course-tag">📖 Book</span>
+                                <span class="course-tag">Camille Fournier</span>
+                                <span class="course-tag">~$30</span>
+                            </div>
+                            <p class="course-objective">Essential reading for tech managers. Covers IC to Director journey.</p>
+                            <a href="https://www.amazon.com/" target="_blank" class="course-link">View Book →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">First, Break All the Rules</div>
+                            <div class="course-meta">
+                                <span class="course-tag">📖 Book</span>
+                                <span class="course-tag">Gallup</span>
+                                <span class="course-tag">~$20</span>
+                            </div>
+                            <p class="course-objective">Research-based insights on great management practices.</p>
+                            <a href="https://www.amazon.com/" target="_blank" class="course-link">View Book →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Persona 9: Specialist Seeker -->
+        <div id="specialist" class="persona-section">
+            <div class="persona-header">
+                <span class="persona-emoji-large">🔬</span>
+                <div class="persona-details">
+                    <h2>The Specialist Seeker</h2>
+                    <p class="subtitle">Generalist QA wanting to specialize</p>
+                    <div class="pain-point">💭 "Should I focus on perf/security/mobile?"</div>
+                    <div class="level-badges">
+                        <span class="level-badge from">Level 3 — Generalist</span>
+                        <span class="level-badge arrow">→</span>
+                        <span class="level-badge to">Level 5 — Specialist Expert</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category expanded" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>⚡ Performance Testing Track</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">JMeter Training for Beginners</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">3-4 hours</span>
+                            </div>
+                            <p class="course-objective">Setup, configuration, thread groups, samplers, listeners.</p>
+                            <a href="https://www.coursera.org/learn/jmeter-training-for-beginners" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Master JMeter on Live Apps for Performance Testing</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">2 weeks</span>
+                            </div>
+                            <p class="course-objective">Advanced JMeter scripting, distributed testing, server monitoring.</p>
+                            <a href="https://www.coursera.org/learn/packt-learn-jmeter-from-scratch-on-live-applications-performance-testing-4ycew" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Gatling Fundamentals</div>
+                            <div class="course-meta">
+                                <span class="course-tag free">FREE</span>
+                                <span class="course-tag platform">Test Automation U</span>
+                                <span class="course-tag duration">2 hours</span>
+                            </div>
+                            <p class="course-objective">Modern load testing with code-based approach.</p>
+                            <a href="https://testautomationu.applitools.com/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>🔒 Security Testing Track</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">A Detailed Guide to the OWASP Top 10</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">5 hours</span>
+                            </div>
+                            <p class="course-objective">Essential security vulnerabilities every QA should know.</p>
+                            <a href="https://www.coursera.org/learn/packt-a-detailed-guide-to-the-owasp-top-10-vqazw" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Web Application Security Testing with OWASP ZAP</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">1.5 hours</span>
+                            </div>
+                            <p class="course-objective">Hands-on vulnerability scanning with OWASP ZAP.</p>
+                            <a href="https://www.coursera.org/projects/web-application-security-testing-with-owsap-zap" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Hands-On Web App Pentesting</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">11 hours</span>
+                            </div>
+                            <p class="course-objective">XSS, SQL Injection, Command Injection exploitation.</p>
+                            <a href="https://www.coursera.org/learn/packt-hands-on-web-app-pentesting-ycse3" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>📱 Mobile Testing Track</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Appium - Mobile Testing (Android/iOS) from Scratch+Frameworks</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Udemy</span>
+                                <span class="course-tag duration">26 hours</span>
+                                <span class="course-tag">4.6★</span>
+                            </div>
+                            <p class="course-objective">Complete Appium 2.0 course with framework design and CI/CD.</p>
+                            <a href="https://www.udemy.com/course/mobile-automation-using-appiumselenium-3/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Appium - Mobile Testing with Latest 2.0 and Live Projects</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Udemy</span>
+                                <span class="course-tag duration">65 hours</span>
+                                <span class="course-tag">4.8★</span>
+                            </div>
+                            <p class="course-objective">In-depth training with real device automation.</p>
+                            <a href="https://www.udemy.com/course/appium-selendroid-tutorials/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>🔌 API Testing Track</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">API Test Automation with Postman</div>
+                            <div class="course-meta">
+                                <span class="course-tag free">FREE</span>
+                                <span class="course-tag platform">Test Automation U</span>
+                                <span class="course-tag duration">2 hours</span>
+                            </div>
+                            <p class="course-objective">API testing fundamentals with Postman.</p>
+                            <a href="https://testautomationu.applitools.com/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Postman Tutorial: Getting Started with API Testing</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">7 hours</span>
+                            </div>
+                            <p class="course-objective">Comprehensive Postman training with environments and collections.</p>
+                            <a href="https://www.coursera.org/learn/packt-postman-tutorial-getting-started-with-api-testing-rvdov" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Getting Started with APIs</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">9 hours</span>
+                            </div>
+                            <p class="course-objective">API fundamentals, RESTful design, CI/CD integration.</p>
+                            <a href="https://www.coursera.org/learn/getting-started-with-apis" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Persona 10: Burnout Recovery -->
+        <div id="burnout" class="persona-section">
+            <div class="persona-header">
+                <span class="persona-emoji-large">🔥</span>
+                <div class="persona-details">
+                    <h2>The Burnout Recovery</h2>
+                    <p class="subtitle">Tired, lost passion for QA</p>
+                    <div class="pain-point">💭 "I used to love QA, now I'm just tired"</div>
+                    <div class="level-badges">
+                        <span class="level-badge from">Recovery Focus</span>
+                        <span class="level-badge arrow">→</span>
+                        <span class="level-badge to">Sustainable Performance</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category expanded" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>🧘 Wellbeing & Recovery</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">The Science of Well-Being</div>
+                            <div class="course-meta">
+                                <span class="course-tag free">FREE</span>
+                                <span class="course-tag platform">Coursera / Yale</span>
+                                <span class="course-tag duration">6 weeks</span>
+                                <span class="course-tag">4.9★</span>
+                            </div>
+                            <p class="course-objective">Yale's most popular course. Science-backed strategies for happiness.</p>
+                            <a href="https://www.coursera.org/learn/the-science-of-well-being" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Managing Stress for Positive Change</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">4 weeks</span>
+                                <span class="course-tag">UC Davis</span>
+                            </div>
+                            <p class="course-objective">Practical stress management techniques.</p>
+                            <a href="https://www.coursera.org/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">De-Mystifying Mindfulness</div>
+                            <div class="course-meta">
+                                <span class="course-tag free">FREE</span>
+                                <span class="course-tag platform">Coursera</span>
+                                <span class="course-tag duration">6 weeks</span>
+                                <span class="course-tag">Leiden University</span>
+                            </div>
+                            <p class="course-objective">Evidence-based mindfulness practices for recovery.</p>
+                            <a href="https://www.coursera.org/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="course-category" onclick="toggleCategory(this)">
+                <div class="category-header">
+                    <h3>⚖️ Work-Life Balance</h3>
+                    <div class="category-toggle">▼</div>
+                </div>
+                <div class="category-content" onclick="event.stopPropagation()">
+                    <div class="course-grid">
+                        <div class="course-card">
+                            <div class="course-title">Work-Life Balance</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">LinkedIn Learning</span>
+                                <span class="course-tag duration">1 hour</span>
+                            </div>
+                            <p class="course-objective">Strategies for sustainable work practices.</p>
+                            <a href="https://www.linkedin.com/learning/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Setting Professional Boundaries</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">LinkedIn Learning</span>
+                                <span class="course-tag duration">30 min</span>
+                            </div>
+                            <p class="course-objective">Learn to say no and protect your energy.</p>
+                            <a href="https://www.linkedin.com/learning/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                        <div class="course-card">
+                            <div class="course-title">Preventing Burnout</div>
+                            <div class="course-meta">
+                                <span class="course-tag platform">LinkedIn Learning</span>
+                                <span class="course-tag duration">45 min</span>
+                            </div>
+                            <p class="course-objective">Identify warning signs and prevention strategies.</p>
+                            <a href="https://www.linkedin.com/learning/" target="_blank" class="course-link">View Course →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Free Resources Section -->
+        <div class="free-resources">
+            <h2>🆓 Free Learning Resources</h2>
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <h4>Test Automation University</h4>
+                    <p>50+ free courses on automation, API testing, Cypress, Selenium, and more.</p>
+                    <a href="https://testautomationu.applitools.com/" target="_blank">testautomationu.applitools.com</a>
+                </div>
+                <div class="resource-card">
+                    <h4>Ministry of Testing</h4>
+                    <p>Community, podcasts, articles, and free resources for QA professionals.</p>
+                    <a href="https://www.ministryoftesting.com/" target="_blank">ministryoftesting.com</a>
+                </div>
+                <div class="resource-card">
+                    <h4>Postman Learning Center</h4>
+                    <p>Official Postman documentation and tutorials for API testing.</p>
+                    <a href="https://learning.postman.com/" target="_blank">learning.postman.com</a>
+                </div>
+                <div class="resource-card">
+                    <h4>freeCodeCamp</h4>
+                    <p>Free programming courses for JavaScript, Python, and more.</p>
+                    <a href="https://www.freecodecamp.org/" target="_blank">freecodecamp.org</a>
+                </div>
+                <div class="resource-card">
+                    <h4>ISTQB Syllabus</h4>
+                    <p>Official study materials for ISTQB certification preparation.</p>
+                    <a href="https://istqb.org/" target="_blank">istqb.org</a>
+                </div>
+                <div class="resource-card">
+                    <h4>Coursera (Free Audit)</h4>
+                    <p>Many courses available to audit for free without certificate.</p>
+                    <a href="https://www.coursera.org/" target="_blank">coursera.org</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cost Summary -->
+        <div class="cost-summary">
+            <h2>💰 Platform Pricing Summary</h2>
+            <div class="cost-grid">
+                <div class="cost-card">
+                    <h4>Test Automation U</h4>
+                    <div class="price">FREE</div>
+                    <p>All courses free forever</p>
+                </div>
+                <div class="cost-card">
+                    <h4>Coursera Plus</h4>
+                    <div class="price">$59/month</div>
+                    <p>or $399/year for unlimited access</p>
+                </div>
+                <div class="cost-card">
+                    <h4>LinkedIn Learning</h4>
+                    <div class="price">$29.99/month</div>
+                    <p>Best for soft skills & leadership</p>
+                </div>
+                <div class="cost-card">
+                    <h4>Udemy</h4>
+                    <div class="price">$10-20/course</div>
+                    <p>Wait for sales (frequent)</p>
+                </div>
+                <div class="cost-card">
+                    <h4>ISTQB Certification</h4>
+                    <div class="price">$250-350</div>
+                    <p>Per exam for formal credential</p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>QA Learning Plan • Companion to <a href="QA_Skill_Acquisition_Framework.html">QA Skill Acquisition Framework</a></p>
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+                <p><strong>Created by Aditya Mirza Bahari</strong></p>
+                <p style="font-size: 0.75rem; margin-top: 0.35rem; opacity: 0.7;">
+                    © 2025 Aditya Mirza Bahari. All Rights Reserved.
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function showPersona(id) {
+            // Hide all sections
+            document.querySelectorAll('.persona-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(id).classList.add('active');
+            
+            // Activate clicked tab
+            event.target.closest('.nav-tab').classList.add('active');
+        }
+
+        function toggleCategory(element) {
+            element.classList.toggle('expanded');
+        }
+
+        // Expand first category in each section by default
+        document.querySelectorAll('.persona-section').forEach(section => {
+            const firstCategory = section.querySelector('.course-category');
+            if (firstCategory) {
+                firstCategory.classList.add('expanded');
+            }
+        });
+
+        // Category filter functionality
+        document.querySelectorAll('.category-filter').forEach(filter => {
+            filter.addEventListener('click', function() {
+                // Update active filter
+                document.querySelectorAll('.category-filter').forEach(f => f.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filterValue = this.dataset.filter;
+                let firstVisibleTab = null;
+                
+                // Filter nav-tabs
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    if (filterValue === 'all' || tab.dataset.category === filterValue) {
+                        tab.classList.remove('hidden');
+                        if (!firstVisibleTab) firstVisibleTab = tab;
+                    } else {
+                        tab.classList.add('hidden');
+                        tab.classList.remove('active');
+                    }
+                });
+                
+                // If current active tab is hidden, show first visible persona
+                const activeTab = document.querySelector('.nav-tab.active:not(.hidden)');
+                if (!activeTab && firstVisibleTab) {
+                    firstVisibleTab.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
