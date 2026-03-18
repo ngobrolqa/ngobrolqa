@@ -1481,29 +1481,66 @@
             const canvas = await html2canvas(element, {
                 scale: 2,
                 useCORS: true,
-                logging: false
+                logging: false,
+                backgroundColor: '#f0fdfa'
             });
             
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('p', 'mm', 'a4');
-            const imgWidth = 190;
+            
+            const pageWidth = 210;
+            const pageHeight = 297;
+            const margin = 10;
+            const headerHeight = 30;
+            const footerHeight = 15;
+            const contentWidth = pageWidth - (margin * 2);
+            const contentHeight = pageHeight - headerHeight - footerHeight;
+            
+            const imgWidth = contentWidth;
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
             
-            pdf.setFillColor(240, 253, 250);
-            pdf.rect(0, 0, 210, 297, 'F');
+            // Calculate pages needed
+            const totalPages = Math.ceil(imgHeight / contentHeight);
             
-            pdf.setFontSize(20);
-            pdf.setTextColor(13, 148, 136);
-            pdf.text('QA Skill Assessment Results', 105, 15, { align: 'center' });
-            
-            pdf.setFontSize(10);
-            pdf.setTextColor(100, 116, 139);
-            pdf.text('Generated from NgobrolQA | ngobrolqa.com', 105, 22, { align: 'center' });
-            
-            pdf.addImage(imgData, 'PNG', 10, 30, imgWidth, imgHeight);
-            
-            pdf.setFontSize(8);
-            pdf.text('© 2026 NgobrolQA by Aditya Mirza Bahari', 105, 290, { align: 'center' });
+            for (let page = 0; page < totalPages; page++) {
+                if (page > 0) pdf.addPage();
+                
+                // Background
+                pdf.setFillColor(240, 253, 250);
+                pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+                
+                // Header (first page only)
+                if (page === 0) {
+                    pdf.setFontSize(20);
+                    pdf.setTextColor(13, 148, 136);
+                    pdf.text('QA Skill Assessment Results', pageWidth / 2, 15, { align: 'center' });
+                    
+                    pdf.setFontSize(10);
+                    pdf.setTextColor(100, 116, 139);
+                    pdf.text('Generated from NgobrolQA | ngobrolqa.com', pageWidth / 2, 22, { align: 'center' });
+                }
+                
+                // Content - slice image for this page
+                const sourceY = page * contentHeight * (canvas.width / imgWidth);
+                const sourceHeight = Math.min(contentHeight * (canvas.width / imgWidth), canvas.height - sourceY);
+                const destHeight = sourceHeight * (imgWidth / canvas.width);
+                
+                // Create a temporary canvas for this page slice
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = canvas.width;
+                tempCanvas.height = sourceHeight;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.drawImage(canvas, 0, sourceY, canvas.width, sourceHeight, 0, 0, canvas.width, sourceHeight);
+                
+                const sliceData = tempCanvas.toDataURL('image/png');
+                pdf.addImage(sliceData, 'PNG', margin, page === 0 ? headerHeight : margin, imgWidth, destHeight);
+                
+                // Footer
+                pdf.setFontSize(8);
+                pdf.setTextColor(100, 116, 139);
+                pdf.text(`Page ${page + 1} of ${totalPages}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
+                pdf.text('© 2026 NgobrolQA by Aditya Mirza Bahari', pageWidth / 2, pageHeight - 4, { align: 'center' });
+            }
             
             pdf.save('QA_Skill_Assessment_Results.pdf');
         }
