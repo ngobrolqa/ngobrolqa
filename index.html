@@ -20,15 +20,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #e6f7f5;
+            --bg-primary: #ffffff;
+            --bg-surface: #f8fffe;
             --bg-card: #ffffff;
-            --text-primary: #0f172a;
+            --text-primary: #1e293b;
             --text-secondary: #475569;
             --text-muted: #64748b;
-            --accent-primary: #0d9488;
-            --accent-secondary: #0891b2;
+            --accent-primary: #14b8a6;
+            --accent-secondary: #06b6d4;
             --accent-light: #ccfbf1;
-            --border: #a7e8df;
+            --border: #e2e8f0;
+            --dark: #0d1b2a;
         }
 
         * {
@@ -70,7 +72,7 @@
         .hero h1 {
             font-size: 3rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #0d9488, #0891b2);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -220,7 +222,8 @@
 
         /* IDSTB Banner */
         .idstb-banner {
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+            border: 2px solid #14b8a6;
             border-radius: 16px;
             padding: 2rem;
             text-align: center;
@@ -228,13 +231,13 @@
         }
 
         .idstb-banner h3 {
-            color: white;
+            color: #0f766e;
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
         }
 
         .idstb-banner p {
-            color: #94a3b8;
+            color: #475569;
             font-size: 0.9rem;
             margin-bottom: 1rem;
         }
@@ -244,8 +247,8 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.6rem 1.25rem;
-            background: white;
-            color: #1e293b;
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+            color: white;
             text-decoration: none;
             border-radius: 8px;
             font-weight: 600;
@@ -255,6 +258,7 @@
 
         .idstb-banner a:hover {
             transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(20, 184, 166, 0.4);
         }
 
         /* Footer */
@@ -297,7 +301,7 @@
 </head>
 <body>
     <!-- Top Navigation Bar -->
-    <nav style="background: linear-gradient(135deg, #0d9488, #0891b2); padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+    <nav style="background: linear-gradient(135deg, #14b8a6, #06b6d4); padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
         <a href="index.html" style="color: white; text-decoration: none; font-weight: 600; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem;">
             <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 32px; width: 32px; border-radius: 6px;">
             NgobrolQA
@@ -306,7 +310,7 @@
             <a href="index.html" style="color: white; text-decoration: none; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid white;">Home</a>
             <a href="QA_Skill_Acquisition_Framework.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Framework</a>
             <a href="QA_Learning_Plan.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Learning Plan</a>
-            <a href="QA_Self_Assessment.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">🎯 Assessment</a>
+            <a href="QA_Self_Assessment.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Assessment</a>
         </div>
     </nav>
 
@@ -397,19 +401,19 @@
         </section>
 
         <!-- Footer -->
-        <footer class="footer" style="background: #0f172a; padding: 3rem 2rem; margin-top: 3rem; border-radius: 24px 24px 0 0;">
+        <footer class="footer" style="background: linear-gradient(135deg, #14b8a6, #06b6d4); padding: 3rem 2rem; margin-top: 3rem; border-radius: 24px 24px 0 0;">
             <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-                <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 64px; width: 64px; border-radius: 12px;">
+                <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 64px; width: 64px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
                 <h3 style="color: white; font-size: 1.3rem; margin: 0;">NgobrolQA</h3>
-                <p style="color: #94a3b8; max-width: 400px; text-align: center; margin: 0;">Platform untuk berbagi dan belajar tentang Quality Assurance bersama komunitas QA Indonesia.</p>
+                <p style="color: rgba(255,255,255,0.9); max-width: 400px; text-align: center; margin: 0;">Platform untuk berbagi dan belajar tentang Quality Assurance bersama komunitas QA Indonesia.</p>
                 <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
-                    <a href="https://open.spotify.com/show/5DHNc6eIO1XjsJKkyAlIAT" target="_blank" style="color: #1DB954; font-size: 1.5rem;" title="Spotify">🎧</a>
-                    <a href="https://linkedin.com/in/adityabahari" target="_blank" style="color: #0A66C2; font-size: 1.5rem;" title="LinkedIn">💼</a>
-                    <a href="https://idstb.org" target="_blank" style="color: #0d9488; font-size: 1.5rem;" title="IDSTB">🌐</a>
+                    <a href="https://open.spotify.com/show/5DHNc6eIO1XjsJKkyAlIAT" target="_blank" style="color: white; font-size: 1.5rem; opacity: 0.9;" title="Spotify">🎧</a>
+                    <a href="https://linkedin.com/in/adityabahari" target="_blank" style="color: white; font-size: 1.5rem; opacity: 0.9;" title="LinkedIn">💼</a>
+                    <a href="https://idstb.org" target="_blank" style="color: white; font-size: 1.5rem; opacity: 0.9;" title="IDSTB">🌐</a>
                 </div>
-                <hr style="width: 100%; max-width: 300px; border: none; border-top: 1px solid #334155; margin: 1rem 0;">
-                <p style="color: #64748b; font-size: 0.85rem; margin: 0;">© 2026 <a href="https://linkedin.com/in/adityabahari" style="color: #0d9488;">Aditya Mirza Bahari</a>. All Rights Reserved.</p>
-                <p style="color: #475569; font-size: 0.75rem; margin: 0;">President of IDSTB | Made with ❤️ for QA Indonesia</p>
+                <hr style="width: 100%; max-width: 300px; border: none; border-top: 1px solid rgba(255,255,255,0.3); margin: 1rem 0;">
+                <p style="color: rgba(255,255,255,0.9); font-size: 0.85rem; margin: 0;">© 2026 <a href="https://linkedin.com/in/adityabahari" style="color: white; text-decoration: underline;">Aditya Mirza Bahari</a>. All Rights Reserved.</p>
+                <p style="color: rgba(255,255,255,0.75); font-size: 0.75rem; margin: 0;">President of IDSTB | Made with ❤️ for QA Indonesia</p>
             </div>
         </footer>
     </div>

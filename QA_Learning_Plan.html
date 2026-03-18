@@ -13,14 +13,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #e6f7f5;
-            --bg-card: #f8fffe;
-            --bg-hover: #d5f0ed;
-            --text-primary: #0f172a;
+            /* NgobrolQA Brand Colors */
+            --bg-dark: #ffffff;
+            --bg-card: #ffffff;
+            --bg-hover: #f0fdfa;
+            --text-primary: #1e293b;
             --text-secondary: #475569;
             --text-muted: #64748b;
-            --accent-primary: #0d9488;
-            --accent-secondary: #0891b2;
+            --accent-primary: #14b8a6;
+            --accent-secondary: #06b6d4;
+            --dark: #0d1b2a;
             --accent-green: #059669;
             --accent-orange: #d97706;
             --accent-purple: #7c3aed;
@@ -66,7 +68,7 @@
         .header h1 {
             font-size: 2.2rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #0d9488, #0891b2);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -166,7 +168,7 @@
         }
 
         .category-filter.active {
-            background: linear-gradient(135deg, #0d9488, #0891b2);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             color: white;
             border-color: transparent;
         }
@@ -423,7 +425,7 @@
 
         /* Cost Summary */
         .cost-summary {
-            background: linear-gradient(135deg, #0d9488, #0891b2);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             border-radius: 16px;
             padding: 1.5rem;
             margin-top: 2rem;
@@ -506,7 +508,7 @@
 </head>
 <body>
     <!-- Top Navigation Bar -->
-    <nav style="background: linear-gradient(135deg, #0d9488, #0891b2); padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+    <nav style="background: linear-gradient(135deg, #14b8a6, #06b6d4); padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
         <a href="index.html" style="color: white; text-decoration: none; font-weight: 600; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem;">
             <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 32px; width: 32px; border-radius: 6px;">
             NgobrolQA
@@ -515,7 +517,7 @@
             <a href="index.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Home</a>
             <a href="QA_Skill_Acquisition_Framework.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Framework</a>
             <a href="QA_Learning_Plan.html" style="color: white; text-decoration: none; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid white;">Learning Plan</a>
-            <a href="QA_Self_Assessment.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">🎯 Assessment</a>
+            <a href="QA_Self_Assessment.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Assessment</a>
         </div>
     </nav>
 
@@ -1518,12 +1520,12 @@
             </div>
         </div>
 
-        <footer class="footer" style="background: #0f172a; padding: 2.5rem 2rem; margin-top: 3rem; border-radius: 24px 24px 0 0; color: white;">
+        <footer class="footer" style="background: linear-gradient(135deg, #14b8a6, #06b6d4); padding: 2.5rem 2rem; margin-top: 3rem; border-radius: 24px 24px 0 0; color: white;">
             <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-                <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 48px; width: 48px; border-radius: 10px;">
-                <p style="color: #94a3b8; margin: 0;">QA Learning Plan • Companion to <a href="QA_Skill_Acquisition_Framework.html" style="color: #0d9488;">QA Skill Acquisition Framework</a></p>
-                <hr style="width: 100%; max-width: 300px; border: none; border-top: 1px solid #334155; margin: 0.5rem 0;">
-                <p style="color: #64748b; font-size: 0.85rem; margin: 0;">© 2026 <a href="https://linkedin.com/in/adityabahari" style="color: #0d9488;">Aditya Mirza Bahari</a>. All Rights Reserved.</p>
+                <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 48px; width: 48px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                <p style="color: rgba(255,255,255,0.9); margin: 0;">QA Learning Plan • Companion to <a href="QA_Skill_Acquisition_Framework.html" style="color: white; text-decoration: underline;">QA Skill Acquisition Framework</a></p>
+                <hr style="width: 100%; max-width: 300px; border: none; border-top: 1px solid rgba(255,255,255,0.3); margin: 0.5rem 0;">
+                <p style="color: rgba(255,255,255,0.9); font-size: 0.85rem; margin: 0;">© 2026 <a href="https://linkedin.com/in/adityabahari" style="color: white; text-decoration: underline;">Aditya Mirza Bahari</a>. All Rights Reserved.</p>
             </div>
         </footer>
     </div>

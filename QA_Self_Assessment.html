@@ -15,14 +15,15 @@
     
     <style>
         :root {
-            --primary: #0d9488;
+            /* NgobrolQA Brand Colors */
+            --primary: #14b8a6;
             --primary-dark: #0f766e;
             --primary-light: #ccfbf1;
-            --secondary: #6366f1;
+            --secondary: #06b6d4;
             --accent: #f59e0b;
-            --bg: #f0fdfa;
-            --bg-dark: #0f172a;
-            --text: #0f172a;
+            --bg: #ffffff;
+            --bg-dark: #0d1b2a;
+            --text: #1e293b;
             --text-muted: #64748b;
             --white: #ffffff;
             --border: #e2e8f0;
@@ -49,7 +50,7 @@
 
         /* Navigation */
         nav {
-            background: linear-gradient(135deg, #0d9488, #0891b2);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
@@ -98,7 +99,7 @@
         .header h1 {
             font-size: 2.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #0d9488, #6366f1);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
@@ -134,7 +135,7 @@
 
         .progress-bar-fill {
             height: 100%;
-            background: linear-gradient(135deg, #0d9488, #6366f1);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             border-radius: 100px;
             transition: width 0.5s ease;
         }
@@ -295,7 +296,7 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #0d9488, #0891b2);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             color: white;
         }
 
@@ -324,7 +325,7 @@
         .results-header {
             text-align: center;
             padding: 2rem;
-            background: linear-gradient(135deg, #0d9488, #6366f1);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             border-radius: 20px;
             color: white;
             margin-bottom: 2rem;
@@ -424,7 +425,7 @@
         .overall-level .level-number {
             font-size: 5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #0d9488, #6366f1);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1;
@@ -670,11 +671,11 @@
         </div>
     </div>
 
-    <footer style="background: #0f172a; padding: 2rem; margin-top: 2rem; text-align: center;">
+    <footer style="background: linear-gradient(135deg, #14b8a6, #06b6d4); padding: 2rem; margin-top: 2rem; text-align: center; border-radius: 24px 24px 0 0;">
         <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
-            <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 40px; width: 40px; border-radius: 8px;">
-            <p style="color: #94a3b8; margin: 0; font-size: 0.85rem;">Based on Dreyfus Model of Skill Acquisition</p>
-            <p style="color: #64748b; font-size: 0.8rem; margin: 0;">© 2026 <a href="https://linkedin.com/in/adityabahari" style="color: #0d9488;">Aditya Mirza Bahari</a>. All Rights Reserved.</p>
+            <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 40px; width: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+            <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 0.85rem;">Based on Dreyfus Model of Skill Acquisition</p>
+            <p style="color: rgba(255,255,255,0.9); font-size: 0.8rem; margin: 0;">© 2026 <a href="https://linkedin.com/in/adityabahari" style="color: white; text-decoration: underline;">Aditya Mirza Bahari</a>. All Rights Reserved.</p>
         </div>
     </footer>
 
@@ -1634,7 +1635,7 @@
 
         // Bucket mapping
         const buckets = [
-            { name: "Functional Excellence", icon: "🔬", color: "#0d9488" },
+            { name: "Functional Excellence", icon: "🔬", color: "#14b8a6" },
             { name: "Problem Solving", icon: "🧩", color: "#6366f1" },
             { name: "Impact & Ownership", icon: "🎯", color: "#f59e0b" },
             { name: "Communication", icon: "💬", color: "#ec4899" },
@@ -1926,9 +1927,9 @@
                         label: 'Your Level',
                         data: buckets.map(b => results[b.name] || 1),
                         backgroundColor: 'rgba(13, 148, 136, 0.2)',
-                        borderColor: '#0d9488',
+                        borderColor: '#14b8a6',
                         borderWidth: 3,
-                        pointBackgroundColor: '#0d9488',
+                        pointBackgroundColor: '#14b8a6',
                         pointBorderColor: '#fff',
                         pointBorderWidth: 2,
                         pointRadius: 6

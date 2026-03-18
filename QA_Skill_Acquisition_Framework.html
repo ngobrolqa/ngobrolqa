@@ -28,15 +28,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Fresh Teal Theme - Slightly Darker */
-            --bg-dark: #e6f7f5;
-            --bg-card: #f8fffe;
-            --bg-hover: #d5f0ed;
-            --text-primary: #0f172a;
+            /* NgobrolQA Brand Colors */
+            --bg-dark: #ffffff;
+            --bg-card: #ffffff;
+            --bg-hover: #f0fdfa;
+            --text-primary: #1e293b;
             --text-secondary: #475569;
             --text-muted: #64748b;
-            --accent-blue: #0d9488;
-            --accent-purple: #0891b2;
+            --accent-blue: #14b8a6;
+            --accent-purple: #06b6d4;
+            --dark: #0d1b2a;
             --accent-green: #059669;
             --accent-orange: #d97706;
             --accent-red: #dc2626;
@@ -83,7 +84,7 @@
         .header h1 {
             font-size: 2.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #0d9488, #0891b2);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -149,12 +150,12 @@
             padding: 0.5rem 1rem;
             border-radius: 8px;
             font-size: 0.8rem;
-            color: #0d9488;
+            color: #14b8a6;
             transition: all 0.2s;
         }
 
         .dreyfus-info.expanded .info-toggle {
-            background: #0d9488;
+            background: #14b8a6;
             color: white;
         }
 
@@ -180,7 +181,7 @@
 
         .info-section h3 {
             font-size: 0.95rem;
-            color: #0d9488;
+            color: #14b8a6;
             margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
@@ -318,7 +319,7 @@
         }
 
         .bucket:hover {
-            border-color: #0d9488;
+            border-color: #14b8a6;
             box-shadow: 0 8px 30px rgba(13, 148, 136, 0.12);
             transform: translateY(-2px);
         }
@@ -346,8 +347,8 @@
             font-size: 1.5rem;
         }
 
-        .bucket:nth-child(1) .bucket-icon { background: linear-gradient(135deg, #14b8a6, #0d9488); }
-        .bucket:nth-child(2) .bucket-icon { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .bucket:nth-child(1) .bucket-icon { background: linear-gradient(135deg, #14b8a6, #14b8a6); }
+        .bucket:nth-child(2) .bucket-icon { background: linear-gradient(135deg, #06b6d4, #06b6d4); }
         .bucket:nth-child(3) .bucket-icon { background: linear-gradient(135deg, #10b981, #059669); }
         .bucket:nth-child(4) .bucket-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
         .bucket:nth-child(5) .bucket-icon { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
@@ -377,7 +378,7 @@
             align-items: center;
             justify-content: center;
             transition: transform 0.3s;
-            color: #0d9488;
+            color: #14b8a6;
         }
 
         .bucket.expanded .bucket-toggle {
@@ -429,13 +430,13 @@
 
         .sub-comp-header h3::before {
             content: '◆';
-            color: #0d9488;
+            color: #14b8a6;
             font-size: 0.6rem;
         }
 
         .expand-btn {
             font-size: 0.75rem;
-            color: #0d9488;
+            color: #14b8a6;
             background: #b8ebe4;
             padding: 0.35rem 0.75rem;
             border-radius: 6px;
@@ -443,7 +444,7 @@
         }
 
         .sub-comp.expanded .expand-btn {
-            background: #0d9488;
+            background: #14b8a6;
             color: white;
         }
 
@@ -562,7 +563,7 @@
             padding: 1rem 1.5rem;
             background: white;
             border-radius: 12px;
-            border: 2px solid #0d9488;
+            border: 2px solid #14b8a6;
             min-width: 140px;
         }
 
@@ -581,13 +582,13 @@
         .pathway-step-text {
             font-size: 0.85rem;
             font-weight: 600;
-            color: #0d9488;
+            color: #14b8a6;
             text-align: center;
         }
 
         .pathway-arrow {
             font-size: 1.5rem;
-            color: #0d9488;
+            color: #14b8a6;
         }
 
         @media (max-width: 768px) {
@@ -621,7 +622,7 @@
         }
 
         .persona-card:hover {
-            border-color: #0d9488;
+            border-color: #14b8a6;
             box-shadow: 0 8px 25px rgba(13, 148, 136, 0.12);
             transform: translateY(-2px);
         }
@@ -672,7 +673,7 @@
             font-size: 0.75rem;
             padding: 0.4rem 0.8rem;
             background: #b8ebe4;
-            color: #0d9488;
+            color: #14b8a6;
             border-radius: 6px;
             transition: all 0.2s;
             flex-shrink: 0;
@@ -680,7 +681,7 @@
         }
 
         .persona-card.expanded .persona-expand-btn {
-            background: #0d9488;
+            background: #14b8a6;
             color: white;
         }
 
@@ -708,7 +709,7 @@
 
         .journey-section h4 {
             font-size: 0.85rem;
-            color: #0d9488;
+            color: #14b8a6;
             margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
@@ -754,10 +755,10 @@
             display: inline-block;
             padding: 0.2rem 0.5rem;
             background: #ffffff;
-            border: 1px solid #0d9488;
+            border: 1px solid #14b8a6;
             border-radius: 4px;
             font-size: 0.7rem;
-            color: #0d9488;
+            color: #14b8a6;
             margin-right: 0.35rem;
             margin-bottom: 0.35rem;
         }
@@ -767,7 +768,7 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.6rem 1rem;
-            background: linear-gradient(135deg, #0d9488, #0891b2);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             color: white;
             border-radius: 8px;
             font-size: 0.8rem;
@@ -880,7 +881,7 @@
         }
 
         .filter-tab.active {
-            background: linear-gradient(135deg, #0d9488, #0891b2);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             color: white;
             border-color: transparent;
         }
@@ -927,7 +928,7 @@
             width: 36px;
             height: 36px;
             border-radius: 10px;
-            background: linear-gradient(135deg, #0d9488, #0891b2);
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -975,7 +976,7 @@
 </head>
 <body>
     <!-- Top Navigation Bar -->
-    <nav style="background: linear-gradient(135deg, #0d9488, #0891b2); padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+    <nav style="background: linear-gradient(135deg, #14b8a6, #06b6d4); padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
         <a href="index.html" style="color: white; text-decoration: none; font-weight: 600; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem;">
             <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 32px; width: 32px; border-radius: 6px;">
             NgobrolQA
@@ -984,7 +985,7 @@
             <a href="index.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Home</a>
             <a href="QA_Skill_Acquisition_Framework.html" style="color: white; text-decoration: none; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid white;">Framework</a>
             <a href="QA_Learning_Plan.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Learning Plan</a>
-            <a href="QA_Self_Assessment.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">🎯 Assessment</a>
+            <a href="QA_Self_Assessment.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Assessment</a>
         </div>
     </nav>
 
@@ -993,7 +994,7 @@
             <h1>🎯 QA Skill Acquisition Framework</h1>
             <p>Based on the Dreyfus Model of Skill Acquisition</p>
             <div class="subtitle">Find your path, discover your level, and plan your growth journey</div>
-            <a href="QA_Learning_Plan.html" style="display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.6rem 1.2rem; background: linear-gradient(135deg, #0d9488, #0891b2); color: white; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: 500; transition: all 0.2s;">📚 View Learning Plan & Courses →</a>
+            <a href="QA_Learning_Plan.html" style="display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; padding: 0.6rem 1.2rem; background: linear-gradient(135deg, #14b8a6, #06b6d4); color: white; text-decoration: none; border-radius: 8px; font-size: 0.85rem; font-weight: 500; transition: all 0.2s;">📚 View Learning Plan & Courses →</a>
         </header>
 
         <!-- Find Your Path Section - FIRST for immediate engagement -->
@@ -2839,13 +2840,13 @@
             </div>
         </div>
 
-        <footer class="footer" style="background: #0f172a; padding: 2.5rem 2rem; margin-top: 3rem; border-radius: 24px 24px 0 0; color: white;">
+        <footer class="footer" style="background: linear-gradient(135deg, #14b8a6, #06b6d4); padding: 2.5rem 2rem; margin-top: 3rem; border-radius: 24px 24px 0 0; color: white;">
             <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-                <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 48px; width: 48px; border-radius: 10px;">
-                <p style="color: #94a3b8; margin: 0;">QA Skill Acquisition Framework • Based on Dreyfus Model</p>
-                <hr style="width: 100%; max-width: 300px; border: none; border-top: 1px solid #334155; margin: 0.5rem 0;">
-                <p style="color: #64748b; font-size: 0.85rem; margin: 0;">© 2026 <a href="https://linkedin.com/in/adityabahari" style="color: #0d9488;">Aditya Mirza Bahari</a>. All Rights Reserved.</p>
-                <p style="color: #475569; font-size: 0.7rem; margin: 0; max-width: 400px; text-align: center;">This framework is proprietary. Unauthorized reproduction or distribution is prohibited.</p>
+                <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 48px; width: 48px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                <p style="color: rgba(255,255,255,0.9); margin: 0;">QA Skill Acquisition Framework • Based on Dreyfus Model</p>
+                <hr style="width: 100%; max-width: 300px; border: none; border-top: 1px solid rgba(255,255,255,0.3); margin: 0.5rem 0;">
+                <p style="color: rgba(255,255,255,0.9); font-size: 0.85rem; margin: 0;">© 2026 <a href="https://linkedin.com/in/adityabahari" style="color: white; text-decoration: underline;">Aditya Mirza Bahari</a>. All Rights Reserved.</p>
+                <p style="color: rgba(255,255,255,0.75); font-size: 0.7rem; margin: 0; max-width: 400px; text-align: center;">This framework is proprietary. Unauthorized reproduction or distribution is prohibited.</p>
             </div>
         </footer>
     </div>
