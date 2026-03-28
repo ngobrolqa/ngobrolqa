@@ -582,6 +582,7 @@
         // Language state
         let currentLang = localStorage.getItem('assessmentLangV2') || 'en';
         let userData = { name: '', email: '', org: '' };
+        let questionVariations = []; // Stores which variation (0, 1, or 2) to use for each question
 
         // Validate form and start assessment
         function validateAndStart() {
@@ -709,13 +710,16 @@
             }
         };
 
-        // Questions - English
+        // Questions - English (with 3 variations each)
         const questionsEN = [
             // DIMENSION 1: Testing Fundamentals (5 questions)
             {
                 dimension: "Testing Fundamentals", dimensionID: "Dasar-Dasar Testing", dimensionIcon: "🎯",
-                text: "When given a new feature to test, how do you approach creating test cases?",
-                context: "This assesses your test design capability.",
+                variations: [
+                    { text: "When given a new feature to test, how do you approach creating test cases?", context: "This assesses your test design capability." },
+                    { text: "How do you design tests for a feature you've never tested before?", context: "Evaluating your test design skills." },
+                    { text: "What's your process for turning requirements into test cases?", context: "Understanding your test design approach." }
+                ],
                 options: [
                     { score: 0, text: "I wait for someone to give me test cases to execute" },
                     { score: 1, text: "I can write basic test cases by following examples" },
@@ -726,8 +730,11 @@
             },
             {
                 dimension: "Testing Fundamentals", dimensionID: "Dasar-Dasar Testing", dimensionIcon: "🎯",
-                text: "How do you write and handle bug reports?",
-                context: "This assesses your defect management skills.",
+                variations: [
+                    { text: "How do you write and handle bug reports?", context: "This assesses your defect management skills." },
+                    { text: "When you find a bug, how do you report it?", context: "Evaluating your defect reporting quality." },
+                    { text: "Describe how you document defects you discover.", context: "Understanding your bug reporting approach." }
+                ],
                 options: [
                     { score: 0, text: "I describe what went wrong in basic terms" },
                     { score: 1, text: "I write clear steps to reproduce with screenshots" },
@@ -738,8 +745,11 @@
             },
             {
                 dimension: "Testing Fundamentals", dimensionID: "Dasar-Dasar Testing", dimensionIcon: "🎯",
-                text: "How well do you understand requirements before testing?",
-                context: "This assesses your test analysis skills.",
+                variations: [
+                    { text: "How well do you understand requirements before testing?", context: "This assesses your test analysis skills." },
+                    { text: "What do you do when you receive new requirements to test?", context: "Evaluating your requirement analysis." },
+                    { text: "How do you prepare yourself before starting to test a feature?", context: "Understanding your pre-testing analysis." }
+                ],
                 options: [
                     { score: 0, text: "I test based on what I see in the UI" },
                     { score: 1, text: "I read requirements and identify what to test" },
@@ -750,8 +760,11 @@
             },
             {
                 dimension: "Testing Fundamentals", dimensionID: "Dasar-Dasar Testing", dimensionIcon: "🎯",
-                text: "When verifying a bug fix, what do you do?",
-                context: "This assesses your execution thoroughness.",
+                variations: [
+                    { text: "When verifying a bug fix, what do you do?", context: "This assesses your execution thoroughness." },
+                    { text: "A developer says a bug is fixed. What's your verification process?", context: "Evaluating your fix verification approach." },
+                    { text: "How thorough are you when confirming a defect has been resolved?", context: "Understanding your regression testing habits." }
+                ],
                 options: [
                     { score: 0, text: "I check if the specific bug is fixed" },
                     { score: 1, text: "I verify the fix and check a few related areas" },
@@ -762,8 +775,11 @@
             },
             {
                 dimension: "Testing Fundamentals", dimensionID: "Dasar-Dasar Testing", dimensionIcon: "🎯",
-                text: "How do you estimate testing effort for a new project?",
-                context: "This assesses your planning capability.",
+                variations: [
+                    { text: "How do you estimate testing effort for a new project?", context: "This assesses your planning capability." },
+                    { text: "When asked 'How long will testing take?', how do you answer?", context: "Evaluating your estimation skills." },
+                    { text: "How do you plan and schedule your testing activities?", context: "Understanding your test planning approach." }
+                ],
                 options: [
                     { score: 0, text: "I don't estimate - I test until it's done" },
                     { score: 1, text: "I give rough guesses based on gut feeling" },
@@ -775,8 +791,11 @@
             // DIMENSION 2: Technical Depth (5 questions)
             {
                 dimension: "Technical Depth", dimensionID: "Kedalaman Teknis", dimensionIcon: "⚙️",
-                text: "What is your test automation capability?",
-                context: "This assesses your automation skills.",
+                variations: [
+                    { text: "What is your test automation capability?", context: "This assesses your automation skills." },
+                    { text: "How involved are you with automated testing?", context: "Evaluating your automation expertise." },
+                    { text: "Describe your experience with test automation tools and frameworks.", context: "Understanding your automation depth." }
+                ],
                 options: [
                     { score: 0, text: "I don't write automated tests" },
                     { score: 1, text: "I can run existing automated tests and read results" },
@@ -787,8 +806,11 @@
             },
             {
                 dimension: "Technical Depth", dimensionID: "Kedalaman Teknis", dimensionIcon: "⚙️",
-                text: "How do you handle API testing?",
-                context: "This assesses your API testing skills.",
+                variations: [
+                    { text: "How do you handle API testing?", context: "This assesses your API testing skills." },
+                    { text: "What's your approach to testing backend services and APIs?", context: "Evaluating your API testing capability." },
+                    { text: "How comfortable are you testing at the API level?", context: "Understanding your API testing experience." }
+                ],
                 options: [
                     { score: 0, text: "I don't test APIs directly" },
                     { score: 1, text: "I can use Postman to send basic requests" },
@@ -799,8 +821,11 @@
             },
             {
                 dimension: "Technical Depth", dimensionID: "Kedalaman Teknis", dimensionIcon: "⚙️",
-                text: "How do you use AI to assist your testing work?",
-                context: "This assesses your AI-assisted testing skills (CT-GenAI aligned).",
+                variations: [
+                    { text: "How do you use AI to assist your testing work?", context: "This assesses your AI-assisted testing skills (CT-GenAI aligned)." },
+                    { text: "In what ways do you leverage AI tools like ChatGPT in your QA work?", context: "Evaluating your AI tool adoption." },
+                    { text: "How has AI changed the way you approach testing tasks?", context: "Understanding your AI integration level." }
+                ],
                 options: [
                     { score: 0, text: "I don't use AI tools for testing" },
                     { score: 1, text: "I use AI to explain concepts and answer questions" },
@@ -811,8 +836,11 @@
             },
             {
                 dimension: "Technical Depth", dimensionID: "Kedalaman Teknis", dimensionIcon: "⚙️",
-                text: "How do you test AI-powered features in products?",
-                context: "This assesses your AI system testing skills (CT-AI aligned).",
+                variations: [
+                    { text: "How do you test AI-powered features in products?", context: "This assesses your AI system testing skills (CT-AI aligned)." },
+                    { text: "When testing a feature that uses AI/ML, what's different about your approach?", context: "Evaluating your AI product testing skills." },
+                    { text: "How do you quality-assure products that incorporate AI components?", context: "Understanding your AI testing methodology." }
+                ],
                 options: [
                     { score: 0, text: "I test AI features the same as regular features" },
                     { score: 1, text: "I understand AI systems need different testing approaches" },
@@ -823,8 +851,11 @@
             },
             {
                 dimension: "Technical Depth", dimensionID: "Kedalaman Teknis", dimensionIcon: "⚙️",
-                text: "What is your performance testing capability?",
-                context: "This assesses your performance testing skills.",
+                variations: [
+                    { text: "What is your performance testing capability?", context: "This assesses your performance testing skills." },
+                    { text: "How do you approach testing application speed and scalability?", context: "Evaluating your performance testing expertise." },
+                    { text: "Describe your experience with load testing and performance analysis.", context: "Understanding your performance testing depth." }
+                ],
                 options: [
                     { score: 0, text: "I notice when things are slow but don't measure it" },
                     { score: 1, text: "I can use browser devtools to check page load times" },
@@ -836,8 +867,11 @@
             // DIMENSION 3: Quality Thinking (5 questions)
             {
                 dimension: "Quality Thinking", dimensionID: "Pemikiran Kualitas", dimensionIcon: "🧠",
-                text: "How do you identify and handle risks in testing?",
-                context: "This assesses your risk-based thinking.",
+                variations: [
+                    { text: "How do you identify and handle risks in testing?", context: "This assesses your risk-based thinking." },
+                    { text: "How do you decide what to test more thoroughly vs. what to test lightly?", context: "Evaluating your risk prioritization." },
+                    { text: "When time is limited, how do you prioritize your testing efforts?", context: "Understanding your risk-based approach." }
+                ],
                 options: [
                     { score: 0, text: "I test everything equally - I don't prioritize by risk" },
                     { score: 1, text: "I can identify obvious risks when pointed out" },
@@ -848,8 +882,11 @@
             },
             {
                 dimension: "Quality Thinking", dimensionID: "Pemikiran Kualitas", dimensionIcon: "🧠",
-                text: "When investigating a bug, how deep do you go?",
-                context: "This assesses your root cause analysis skills.",
+                variations: [
+                    { text: "When investigating a bug, how deep do you go?", context: "This assesses your root cause analysis skills." },
+                    { text: "After finding a bug, what do you do beyond just reporting it?", context: "Evaluating your investigation depth." },
+                    { text: "How do you approach understanding why a bug happened, not just what happened?", context: "Understanding your root cause analysis." }
+                ],
                 options: [
                     { score: 0, text: "I report what's broken and move on" },
                     { score: 1, text: "I try to narrow down where the bug originates" },
@@ -860,8 +897,11 @@
             },
             {
                 dimension: "Quality Thinking", dimensionID: "Pemikiran Kualitas", dimensionIcon: "🧠",
-                text: "How proactive are you about preventing bugs?",
-                context: "This assesses your prevention mindset.",
+                variations: [
+                    { text: "How proactive are you about preventing bugs?", context: "This assesses your prevention mindset." },
+                    { text: "Do you see your role as finding bugs or preventing them?", context: "Evaluating your prevention orientation." },
+                    { text: "How do you contribute to catching issues before they become bugs?", context: "Understanding your shift-left mindset." }
+                ],
                 options: [
                     { score: 0, text: "My job is to find bugs, not prevent them" },
                     { score: 1, text: "I suggest improvements when I see recurring issues" },
@@ -872,8 +912,11 @@
             },
             {
                 dimension: "Quality Thinking", dimensionID: "Pemikiran Kualitas", dimensionIcon: "🧠",
-                text: "How do you approach test strategy for a project?",
-                context: "This assesses your strategic thinking.",
+                variations: [
+                    { text: "How do you approach test strategy for a project?", context: "This assesses your strategic thinking." },
+                    { text: "When starting a new project, how do you plan the overall testing approach?", context: "Evaluating your strategic planning." },
+                    { text: "How do you decide what types of testing are needed for a project?", context: "Understanding your test strategy skills." }
+                ],
                 options: [
                     { score: 0, text: "I follow whatever strategy document exists" },
                     { score: 1, text: "I suggest test approaches for my assigned features" },
@@ -884,8 +927,11 @@
             },
             {
                 dimension: "Quality Thinking", dimensionID: "Pemikiran Kualitas", dimensionIcon: "🧠",
-                text: "How do you use metrics and data in your work?",
-                context: "This assesses your data-driven approach.",
+                variations: [
+                    { text: "How do you use metrics and data in your work?", context: "This assesses your data-driven approach." },
+                    { text: "What numbers do you track to measure testing effectiveness?", context: "Evaluating your metrics usage." },
+                    { text: "How do you demonstrate the value of testing using data?", context: "Understanding your analytical approach." }
+                ],
                 options: [
                     { score: 0, text: "I report basic numbers (tests run, bugs found)" },
                     { score: 1, text: "I track and visualize test progress" },
@@ -897,8 +943,11 @@
             // DIMENSION 4: Influence & Impact (5 questions)
             {
                 dimension: "Influence & Impact", dimensionID: "Pengaruh & Dampak", dimensionIcon: "💬",
-                text: "How do you collaborate with developers and PM?",
-                context: "This assesses your collaboration skills.",
+                variations: [
+                    { text: "How do you collaborate with developers and PM?", context: "This assesses your collaboration skills." },
+                    { text: "Describe your working relationship with the development team.", context: "Evaluating your cross-functional collaboration." },
+                    { text: "How do you work together with other roles to ensure quality?", context: "Understanding your teamwork approach." }
+                ],
                 options: [
                     { score: 0, text: "I report bugs and wait for them to be fixed" },
                     { score: 1, text: "I can explain testing approach and work together on issues" },
@@ -909,8 +958,11 @@
             },
             {
                 dimension: "Influence & Impact", dimensionID: "Pengaruh & Dampak", dimensionIcon: "💬",
-                text: "How do you communicate quality status to stakeholders?",
-                context: "This assesses your communication skills.",
+                variations: [
+                    { text: "How do you communicate quality status to stakeholders?", context: "This assesses your communication skills." },
+                    { text: "How do you keep others informed about testing progress and issues?", context: "Evaluating your stakeholder communication." },
+                    { text: "How do you report on quality to people outside your team?", context: "Understanding your communication reach." }
+                ],
                 options: [
                     { score: 0, text: "I give updates when asked" },
                     { score: 1, text: "I provide clear status in team stand-ups" },
@@ -921,8 +973,11 @@
             },
             {
                 dimension: "Influence & Impact", dimensionID: "Pengaruh & Dampak", dimensionIcon: "💬",
-                text: "How much ownership do you take for quality outcomes?",
-                context: "This assesses your ownership mindset.",
+                variations: [
+                    { text: "How much ownership do you take for quality outcomes?", context: "This assesses your ownership mindset." },
+                    { text: "When a bug reaches production, how do you feel about it?", context: "Evaluating your accountability level." },
+                    { text: "How responsible do you feel for the overall quality of the product?", context: "Understanding your ownership scope." }
+                ],
                 options: [
                     { score: 0, text: "I complete the tasks assigned to me" },
                     { score: 1, text: "I own testing for my assigned features" },
@@ -933,8 +988,11 @@
             },
             {
                 dimension: "Influence & Impact", dimensionID: "Pengaruh & Dampak", dimensionIcon: "💬",
-                text: "How do you help others grow in QA?",
-                context: "This assesses your leadership and mentoring.",
+                variations: [
+                    { text: "How do you help others grow in QA?", context: "This assesses your leadership and mentoring." },
+                    { text: "What role do you play in developing other QA team members?", context: "Evaluating your mentoring impact." },
+                    { text: "How do you contribute to the growth of QA capabilities around you?", context: "Understanding your leadership scope." }
+                ],
                 options: [
                     { score: 0, text: "I'm still learning myself" },
                     { score: 1, text: "I help teammates with basic questions" },
@@ -945,8 +1003,11 @@
             },
             {
                 dimension: "Influence & Impact", dimensionID: "Pengaruh & Dampak", dimensionIcon: "💬",
-                text: "How deep is your domain/product expertise?",
-                context: "This assesses your domain knowledge.",
+                variations: [
+                    { text: "How deep is your domain/product expertise?", context: "This assesses your domain knowledge." },
+                    { text: "How well do you understand the business and industry you're testing for?", context: "Evaluating your domain understanding." },
+                    { text: "Are you considered a go-to person for product/domain questions?", context: "Understanding your domain expertise level." }
+                ],
                 options: [
                     { score: 0, text: "I'm learning about the product I test" },
                     { score: 1, text: "I understand the business context of my features" },
@@ -957,13 +1018,16 @@
             }
         ];
 
-        // Questions - Indonesian
+        // Questions - Indonesian (with 3 variations each)
         const questionsID = [
             // DIMENSION 1: Dasar-Dasar Testing (5 questions)
             {
                 dimension: "Testing Fundamentals", dimensionID: "Dasar-Dasar Testing", dimensionIcon: "🎯",
-                text: "Saat diberi fitur baru untuk ditest, bagaimana pendekatanmu membuat test case?",
-                context: "Ini menilai kemampuan test design-mu.",
+                variations: [
+                    { text: "Saat diberi fitur baru untuk ditest, bagaimana pendekatanmu membuat test case?", context: "Ini menilai kemampuan test design-mu." },
+                    { text: "Bagaimana kamu mendesain test untuk fitur yang belum pernah kamu test sebelumnya?", context: "Mengevaluasi skill test design-mu." },
+                    { text: "Apa prosesmu dalam mengubah requirement menjadi test case?", context: "Memahami pendekatan test design-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku menunggu seseorang memberi test case untuk dijalankan" },
                     { score: 1, text: "Aku bisa menulis test case dasar dengan mengikuti contoh" },
@@ -974,8 +1038,11 @@
             },
             {
                 dimension: "Testing Fundamentals", dimensionID: "Dasar-Dasar Testing", dimensionIcon: "🎯",
-                text: "Bagaimana kamu menulis dan menangani bug report?",
-                context: "Ini menilai kemampuan defect management-mu.",
+                variations: [
+                    { text: "Bagaimana kamu menulis dan menangani bug report?", context: "Ini menilai kemampuan defect management-mu." },
+                    { text: "Saat menemukan bug, bagaimana kamu melaporkannya?", context: "Mengevaluasi kualitas defect reporting-mu." },
+                    { text: "Jelaskan bagaimana kamu mendokumentasikan defect yang kamu temukan.", context: "Memahami pendekatan bug reporting-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku mendeskripsikan apa yang salah dalam istilah dasar" },
                     { score: 1, text: "Aku menulis langkah reproduksi yang jelas dengan screenshot" },
@@ -986,8 +1053,11 @@
             },
             {
                 dimension: "Testing Fundamentals", dimensionID: "Dasar-Dasar Testing", dimensionIcon: "🎯",
-                text: "Seberapa baik kamu memahami requirement sebelum testing?",
-                context: "Ini menilai kemampuan test analysis-mu.",
+                variations: [
+                    { text: "Seberapa baik kamu memahami requirement sebelum testing?", context: "Ini menilai kemampuan test analysis-mu." },
+                    { text: "Apa yang kamu lakukan saat menerima requirement baru untuk ditest?", context: "Mengevaluasi analisis requirement-mu." },
+                    { text: "Bagaimana kamu mempersiapkan diri sebelum mulai testing sebuah fitur?", context: "Memahami analisis pre-testing-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku test berdasarkan apa yang terlihat di UI" },
                     { score: 1, text: "Aku membaca requirement dan mengidentifikasi apa yang harus ditest" },
@@ -998,8 +1068,11 @@
             },
             {
                 dimension: "Testing Fundamentals", dimensionID: "Dasar-Dasar Testing", dimensionIcon: "🎯",
-                text: "Saat memverifikasi bug fix, apa yang kamu lakukan?",
-                context: "Ini menilai ketelitian eksekusi-mu.",
+                variations: [
+                    { text: "Saat memverifikasi bug fix, apa yang kamu lakukan?", context: "Ini menilai ketelitian eksekusi-mu." },
+                    { text: "Developer bilang bug sudah fixed. Bagaimana proses verifikasimu?", context: "Mengevaluasi pendekatan fix verification-mu." },
+                    { text: "Seberapa teliti kamu dalam mengonfirmasi bahwa defect sudah resolved?", context: "Memahami kebiasaan regression testing-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku cek apakah bug spesifik tersebut sudah fixed" },
                     { score: 1, text: "Aku verifikasi fix dan cek beberapa area terkait" },
@@ -1010,8 +1083,11 @@
             },
             {
                 dimension: "Testing Fundamentals", dimensionID: "Dasar-Dasar Testing", dimensionIcon: "🎯",
-                text: "Bagaimana kamu mengestimasi effort testing untuk project baru?",
-                context: "Ini menilai kemampuan planning-mu.",
+                variations: [
+                    { text: "Bagaimana kamu mengestimasi effort testing untuk project baru?", context: "Ini menilai kemampuan planning-mu." },
+                    { text: "Saat ditanya 'Berapa lama testing akan selesai?', bagaimana kamu menjawab?", context: "Mengevaluasi skill estimasi-mu." },
+                    { text: "Bagaimana kamu merencanakan dan menjadwalkan aktivitas testing-mu?", context: "Memahami pendekatan test planning-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku tidak estimasi - aku test sampai selesai" },
                     { score: 1, text: "Aku memberi perkiraan kasar berdasarkan feeling" },
@@ -1023,8 +1099,11 @@
             // DIMENSION 2: Kedalaman Teknis (5 questions)
             {
                 dimension: "Technical Depth", dimensionID: "Kedalaman Teknis", dimensionIcon: "⚙️",
-                text: "Apa kemampuan test automation-mu?",
-                context: "Ini menilai skill automation-mu.",
+                variations: [
+                    { text: "Apa kemampuan test automation-mu?", context: "Ini menilai skill automation-mu." },
+                    { text: "Seberapa terlibat kamu dengan automated testing?", context: "Mengevaluasi keahlian automation-mu." },
+                    { text: "Jelaskan pengalamanmu dengan tools dan framework test automation.", context: "Memahami kedalaman automation-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku tidak menulis automated test" },
                     { score: 1, text: "Aku bisa menjalankan automated test yang ada dan membaca hasilnya" },
@@ -1035,8 +1114,11 @@
             },
             {
                 dimension: "Technical Depth", dimensionID: "Kedalaman Teknis", dimensionIcon: "⚙️",
-                text: "Bagaimana kamu menangani API testing?",
-                context: "Ini menilai skill API testing-mu.",
+                variations: [
+                    { text: "Bagaimana kamu menangani API testing?", context: "Ini menilai skill API testing-mu." },
+                    { text: "Apa pendekatanmu untuk testing backend services dan API?", context: "Mengevaluasi kapabilitas API testing-mu." },
+                    { text: "Seberapa nyaman kamu testing di level API?", context: "Memahami pengalaman API testing-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku tidak test API secara langsung" },
                     { score: 1, text: "Aku bisa menggunakan Postman untuk mengirim request dasar" },
@@ -1047,8 +1129,11 @@
             },
             {
                 dimension: "Technical Depth", dimensionID: "Kedalaman Teknis", dimensionIcon: "⚙️",
-                text: "Bagaimana kamu menggunakan AI untuk membantu pekerjaan testing?",
-                context: "Ini menilai skill AI-assisted testing-mu (selaras CT-GenAI).",
+                variations: [
+                    { text: "Bagaimana kamu menggunakan AI untuk membantu pekerjaan testing?", context: "Ini menilai skill AI-assisted testing-mu (selaras CT-GenAI)." },
+                    { text: "Dengan cara apa kamu memanfaatkan tools AI seperti ChatGPT dalam pekerjaan QA?", context: "Mengevaluasi adopsi AI tools-mu." },
+                    { text: "Bagaimana AI mengubah cara kamu mengerjakan tugas testing?", context: "Memahami level integrasi AI-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku tidak menggunakan tools AI untuk testing" },
                     { score: 1, text: "Aku menggunakan AI untuk menjelaskan konsep dan menjawab pertanyaan" },
@@ -1059,8 +1144,11 @@
             },
             {
                 dimension: "Technical Depth", dimensionID: "Kedalaman Teknis", dimensionIcon: "⚙️",
-                text: "Bagaimana kamu mentest fitur berbasis AI dalam produk?",
-                context: "Ini menilai skill AI system testing-mu (selaras CT-AI).",
+                variations: [
+                    { text: "Bagaimana kamu mentest fitur berbasis AI dalam produk?", context: "Ini menilai skill AI system testing-mu (selaras CT-AI)." },
+                    { text: "Saat testing fitur yang menggunakan AI/ML, apa yang berbeda dari pendekatanmu?", context: "Mengevaluasi skill AI product testing-mu." },
+                    { text: "Bagaimana kamu menjamin kualitas produk yang memasukkan komponen AI?", context: "Memahami metodologi AI testing-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku test fitur AI sama seperti fitur biasa" },
                     { score: 1, text: "Aku memahami sistem AI butuh pendekatan testing yang berbeda" },
@@ -1071,8 +1159,11 @@
             },
             {
                 dimension: "Technical Depth", dimensionID: "Kedalaman Teknis", dimensionIcon: "⚙️",
-                text: "Apa kemampuan performance testing-mu?",
-                context: "Ini menilai skill performance testing-mu.",
+                variations: [
+                    { text: "Apa kemampuan performance testing-mu?", context: "Ini menilai skill performance testing-mu." },
+                    { text: "Bagaimana pendekatanmu untuk testing kecepatan dan skalabilitas aplikasi?", context: "Mengevaluasi keahlian performance testing-mu." },
+                    { text: "Jelaskan pengalamanmu dengan load testing dan analisis performance.", context: "Memahami kedalaman performance testing-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku notice kalau lambat tapi tidak mengukurnya" },
                     { score: 1, text: "Aku bisa menggunakan browser devtools untuk cek waktu load halaman" },
@@ -1084,8 +1175,11 @@
             // DIMENSION 3: Pemikiran Kualitas (5 questions)
             {
                 dimension: "Quality Thinking", dimensionID: "Pemikiran Kualitas", dimensionIcon: "🧠",
-                text: "Bagaimana kamu mengidentifikasi dan menangani risiko dalam testing?",
-                context: "Ini menilai pemikiran berbasis risiko-mu.",
+                variations: [
+                    { text: "Bagaimana kamu mengidentifikasi dan menangani risiko dalam testing?", context: "Ini menilai pemikiran berbasis risiko-mu." },
+                    { text: "Bagaimana kamu memutuskan apa yang harus ditest lebih teliti vs lebih ringan?", context: "Mengevaluasi prioritisasi risiko-mu." },
+                    { text: "Saat waktu terbatas, bagaimana kamu memprioritaskan effort testing?", context: "Memahami pendekatan risk-based-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku test semuanya sama rata - tidak memprioritaskan berdasarkan risiko" },
                     { score: 1, text: "Aku bisa mengidentifikasi risiko yang jelas saat ditunjukkan" },
@@ -1096,8 +1190,11 @@
             },
             {
                 dimension: "Quality Thinking", dimensionID: "Pemikiran Kualitas", dimensionIcon: "🧠",
-                text: "Saat menginvestigasi bug, seberapa dalam kamu menggali?",
-                context: "Ini menilai skill root cause analysis-mu.",
+                variations: [
+                    { text: "Saat menginvestigasi bug, seberapa dalam kamu menggali?", context: "Ini menilai skill root cause analysis-mu." },
+                    { text: "Setelah menemukan bug, apa yang kamu lakukan selain hanya melaporkannya?", context: "Mengevaluasi kedalaman investigasi-mu." },
+                    { text: "Bagaimana pendekatanmu untuk memahami mengapa bug terjadi, bukan hanya apa yang terjadi?", context: "Memahami root cause analysis-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku melaporkan apa yang rusak dan lanjut" },
                     { score: 1, text: "Aku mencoba mempersempit asal bug" },
@@ -1108,8 +1205,11 @@
             },
             {
                 dimension: "Quality Thinking", dimensionID: "Pemikiran Kualitas", dimensionIcon: "🧠",
-                text: "Seberapa proaktif kamu dalam mencegah bug?",
-                context: "Ini menilai mindset pencegahan-mu.",
+                variations: [
+                    { text: "Seberapa proaktif kamu dalam mencegah bug?", context: "Ini menilai mindset pencegahan-mu." },
+                    { text: "Apakah kamu melihat peranmu sebagai menemukan bug atau mencegahnya?", context: "Mengevaluasi orientasi pencegahan-mu." },
+                    { text: "Bagaimana kontribusimu untuk menangkap masalah sebelum menjadi bug?", context: "Memahami mindset shift-left-mu." }
+                ],
                 options: [
                     { score: 0, text: "Tugasku adalah menemukan bug, bukan mencegahnya" },
                     { score: 1, text: "Aku menyarankan perbaikan saat melihat masalah berulang" },
@@ -1120,8 +1220,11 @@
             },
             {
                 dimension: "Quality Thinking", dimensionID: "Pemikiran Kualitas", dimensionIcon: "🧠",
-                text: "Bagaimana pendekatanmu terhadap test strategy untuk project?",
-                context: "Ini menilai pemikiran strategis-mu.",
+                variations: [
+                    { text: "Bagaimana pendekatanmu terhadap test strategy untuk project?", context: "Ini menilai pemikiran strategis-mu." },
+                    { text: "Saat memulai project baru, bagaimana kamu merencanakan pendekatan testing keseluruhan?", context: "Mengevaluasi strategic planning-mu." },
+                    { text: "Bagaimana kamu memutuskan jenis testing apa yang dibutuhkan untuk sebuah project?", context: "Memahami skill test strategy-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku mengikuti dokumen strategi yang ada" },
                     { score: 1, text: "Aku menyarankan pendekatan test untuk fitur yang ditugaskan" },
@@ -1132,8 +1235,11 @@
             },
             {
                 dimension: "Quality Thinking", dimensionID: "Pemikiran Kualitas", dimensionIcon: "🧠",
-                text: "Bagaimana kamu menggunakan metrik dan data dalam pekerjaanmu?",
-                context: "Ini menilai pendekatan data-driven-mu.",
+                variations: [
+                    { text: "Bagaimana kamu menggunakan metrik dan data dalam pekerjaanmu?", context: "Ini menilai pendekatan data-driven-mu." },
+                    { text: "Angka apa yang kamu track untuk mengukur efektivitas testing?", context: "Mengevaluasi penggunaan metrik-mu." },
+                    { text: "Bagaimana kamu menunjukkan nilai testing menggunakan data?", context: "Memahami pendekatan analitis-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku melaporkan angka dasar (test dijalankan, bug ditemukan)" },
                     { score: 1, text: "Aku melacak dan memvisualisasikan progress test" },
@@ -1145,8 +1251,11 @@
             // DIMENSION 4: Pengaruh & Dampak (5 questions)
             {
                 dimension: "Influence & Impact", dimensionID: "Pengaruh & Dampak", dimensionIcon: "💬",
-                text: "Bagaimana kamu berkolaborasi dengan developer dan PM?",
-                context: "Ini menilai skill kolaborasi-mu.",
+                variations: [
+                    { text: "Bagaimana kamu berkolaborasi dengan developer dan PM?", context: "Ini menilai skill kolaborasi-mu." },
+                    { text: "Jelaskan hubungan kerjamu dengan tim development.", context: "Mengevaluasi kolaborasi cross-functional-mu." },
+                    { text: "Bagaimana kamu bekerja sama dengan role lain untuk memastikan kualitas?", context: "Memahami pendekatan teamwork-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku melaporkan bug dan menunggu diperbaiki" },
                     { score: 1, text: "Aku bisa menjelaskan pendekatan testing dan bekerja sama menangani masalah" },
@@ -1157,8 +1266,11 @@
             },
             {
                 dimension: "Influence & Impact", dimensionID: "Pengaruh & Dampak", dimensionIcon: "💬",
-                text: "Bagaimana kamu mengkomunikasikan status kualitas ke stakeholder?",
-                context: "Ini menilai skill komunikasi-mu.",
+                variations: [
+                    { text: "Bagaimana kamu mengkomunikasikan status kualitas ke stakeholder?", context: "Ini menilai skill komunikasi-mu." },
+                    { text: "Bagaimana kamu menjaga orang lain tetap informed tentang progress dan masalah testing?", context: "Mengevaluasi komunikasi stakeholder-mu." },
+                    { text: "Bagaimana kamu melaporkan kualitas ke orang di luar tim?", context: "Memahami jangkauan komunikasi-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku memberi update saat ditanya" },
                     { score: 1, text: "Aku memberikan status jelas di team stand-up" },
@@ -1169,8 +1281,11 @@
             },
             {
                 dimension: "Influence & Impact", dimensionID: "Pengaruh & Dampak", dimensionIcon: "💬",
-                text: "Seberapa besar ownership yang kamu ambil untuk hasil kualitas?",
-                context: "Ini menilai mindset ownership-mu.",
+                variations: [
+                    { text: "Seberapa besar ownership yang kamu ambil untuk hasil kualitas?", context: "Ini menilai mindset ownership-mu." },
+                    { text: "Saat bug mencapai production, bagaimana perasaanmu?", context: "Mengevaluasi level accountability-mu." },
+                    { text: "Seberapa bertanggung jawab kamu merasa atas kualitas keseluruhan produk?", context: "Memahami scope ownership-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku menyelesaikan tugas yang ditugaskan kepadaku" },
                     { score: 1, text: "Aku memiliki testing untuk fitur yang ditugaskan" },
@@ -1181,8 +1296,11 @@
             },
             {
                 dimension: "Influence & Impact", dimensionID: "Pengaruh & Dampak", dimensionIcon: "💬",
-                text: "Bagaimana kamu membantu orang lain berkembang di QA?",
-                context: "Ini menilai leadership dan mentoring-mu.",
+                variations: [
+                    { text: "Bagaimana kamu membantu orang lain berkembang di QA?", context: "Ini menilai leadership dan mentoring-mu." },
+                    { text: "Apa peranmu dalam mengembangkan anggota tim QA lainnya?", context: "Mengevaluasi dampak mentoring-mu." },
+                    { text: "Bagaimana kontribusimu untuk pertumbuhan kapabilitas QA di sekitarmu?", context: "Memahami scope leadership-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku masih belajar sendiri" },
                     { score: 1, text: "Aku membantu teammate dengan pertanyaan dasar" },
@@ -1193,8 +1311,11 @@
             },
             {
                 dimension: "Influence & Impact", dimensionID: "Pengaruh & Dampak", dimensionIcon: "💬",
-                text: "Seberapa dalam keahlian domain/produkmu?",
-                context: "Ini menilai domain knowledge-mu.",
+                variations: [
+                    { text: "Seberapa dalam keahlian domain/produkmu?", context: "Ini menilai domain knowledge-mu." },
+                    { text: "Seberapa baik kamu memahami bisnis dan industri yang kamu testing?", context: "Mengevaluasi pemahaman domain-mu." },
+                    { text: "Apakah kamu dianggap sebagai go-to person untuk pertanyaan produk/domain?", context: "Memahami level keahlian domain-mu." }
+                ],
                 options: [
                     { score: 0, text: "Aku sedang belajar tentang produk yang aku test" },
                     { score: 1, text: "Aku memahami konteks bisnis dari fitur-fiturku" },
@@ -1319,9 +1440,15 @@
                     ...q.options[origIdx],
                     originalIndex: origIdx
                 }));
+                // Apply the selected variation for this question
+                const variationIdx = questionVariations[idx];
+                const variation = q.variations[variationIdx];
                 return {
                     ...q,
-                    shuffledOptions: shuffledOpts
+                    text: variation.text,
+                    context: variation.context,
+                    shuffledOptions: shuffledOpts,
+                    variationIndex: variationIdx
                 };
             });
         }
@@ -1329,6 +1456,9 @@
         // Prepare questions with shuffled options
         function prepareQuestions() {
             generateShuffleOrders();
+            // Generate random variation index (0, 1, or 2) for each question BEFORE applying shuffle
+            const totalQuestions = questionsEN.length;
+            questionVariations = Array.from({ length: totalQuestions }, () => Math.floor(Math.random() * 3));
             applyShuffleToQuestions();
         }
 
