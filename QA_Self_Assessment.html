@@ -245,6 +245,32 @@
         .results-header { text-align: center; padding: 2rem 0; }
         .results-header h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
 
+        .user-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 8px 25px rgba(13, 148, 136, 0.3);
+        }
+        .user-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
         .stage-result {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
@@ -294,6 +320,36 @@
         .assessment-section.active { display: block; }
         .start-section { text-align: center; padding: 2rem 0; }
         .framework-preview { background: var(--card); padding: 2rem; border-radius: 20px; margin: 2rem 0; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+
+        .user-form {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            color: white;
+            text-align: center;
+        }
+        .user-form h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .user-form > p { opacity: 0.9; margin-bottom: 1.5rem; }
+        .form-group { text-align: left; margin-bottom: 1rem; max-width: 400px; margin-left: auto; margin-right: auto; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .form-group .required { color: #fbbf24; }
+        .form-group .optional { opacity: 0.7; font-weight: 400; }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+        .form-group input::placeholder { color: rgba(255,255,255,0.5); }
+        .form-group input:focus { outline: none; border-color: white; background: rgba(255,255,255,0.2); }
+        .form-group small { display: block; margin-top: 0.5rem; opacity: 0.7; font-size: 0.8rem; }
+        .user-form .btn-primary { background: white; color: var(--primary-dark); }
+        .user-form .btn-primary:hover { background: #f0fdfa; transform: translateY(-2px); }
         .framework-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; }
         .framework-item { padding: 1.25rem; background: var(--bg); border-radius: 12px; text-align: left; }
         .framework-item h4 { font-size: 1rem; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem; }
@@ -369,11 +425,24 @@
                     </div>
                 </div>
 
-                <button class="btn btn-primary" onclick="startAssessment()" style="margin: 2rem auto; display: flex;" id="startBtn">
-                    Start Assessment →
-                </button>
+                <div class="user-form">
+                    <h3 id="formTitle">🎯 Ready to discover your QA level?</h3>
+                    <p id="formSubtitle">Enter your details to get a personalized result certificate</p>
+                    <div class="form-group">
+                        <label for="userName" id="nameLabel">Full Name <span class="required">*</span></label>
+                        <input type="text" id="userName" placeholder="e.g. Aditya Mirza Bahari" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail" id="emailLabel">Email <span class="optional">(optional)</span></label>
+                        <input type="email" id="userEmail" placeholder="your@email.com">
+                        <small id="emailHint">We'll send your results here for future reference</small>
+                    </div>
+                    <button class="btn btn-primary" onclick="validateAndStart()" style="margin: 1.5rem auto 0; display: flex;" id="startBtn">
+                        Start Assessment →
+                    </button>
+                </div>
 
-                <p style="color: var(--text-muted); font-size: 0.9rem;" id="startInfo">
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem;" id="startInfo">
                     Takes about 5-7 minutes • 20 questions • Instant results
                 </p>
             </div>
@@ -426,6 +495,30 @@
     <script>
         // Language state
         let currentLang = localStorage.getItem('assessmentLangV2') || 'en';
+        let userData = { name: '', email: '' };
+
+        // Validate form and start assessment
+        function validateAndStart() {
+            const nameInput = document.getElementById('userName');
+            const emailInput = document.getElementById('userEmail');
+            
+            if (!nameInput.value.trim()) {
+                nameInput.style.borderColor = '#ef4444';
+                nameInput.focus();
+                return;
+            }
+            
+            userData.name = nameInput.value.trim();
+            userData.email = emailInput.value.trim();
+            
+            // Store in localStorage
+            localStorage.setItem('assessmentUserName', userData.name);
+            if (userData.email) {
+                localStorage.setItem('assessmentUserEmail', userData.email);
+            }
+            
+            startAssessment();
+        }
 
         // Translations
         const translations = {
@@ -450,6 +543,11 @@
                     <p style="margin-bottom: 0.5rem;"><strong>Leader</strong> — "I can lead, but impact is limited"</p>
                     <p style="margin-bottom: 0.5rem;"><strong>Industry</strong> — "I shape the field"</p>
                 `,
+                formTitle: "🎯 Ready to discover your QA level?",
+                formSubtitle: "Enter your details to get a personalized result certificate",
+                nameLabel: "Full Name",
+                emailLabel: "Email",
+                emailHint: "We'll send your results here for future reference",
                 startBtn: "Start Assessment →",
                 startInfo: "Takes about 5-7 minutes • 20 questions • Instant results",
                 questionOf: "Question {current} of {total}",
@@ -491,6 +589,11 @@
                     <p style="margin-bottom: 0.5rem;"><strong>Leader</strong> — "Aku bisa memimpin, tapi dampakku terbatas"</p>
                     <p style="margin-bottom: 0.5rem;"><strong>Industry</strong> — "Aku membentuk industri"</p>
                 `,
+                formTitle: "🎯 Siap temukan level QA-mu?",
+                formSubtitle: "Masukkan data untuk mendapat sertifikat hasil yang personal",
+                nameLabel: "Nama Lengkap",
+                emailLabel: "Email",
+                emailHint: "Kami akan kirim hasilmu ke sini untuk referensi",
                 startBtn: "Mulai Asesmen →",
                 startInfo: "Sekitar 5-7 menit • 20 pertanyaan • Hasil instan",
                 questionOf: "Pertanyaan {current} dari {total}",
@@ -1082,6 +1185,11 @@
             document.getElementById('dim4Desc').textContent = t('dim4Desc');
             document.getElementById('stagesTitle').textContent = t('stagesTitle');
             document.getElementById('stagesContent').innerHTML = t('stagesContent');
+            document.getElementById('formTitle').textContent = t('formTitle');
+            document.getElementById('formSubtitle').textContent = t('formSubtitle');
+            document.getElementById('nameLabel').innerHTML = t('nameLabel') + ' <span class="required">*</span>';
+            document.getElementById('emailLabel').innerHTML = t('emailLabel') + ' <span class="optional">(optional)</span>';
+            document.getElementById('emailHint').textContent = t('emailHint');
             document.getElementById('startBtn').textContent = t('startBtn');
             document.getElementById('startInfo').textContent = t('startInfo');
             document.getElementById('prevBtnText').textContent = t('prev');
@@ -1233,8 +1341,14 @@
                 ? { "Testing Fundamentals": "Testing Fundamentals", "Technical Depth": "Technical Depth", "Quality Thinking": "Quality Thinking", "Influence & Impact": "Influence & Impact" }
                 : { "Testing Fundamentals": "Dasar-Dasar Testing", "Technical Depth": "Kedalaman Teknis", "Quality Thinking": "Pemikiran Kualitas", "Influence & Impact": "Pengaruh & Dampak" };
 
+            const userName = userData.name || localStorage.getItem('assessmentUserName') || 'QA Professional';
+            
             const resultsHTML = `
                 <div class="results-header">
+                    <div class="user-badge">
+                        <div class="user-avatar">${userName.charAt(0).toUpperCase()}</div>
+                        <div class="user-name">${userName}</div>
+                    </div>
                     <h2>${t('resultsTitle')}</h2>
                     <p style="color: var(--text-muted);">${t('resultsSubtitle')}</p>
                 </div>
@@ -1389,30 +1503,58 @@
         async function exportPDF() {
             const { jsPDF } = window.jspdf;
             const resultsContent = document.getElementById('resultsContent');
-            
+            const userName = userData.name || localStorage.getItem('assessmentUserName') || 'QA Professional';
+            const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
             const canvas = await html2canvas(resultsContent, { scale: 2 });
             const imgData = canvas.toDataURL('image/png');
-            
+
             const pdf = new jsPDF('p', 'mm', 'a4');
             const pageWidth = pdf.internal.pageSize.getWidth();
             const pageHeight = pdf.internal.pageSize.getHeight();
+            
+            // Certificate header
+            pdf.setFillColor(13, 148, 136);
+            pdf.rect(0, 0, pageWidth, 45, 'F');
+            
+            pdf.setTextColor(255, 255, 255);
+            pdf.setFontSize(10);
+            pdf.text('ngobrolqa.com', pageWidth / 2, 12, { align: 'center' });
+            
+            pdf.setFontSize(22);
+            pdf.setFont(undefined, 'bold');
+            pdf.text('QA SKILL ASSESSMENT', pageWidth / 2, 25, { align: 'center' });
+            
+            pdf.setFontSize(14);
+            pdf.setFont(undefined, 'normal');
+            pdf.text(`Certificate for: ${userName}`, pageWidth / 2, 35, { align: 'center' });
+            
+            pdf.setTextColor(100, 116, 139);
+            pdf.setFontSize(9);
+            pdf.text(`Generated on ${today}`, pageWidth / 2, 42, { align: 'center' });
+
+            // Results content
             const imgWidth = pageWidth - 20;
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            
             let heightLeft = imgHeight;
-            let position = 10;
-            
+            let position = 50;
+
             pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-            
+            heightLeft -= (pageHeight - position);
+
             while (heightLeft >= 0) {
-                position = heightLeft - imgHeight + 10;
                 pdf.addPage();
+                position = 10 - (pageHeight - 50);
                 pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
                 heightLeft -= pageHeight;
             }
-            
-            pdf.save('QA_Skill_Assessment.pdf');
+
+            // Footer on last page
+            pdf.setFontSize(8);
+            pdf.setTextColor(150, 150, 150);
+            pdf.text('© 2026 NgobrolQA by Aditya Mirza Bahari', pageWidth / 2, pageHeight - 10, { align: 'center' });
+
+            pdf.save(`QA_Assessment_${userName.replace(/\s+/g, '_')}.pdf`);
         }
 
         // Initialize language on load
