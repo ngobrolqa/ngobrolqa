@@ -430,6 +430,32 @@
         .form-group small { display: block; margin-top: 0.5rem; opacity: 0.7; font-size: 0.8rem; }
         .user-form .btn-primary { background: white; color: var(--primary-dark); }
         .user-form .btn-primary:hover { background: #f0fdfa; transform: translateY(-2px); }
+        .consent-group { 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 0.75rem; 
+            text-align: left; 
+            max-width: 500px; 
+            margin: 1.5rem auto 0;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+        .consent-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: white;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .consent-group label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+        .consent-group a { color: white; text-decoration: underline; }
         .framework-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; }
         .framework-item { padding: 1.25rem; background: var(--bg); border-radius: 12px; text-align: left; }
         .framework-item h4 { font-size: 1rem; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem; }
@@ -523,6 +549,12 @@
                         <input type="email" id="userEmail" placeholder="your@email.com">
                         <small id="emailHint">We'll send your results here for future reference</small>
                     </div>
+                    <div class="consent-group">
+                        <input type="checkbox" id="consentCheck">
+                        <label for="consentCheck" id="consentLabel">
+                            I agree that my assessment results (name, organization, scores) may be stored for research and improvement purposes. Data is kept confidential and never shared publicly.
+                        </label>
+                    </div>
                     <button class="btn btn-primary" onclick="validateAndStart()" style="margin: 1.5rem auto 0; display: flex;" id="startBtn">
                         Start Assessment →
                     </button>
@@ -589,10 +621,20 @@
             const nameInput = document.getElementById('userName');
             const emailInput = document.getElementById('userEmail');
             const orgInput = document.getElementById('userOrg');
+            const consentCheck = document.getElementById('consentCheck');
             
+            // Check name
             if (!nameInput.value.trim()) {
                 nameInput.style.borderColor = '#ef4444';
                 nameInput.focus();
+                return;
+            }
+            nameInput.style.borderColor = 'rgba(255,255,255,0.3)';
+            
+            // Check consent
+            if (!consentCheck.checked) {
+                alert(t('consentRequired'));
+                consentCheck.focus();
                 return;
             }
             
@@ -641,6 +683,8 @@
                 orgLabel: "Company / School",
                 emailLabel: "Email",
                 emailHint: "We'll send your results here for future reference",
+                consentLabel: "I agree that my assessment results (name, organization, scores) may be stored for research and improvement purposes. Data is kept confidential and never shared publicly.",
+                consentRequired: "Please agree to the data consent to continue",
                 startBtn: "Start Assessment →",
                 startInfo: "Takes about 5-7 minutes • 20 questions • Instant results",
                 questionOf: "Question {current} of {total}",
@@ -688,6 +732,8 @@
                 orgLabel: "Perusahaan / Kampus",
                 emailLabel: "Email",
                 emailHint: "Kami akan kirim hasilmu ke sini untuk referensi",
+                consentLabel: "Saya setuju bahwa hasil asesmen saya (nama, organisasi, skor) dapat disimpan untuk keperluan riset dan pengembangan. Data dijaga kerahasiaannya dan tidak dibagikan secara publik.",
+                consentRequired: "Mohon setujui consent data untuk melanjutkan",
                 startBtn: "Mulai Asesmen →",
                 startInfo: "Sekitar 5-7 menit • 20 pertanyaan • Hasil instan",
                 questionOf: "Pertanyaan {current} dari {total}",
@@ -709,6 +755,28 @@
                 exportPdf: "📄 Ekspor PDF"
             }
         };
+
+        // Google Sheets API Configuration
+        const GOOGLE_SHEETS_API = 'https://script.google.com/macros/s/AKfycbzQqyva_p2igl5OkS0m0dN64ZTh0yLHyOGR7z-8G8Wd2zq1qMzYMqwOXYVIky8XOQ29pw/exec';
+
+        // Function to send assessment results to Google Sheets
+        async function saveToGoogleSheets(resultsData) {
+            try {
+                const response = await fetch(GOOGLE_SHEETS_API, {
+                    method: 'POST',
+                    mode: 'no-cors', // Required for Google Apps Script
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(resultsData)
+                });
+                console.log('Assessment data saved to Google Sheets');
+                return true;
+            } catch (error) {
+                console.error('Failed to save to Google Sheets:', error);
+                return false;
+            }
+        }
 
         // Questions - English (with 3 variations each)
         const questionsEN = [
@@ -1405,6 +1473,7 @@
             document.getElementById('orgLabel').innerHTML = t('orgLabel') + ' <span class="optional">(optional)</span>';
             document.getElementById('emailLabel').innerHTML = t('emailLabel') + ' <span class="optional">(optional)</span>';
             document.getElementById('emailHint').textContent = t('emailHint');
+            document.getElementById('consentLabel').textContent = t('consentLabel');
             document.getElementById('startBtn').textContent = t('startBtn');
             document.getElementById('startInfo').textContent = t('startInfo');
             document.getElementById('prevBtnText').textContent = t('prev');
@@ -1567,6 +1636,22 @@
 
             const userName = userData.name || localStorage.getItem('assessmentUserName') || 'QA Professional';
             const userOrg = userData.org || localStorage.getItem('assessmentUserOrg') || '';
+            const userEmail = userData.email || localStorage.getItem('assessmentUserEmail') || '';
+
+            // Save to Google Sheets (async, non-blocking)
+            saveToGoogleSheets({
+                name: userName,
+                email: userEmail,
+                organization: userOrg,
+                scores: {
+                    testingFundamentals: results.dimensions["Testing Fundamentals"]?.toFixed(2) || '0',
+                    technicalDepth: results.dimensions["Technical Depth"]?.toFixed(2) || '0',
+                    qualityThinking: results.dimensions["Quality Thinking"]?.toFixed(2) || '0',
+                    influenceImpact: results.dimensions["Influence & Impact"]?.toFixed(2) || '0',
+                    overall: results.overallAvg.toFixed(2)
+                },
+                stage: stage.name
+            });
             
             const resultsHTML = `
                 <div class="results-compact">
