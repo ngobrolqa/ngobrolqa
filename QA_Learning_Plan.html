@@ -453,6 +453,92 @@
             text-decoration: underline;
         }
 
+        /* ISTQB Certification Section */
+        .istqb-section {
+            margin-top: 3rem;
+            padding: 2rem 0;
+        }
+        .istqb-section h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .istqb-section > p {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+        @media (max-width: 900px) {
+            .cert-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 500px) {
+            .cert-grid { grid-template-columns: 1fr; }
+        }
+        .cert-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        .cert-card h4 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .cert-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        .cert-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .cert-badge:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        .cert-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+        }
+        .idstb-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .idstb-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+        }
+
         /* Free Resources Section */
         .free-resources {
             background: var(--card);
@@ -1540,6 +1626,63 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- ISTQB Certification Alignment -->
+        <div class="istqb-section">
+            <h2>🎓 ISTQB Certification Alignment</h2>
+            <p>Recommended certifications mapped to QA skill dimensions</p>
+            
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <h4>🎯 Testing Fundamentals</h4>
+                    <div class="cert-badges">
+                        <a href="https://idstb.org/ctfl/" target="_blank" class="cert-badge">CTFL</a>
+                        <a href="https://idstb.org/ctal-ta/" target="_blank" class="cert-badge">CTAL-TA</a>
+                        <a href="https://idstb.org/ct-at/" target="_blank" class="cert-badge">CT-AT</a>
+                    </div>
+                    <p>Foundation & advanced test analysis</p>
+                </div>
+                
+                <div class="cert-card">
+                    <h4>⚙️ Technical Depth</h4>
+                    <div class="cert-badges">
+                        <a href="https://idstb.org/ct-tae/" target="_blank" class="cert-badge">CT-TAE</a>
+                        <a href="https://idstb.org/ct-pt/" target="_blank" class="cert-badge">CT-PT</a>
+                        <a href="https://idstb.org/ct-ai/" target="_blank" class="cert-badge">CT-AI</a>
+                        <a href="https://idstb.org/ct-genai/" target="_blank" class="cert-badge">CT-GenAI</a>
+                        <a href="https://idstb.org/ct-sec/" target="_blank" class="cert-badge">CT-SEC</a>
+                        <a href="https://idstb.org/ct-mat/" target="_blank" class="cert-badge">CT-MAT</a>
+                        <a href="https://idstb.org/ct-uta/" target="_blank" class="cert-badge">CT-UtA</a>
+                    </div>
+                    <p>Automation, performance, AI & security</p>
+                </div>
+                
+                <div class="cert-card">
+                    <h4>🧠 Quality Thinking</h4>
+                    <div class="cert-badges">
+                        <a href="https://idstb.org/ctal-tm/" target="_blank" class="cert-badge">CTAL-TM</a>
+                        <a href="https://idstb.org/ct-ai/" target="_blank" class="cert-badge">CT-AI</a>
+                        <a href="https://idstb.org/ctal-tta/" target="_blank" class="cert-badge">CTAL-TTA</a>
+                    </div>
+                    <p>Test management & strategic thinking</p>
+                </div>
+                
+                <div class="cert-card">
+                    <h4>💬 Influence & Impact</h4>
+                    <div class="cert-badges">
+                        <a href="https://idstb.org/ctal-tm/" target="_blank" class="cert-badge">CTAL-TM</a>
+                        <a href="https://idstb.org/ctel/" target="_blank" class="cert-badge">CTEL</a>
+                    </div>
+                    <p>Leadership, domain & soft skills</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="https://idstb.org/certifications/" target="_blank" class="idstb-link">
+                    🇮🇩 View All Certifications at IDSTB.org →
+                </a>
             </div>
         </div>
 
