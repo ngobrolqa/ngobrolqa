@@ -545,8 +545,8 @@
                         </div>
                     </div>
                     <div class="form-group" style="max-width: 100%;">
-                        <label for="userEmail" id="emailLabel">Email <span class="optional">(optional)</span></label>
-                        <input type="email" id="userEmail" placeholder="your@email.com">
+                        <label for="userEmail" id="emailLabel">Email <span class="required">*</span></label>
+                        <input type="email" id="userEmail" placeholder="your@email.com" required>
                         <small id="emailHint">We'll send your results here for future reference</small>
                     </div>
                     <div class="consent-group">
@@ -631,6 +631,17 @@
             }
             nameInput.style.borderColor = 'rgba(255,255,255,0.3)';
             
+            // Check email (now required)
+            if (!emailInput.value.trim() || !emailInput.validity.valid) {
+                emailInput.style.borderColor = '#ef4444';
+                emailInput.focus();
+                if (!emailInput.value.trim()) {
+                    alert(t('emailRequired'));
+                }
+                return;
+            }
+            emailInput.style.borderColor = 'rgba(255,255,255,0.3)';
+            
             // Check consent
             if (!consentCheck.checked) {
                 alert(t('consentRequired'));
@@ -644,9 +655,7 @@
             
             // Store in localStorage
             localStorage.setItem('assessmentUserName', userData.name);
-            if (userData.email) {
-                localStorage.setItem('assessmentUserEmail', userData.email);
-            }
+            localStorage.setItem('assessmentUserEmail', userData.email);
             if (userData.org) {
                 localStorage.setItem('assessmentUserOrg', userData.org);
             }
@@ -685,6 +694,7 @@
                 emailHint: "We'll send your results here for future reference",
                 consentLabel: "I agree that my assessment results (name, organization, scores) may be stored for research and improvement purposes. Data is kept confidential and never shared publicly.",
                 consentRequired: "Please agree to the data consent to continue",
+                emailRequired: "Please enter your email address",
                 startBtn: "Start Assessment →",
                 startInfo: "Takes about 5-7 minutes • 20 questions • Instant results",
                 questionOf: "Question {current} of {total}",
@@ -734,6 +744,7 @@
                 emailHint: "Kami akan kirim hasilmu ke sini untuk referensi",
                 consentLabel: "Saya setuju bahwa hasil asesmen saya (nama, organisasi, skor) dapat disimpan untuk keperluan riset dan pengembangan. Data dijaga kerahasiaannya dan tidak dibagikan secara publik.",
                 consentRequired: "Mohon setujui consent data untuk melanjutkan",
+                emailRequired: "Mohon masukkan alamat email kamu",
                 startBtn: "Mulai Asesmen →",
                 startInfo: "Sekitar 5-7 menit • 20 pertanyaan • Hasil instan",
                 questionOf: "Pertanyaan {current} dari {total}",
@@ -1471,7 +1482,7 @@
             document.getElementById('formSubtitle').textContent = t('formSubtitle');
             document.getElementById('nameLabel').innerHTML = t('nameLabel') + ' <span class="required">*</span>';
             document.getElementById('orgLabel').innerHTML = t('orgLabel') + ' <span class="optional">(optional)</span>';
-            document.getElementById('emailLabel').innerHTML = t('emailLabel') + ' <span class="optional">(optional)</span>';
+            document.getElementById('emailLabel').innerHTML = t('emailLabel') + ' <span class="required">*</span>';
             document.getElementById('emailHint').textContent = t('emailHint');
             document.getElementById('consentLabel').textContent = t('consentLabel');
             document.getElementById('startBtn').textContent = t('startBtn');
@@ -1644,10 +1655,10 @@
                 email: userEmail,
                 organization: userOrg,
                 scores: {
-                    testingFundamentals: results.dimensions["Testing Fundamentals"]?.toFixed(2) || '0',
-                    technicalDepth: results.dimensions["Technical Depth"]?.toFixed(2) || '0',
-                    qualityThinking: results.dimensions["Quality Thinking"]?.toFixed(2) || '0',
-                    influenceImpact: results.dimensions["Influence & Impact"]?.toFixed(2) || '0',
+                    testingFundamentals: results.dimensionScores["Testing Fundamentals"]?.toFixed(2) || '0',
+                    technicalDepth: results.dimensionScores["Technical Depth"]?.toFixed(2) || '0',
+                    qualityThinking: results.dimensionScores["Quality Thinking"]?.toFixed(2) || '0',
+                    influenceImpact: results.dimensionScores["Influence & Impact"]?.toFixed(2) || '0',
                     overall: results.overallAvg.toFixed(2)
                 },
                 stage: stage.name
