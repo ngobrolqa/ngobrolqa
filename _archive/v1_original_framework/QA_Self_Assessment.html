@@ -1,0 +1,2071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Skill Self-Assessment - Dreyfus Level Finder | NgobrolQA</title>
+    
+    <meta name="author" content="Aditya Mirza Bahari">
+    <meta name="description" content="Discover your QA skill level with this interactive Dreyfus Model assessment. Find out where you are in each competency bucket.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        :root {
+            /* NgobrolQA Brand Colors */
+            --primary: #14b8a6;
+            --primary-dark: #0f766e;
+            --primary-light: #ccfbf1;
+            --secondary: #06b6d4;
+            --accent: #f59e0b;
+            --bg: #ffffff;
+            --bg-dark: #0d1b2a;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --white: #ffffff;
+            --border: #e2e8f0;
+            --level-1: #ef4444;
+            --level-2: #f59e0b;
+            --level-3: #22c55e;
+            --level-4: #3b82f6;
+            --level-5: #8b5cf6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+            border-radius: 24px;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar-bg {
+            height: 12px;
+            background: var(--border);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+            border-radius: 100px;
+            transition: width 0.5s ease;
+        }
+
+        /* Question Card */
+        .question-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            display: none;
+        }
+
+        .question-card.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-bucket {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .question-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .question-help {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Options */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.25rem;
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .option-radio {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border);
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2px;
+        }
+
+        .option.selected .option-radio {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+
+        .option.selected .option-radio::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+        }
+
+        .option-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .option-content p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .option-level {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .level-1 { background: rgba(239, 68, 68, 0.15); color: var(--level-1); }
+        .level-2 { background: rgba(245, 158, 11, 0.15); color: var(--level-2); }
+        .level-3 { background: rgba(34, 197, 94, 0.15); color: var(--level-3); }
+        .level-4 { background: rgba(59, 130, 246, 0.15); color: var(--level-4); }
+        .level-5 { background: rgba(139, 92, 246, 0.15); color: var(--level-5); }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-secondary {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Results Section */
+        .results-section {
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .results-header {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+            border-radius: 20px;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .results-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .results-header p {
+            opacity: 0.9;
+        }
+
+        /* Results Card */
+        .results-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .results-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 350px;
+            margin-bottom: 2rem;
+        }
+
+        /* Bucket Results */
+        .bucket-results {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .bucket-result {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+
+        .bucket-result .icon {
+            font-size: 1.5rem;
+        }
+
+        .bucket-result .info {
+            flex: 1;
+        }
+
+        .bucket-result .name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .bucket-result .level-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+
+        .bucket-result .level-fill {
+            height: 100%;
+            border-radius: 100px;
+            transition: width 1s ease;
+        }
+
+        .bucket-result .level-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* Overall Level */
+        .overall-level {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(99, 102, 241, 0.1));
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+        }
+
+        .overall-level .level-number {
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .overall-level .level-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 0.5rem;
+        }
+
+        .overall-level .level-desc {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Persona Match */
+        .persona-match {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid #f59e0b;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .persona-match .emoji {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .persona-match h4 {
+            font-size: 1.3rem;
+            color: #92400e;
+            margin-bottom: 0.25rem;
+        }
+
+        .persona-match p {
+            color: #a16207;
+        }
+
+        /* Recommendations */
+        .recommendations {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .recommendation {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .recommendation .icon {
+            font-size: 1.5rem;
+        }
+
+        .recommendation h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .recommendation p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Export Buttons */
+        .export-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn-export {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--bg-dark);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-export:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .btn-restart {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Print/PDF styles */
+        @media print {
+            nav, .export-buttons, .btn {
+                display: none !important;
+            }
+            .results-section {
+                display: block !important;
+            }
+            .question-card {
+                display: none !important;
+            }
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .question-text {
+                font-size: 1.2rem;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="nav-brand" style="display: flex; align-items: center; gap: 0.5rem;">
+            <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 28px; width: 28px; border-radius: 6px;">
+            NgobrolQA
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="QA_Skill_Acquisition_Framework.html">Framework</a>
+            <a href="QA_Learning_Plan.html">Learning Plan</a>
+            <a href="QA_Self_Assessment.html" style="font-weight: 600; border-bottom: 2px solid white;">Assessment</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Language Toggle -->
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+            <div style="display: flex; gap: 0.5rem; background: white; padding: 0.5rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <button onclick="setLanguage('en')" id="langEN" style="padding: 0.5rem 1rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; background: var(--primary); color: white;">🇬🇧 EN</button>
+                <button onclick="setLanguage('id')" id="langID" style="padding: 0.5rem 1rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; background: transparent; color: var(--text);">🇮🇩 ID</button>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="header" id="assessmentHeader">
+            <h1>🎯 <span id="headerTitle">QA Skill Self-Assessment</span></h1>
+            <p id="headerSubtitle">Discover your Dreyfus level across 6 competency buckets</p>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-header">
+                <span id="progressText">Question 1 of 12</span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Questions Container -->
+        <div id="questionsContainer"></div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="resultsSection">
+            <div class="results-header">
+                <h2 id="resultsHeaderTitle">🎉 Assessment Complete!</h2>
+                <p id="resultsHeaderSubtitle">Here's your QA competency profile based on the Dreyfus Model</p>
+            </div>
+
+            <!-- Overall Level -->
+            <div class="results-card" id="resultsExport">
+                <div class="overall-level">
+                    <div class="level-number" id="overallLevelNum">3</div>
+                    <div class="level-name" id="overallLevelName">Competent</div>
+                    <div class="level-desc" id="overallLevelDesc">You plan systematically and handle complexity well</div>
+                </div>
+
+                <!-- Persona Match -->
+                <div class="persona-match" id="personaMatch">
+                    <div class="emoji">🚀</div>
+                    <h4>Your Persona: Ambitious Climber</h4>
+                    <p>You're ready to fast-track to senior level</p>
+                </div>
+
+                <!-- Radar Chart -->
+                <h3 id="sectionProfile">📊 Your Competency Profile</h3>
+                <div class="chart-container">
+                    <canvas id="radarChart"></canvas>
+                </div>
+
+                <!-- Bucket Breakdown -->
+                <h3 id="sectionBreakdown">📋 Detailed Breakdown</h3>
+                <div class="bucket-results" id="bucketResults"></div>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="results-card">
+                <h3 id="sectionRecommendations">💡 Recommended Next Steps</h3>
+                <div class="recommendations" id="recommendations"></div>
+            </div>
+
+            <!-- Export Buttons -->
+            <div class="export-buttons">
+                <button class="btn-export" onclick="exportPDF()" id="btnExport">
+                    📄 Export as PDF
+                </button>
+                <button class="btn-export" onclick="shareResults()" id="btnShare">
+                    🔗 Share Results
+                </button>
+                <button class="btn-export btn-restart" onclick="restartAssessment()" id="btnRetake">
+                    🔄 Retake Assessment
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer style="background: linear-gradient(135deg, #14b8a6, #06b6d4); padding: 2rem; margin-top: 2rem; text-align: center; border-radius: 24px 24px 0 0;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.75rem;">
+            <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 40px; width: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+            <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 0.85rem;">Based on Dreyfus Model of Skill Acquisition</p>
+            <p style="color: rgba(255,255,255,0.9); font-size: 0.8rem; margin: 0;">© 2026 <a href="https://linkedin.com/in/adityabahari" style="color: white; text-decoration: underline;">Aditya Mirza Bahari</a>. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // LANGUAGE & TRANSLATIONS
+        // ============================================
+        
+        let currentLang = localStorage.getItem('assessmentLang') || 'en';
+        
+        const translations = {
+            en: {
+                headerTitle: "QA Skill Self-Assessment",
+                headerSubtitle: "Discover your Dreyfus level across 6 competency buckets",
+                questionOf: "Question {current} of {total}",
+                previous: "← Previous",
+                next: "Next →",
+                seeResults: "See Results →",
+                resultsTitle: "🎉 Assessment Complete!",
+                resultsSubtitle: "Here's your QA competency profile based on the Dreyfus Model",
+                yourResults: "🎉 Your Results",
+                yourProfile: "Your personalized QA competency profile",
+                yourPersona: "Your Persona:",
+                competencyProfile: "📊 Your Competency Profile",
+                detailedBreakdown: "📋 Detailed Breakdown",
+                recommendations: "💡 Recommended Next Steps",
+                focusArea: "Focus Area:",
+                strength: "Strength:",
+                nextCert: "Next Certification",
+                learningPath: "Learning Path",
+                checkCourses: "Check out personalized courses for your profile at",
+                exportPDF: "📄 Export as PDF",
+                shareResults: "🔗 Share Results",
+                retake: "🔄 Retake Assessment",
+                levelNames: ["", "Novice", "Advanced Beginner", "Competent", "Proficient", "Expert"],
+                levelDescs: [
+                    "",
+                    "You follow rules and instructions, learning the basics",
+                    "You recognize patterns and work independently on familiar tasks",
+                    "You plan systematically and handle complexity well",
+                    "You see the big picture and mentor others",
+                    "You innovate, define standards, and shape the organization"
+                ],
+                certRecommend: {
+                    low: "Start with ISTQB CTFL to build your foundation.",
+                    mid: "Consider CT-AI or CT-GenAI to add AI skills.",
+                    high: "You're ready for advanced certifications and leadership roles."
+                },
+                focusText: "This is your lowest scoring bucket ({score}). Prioritize improving here for balanced growth.",
+                strengthText: "You excel here ({score})! Consider mentoring others in this area."
+            },
+            id: {
+                headerTitle: "Penilaian Mandiri Skill QA",
+                headerSubtitle: "Temukan level Dreyfus-mu di 6 bucket kompetensi",
+                questionOf: "Pertanyaan {current} dari {total}",
+                previous: "← Sebelumnya",
+                next: "Selanjutnya →",
+                seeResults: "Lihat Hasil →",
+                resultsTitle: "🎉 Penilaian Selesai!",
+                resultsSubtitle: "Ini profil kompetensi QA-mu berdasarkan Model Dreyfus",
+                yourResults: "🎉 Hasil Kamu",
+                yourProfile: "Profil kompetensi QA personalmu",
+                yourPersona: "Persona Kamu:",
+                competencyProfile: "📊 Profil Kompetensi",
+                detailedBreakdown: "📋 Rincian Detail",
+                recommendations: "💡 Langkah Selanjutnya",
+                focusArea: "Area Fokus:",
+                strength: "Kekuatan:",
+                nextCert: "Sertifikasi Selanjutnya",
+                learningPath: "Jalur Belajar",
+                checkCourses: "Lihat rekomendasi kursus untuk profilmu di",
+                exportPDF: "📄 Ekspor PDF",
+                shareResults: "🔗 Bagikan Hasil",
+                retake: "🔄 Ulang Penilaian",
+                levelNames: ["", "Pemula", "Pemula Lanjut", "Kompeten", "Mahir", "Ahli"],
+                levelDescs: [
+                    "",
+                    "Kamu mengikuti aturan dan instruksi, masih belajar dasar-dasar",
+                    "Kamu mengenali pola dan bekerja mandiri untuk tugas familiar",
+                    "Kamu merencanakan secara sistematis dan menangani kompleksitas dengan baik",
+                    "Kamu melihat gambaran besar dan membimbing orang lain",
+                    "Kamu berinovasi, menetapkan standar, dan membentuk organisasi"
+                ],
+                certRecommend: {
+                    low: "Mulai dengan ISTQB CTFL untuk membangun fondasi.",
+                    mid: "Pertimbangkan CT-AI atau CT-GenAI untuk menambah skill AI.",
+                    high: "Kamu siap untuk sertifikasi lanjutan dan peran kepemimpinan."
+                },
+                focusText: "Ini bucket dengan skor terendahmu ({score}). Prioritaskan peningkatan di sini untuk pertumbuhan seimbang.",
+                strengthText: "Kamu unggul di sini ({score})! Pertimbangkan untuk membimbing orang lain di area ini."
+            }
+        };
+        
+        // ============================================
+        // QUESTION SETS (3 different sets for variety)
+        // ============================================
+        
+        const questionSetsEN = {
+            // ========== SET A ==========
+            A: [
+                // Functional Excellence
+                {
+                    bucket: "Functional Excellence",
+                    bucketIcon: "🔬",
+                    question: "How do you approach creating test cases for a new feature?",
+                    help: "Think about your typical workflow when assigned a new feature to test.",
+                    options: [
+                        { level: 1, title: "I copy existing test cases and modify them", desc: "I need examples to work from" },
+                        { level: 2, title: "I write test cases based on the requirements", desc: "I can identify positive and negative scenarios" },
+                        { level: 3, title: "I apply systematic techniques like BVA and decision tables", desc: "I proactively find edge cases" },
+                        { level: 4, title: "I design risk-based strategies and mentor others", desc: "I optimize coverage with minimum cases" },
+                        { level: 5, title: "I define test design standards for the organization", desc: "I innovate new approaches for complex systems" }
+                    ]
+                },
+                {
+                    bucket: "Functional Excellence",
+                    bucketIcon: "🔬",
+                    question: "How well do you understand the system you're testing?",
+                    help: "Consider your knowledge of architecture, integrations, and business domain.",
+                    options: [
+                        { level: 1, title: "I understand my assigned feature only", desc: "I rely on documentation for everything else" },
+                        { level: 2, title: "I know how my feature connects to adjacent modules", desc: "I can explain the business purpose" },
+                        { level: 3, title: "I understand end-to-end flows and data integration", desc: "I can predict impact of changes" },
+                        { level: 4, title: "I have deep knowledge of system architecture", desc: "I'm the go-to person for system questions" },
+                        { level: 5, title: "I influence architectural decisions", desc: "I have a comprehensive mental model of the ecosystem" }
+                    ]
+                },
+                // Problem Solving
+                {
+                    bucket: "Problem Solving",
+                    bucketIcon: "🧩",
+                    question: "When you find a bug, how do you investigate it?",
+                    help: "Think about your debugging and root cause analysis approach.",
+                    options: [
+                        { level: 1, title: "I describe the symptom and escalate", desc: "I need guidance on how to investigate" },
+                        { level: 2, title: "I check logs and compare working vs non-working scenarios", desc: "I can rule out common causes" },
+                        { level: 3, title: "I apply 5-Whys and document findings systematically", desc: "I propose solutions that address root cause" },
+                        { level: 4, title: "I lead RCA sessions and design experiments", desc: "I connect patterns across multiple incidents" },
+                        { level: 5, title: "I design RCA frameworks for the organization", desc: "I build systems that prevent recurrence" }
+                    ]
+                },
+                {
+                    bucket: "Problem Solving",
+                    bucketIcon: "🧩",
+                    question: "How do you handle risk assessment in testing?",
+                    help: "Consider how you identify, prioritize, and communicate risks.",
+                    options: [
+                        { level: 1, title: "I follow risk checklists when provided", desc: "I report concerns to senior members" },
+                        { level: 2, title: "I can identify obvious risks in my area", desc: "I understand high vs low risk" },
+                        { level: 3, title: "I proactively document and assess likelihood/impact", desc: "I prioritize testing based on risk" },
+                        { level: 4, title: "I create risk matrices and influence release decisions", desc: "I quantify business impact" },
+                        { level: 5, title: "I establish risk management frameworks", desc: "I advise leadership on quality risk decisions" }
+                    ]
+                },
+                // Impact & Ownership
+                {
+                    bucket: "Impact & Ownership",
+                    bucketIcon: "🎯",
+                    question: "How do you take ownership of quality?",
+                    help: "Think about your accountability and initiative level.",
+                    options: [
+                        { level: 1, title: "I complete assigned tasks and ask for next steps", desc: "I'm learning the team processes" },
+                        { level: 2, title: "I take ownership of my test areas", desc: "I proactively update status and identify blockers" },
+                        { level: 3, title: "I own quality end-to-end for my features", desc: "I drive issues to resolution, not just report them" },
+                        { level: 4, title: "I own quality across multiple features/team areas", desc: "I hold others accountable too" },
+                        { level: 5, title: "I shape the quality culture of the organization", desc: "I drive strategic quality initiatives" }
+                    ]
+                },
+                {
+                    bucket: "Impact & Ownership",
+                    bucketIcon: "🎯",
+                    question: "How do you contribute beyond your assigned tasks?",
+                    help: "Consider your proactive improvements and initiatives.",
+                    options: [
+                        { level: 1, title: "I focus on completing my current tasks", desc: "I'm still learning the basics" },
+                        { level: 2, title: "I suggest small improvements when I notice issues", desc: "I take initiative on simple fixes" },
+                        { level: 3, title: "I propose and implement process improvements", desc: "I create tools/scripts to help the team" },
+                        { level: 4, title: "I lead improvement initiatives across teams", desc: "I mentor others on best practices" },
+                        { level: 5, title: "I drive organization-wide transformation", desc: "I influence industry practices" }
+                    ]
+                },
+                // Communication
+                {
+                    bucket: "Communication",
+                    bucketIcon: "💬",
+                    question: "How do you communicate test results and issues?",
+                    help: "Think about your bug reports, status updates, and stakeholder communication.",
+                    options: [
+                        { level: 1, title: "I write basic bug reports with steps to reproduce", desc: "I follow the template provided" },
+                        { level: 2, title: "I write clear, detailed reports with evidence", desc: "I can determine severity and priority" },
+                        { level: 3, title: "I tailor communication for different audiences", desc: "I present test status in team meetings" },
+                        { level: 4, title: "I facilitate discussions and drive alignment", desc: "I create executive-level quality reports" },
+                        { level: 5, title: "I represent quality at leadership level", desc: "I influence through strategic communication" }
+                    ]
+                },
+                {
+                    bucket: "Communication",
+                    bucketIcon: "💬",
+                    question: "How do you collaborate with developers and other teams?",
+                    help: "Consider your cross-functional relationships and teamwork.",
+                    options: [
+                        { level: 1, title: "I wait for instructions and respond to requests", desc: "I interact mainly through tickets" },
+                        { level: 2, title: "I ask clarifying questions and share findings", desc: "I participate in team discussions" },
+                        { level: 3, title: "I proactively coordinate with devs and PMs", desc: "I build good working relationships" },
+                        { level: 4, title: "I bridge gaps between teams and resolve conflicts", desc: "I'm known as a great collaborator" },
+                        { level: 5, title: "I shape cross-functional processes and culture", desc: "I build collaborative networks" }
+                    ]
+                },
+                // Process & Strategy
+                {
+                    bucket: "Process & Strategy",
+                    bucketIcon: "⚙️",
+                    question: "How do you approach test planning and strategy?",
+                    help: "Think about your planning, estimation, and strategic thinking.",
+                    options: [
+                        { level: 1, title: "I follow the test plan created by others", desc: "I execute according to the schedule" },
+                        { level: 2, title: "I contribute to test planning for my features", desc: "I can estimate my own testing effort" },
+                        { level: 3, title: "I create test plans and define strategies", desc: "I balance scope, time, and risk" },
+                        { level: 4, title: "I design test strategies for complex releases", desc: "I optimize processes across teams" },
+                        { level: 5, title: "I define testing standards and frameworks", desc: "I shape the organization's test strategy" }
+                    ]
+                },
+                {
+                    bucket: "Process & Strategy",
+                    bucketIcon: "⚙️",
+                    question: "How do you drive process improvement?",
+                    help: "Consider your contribution to improving how the team works.",
+                    options: [
+                        { level: 1, title: "I follow the existing processes", desc: "I'm still learning how things work" },
+                        { level: 2, title: "I identify inefficiencies and suggest fixes", desc: "I adopt new tools when introduced" },
+                        { level: 3, title: "I implement improvements in my team", desc: "I automate repetitive tasks" },
+                        { level: 4, title: "I lead process improvement initiatives", desc: "I introduce new methodologies" },
+                        { level: 5, title: "I transform organizational practices", desc: "I'm a thought leader in QA process" }
+                    ]
+                },
+                // Culture & Values
+                {
+                    bucket: "Culture & Values",
+                    bucketIcon: "💎",
+                    question: "How do you approach learning and growth?",
+                    help: "Think about your learning habits and knowledge sharing.",
+                    options: [
+                        { level: 1, title: "I learn what's needed for my current tasks", desc: "I attend required training" },
+                        { level: 2, title: "I actively seek to learn new skills", desc: "I ask questions and seek feedback" },
+                        { level: 3, title: "I share knowledge with the team", desc: "I stay updated on industry trends" },
+                        { level: 4, title: "I mentor others and create learning resources", desc: "I present at internal events" },
+                        { level: 5, title: "I shape the learning culture", desc: "I speak at conferences and contribute to the community" }
+                    ]
+                },
+                {
+                    bucket: "Culture & Values",
+                    bucketIcon: "💎",
+                    question: "How do you embody quality mindset in your work?",
+                    help: "Consider your attitude toward quality and continuous improvement.",
+                    options: [
+                        { level: 1, title: "I try to find bugs during testing", desc: "I follow the quality processes" },
+                        { level: 2, title: "I care about quality beyond just my tasks", desc: "I speak up when I see quality issues" },
+                        { level: 3, title: "I advocate for quality in my team", desc: "I push for better practices" },
+                        { level: 4, title: "I champion quality across the organization", desc: "I influence others to care about quality" },
+                        { level: 5, title: "Quality is part of my identity", desc: "I inspire a culture where quality is everyone's responsibility" }
+                    ]
+                }
+            ],
+
+            // ========== SET B ==========
+            B: [
+                // Functional Excellence
+                {
+                    bucket: "Functional Excellence",
+                    bucketIcon: "🔬",
+                    question: "How do you handle regression testing for a release?",
+                    help: "Think about your approach to ensuring existing functionality still works.",
+                    options: [
+                        { level: 1, title: "I run the test cases assigned to me", desc: "I follow the regression checklist" },
+                        { level: 2, title: "I select relevant test cases based on changes", desc: "I understand which areas might be affected" },
+                        { level: 3, title: "I optimize test selection based on risk and impact", desc: "I identify critical paths to test" },
+                        { level: 4, title: "I design regression strategies and automate key tests", desc: "I reduce regression time while maintaining coverage" },
+                        { level: 5, title: "I architect regression frameworks for the organization", desc: "I innovate with AI-based test selection" }
+                    ]
+                },
+                {
+                    bucket: "Functional Excellence",
+                    bucketIcon: "🔬",
+                    question: "How do you approach API or backend testing?",
+                    help: "Consider your technical testing skills beyond UI.",
+                    options: [
+                        { level: 1, title: "I focus mainly on UI testing", desc: "API testing is handled by others" },
+                        { level: 2, title: "I can use Postman for basic API calls", desc: "I verify responses match expected results" },
+                        { level: 3, title: "I design comprehensive API test suites", desc: "I validate error handling and edge cases" },
+                        { level: 4, title: "I automate API tests and integrate with CI/CD", desc: "I design contract testing strategies" },
+                        { level: 5, title: "I define API testing standards and mentor others", desc: "I architect testing frameworks" }
+                    ]
+                },
+                // Problem Solving
+                {
+                    bucket: "Problem Solving",
+                    bucketIcon: "🧩",
+                    question: "How do you approach troubleshooting flaky tests?",
+                    help: "Think about dealing with tests that sometimes pass, sometimes fail.",
+                    options: [
+                        { level: 1, title: "I report the flaky test and re-run it", desc: "I wait for someone to fix it" },
+                        { level: 2, title: "I try to identify patterns in when it fails", desc: "I can distinguish real bugs from test issues" },
+                        { level: 3, title: "I analyze logs and timing to find root cause", desc: "I fix simple flakiness issues" },
+                        { level: 4, title: "I implement systematic approaches to reduce flakiness", desc: "I create guidelines for stable tests" },
+                        { level: 5, title: "I design infrastructure to detect and prevent flaky tests", desc: "I transform test reliability org-wide" }
+                    ]
+                },
+                {
+                    bucket: "Problem Solving",
+                    bucketIcon: "🧩",
+                    question: "How do you prioritize what to test when time is limited?",
+                    help: "Consider your decision-making under pressure.",
+                    options: [
+                        { level: 1, title: "I test what I can and report incomplete coverage", desc: "I ask lead what to prioritize" },
+                        { level: 2, title: "I focus on the most critical user flows", desc: "I skip lower priority test cases" },
+                        { level: 3, title: "I apply risk-based prioritization systematically", desc: "I communicate trade-offs clearly" },
+                        { level: 4, title: "I make strategic decisions balancing multiple factors", desc: "I negotiate scope with stakeholders" },
+                        { level: 5, title: "I have intuitive judgment from deep experience", desc: "My prioritization decisions are trusted" }
+                    ]
+                },
+                // Impact & Ownership
+                {
+                    bucket: "Impact & Ownership",
+                    bucketIcon: "🎯",
+                    question: "How do you handle a critical bug found in production?",
+                    help: "Think about your response to urgent quality issues.",
+                    options: [
+                        { level: 1, title: "I report it and wait for instructions", desc: "I assist when asked" },
+                        { level: 2, title: "I immediately investigate and gather details", desc: "I help reproduce the issue" },
+                        { level: 3, title: "I coordinate the response and track resolution", desc: "I ensure proper fix verification" },
+                        { level: 4, title: "I lead incident response and post-mortem", desc: "I implement preventive measures" },
+                        { level: 5, title: "I shape incident response processes", desc: "I transform how the org handles production issues" }
+                    ]
+                },
+                {
+                    bucket: "Impact & Ownership",
+                    bucketIcon: "🎯",
+                    question: "How do you approach testing in Agile sprints?",
+                    help: "Consider your role in the development cycle.",
+                    options: [
+                        { level: 1, title: "I wait for features to be ready to test", desc: "I test at the end of sprint" },
+                        { level: 2, title: "I participate in sprint ceremonies", desc: "I start testing as features are completed" },
+                        { level: 3, title: "I'm involved from story refinement to release", desc: "I identify testability issues early" },
+                        { level: 4, title: "I shape how quality is built into the sprint", desc: "I coach the team on shift-left testing" },
+                        { level: 5, title: "I define Agile QA practices for the organization", desc: "I'm a thought leader in Agile testing" }
+                    ]
+                },
+                // Communication
+                {
+                    bucket: "Communication",
+                    bucketIcon: "💬",
+                    question: "How do you handle disagreements about bug severity?",
+                    help: "Think about resolving conflicts with developers or PMs.",
+                    options: [
+                        { level: 1, title: "I accept what the developer or PM decides", desc: "I avoid conflict" },
+                        { level: 2, title: "I explain my reasoning but defer to others", desc: "I document my concerns" },
+                        { level: 3, title: "I advocate for user perspective with evidence", desc: "I find compromises when needed" },
+                        { level: 4, title: "I facilitate productive discussions to reach consensus", desc: "I'm respected for balanced judgment" },
+                        { level: 5, title: "I've established severity guidelines everyone follows", desc: "My opinion carries weight org-wide" }
+                    ]
+                },
+                {
+                    bucket: "Communication",
+                    bucketIcon: "💬",
+                    question: "How do you share testing knowledge with the team?",
+                    help: "Consider your knowledge sharing and documentation practices.",
+                    options: [
+                        { level: 1, title: "I answer questions when asked", desc: "I focus on my own work" },
+                        { level: 2, title: "I share useful tips in team channels", desc: "I help onboard new team members" },
+                        { level: 3, title: "I create documentation and conduct knowledge sharing sessions", desc: "I maintain team wiki pages" },
+                        { level: 4, title: "I run training sessions and workshops", desc: "I'm the go-to person for QA knowledge" },
+                        { level: 5, title: "I build learning programs and contribute to community", desc: "I publish articles and speak at events" }
+                    ]
+                },
+                // Process & Strategy
+                {
+                    bucket: "Process & Strategy",
+                    bucketIcon: "⚙️",
+                    question: "How do you approach test automation decisions?",
+                    help: "Think about when and what to automate.",
+                    options: [
+                        { level: 1, title: "I run automated tests created by others", desc: "I report when they fail" },
+                        { level: 2, title: "I can maintain and update existing automated tests", desc: "I understand the automation framework" },
+                        { level: 3, title: "I decide what to automate based on ROI", desc: "I create new automated tests" },
+                        { level: 4, title: "I design automation strategies and frameworks", desc: "I mentor others on automation" },
+                        { level: 5, title: "I shape the organization's automation vision", desc: "I evaluate and introduce new tools" }
+                    ]
+                },
+                {
+                    bucket: "Process & Strategy",
+                    bucketIcon: "⚙️",
+                    question: "How do you use testing metrics and data?",
+                    help: "Consider how you measure and improve quality.",
+                    options: [
+                        { level: 1, title: "I report my test execution numbers", desc: "I don't analyze metrics" },
+                        { level: 2, title: "I track my own productivity metrics", desc: "I understand basic test metrics" },
+                        { level: 3, title: "I use metrics to identify improvement areas", desc: "I create team dashboards" },
+                        { level: 4, title: "I define KPIs and drive data-informed decisions", desc: "I present metrics to leadership" },
+                        { level: 5, title: "I shape org-wide quality metrics strategy", desc: "I pioneer new measurement approaches" }
+                    ]
+                },
+                // Culture & Values
+                {
+                    bucket: "Culture & Values",
+                    bucketIcon: "💎",
+                    question: "How do you handle feedback on your testing work?",
+                    help: "Think about your response to criticism or suggestions.",
+                    options: [
+                        { level: 1, title: "I accept feedback but sometimes feel defensive", desc: "I'm learning to improve" },
+                        { level: 2, title: "I appreciate feedback and try to apply it", desc: "I ask clarifying questions" },
+                        { level: 3, title: "I actively seek feedback and track my improvement", desc: "I see feedback as a gift" },
+                        { level: 4, title: "I create feedback loops and help others grow", desc: "I give and receive feedback well" },
+                        { level: 5, title: "I've built a feedback culture in my team/org", desc: "I model continuous improvement" }
+                    ]
+                },
+                {
+                    bucket: "Culture & Values",
+                    bucketIcon: "💎",
+                    question: "How do you stay current with testing trends and tools?",
+                    help: "Consider your professional development habits.",
+                    options: [
+                        { level: 1, title: "I learn tools when required for my job", desc: "I don't follow industry trends" },
+                        { level: 2, title: "I occasionally read testing blogs or articles", desc: "I'm curious about new tools" },
+                        { level: 3, title: "I regularly learn new skills and try new tools", desc: "I follow industry leaders" },
+                        { level: 4, title: "I experiment with emerging technologies", desc: "I introduce new practices to my team" },
+                        { level: 5, title: "I contribute to the testing community", desc: "I help shape industry trends" }
+                    ]
+                }
+            ],
+
+            // ========== SET C ==========
+            C: [
+                // Functional Excellence
+                {
+                    bucket: "Functional Excellence",
+                    bucketIcon: "🔬",
+                    question: "How do you test edge cases and boundary conditions?",
+                    help: "Think about how thoroughly you explore unusual scenarios.",
+                    options: [
+                        { level: 1, title: "I test the main scenarios documented", desc: "Edge cases are often missed" },
+                        { level: 2, title: "I think of basic edge cases for my features", desc: "I test boundaries when obvious" },
+                        { level: 3, title: "I systematically identify edge cases using techniques", desc: "I apply equivalence partitioning" },
+                        { level: 4, title: "I anticipate edge cases others miss", desc: "I mentor others on thorough testing" },
+                        { level: 5, title: "I design edge case identification frameworks", desc: "I'm known for finding hidden bugs" }
+                    ]
+                },
+                {
+                    bucket: "Functional Excellence",
+                    bucketIcon: "🔬",
+                    question: "How do you approach exploratory testing?",
+                    help: "Consider your skills in unscripted, creative testing.",
+                    options: [
+                        { level: 1, title: "I prefer following documented test cases", desc: "Exploratory testing feels random" },
+                        { level: 2, title: "I do some exploration after completing scripts", desc: "I sometimes find extra bugs" },
+                        { level: 3, title: "I use charter-based exploratory sessions", desc: "I document my exploration systematically" },
+                        { level: 4, title: "I combine exploration with targeted heuristics", desc: "I teach exploratory testing to others" },
+                        { level: 5, title: "I've developed exploratory testing frameworks", desc: "I'm a recognized expert in this area" }
+                    ]
+                },
+                // Problem Solving
+                {
+                    bucket: "Problem Solving",
+                    bucketIcon: "🧩",
+                    question: "How do you use debugging tools and logs?",
+                    help: "Think about your technical debugging capabilities.",
+                    options: [
+                        { level: 1, title: "I rely on UI behavior to understand issues", desc: "Log analysis is challenging for me" },
+                        { level: 2, title: "I can read basic logs and browser console", desc: "I use DevTools for simple debugging" },
+                        { level: 3, title: "I analyze logs across multiple services", desc: "I use debugging proxies like Charles" },
+                        { level: 4, title: "I trace issues through complex distributed systems", desc: "I correlate data from multiple sources" },
+                        { level: 5, title: "I design debugging and observability strategies", desc: "I build tools to improve debuggability" }
+                    ]
+                },
+                {
+                    bucket: "Problem Solving",
+                    bucketIcon: "🧩",
+                    question: "How do you approach testing AI/ML features?",
+                    help: "Consider testing non-deterministic or AI-powered functionality.",
+                    options: [
+                        { level: 1, title: "I haven't tested AI features yet", desc: "It seems very different from normal testing" },
+                        { level: 2, title: "I test AI features like regular features", desc: "I verify outputs seem reasonable" },
+                        { level: 3, title: "I understand AI-specific testing challenges", desc: "I test for bias and edge cases" },
+                        { level: 4, title: "I design evaluation strategies for AI systems", desc: "I understand metrics like precision/recall" },
+                        { level: 5, title: "I'm an expert in AI testing methodologies", desc: "I've gotten CT-AI or CT-GenAI certified" }
+                    ]
+                },
+                // Impact & Ownership
+                {
+                    bucket: "Impact & Ownership",
+                    bucketIcon: "🎯",
+                    question: "How do you ensure quality when working under tight deadlines?",
+                    help: "Think about maintaining quality under pressure.",
+                    options: [
+                        { level: 1, title: "I rush and sometimes miss things", desc: "Quality suffers when time is short" },
+                        { level: 2, title: "I focus on critical areas and communicate gaps", desc: "I do my best with available time" },
+                        { level: 3, title: "I negotiate scope and maintain standards", desc: "I won't compromise critical quality" },
+                        { level: 4, title: "I proactively manage expectations and risks", desc: "I find creative solutions to time constraints" },
+                        { level: 5, title: "I've built systems that maintain quality at speed", desc: "I balance business and quality needs" }
+                    ]
+                },
+                {
+                    bucket: "Impact & Ownership",
+                    bucketIcon: "🎯",
+                    question: "How do you contribute to preventing bugs (shift-left)?",
+                    help: "Consider your involvement before code is written.",
+                    options: [
+                        { level: 1, title: "I wait for code to be ready to test", desc: "Prevention isn't my focus" },
+                        { level: 2, title: "I review requirements and ask questions", desc: "I help clarify acceptance criteria" },
+                        { level: 3, title: "I participate in design reviews with quality lens", desc: "I identify risks before coding starts" },
+                        { level: 4, title: "I coach developers on testability and quality", desc: "I implement shift-left practices" },
+                        { level: 5, title: "I've transformed the org to prevent over detect", desc: "Quality is built in from the start" }
+                    ]
+                },
+                // Communication
+                {
+                    bucket: "Communication",
+                    bucketIcon: "💬",
+                    question: "How do you communicate with non-technical stakeholders?",
+                    help: "Think about explaining quality to business people.",
+                    options: [
+                        { level: 1, title: "I focus on talking to technical people", desc: "Business communication is challenging" },
+                        { level: 2, title: "I can explain issues in simple terms", desc: "I avoid technical jargon" },
+                        { level: 3, title: "I translate technical quality into business impact", desc: "I create stakeholder-friendly reports" },
+                        { level: 4, title: "I influence business decisions with quality data", desc: "I'm trusted by non-technical leaders" },
+                        { level: 5, title: "I shape how quality is communicated org-wide", desc: "I bridge technical and business worlds" }
+                    ]
+                },
+                {
+                    bucket: "Communication",
+                    bucketIcon: "💬",
+                    question: "How do you participate in sprint planning and grooming?",
+                    help: "Consider your contribution to Agile ceremonies.",
+                    options: [
+                        { level: 1, title: "I listen and take notes on what to test", desc: "I don't speak up much" },
+                        { level: 2, title: "I ask clarifying questions about testability", desc: "I estimate my testing effort" },
+                        { level: 3, title: "I actively contribute to story refinement", desc: "I help define acceptance criteria" },
+                        { level: 4, title: "I help the team think about quality holistically", desc: "I identify risks and dependencies" },
+                        { level: 5, title: "I shape how the team approaches quality in Agile", desc: "I'm a key voice in planning" }
+                    ]
+                },
+                // Process & Strategy
+                {
+                    bucket: "Process & Strategy",
+                    bucketIcon: "⚙️",
+                    question: "How do you manage your test environment and data?",
+                    help: "Think about your environment and test data practices.",
+                    options: [
+                        { level: 1, title: "I use whatever environment is provided", desc: "Environment issues often block me" },
+                        { level: 2, title: "I can set up my own test environment", desc: "I create basic test data when needed" },
+                        { level: 3, title: "I manage test data strategically", desc: "I ensure consistent environment setup" },
+                        { level: 4, title: "I design test data and environment strategies", desc: "I automate environment provisioning" },
+                        { level: 5, title: "I architect test infrastructure for the org", desc: "I solve complex environment challenges" }
+                    ]
+                },
+                {
+                    bucket: "Process & Strategy",
+                    bucketIcon: "⚙️",
+                    question: "How do you approach performance and load testing?",
+                    help: "Consider your non-functional testing capabilities.",
+                    options: [
+                        { level: 1, title: "I focus on functional testing only", desc: "Performance testing is done by others" },
+                        { level: 2, title: "I can identify obvious performance issues", desc: "I report when things seem slow" },
+                        { level: 3, title: "I can run basic performance test scripts", desc: "I understand load testing concepts" },
+                        { level: 4, title: "I design performance test strategies", desc: "I analyze results and identify bottlenecks" },
+                        { level: 5, title: "I'm an expert in performance engineering", desc: "I shape org performance testing practices" }
+                    ]
+                },
+                // Culture & Values
+                {
+                    bucket: "Culture & Values",
+                    bucketIcon: "💎",
+                    question: "How do you balance quality ideals with practical constraints?",
+                    help: "Think about pragmatism vs perfectionism.",
+                    options: [
+                        { level: 1, title: "I try to test everything thoroughly", desc: "I sometimes hold up releases" },
+                        { level: 2, title: "I'm learning to be pragmatic about coverage", desc: "I struggle with what to skip" },
+                        { level: 3, title: "I make informed trade-offs based on risk", desc: "I communicate constraints clearly" },
+                        { level: 4, title: "I help the team balance quality and delivery", desc: "I'm known for good judgment" },
+                        { level: 5, title: "I've shaped the org's quality philosophy", desc: "I balance idealism with pragmatism" }
+                    ]
+                },
+                {
+                    bucket: "Culture & Values",
+                    bucketIcon: "💎",
+                    question: "How do you handle working on legacy or poorly documented systems?",
+                    help: "Consider your adaptability and resilience.",
+                    options: [
+                        { level: 1, title: "I struggle without documentation", desc: "Legacy systems frustrate me" },
+                        { level: 2, title: "I figure things out through exploration", desc: "I build my own understanding over time" },
+                        { level: 3, title: "I document what I learn for others", desc: "I improve the situation as I work" },
+                        { level: 4, title: "I create strategies for testing legacy systems", desc: "I help others navigate complexity" },
+                        { level: 5, title: "I thrive in ambiguous situations", desc: "I transform chaos into clarity" }
+                    ]
+                }
+            ]
+        };
+
+        // Indonesian Question Sets
+        const questionSetsID = {
+            A: [
+                { bucket: "Functional Excellence", bucketIcon: "🔬", question: "Bagaimana pendekatanmu dalam membuat test case untuk fitur baru?", help: "Pikirkan alur kerjamu saat ditugaskan untuk menguji fitur baru.",
+                    options: [
+                        { level: 1, title: "Saya menyalin test case yang sudah ada dan memodifikasinya", desc: "Saya butuh contoh untuk bekerja" },
+                        { level: 2, title: "Saya menulis test case berdasarkan requirement", desc: "Saya bisa mengidentifikasi skenario positif dan negatif" },
+                        { level: 3, title: "Saya menerapkan teknik sistematis seperti BVA dan decision table", desc: "Saya proaktif menemukan edge case" },
+                        { level: 4, title: "Saya merancang strategi berbasis risiko dan membimbing tim", desc: "Saya mengoptimalkan coverage dengan case minimum" },
+                        { level: 5, title: "Saya menetapkan standar desain test untuk organisasi", desc: "Saya berinovasi pendekatan baru untuk sistem kompleks" }
+                    ]
+                },
+                { bucket: "Functional Excellence", bucketIcon: "🔬", question: "Seberapa baik pemahamanmu tentang sistem yang kamu test?", help: "Pertimbangkan pengetahuanmu tentang arsitektur, integrasi, dan domain bisnis.",
+                    options: [
+                        { level: 1, title: "Saya hanya memahami fitur yang ditugaskan", desc: "Saya bergantung pada dokumentasi untuk yang lain" },
+                        { level: 2, title: "Saya tahu bagaimana fitur saya terhubung ke modul lain", desc: "Saya bisa menjelaskan tujuan bisnisnya" },
+                        { level: 3, title: "Saya memahami alur end-to-end dan integrasi data", desc: "Saya bisa memprediksi dampak perubahan" },
+                        { level: 4, title: "Saya memiliki pengetahuan mendalam tentang arsitektur sistem", desc: "Saya jadi rujukan untuk pertanyaan sistem" },
+                        { level: 5, title: "Saya mempengaruhi keputusan arsitektur", desc: "Saya punya model mental komprehensif dari ekosistem" }
+                    ]
+                },
+                { bucket: "Problem Solving", bucketIcon: "🧩", question: "Saat menemukan bug, bagaimana kamu menginvestigasinya?", help: "Pikirkan pendekatan debugging dan analisis akar masalah.",
+                    options: [
+                        { level: 1, title: "Saya mendeskripsikan gejala dan eskalasi", desc: "Saya butuh panduan untuk investigasi" },
+                        { level: 2, title: "Saya cek log dan bandingkan skenario yang berfungsi vs tidak", desc: "Saya bisa menyingkirkan penyebab umum" },
+                        { level: 3, title: "Saya menerapkan 5-Whys dan mendokumentasikan temuan", desc: "Saya mengusulkan solusi yang mengatasi akar masalah" },
+                        { level: 4, title: "Saya memimpin sesi RCA dan merancang eksperimen", desc: "Saya menghubungkan pola dari berbagai insiden" },
+                        { level: 5, title: "Saya merancang framework RCA untuk organisasi", desc: "Saya membangun sistem yang mencegah berulangnya masalah" }
+                    ]
+                },
+                { bucket: "Problem Solving", bucketIcon: "🧩", question: "Bagaimana pendekatanmu dalam penilaian risiko testing?", help: "Pertimbangkan bagaimana kamu mengidentifikasi, memprioritaskan, dan mengkomunikasikan risiko.",
+                    options: [
+                        { level: 1, title: "Saya mengikuti checklist risiko yang disediakan", desc: "Saya melaporkan kekhawatiran ke senior" },
+                        { level: 2, title: "Saya bisa mengidentifikasi risiko yang jelas di area saya", desc: "Saya memahami risiko tinggi vs rendah" },
+                        { level: 3, title: "Saya proaktif mendokumentasikan dan menilai likelihood/impact", desc: "Saya memprioritaskan testing berdasarkan risiko" },
+                        { level: 4, title: "Saya membuat risk matrix dan mempengaruhi keputusan release", desc: "Saya mengkuantifikasi dampak bisnis" },
+                        { level: 5, title: "Saya membangun framework manajemen risiko", desc: "Saya menasihati leadership tentang keputusan risiko kualitas" }
+                    ]
+                },
+                { bucket: "Impact & Ownership", bucketIcon: "🎯", question: "Bagaimana kamu mengambil ownership atas kualitas?", help: "Pikirkan tingkat akuntabilitas dan inisiatifmu.",
+                    options: [
+                        { level: 1, title: "Saya menyelesaikan tugas dan bertanya langkah selanjutnya", desc: "Saya masih belajar proses tim" },
+                        { level: 2, title: "Saya mengambil ownership area test saya", desc: "Saya proaktif update status dan identifikasi blocker" },
+                        { level: 3, title: "Saya own kualitas end-to-end untuk fitur saya", desc: "Saya mendorong issue sampai selesai, bukan hanya melaporkan" },
+                        { level: 4, title: "Saya own kualitas di berbagai fitur/area tim", desc: "Saya juga hold accountable orang lain" },
+                        { level: 5, title: "Saya membentuk budaya kualitas organisasi", desc: "Saya mendorong inisiatif kualitas strategis" }
+                    ]
+                },
+                { bucket: "Impact & Ownership", bucketIcon: "🎯", question: "Bagaimana kontribusimu di luar tugas yang ditugaskan?", help: "Pertimbangkan improvement dan inisiatif proaktifmu.",
+                    options: [
+                        { level: 1, title: "Saya fokus menyelesaikan tugas saat ini", desc: "Saya masih belajar dasar-dasar" },
+                        { level: 2, title: "Saya menyarankan improvement kecil saat menemukan masalah", desc: "Saya mengambil inisiatif untuk perbaikan sederhana" },
+                        { level: 3, title: "Saya mengusulkan dan mengimplementasikan improvement proses", desc: "Saya membuat tools/script untuk membantu tim" },
+                        { level: 4, title: "Saya memimpin inisiatif improvement lintas tim", desc: "Saya membimbing tim tentang best practice" },
+                        { level: 5, title: "Saya mendorong transformasi organisasi", desc: "Saya mempengaruhi praktik industri" }
+                    ]
+                },
+                { bucket: "Communication", bucketIcon: "💬", question: "Bagaimana kamu mengkomunikasikan hasil test dan issue?", help: "Pikirkan bug report, status update, dan komunikasi stakeholder.",
+                    options: [
+                        { level: 1, title: "Saya menulis bug report dasar dengan steps to reproduce", desc: "Saya mengikuti template yang disediakan" },
+                        { level: 2, title: "Saya menulis laporan jelas dan detail dengan bukti", desc: "Saya bisa menentukan severity dan priority" },
+                        { level: 3, title: "Saya menyesuaikan komunikasi untuk audiens berbeda", desc: "Saya presentasi status test di meeting tim" },
+                        { level: 4, title: "Saya memfasilitasi diskusi dan mendorong alignment", desc: "Saya membuat laporan kualitas level eksekutif" },
+                        { level: 5, title: "Saya merepresentasikan kualitas di level leadership", desc: "Saya mempengaruhi melalui komunikasi strategis" }
+                    ]
+                },
+                { bucket: "Communication", bucketIcon: "💬", question: "Bagaimana kolaborasimu dengan developer dan tim lain?", help: "Pertimbangkan hubungan lintas fungsi dan kerja tim.",
+                    options: [
+                        { level: 1, title: "Saya menunggu instruksi dan merespons permintaan", desc: "Saya berinteraksi terutama lewat tiket" },
+                        { level: 2, title: "Saya bertanya klarifikasi dan berbagi temuan", desc: "Saya berpartisipasi dalam diskusi tim" },
+                        { level: 3, title: "Saya proaktif koordinasi dengan dev dan PM", desc: "Saya membangun hubungan kerja yang baik" },
+                        { level: 4, title: "Saya menjembatani gap antar tim dan menyelesaikan konflik", desc: "Saya dikenal sebagai kolaborator hebat" },
+                        { level: 5, title: "Saya membentuk proses dan budaya lintas fungsi", desc: "Saya membangun jaringan kolaboratif" }
+                    ]
+                },
+                { bucket: "Process & Strategy", bucketIcon: "⚙️", question: "Bagaimana pendekatanmu dalam test planning dan strategi?", help: "Pikirkan perencanaan, estimasi, dan pemikiran strategis.",
+                    options: [
+                        { level: 1, title: "Saya mengikuti test plan yang dibuat orang lain", desc: "Saya eksekusi sesuai jadwal" },
+                        { level: 2, title: "Saya berkontribusi pada test planning untuk fitur saya", desc: "Saya bisa estimasi effort testing saya" },
+                        { level: 3, title: "Saya membuat test plan dan mendefinisikan strategi", desc: "Saya menyeimbangkan scope, waktu, dan risiko" },
+                        { level: 4, title: "Saya merancang test strategy untuk release kompleks", desc: "Saya mengoptimalkan proses lintas tim" },
+                        { level: 5, title: "Saya menetapkan standar dan framework testing", desc: "Saya membentuk strategi test organisasi" }
+                    ]
+                },
+                { bucket: "Process & Strategy", bucketIcon: "⚙️", question: "Bagaimana kamu mendorong improvement proses?", help: "Pertimbangkan kontribusimu untuk meningkatkan cara tim bekerja.",
+                    options: [
+                        { level: 1, title: "Saya mengikuti proses yang ada", desc: "Saya masih belajar cara kerja di sini" },
+                        { level: 2, title: "Saya mengidentifikasi inefisiensi dan menyarankan perbaikan", desc: "Saya adopt tools baru saat diperkenalkan" },
+                        { level: 3, title: "Saya mengimplementasikan improvement di tim saya", desc: "Saya mengotomatisasi tugas berulang" },
+                        { level: 4, title: "Saya memimpin inisiatif improvement proses", desc: "Saya memperkenalkan metodologi baru" },
+                        { level: 5, title: "Saya mentransformasi praktik organisasi", desc: "Saya thought leader dalam proses QA" }
+                    ]
+                },
+                { bucket: "Culture & Values", bucketIcon: "💎", question: "Bagaimana pendekatanmu dalam belajar dan berkembang?", help: "Pikirkan kebiasaan belajar dan berbagi pengetahuan.",
+                    options: [
+                        { level: 1, title: "Saya belajar apa yang dibutuhkan untuk tugas saat ini", desc: "Saya mengikuti training yang diwajibkan" },
+                        { level: 2, title: "Saya aktif mencari belajar skill baru", desc: "Saya bertanya dan mencari feedback" },
+                        { level: 3, title: "Saya berbagi pengetahuan dengan tim", desc: "Saya update dengan tren industri" },
+                        { level: 4, title: "Saya membimbing orang lain dan membuat resource belajar", desc: "Saya presentasi di event internal" },
+                        { level: 5, title: "Saya membentuk budaya belajar", desc: "Saya bicara di konferensi dan berkontribusi ke komunitas" }
+                    ]
+                },
+                { bucket: "Culture & Values", bucketIcon: "💎", question: "Bagaimana kamu mewujudkan mindset kualitas dalam pekerjaanmu?", help: "Pertimbangkan sikapmu terhadap kualitas dan continuous improvement.",
+                    options: [
+                        { level: 1, title: "Saya berusaha menemukan bug saat testing", desc: "Saya mengikuti proses kualitas" },
+                        { level: 2, title: "Saya peduli kualitas di luar tugas saya", desc: "Saya angkat bicara saat melihat masalah kualitas" },
+                        { level: 3, title: "Saya mengadvokasi kualitas di tim saya", desc: "Saya mendorong praktik yang lebih baik" },
+                        { level: 4, title: "Saya champion kualitas di seluruh organisasi", desc: "Saya mempengaruhi orang lain untuk peduli kualitas" },
+                        { level: 5, title: "Kualitas adalah bagian dari identitas saya", desc: "Saya menginspirasi budaya di mana kualitas tanggung jawab semua" }
+                    ]
+                }
+            ],
+            B: [
+                { bucket: "Functional Excellence", bucketIcon: "🔬", question: "Bagaimana pendekatanmu dalam regression testing untuk release?", help: "Pikirkan pendekatanmu memastikan fungsionalitas yang ada masih berfungsi.",
+                    options: [
+                        { level: 1, title: "Saya menjalankan test case yang ditugaskan", desc: "Saya mengikuti checklist regresi" },
+                        { level: 2, title: "Saya memilih test case relevan berdasarkan perubahan", desc: "Saya memahami area mana yang mungkin terpengaruh" },
+                        { level: 3, title: "Saya mengoptimalkan pemilihan test berdasarkan risiko dan dampak", desc: "Saya mengidentifikasi critical path untuk test" },
+                        { level: 4, title: "Saya merancang strategi regresi dan mengotomatisasi test kunci", desc: "Saya mengurangi waktu regresi sambil menjaga coverage" },
+                        { level: 5, title: "Saya merancang framework regresi untuk organisasi", desc: "Saya berinovasi dengan pemilihan test berbasis AI" }
+                    ]
+                },
+                { bucket: "Functional Excellence", bucketIcon: "🔬", question: "Bagaimana pendekatanmu dalam API atau backend testing?", help: "Pertimbangkan skill testing teknismu di luar UI.",
+                    options: [
+                        { level: 1, title: "Saya fokus utama pada UI testing", desc: "API testing ditangani orang lain" },
+                        { level: 2, title: "Saya bisa menggunakan Postman untuk API call dasar", desc: "Saya verifikasi response sesuai expected" },
+                        { level: 3, title: "Saya merancang API test suite komprehensif", desc: "Saya validasi error handling dan edge case" },
+                        { level: 4, title: "Saya otomatisasi API test dan integrasi dengan CI/CD", desc: "Saya merancang strategi contract testing" },
+                        { level: 5, title: "Saya menetapkan standar API testing dan membimbing tim", desc: "Saya merancang testing framework" }
+                    ]
+                },
+                { bucket: "Problem Solving", bucketIcon: "🧩", question: "Bagaimana pendekatanmu troubleshooting flaky test?", help: "Pikirkan menangani test yang kadang pass, kadang fail.",
+                    options: [
+                        { level: 1, title: "Saya melaporkan flaky test dan re-run", desc: "Saya menunggu seseorang memperbaiki" },
+                        { level: 2, title: "Saya mencoba identifikasi pola kapan gagal", desc: "Saya bisa membedakan bug asli dari masalah test" },
+                        { level: 3, title: "Saya menganalisis log dan timing untuk menemukan root cause", desc: "Saya memperbaiki masalah flakiness sederhana" },
+                        { level: 4, title: "Saya mengimplementasikan pendekatan sistematis mengurangi flakiness", desc: "Saya membuat guideline untuk test yang stabil" },
+                        { level: 5, title: "Saya merancang infrastruktur untuk mendeteksi dan mencegah flaky test", desc: "Saya mentransformasi reliabilitas test org-wide" }
+                    ]
+                },
+                { bucket: "Problem Solving", bucketIcon: "🧩", question: "Bagaimana kamu memprioritaskan apa yang ditest saat waktu terbatas?", help: "Pertimbangkan pengambilan keputusan di bawah tekanan.",
+                    options: [
+                        { level: 1, title: "Saya test apa yang bisa dan melaporkan coverage tidak lengkap", desc: "Saya bertanya lead apa yang diprioritaskan" },
+                        { level: 2, title: "Saya fokus pada user flow paling kritis", desc: "Saya skip test case prioritas lebih rendah" },
+                        { level: 3, title: "Saya menerapkan prioritisasi berbasis risiko secara sistematis", desc: "Saya mengkomunikasikan trade-off dengan jelas" },
+                        { level: 4, title: "Saya membuat keputusan strategis menyeimbangkan berbagai faktor", desc: "Saya negosiasi scope dengan stakeholder" },
+                        { level: 5, title: "Saya punya judgment intuitif dari pengalaman mendalam", desc: "Keputusan prioritisasi saya dipercaya" }
+                    ]
+                },
+                { bucket: "Impact & Ownership", bucketIcon: "🎯", question: "Bagaimana kamu menangani bug kritis yang ditemukan di production?", help: "Pikirkan responsmu terhadap masalah kualitas mendesak.",
+                    options: [
+                        { level: 1, title: "Saya melaporkan dan menunggu instruksi", desc: "Saya membantu saat diminta" },
+                        { level: 2, title: "Saya segera investigasi dan kumpulkan detail", desc: "Saya membantu reproduksi masalah" },
+                        { level: 3, title: "Saya koordinasi respons dan track resolusi", desc: "Saya memastikan verifikasi fix yang tepat" },
+                        { level: 4, title: "Saya memimpin incident response dan post-mortem", desc: "Saya mengimplementasikan tindakan preventif" },
+                        { level: 5, title: "Saya membentuk proses incident response", desc: "Saya mentransformasi cara org menangani masalah production" }
+                    ]
+                },
+                { bucket: "Impact & Ownership", bucketIcon: "🎯", question: "Bagaimana pendekatanmu testing dalam sprint Agile?", help: "Pertimbangkan peranmu dalam siklus development.",
+                    options: [
+                        { level: 1, title: "Saya menunggu fitur siap untuk ditest", desc: "Saya test di akhir sprint" },
+                        { level: 2, title: "Saya berpartisipasi dalam sprint ceremony", desc: "Saya mulai testing saat fitur selesai" },
+                        { level: 3, title: "Saya terlibat dari story refinement sampai release", desc: "Saya identifikasi masalah testability lebih awal" },
+                        { level: 4, title: "Saya membentuk bagaimana kualitas dibangun ke dalam sprint", desc: "Saya coach tim tentang shift-left testing" },
+                        { level: 5, title: "Saya mendefinisikan praktik Agile QA untuk organisasi", desc: "Saya thought leader dalam Agile testing" }
+                    ]
+                },
+                { bucket: "Communication", bucketIcon: "💬", question: "Bagaimana kamu menangani ketidaksepakatan tentang severity bug?", help: "Pikirkan menyelesaikan konflik dengan developer atau PM.",
+                    options: [
+                        { level: 1, title: "Saya menerima apa yang developer atau PM putuskan", desc: "Saya menghindari konflik" },
+                        { level: 2, title: "Saya menjelaskan alasan tapi defer ke orang lain", desc: "Saya mendokumentasikan kekhawatiran saya" },
+                        { level: 3, title: "Saya mengadvokasi perspektif user dengan bukti", desc: "Saya mencari kompromi saat dibutuhkan" },
+                        { level: 4, title: "Saya memfasilitasi diskusi produktif untuk mencapai konsensus", desc: "Saya dihormati karena judgment yang seimbang" },
+                        { level: 5, title: "Saya telah membangun guideline severity yang diikuti semua", desc: "Opini saya punya bobot di seluruh org" }
+                    ]
+                },
+                { bucket: "Communication", bucketIcon: "💬", question: "Bagaimana kamu berbagi pengetahuan testing dengan tim?", help: "Pertimbangkan praktik knowledge sharing dan dokumentasi.",
+                    options: [
+                        { level: 1, title: "Saya menjawab pertanyaan saat ditanya", desc: "Saya fokus pada pekerjaan saya sendiri" },
+                        { level: 2, title: "Saya berbagi tips berguna di channel tim", desc: "Saya membantu onboard anggota tim baru" },
+                        { level: 3, title: "Saya membuat dokumentasi dan mengadakan sesi knowledge sharing", desc: "Saya maintain halaman wiki tim" },
+                        { level: 4, title: "Saya mengadakan training session dan workshop", desc: "Saya jadi rujukan untuk pengetahuan QA" },
+                        { level: 5, title: "Saya membangun program learning dan berkontribusi ke komunitas", desc: "Saya publish artikel dan bicara di event" }
+                    ]
+                },
+                { bucket: "Process & Strategy", bucketIcon: "⚙️", question: "Bagaimana pendekatanmu dalam keputusan test automation?", help: "Pikirkan kapan dan apa yang diotomatisasi.",
+                    options: [
+                        { level: 1, title: "Saya menjalankan automated test yang dibuat orang lain", desc: "Saya melaporkan saat gagal" },
+                        { level: 2, title: "Saya bisa maintain dan update automated test yang ada", desc: "Saya memahami automation framework" },
+                        { level: 3, title: "Saya memutuskan apa yang diotomatisasi berdasarkan ROI", desc: "Saya membuat automated test baru" },
+                        { level: 4, title: "Saya merancang strategi dan framework automation", desc: "Saya membimbing tim tentang automation" },
+                        { level: 5, title: "Saya membentuk visi automation organisasi", desc: "Saya mengevaluasi dan memperkenalkan tools baru" }
+                    ]
+                },
+                { bucket: "Process & Strategy", bucketIcon: "⚙️", question: "Bagaimana kamu menggunakan metrik dan data testing?", help: "Pertimbangkan bagaimana kamu mengukur dan meningkatkan kualitas.",
+                    options: [
+                        { level: 1, title: "Saya melaporkan angka eksekusi test saya", desc: "Saya tidak menganalisis metrik" },
+                        { level: 2, title: "Saya track metrik produktivitas saya sendiri", desc: "Saya memahami metrik test dasar" },
+                        { level: 3, title: "Saya menggunakan metrik untuk identifikasi area improvement", desc: "Saya membuat dashboard tim" },
+                        { level: 4, title: "Saya mendefinisikan KPI dan mendorong keputusan berbasis data", desc: "Saya mempresentasikan metrik ke leadership" },
+                        { level: 5, title: "Saya membentuk strategi metrik kualitas org-wide", desc: "Saya pioneer pendekatan pengukuran baru" }
+                    ]
+                },
+                { bucket: "Culture & Values", bucketIcon: "💎", question: "Bagaimana kamu menangani feedback tentang pekerjaan testingmu?", help: "Pikirkan responsmu terhadap kritik atau saran.",
+                    options: [
+                        { level: 1, title: "Saya menerima feedback tapi kadang merasa defensif", desc: "Saya belajar untuk improve" },
+                        { level: 2, title: "Saya menghargai feedback dan mencoba menerapkannya", desc: "Saya bertanya klarifikasi" },
+                        { level: 3, title: "Saya aktif mencari feedback dan track improvement saya", desc: "Saya melihat feedback sebagai hadiah" },
+                        { level: 4, title: "Saya membuat feedback loop dan membantu orang lain berkembang", desc: "Saya memberi dan menerima feedback dengan baik" },
+                        { level: 5, title: "Saya telah membangun budaya feedback di tim/org", desc: "Saya menjadi contoh continuous improvement" }
+                    ]
+                },
+                { bucket: "Culture & Values", bucketIcon: "💎", question: "Bagaimana kamu tetap update dengan tren dan tools testing?", help: "Pertimbangkan kebiasaan pengembangan profesionalmu.",
+                    options: [
+                        { level: 1, title: "Saya belajar tools saat dibutuhkan untuk pekerjaan", desc: "Saya tidak mengikuti tren industri" },
+                        { level: 2, title: "Saya kadang membaca blog atau artikel testing", desc: "Saya penasaran dengan tools baru" },
+                        { level: 3, title: "Saya rutin belajar skill baru dan mencoba tools baru", desc: "Saya mengikuti industry leader" },
+                        { level: 4, title: "Saya bereksperimen dengan teknologi emerging", desc: "Saya memperkenalkan praktik baru ke tim" },
+                        { level: 5, title: "Saya berkontribusi ke komunitas testing", desc: "Saya membantu membentuk tren industri" }
+                    ]
+                }
+            ],
+            C: [
+                { bucket: "Functional Excellence", bucketIcon: "🔬", question: "Bagaimana kamu menguji edge case dan boundary condition?", help: "Pikirkan seberapa menyeluruh kamu mengeksplorasi skenario tidak biasa.",
+                    options: [
+                        { level: 1, title: "Saya menguji skenario utama yang didokumentasikan", desc: "Edge case sering terlewat" },
+                        { level: 2, title: "Saya memikirkan edge case dasar untuk fitur saya", desc: "Saya menguji boundary saat jelas" },
+                        { level: 3, title: "Saya secara sistematis mengidentifikasi edge case dengan teknik", desc: "Saya menerapkan equivalence partitioning" },
+                        { level: 4, title: "Saya mengantisipasi edge case yang orang lain lewatkan", desc: "Saya membimbing tim tentang testing menyeluruh" },
+                        { level: 5, title: "Saya merancang framework identifikasi edge case", desc: "Saya dikenal menemukan bug tersembunyi" }
+                    ]
+                },
+                { bucket: "Functional Excellence", bucketIcon: "🔬", question: "Bagaimana pendekatanmu dalam exploratory testing?", help: "Pertimbangkan skillmu dalam testing unscripted dan kreatif.",
+                    options: [
+                        { level: 1, title: "Saya lebih suka mengikuti test case terdokumentasi", desc: "Exploratory testing terasa random" },
+                        { level: 2, title: "Saya melakukan eksplorasi setelah menyelesaikan script", desc: "Saya kadang menemukan bug ekstra" },
+                        { level: 3, title: "Saya menggunakan charter-based exploratory session", desc: "Saya mendokumentasikan eksplorasi secara sistematis" },
+                        { level: 4, title: "Saya menggabungkan eksplorasi dengan heuristic tertarget", desc: "Saya mengajar exploratory testing ke orang lain" },
+                        { level: 5, title: "Saya telah mengembangkan framework exploratory testing", desc: "Saya ahli yang diakui di area ini" }
+                    ]
+                },
+                { bucket: "Problem Solving", bucketIcon: "🧩", question: "Bagaimana kamu menggunakan debugging tools dan log?", help: "Pikirkan kemampuan debugging teknismu.",
+                    options: [
+                        { level: 1, title: "Saya mengandalkan behavior UI untuk memahami masalah", desc: "Analisis log menantang bagi saya" },
+                        { level: 2, title: "Saya bisa membaca log dasar dan browser console", desc: "Saya menggunakan DevTools untuk debugging sederhana" },
+                        { level: 3, title: "Saya menganalisis log di berbagai service", desc: "Saya menggunakan debugging proxy seperti Charles" },
+                        { level: 4, title: "Saya melacak masalah melalui sistem terdistribusi kompleks", desc: "Saya menghubungkan data dari berbagai sumber" },
+                        { level: 5, title: "Saya merancang strategi debugging dan observability", desc: "Saya membangun tools untuk meningkatkan debuggability" }
+                    ]
+                },
+                { bucket: "Problem Solving", bucketIcon: "🧩", question: "Bagaimana pendekatanmu testing fitur AI/ML?", help: "Pertimbangkan testing fungsionalitas non-deterministik atau berbasis AI.",
+                    options: [
+                        { level: 1, title: "Saya belum menguji fitur AI", desc: "Tampaknya sangat berbeda dari testing normal" },
+                        { level: 2, title: "Saya menguji fitur AI seperti fitur biasa", desc: "Saya verifikasi output tampak wajar" },
+                        { level: 3, title: "Saya memahami tantangan testing khusus AI", desc: "Saya menguji bias dan edge case" },
+                        { level: 4, title: "Saya merancang strategi evaluasi untuk sistem AI", desc: "Saya memahami metrik seperti precision/recall" },
+                        { level: 5, title: "Saya ahli dalam metodologi AI testing", desc: "Saya telah mendapat sertifikasi CT-AI atau CT-GenAI" }
+                    ]
+                },
+                { bucket: "Impact & Ownership", bucketIcon: "🎯", question: "Bagaimana kamu memastikan kualitas saat bekerja di deadline ketat?", help: "Pikirkan mempertahankan kualitas di bawah tekanan.",
+                    options: [
+                        { level: 1, title: "Saya terburu-buru dan kadang melewatkan sesuatu", desc: "Kualitas menderita saat waktu singkat" },
+                        { level: 2, title: "Saya fokus pada area kritis dan komunikasikan gap", desc: "Saya melakukan yang terbaik dengan waktu tersedia" },
+                        { level: 3, title: "Saya negosiasi scope dan maintain standar", desc: "Saya tidak kompromi kualitas kritis" },
+                        { level: 4, title: "Saya proaktif manage ekspektasi dan risiko", desc: "Saya menemukan solusi kreatif untuk constraint waktu" },
+                        { level: 5, title: "Saya telah membangun sistem yang maintain kualitas dengan cepat", desc: "Saya menyeimbangkan kebutuhan bisnis dan kualitas" }
+                    ]
+                },
+                { bucket: "Impact & Ownership", bucketIcon: "🎯", question: "Bagaimana kontribusimu dalam mencegah bug (shift-left)?", help: "Pertimbangkan keterlibatanmu sebelum kode ditulis.",
+                    options: [
+                        { level: 1, title: "Saya menunggu kode siap untuk ditest", desc: "Pencegahan bukan fokus saya" },
+                        { level: 2, title: "Saya review requirement dan bertanya", desc: "Saya membantu klarifikasi acceptance criteria" },
+                        { level: 3, title: "Saya berpartisipasi dalam design review dengan perspektif kualitas", desc: "Saya identifikasi risiko sebelum coding dimulai" },
+                        { level: 4, title: "Saya coach developer tentang testability dan kualitas", desc: "Saya mengimplementasikan praktik shift-left" },
+                        { level: 5, title: "Saya telah mentransformasi org untuk mencegah daripada mendeteksi", desc: "Kualitas dibangun dari awal" }
+                    ]
+                },
+                { bucket: "Communication", bucketIcon: "💬", question: "Bagaimana kamu berkomunikasi dengan stakeholder non-teknis?", help: "Pikirkan menjelaskan kualitas ke orang bisnis.",
+                    options: [
+                        { level: 1, title: "Saya fokus berbicara dengan orang teknis", desc: "Komunikasi bisnis menantang" },
+                        { level: 2, title: "Saya bisa menjelaskan masalah dalam istilah sederhana", desc: "Saya menghindari jargon teknis" },
+                        { level: 3, title: "Saya menerjemahkan kualitas teknis ke dampak bisnis", desc: "Saya membuat laporan ramah stakeholder" },
+                        { level: 4, title: "Saya mempengaruhi keputusan bisnis dengan data kualitas", desc: "Saya dipercaya oleh leader non-teknis" },
+                        { level: 5, title: "Saya membentuk cara kualitas dikomunikasikan org-wide", desc: "Saya menjembatani dunia teknis dan bisnis" }
+                    ]
+                },
+                { bucket: "Communication", bucketIcon: "💬", question: "Bagaimana partisipasimu dalam sprint planning dan grooming?", help: "Pertimbangkan kontribusimu dalam Agile ceremony.",
+                    options: [
+                        { level: 1, title: "Saya mendengarkan dan mencatat apa yang harus ditest", desc: "Saya tidak banyak bicara" },
+                        { level: 2, title: "Saya bertanya klarifikasi tentang testability", desc: "Saya estimasi effort testing saya" },
+                        { level: 3, title: "Saya aktif berkontribusi pada story refinement", desc: "Saya membantu mendefinisikan acceptance criteria" },
+                        { level: 4, title: "Saya membantu tim berpikir tentang kualitas secara holistik", desc: "Saya mengidentifikasi risiko dan dependensi" },
+                        { level: 5, title: "Saya membentuk cara tim mendekati kualitas dalam Agile", desc: "Saya suara kunci dalam planning" }
+                    ]
+                },
+                { bucket: "Process & Strategy", bucketIcon: "⚙️", question: "Bagaimana kamu mengelola test environment dan data?", help: "Pikirkan praktik environment dan test data.",
+                    options: [
+                        { level: 1, title: "Saya menggunakan environment yang disediakan", desc: "Masalah environment sering memblokir saya" },
+                        { level: 2, title: "Saya bisa setup test environment sendiri", desc: "Saya membuat test data dasar saat dibutuhkan" },
+                        { level: 3, title: "Saya mengelola test data secara strategis", desc: "Saya memastikan setup environment konsisten" },
+                        { level: 4, title: "Saya merancang strategi test data dan environment", desc: "Saya otomatisasi provisioning environment" },
+                        { level: 5, title: "Saya merancang infrastruktur test untuk org", desc: "Saya menyelesaikan tantangan environment kompleks" }
+                    ]
+                },
+                { bucket: "Process & Strategy", bucketIcon: "⚙️", question: "Bagaimana pendekatanmu dalam performance dan load testing?", help: "Pertimbangkan kemampuan non-functional testing.",
+                    options: [
+                        { level: 1, title: "Saya fokus pada functional testing saja", desc: "Performance testing ditangani orang lain" },
+                        { level: 2, title: "Saya bisa mengidentifikasi masalah performance yang jelas", desc: "Saya melaporkan saat hal-hal terasa lambat" },
+                        { level: 3, title: "Saya bisa menjalankan script performance test dasar", desc: "Saya memahami konsep load testing" },
+                        { level: 4, title: "Saya merancang strategi performance test", desc: "Saya menganalisis hasil dan mengidentifikasi bottleneck" },
+                        { level: 5, title: "Saya ahli dalam performance engineering", desc: "Saya membentuk praktik performance testing org" }
+                    ]
+                },
+                { bucket: "Culture & Values", bucketIcon: "💎", question: "Bagaimana kamu menyeimbangkan ideal kualitas dengan constraint praktis?", help: "Pikirkan pragmatisme vs perfeksionisme.",
+                    options: [
+                        { level: 1, title: "Saya berusaha menguji semuanya dengan menyeluruh", desc: "Saya kadang menahan release" },
+                        { level: 2, title: "Saya belajar untuk pragmatis tentang coverage", desc: "Saya kesulitan dengan apa yang harus dilewati" },
+                        { level: 3, title: "Saya membuat trade-off berdasarkan risiko", desc: "Saya mengkomunikasikan constraint dengan jelas" },
+                        { level: 4, title: "Saya membantu tim menyeimbangkan kualitas dan delivery", desc: "Saya dikenal karena judgment yang baik" },
+                        { level: 5, title: "Saya telah membentuk filosofi kualitas org", desc: "Saya menyeimbangkan idealisme dengan pragmatisme" }
+                    ]
+                },
+                { bucket: "Culture & Values", bucketIcon: "💎", question: "Bagaimana kamu menangani bekerja pada sistem legacy atau tidak terdokumentasi?", help: "Pertimbangkan adaptabilitas dan resiliensi.",
+                    options: [
+                        { level: 1, title: "Saya kesulitan tanpa dokumentasi", desc: "Sistem legacy membuat frustrasi" },
+                        { level: 2, title: "Saya mencari tahu melalui eksplorasi", desc: "Saya membangun pemahaman sendiri seiring waktu" },
+                        { level: 3, title: "Saya mendokumentasikan apa yang saya pelajari untuk orang lain", desc: "Saya meningkatkan situasi saat bekerja" },
+                        { level: 4, title: "Saya membuat strategi untuk testing sistem legacy", desc: "Saya membantu orang lain menavigasi kompleksitas" },
+                        { level: 5, title: "Saya berkembang dalam situasi ambigu", desc: "Saya mentransformasi kekacauan menjadi kejelasan" }
+                    ]
+                }
+            ]
+        };
+
+        // Get or rotate question set
+        function getQuestionSet() {
+            const sets = ['A', 'B', 'C'];
+            let lastSet = localStorage.getItem('lastQuestionSet') || '';
+            let availableSets = sets.filter(s => s !== lastSet);
+            let selectedSet = availableSets[Math.floor(Math.random() * availableSets.length)];
+            localStorage.setItem('lastQuestionSet', selectedSet);
+            console.log(`Using Question Set ${selectedSet} (${currentLang.toUpperCase()})`);
+            const questionSets = currentLang === 'id' ? questionSetsID : questionSetsEN;
+            return questionSets[selectedSet];
+        }
+
+        // Active questions (selected randomly)
+        let questions = getQuestionSet();
+
+        // Assessment Questions Data (keeping original for reference - replaced by dynamic selection above)
+        // const questions = [
+        //     ... original questions moved to questionSets.A above
+        // ];
+
+        // State
+        let currentQuestion = 0;
+        let answers = {};
+
+        // Rest of the code uses 'questions' variable which is now dynamically selected
+
+        // Bucket mapping
+        const buckets = [
+            { name: "Functional Excellence", icon: "🔬", color: "#14b8a6" },
+            { name: "Problem Solving", icon: "🧩", color: "#6366f1" },
+            { name: "Impact & Ownership", icon: "🎯", color: "#f59e0b" },
+            { name: "Communication", icon: "💬", color: "#ec4899" },
+            { name: "Process & Strategy", icon: "⚙️", color: "#8b5cf6" },
+            { name: "Culture & Values", icon: "💎", color: "#14b8a6" }
+        ];
+
+        const personasData = {
+            en: [
+                { emoji: "🌱", name: "Fresh Graduate", minLevel: 1, maxLevel: 1.5, desc: "Building your foundation" },
+                { emoji: "🚀", name: "Ambitious Climber", minLevel: 1.5, maxLevel: 2.5, desc: "Fast-tracking your growth" },
+                { emoji: "📊", name: "Solid Professional", minLevel: 2.5, maxLevel: 3.5, desc: "Reliable and competent" },
+                { emoji: "👑", name: "Rising Leader", minLevel: 3.5, maxLevel: 4.5, desc: "Ready for senior roles" },
+                { emoji: "🔬", name: "Expert Practitioner", minLevel: 4.5, maxLevel: 5, desc: "A true master of the craft" }
+            ],
+            id: [
+                { emoji: "🌱", name: "Fresh Graduate", minLevel: 1, maxLevel: 1.5, desc: "Membangun fondasi" },
+                { emoji: "🚀", name: "Ambitious Climber", minLevel: 1.5, maxLevel: 2.5, desc: "Cepat berkembang" },
+                { emoji: "📊", name: "Solid Professional", minLevel: 2.5, maxLevel: 3.5, desc: "Handal dan kompeten" },
+                { emoji: "👑", name: "Rising Leader", minLevel: 3.5, maxLevel: 4.5, desc: "Siap untuk peran senior" },
+                { emoji: "🔬", name: "Expert Practitioner", minLevel: 4.5, maxLevel: 5, desc: "Ahli sejati" }
+            ]
+        };
+
+        function getLevelNames() { return translations[currentLang].levelNames; }
+        function getLevelDescs() { return translations[currentLang].levelDescs; }
+        function getPersonas() { return personasData[currentLang]; }
+        function t(key) { return translations[currentLang][key]; }
+
+        // Language switcher
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('assessmentLang', lang);
+            
+            // Update button styles
+            document.getElementById('langEN').style.background = lang === 'en' ? 'var(--primary)' : 'transparent';
+            document.getElementById('langEN').style.color = lang === 'en' ? 'white' : 'var(--text)';
+            document.getElementById('langID').style.background = lang === 'id' ? 'var(--primary)' : 'transparent';
+            document.getElementById('langID').style.color = lang === 'id' ? 'white' : 'var(--text)';
+            
+            // Update header
+            document.getElementById('headerTitle').textContent = t('headerTitle');
+            document.getElementById('headerSubtitle').textContent = t('headerSubtitle');
+            
+            // Update results section static text
+            document.getElementById('resultsHeaderTitle').textContent = t('resultsTitle');
+            document.getElementById('resultsHeaderSubtitle').textContent = t('resultsSubtitle');
+            document.getElementById('sectionProfile').textContent = t('competencyProfile');
+            document.getElementById('sectionBreakdown').textContent = t('detailedBreakdown');
+            document.getElementById('sectionRecommendations').textContent = t('recommendations');
+            document.getElementById('btnExport').textContent = t('exportPDF');
+            document.getElementById('btnShare').textContent = t('shareResults');
+            document.getElementById('btnRetake').textContent = t('retake');
+            
+            // Reset and reload questions
+            questions = getQuestionSet();
+            currentQuestion = 0;
+            answers = {};
+            
+            // Re-render if not showing results
+            if (!document.getElementById('resultsSection').classList.contains('active')) {
+                renderQuestion();
+            }
+        }
+
+        // Initialize
+        function init() {
+            setLanguage(currentLang);
+            renderQuestion();
+        }
+
+        // Render current question
+        function renderQuestion() {
+            const container = document.getElementById('questionsContainer');
+            const q = questions[currentQuestion];
+
+            // Shuffle options for variety (but keep level mapping)
+            const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+
+            let optionsHTML = shuffledOptions.map((opt, idx) => `
+                <div class="option" onclick="selectOption(${idx}, ${opt.level})" data-level="${opt.level}">
+                    <div class="option-radio"></div>
+                    <div class="option-content">
+                        <h4>${opt.title}</h4>
+                        <p>${opt.desc}</p>
+                    </div>
+                    <span class="option-level level-${opt.level}">Level ${opt.level}</span>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="question-card active">
+                    <div class="question-bucket">${q.bucketIcon} ${q.bucket}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="question-help">💡 ${q.help}</div>
+                    <div class="options" id="optionsContainer">${optionsHTML}</div>
+                    <div class="nav-buttons">
+                        <button class="btn btn-secondary" onclick="prevQuestion()" ${currentQuestion === 0 ? 'disabled' : ''}>
+                            ${t('previous')}
+                        </button>
+                        <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>
+                            ${currentQuestion === questions.length - 1 ? t('seeResults') : t('next')}
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            updateProgress();
+
+            // Restore previous answer if exists
+            if (answers[currentQuestion] !== undefined) {
+                const options = document.querySelectorAll('.option');
+                options.forEach((opt) => {
+                    if (parseInt(opt.dataset.level) === answers[currentQuestion]) {
+                        opt.classList.add('selected');
+                        document.getElementById('nextBtn').disabled = false;
+                    }
+                });
+            }
+        }
+
+        // Select option
+        function selectOption(idx, level) {
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelectorAll('.option')[idx].classList.add('selected');
+            answers[currentQuestion] = level;
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        // Navigation
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                showResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Update progress
+        function updateProgress() {
+            const percent = Math.round(((currentQuestion + 1) / questions.length) * 100);
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressPercent').textContent = percent + '%';
+            document.getElementById('progressText').textContent = t('questionOf').replace('{current}', currentQuestion + 1).replace('{total}', questions.length);
+        }
+
+        // Calculate results
+        function calculateResults() {
+            const bucketScores = {};
+            
+            questions.forEach((q, idx) => {
+                const bucket = q.bucket;
+                if (!bucketScores[bucket]) {
+                    bucketScores[bucket] = { total: 0, count: 0 };
+                }
+                bucketScores[bucket].total += answers[idx] || 1;
+                bucketScores[bucket].count++;
+            });
+
+            const results = {};
+            let totalScore = 0;
+            let count = 0;
+
+            for (const bucket in bucketScores) {
+                results[bucket] = Math.round((bucketScores[bucket].total / bucketScores[bucket].count) * 10) / 10;
+                totalScore += results[bucket];
+                count++;
+            }
+
+            results.overall = Math.round((totalScore / count) * 10) / 10;
+            return results;
+        }
+
+        // Show results
+        function showResults() {
+            const levelNames = getLevelNames();
+            const levelDescs = getLevelDescs();
+            const personas = getPersonas();
+            
+            document.getElementById('progressContainer').style.display = 'none';
+            document.getElementById('questionsContainer').style.display = 'none';
+            document.getElementById('resultsSection').classList.add('active');
+            document.getElementById('assessmentHeader').innerHTML = `
+                <h1>${t('yourResults')}</h1>
+                <p>${t('yourProfile')}</p>
+            `;
+
+            const results = calculateResults();
+            const overallLevel = Math.round(results.overall);
+
+            // Overall level
+            document.getElementById('overallLevelNum').textContent = results.overall.toFixed(1);
+            document.getElementById('overallLevelName').textContent = levelNames[overallLevel];
+            document.getElementById('overallLevelDesc').textContent = levelDescs[overallLevel];
+
+            // Find matching persona
+            const persona = personas.find(p => results.overall >= p.minLevel && results.overall < p.maxLevel) || personas[personas.length - 1];
+            document.getElementById('personaMatch').innerHTML = `
+                <div class="emoji">${persona.emoji}</div>
+                <h4>${t('yourPersona')} ${persona.name}</h4>
+                <p>${persona.desc}</p>
+            `;
+
+            // Render bucket results
+            const bucketResultsHTML = buckets.map(b => {
+                const score = results[b.name] || 1;
+                const level = Math.round(score);
+                const percent = (score / 5) * 100;
+                return `
+                    <div class="bucket-result">
+                        <div class="icon">${b.icon}</div>
+                        <div class="info">
+                            <div class="name">${b.name}</div>
+                            <div class="level-bar">
+                                <div class="level-fill" style="width: ${percent}%; background: ${b.color};"></div>
+                            </div>
+                        </div>
+                        <div class="level-badge level-${level}">${score.toFixed(1)} - ${levelNames[level]}</div>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('bucketResults').innerHTML = bucketResultsHTML;
+
+            // Recommendations
+            const weakest = buckets.reduce((min, b) => 
+                (results[b.name] || 5) < (results[min.name] || 5) ? b : min
+            );
+            const strongest = buckets.reduce((max, b) => 
+                (results[b.name] || 1) > (results[max.name] || 1) ? b : max
+            );
+            
+            const certRec = results.overall < 3 ? t('certRecommend').low : results.overall < 4 ? t('certRecommend').mid : t('certRecommend').high;
+
+            document.getElementById('recommendations').innerHTML = `
+                <div class="recommendation">
+                    <div class="icon">📈</div>
+                    <div>
+                        <h4>${t('focusArea')} ${weakest.name}</h4>
+                        <p>${t('focusText').replace('{score}', results[weakest.name]?.toFixed(1))}</p>
+                    </div>
+                </div>
+                <div class="recommendation">
+                    <div class="icon">⭐</div>
+                    <div>
+                        <h4>${t('strength')} ${strongest.name}</h4>
+                        <p>${t('strengthText').replace('{score}', results[strongest.name]?.toFixed(1))}</p>
+                    </div>
+                </div>
+                <div class="recommendation">
+                    <div class="icon">🎓</div>
+                    <div>
+                        <h4>${t('nextCert')}</h4>
+                        <p>${certRec}</p>
+                    </div>
+                </div>
+                <div class="recommendation">
+                    <div class="icon">📚</div>
+                    <div>
+                        <h4>${t('learningPath')}</h4>
+                        <p>${t('checkCourses')} <a href="QA_Learning_Plan.html" style="color: var(--primary);">QA Learning Plan</a></p>
+                    </div>
+                </div>
+            `;
+
+            // Render radar chart
+            renderChart(results);
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Render radar chart
+        function renderChart(results) {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: buckets.map(b => b.name),
+                    datasets: [{
+                        label: 'Your Level',
+                        data: buckets.map(b => results[b.name] || 1),
+                        backgroundColor: 'rgba(13, 148, 136, 0.2)',
+                        borderColor: '#14b8a6',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#14b8a6',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            min: 0,
+                            max: 5,
+                            ticks: {
+                                stepSize: 1,
+                                font: { size: 12 }
+                            },
+                            pointLabels: {
+                                font: { size: 13, weight: '600' }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        // Export PDF
+        async function exportPDF() {
+            const { jsPDF } = window.jspdf;
+            const element = document.getElementById('resultsExport');
+            
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#f0fdfa'
+            });
+            
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            
+            const pageWidth = 210;
+            const pageHeight = 297;
+            const margin = 10;
+            const headerHeight = 30;
+            const footerHeight = 15;
+            const contentWidth = pageWidth - (margin * 2);
+            const contentHeight = pageHeight - headerHeight - footerHeight;
+            
+            const imgWidth = contentWidth;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            
+            // Calculate pages needed
+            const totalPages = Math.ceil(imgHeight / contentHeight);
+            
+            for (let page = 0; page < totalPages; page++) {
+                if (page > 0) pdf.addPage();
+                
+                // Background
+                pdf.setFillColor(240, 253, 250);
+                pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+                
+                // Header (first page only)
+                if (page === 0) {
+                    pdf.setFontSize(20);
+                    pdf.setTextColor(13, 148, 136);
+                    pdf.text('QA Skill Assessment Results', pageWidth / 2, 15, { align: 'center' });
+                    
+                    pdf.setFontSize(10);
+                    pdf.setTextColor(100, 116, 139);
+                    pdf.text('Generated from NgobrolQA | ngobrolqa.com', pageWidth / 2, 22, { align: 'center' });
+                }
+                
+                // Content - slice image for this page
+                const sourceY = page * contentHeight * (canvas.width / imgWidth);
+                const sourceHeight = Math.min(contentHeight * (canvas.width / imgWidth), canvas.height - sourceY);
+                const destHeight = sourceHeight * (imgWidth / canvas.width);
+                
+                // Create a temporary canvas for this page slice
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = canvas.width;
+                tempCanvas.height = sourceHeight;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.drawImage(canvas, 0, sourceY, canvas.width, sourceHeight, 0, 0, canvas.width, sourceHeight);
+                
+                const sliceData = tempCanvas.toDataURL('image/png');
+                pdf.addImage(sliceData, 'PNG', margin, page === 0 ? headerHeight : margin, imgWidth, destHeight);
+                
+                // Footer
+                pdf.setFontSize(8);
+                pdf.setTextColor(100, 116, 139);
+                pdf.text(`Page ${page + 1} of ${totalPages}`, pageWidth / 2, pageHeight - 8, { align: 'center' });
+                pdf.text('© 2026 NgobrolQA by Aditya Mirza Bahari', pageWidth / 2, pageHeight - 4, { align: 'center' });
+            }
+            
+            pdf.save('QA_Skill_Assessment_Results.pdf');
+        }
+
+        // Share results
+        function shareResults() {
+            const results = calculateResults();
+            const text = `🎯 My QA Skill Assessment Results!\n\nOverall Level: ${results.overall.toFixed(1)} - ${levelNames[Math.round(results.overall)]}\n\nTake the assessment at ngobrolqa.com/QA_Self_Assessment.html`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'QA Skill Assessment Results',
+                    text: text,
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(text);
+                alert('Results copied to clipboard!');
+            }
+        }
+
+        // Restart - picks a new question set
+        function restartAssessment() {
+            currentQuestion = 0;
+            answers = {};
+            questions = getQuestionSet(); // Get a different question set
+            document.getElementById('progressContainer').style.display = 'block';
+            document.getElementById('questionsContainer').style.display = 'block';
+            document.getElementById('resultsSection').classList.remove('active');
+            document.getElementById('assessmentHeader').innerHTML = `
+                <h1>🎯 QA Skill Self-Assessment</h1>
+                <p>Discover your Dreyfus level across 6 competency buckets</p>
+            `;
+            renderQuestion();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        init();
+    </script>
+</body>
+</html>

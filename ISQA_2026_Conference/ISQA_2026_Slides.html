@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Know Your Level, Plan Your Path - ISQA Conference 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0d9488;
+            --primary-dark: #0f766e;
+            --primary-light: #ccfbf1;
+            --secondary: #0891b2;
+            --bg: #f0fdfa;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #0d9488, #0891b2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        /* Slide Container */
+        .slides-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            padding: 60px 80px;
+            background: var(--white);
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Title Slide */
+        .slide.title-slide {
+            background: var(--gradient);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide.title-slide h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .slide.title-slide .subtitle {
+            font-size: 1.8rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+        }
+
+        .slide.title-slide .speaker-info {
+            margin-top: 2rem;
+            font-size: 1.3rem;
+        }
+
+        .slide.title-slide .speaker-info strong {
+            font-weight: 700;
+        }
+
+        .slide.title-slide .event-info {
+            position: absolute;
+            bottom: 40px;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Section Title Slide */
+        .slide.section-slide {
+            background: var(--gradient);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide.section-slide .section-number {
+            font-size: 6rem;
+            font-weight: 900;
+            opacity: 0.3;
+            margin-bottom: -2rem;
+        }
+
+        .slide.section-slide h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+        }
+
+        .slide.section-slide .section-subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-top: 1rem;
+        }
+
+        /* Regular Slide */
+        .slide-header {
+            margin-bottom: 2rem;
+        }
+
+        .slide-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .slide-header .emoji {
+            font-size: 2.5rem;
+        }
+
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Quote Box */
+        .quote-box {
+            background: var(--primary-light);
+            border-left: 6px solid var(--primary);
+            padding: 2rem;
+            border-radius: 0 16px 16px 0;
+            margin: 1rem 0;
+        }
+
+        .quote-box p {
+            font-size: 1.8rem;
+            font-style: italic;
+            color: var(--primary-dark);
+        }
+
+        /* Pain Points */
+        .pain-points {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .pain-point {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 12px 12px 0;
+            font-size: 1.4rem;
+            color: #991b1b;
+        }
+
+        /* Journey Steps */
+        .journey-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .journey-step {
+            background: var(--white);
+            border: 2px solid var(--primary-light);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .journey-step:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(13, 148, 136, 0.15);
+        }
+
+        .journey-step .number {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin: 0 auto 1rem;
+        }
+
+        .journey-step h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .journey-step p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        /* Dreyfus Levels */
+        .dreyfus-pyramid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .dreyfus-level {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            transition: transform 0.3s;
+        }
+
+        .dreyfus-level:hover {
+            transform: scale(1.02);
+        }
+
+        .dreyfus-level .level-num {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 1rem;
+            color: white;
+        }
+
+        .dreyfus-level .level-name {
+            font-weight: 600;
+            font-size: 1.2rem;
+            width: 160px;
+        }
+
+        .dreyfus-level .level-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        .level-5 { background: #f3e8ff; }
+        .level-5 .level-num { background: #9333ea; }
+        .level-4 { background: #dbeafe; }
+        .level-4 .level-num { background: #2563eb; }
+        .level-3 { background: #dcfce7; }
+        .level-3 .level-num { background: #16a34a; }
+        .level-2 { background: #fef9c3; }
+        .level-2 .level-num { background: #ca8a04; }
+        .level-1 { background: #fee2e2; }
+        .level-1 .level-num { background: #dc2626; }
+
+        /* Competency Grid */
+        .competency-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .competency-card {
+            background: var(--white);
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .competency-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+
+        .competency-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .competency-card h3 {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .competency-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Statement Examples */
+        .statement-examples {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .statement {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg);
+            border-radius: 12px;
+        }
+
+        .statement .level-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .statement .text {
+            font-size: 1.15rem;
+        }
+
+        .badge-1 { background: #fee2e2; color: #991b1b; }
+        .badge-3 { background: #dcfce7; color: #166534; }
+        .badge-5 { background: #f3e8ff; color: #6b21a8; }
+
+        /* Persona Grid */
+        .persona-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+        }
+
+        .persona-card {
+            background: var(--white);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .persona-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .persona-card .emoji {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .persona-card .name {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* AI Section */
+        .ai-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .ai-box {
+            padding: 2rem;
+            border-radius: 16px;
+        }
+
+        .ai-box.wrong {
+            background: #fef2f2;
+            border: 2px solid #fecaca;
+        }
+
+        .ai-box.right {
+            background: #f0fdf4;
+            border: 2px solid #bbf7d0;
+        }
+
+        .ai-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ai-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ai-box li {
+            padding: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        /* AI Level Table */
+        .ai-level-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ai-level-table th, .ai-level-table td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .ai-level-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .ai-level-table tr:hover {
+            background: var(--primary-light);
+        }
+
+        /* Certification Path */
+        .cert-path {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .cert-card {
+            background: var(--white);
+            border: 3px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            width: 240px;
+            transition: all 0.3s;
+        }
+
+        .cert-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(13, 148, 136, 0.15);
+        }
+
+        .cert-card.highlight {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .cert-card .badge {
+            background: #ef4444;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+        }
+
+        .cert-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .cert-card .year {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .cert-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .cert-arrow {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        /* Syllabus List */
+        .syllabus-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .syllabus-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .syllabus-item .check {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Action Plan */
+        .action-timeline {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .action-phase {
+            flex: 1;
+            background: var(--white);
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .action-phase h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        .action-phase ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .action-phase li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-phase .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 4px;
+        }
+
+        /* Resources */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .resource-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: var(--white);
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .resource-card:hover {
+            border-color: var(--primary);
+        }
+
+        .resource-card .icon {
+            font-size: 2.5rem;
+        }
+
+        .resource-card h4 {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .resource-card p {
+            font-size: 0.95rem;
+            color: var(--primary);
+        }
+
+        /* Takeaways */
+        .takeaway-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .takeaway {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+            padding: 1.5rem;
+            background: var(--bg);
+            border-radius: 16px;
+        }
+
+        .takeaway .number {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .takeaway h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .takeaway p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        /* Q&A Slide */
+        .slide.qa-slide {
+            background: var(--gradient);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide.qa-slide h2 {
+            font-size: 5rem;
+            margin-bottom: 2rem;
+        }
+
+        .slide.qa-slide .contact-info {
+            display: flex;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .slide.qa-slide .contact-item {
+            font-size: 1.3rem;
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 30px;
+            right: 40px;
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--gradient);
+            transition: width 0.3s;
+            z-index: 100;
+        }
+
+        /* Slide Number */
+        .slide-number {
+            position: fixed;
+            bottom: 30px;
+            left: 40px;
+            font-size: 1rem;
+            color: var(--text-muted);
+            z-index: 100;
+        }
+
+        /* Footer */
+        .slide-footer {
+            position: absolute;
+            bottom: 20px;
+            left: 80px;
+            right: 80px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Highlight text */
+        .highlight {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .text-large {
+            font-size: 1.5rem;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-2 { margin-top: 2rem; }
+        .mb-2 { margin-bottom: 2rem; }
+
+        /* Two column layout */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .slide {
+                padding: 40px 50px;
+            }
+            .slide.title-slide h1 {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="slide-number" id="slideNumber"></div>
+
+    <div class="slides-container" id="slidesContainer">
+        
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active">
+            <h1>🎯 Know Your Level,<br>Plan Your Path</h1>
+            <p class="subtitle">QA Skill Framework for the AI Era</p>
+            <div class="speaker-info">
+                <strong>Aditya Mirza Bahari</strong><br>
+                IDSTB (Indonesia Software Testing Board)
+            </div>
+            <div class="event-info">
+                ISQA Conference 2026 | April 26 | Celebrating 10 Years 🎉
+            </div>
+        </div>
+
+        <!-- Slide 2: The Problem -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">😰</span> Sound Familiar?</h2>
+            </div>
+            <div class="slide-content">
+                <div class="pain-points">
+                    <div class="pain-point">"I've been a QA for 3 years... am I still junior?"</div>
+                    <div class="pain-point">"My friend got promoted, but I'm stuck"</div>
+                    <div class="pain-point">"There are so many skills to learn... where do I start?"</div>
+                    <div class="pain-point">"AI is changing everything... am I becoming obsolete?"</div>
+                </div>
+                <div class="quote-box mt-2">
+                    <p>→ Career growth feels <strong>random</strong> and <strong>unclear</strong></p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 3: Today's Journey -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">📍</span> Today's Journey</h2>
+            </div>
+            <div class="slide-content">
+                <div class="journey-steps">
+                    <div class="journey-step">
+                        <div class="number">1</div>
+                        <h3>WHERE AM I?</h3>
+                        <p>Framework to assess your current level</p>
+                    </div>
+                    <div class="journey-step">
+                        <div class="number">2</div>
+                        <h3>WHAT TO LEARN?</h3>
+                        <p>6 competency buckets that matter</p>
+                    </div>
+                    <div class="journey-step">
+                        <div class="number">3</div>
+                        <h3>HOW TO GROW?</h3>
+                        <p>AI as your learning accelerator</p>
+                    </div>
+                    <div class="journey-step">
+                        <div class="number">4</div>
+                        <h3>HOW TO PROVE?</h3>
+                        <p>ISTQB certification path</p>
+                    </div>
+                </div>
+                <p class="text-center mt-2 text-large">🎁 <strong>Bonus:</strong> Live demo + free resources</p>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 4: Section - Part 1 -->
+        <div class="slide section-slide">
+            <div class="section-number">01</div>
+            <h2>WHERE AM I?</h2>
+            <p class="section-subtitle">The Science of Skill Acquisition</p>
+        </div>
+
+        <!-- Slide 5: Dreyfus Model -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">🧠</span> The Dreyfus Model</h2>
+            </div>
+            <div class="slide-content">
+                <p class="text-large mb-2">How humans develop expertise (Dreyfus, 1980)</p>
+                <div class="dreyfus-pyramid">
+                    <div class="dreyfus-level level-5">
+                        <div class="level-num">5</div>
+                        <div class="level-name">EXPERT</div>
+                        <div class="level-desc">Intuitive decision-making, innovates new approaches</div>
+                    </div>
+                    <div class="dreyfus-level level-4">
+                        <div class="level-num">4</div>
+                        <div class="level-name">PROFICIENT</div>
+                        <div class="level-desc">Sees the big picture, prioritizes effectively</div>
+                    </div>
+                    <div class="dreyfus-level level-3">
+                        <div class="level-num">3</div>
+                        <div class="level-name">COMPETENT</div>
+                        <div class="level-desc">Plans systematically, handles complexity</div>
+                    </div>
+                    <div class="dreyfus-level level-2">
+                        <div class="level-num">2</div>
+                        <div class="level-name">ADV BEGINNER</div>
+                        <div class="level-desc">Recognizes patterns from experience</div>
+                    </div>
+                    <div class="dreyfus-level level-1">
+                        <div class="level-num">1</div>
+                        <div class="level-name">NOVICE</div>
+                        <div class="level-desc">Follows rules and instructions</div>
+                    </div>
+                </div>
+                <p class="text-center mt-2" style="color: var(--text-muted);">Used in nursing, aviation, military... and now <strong>QA!</strong></p>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 6: Dreyfus in QA -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">📈</span> Dreyfus in QA Context</h2>
+            </div>
+            <div class="slide-content">
+                <div class="statement-examples">
+                    <div class="statement">
+                        <span class="level-badge badge-1">NOVICE</span>
+                        <span class="text">"I follow the test case step by step"</span>
+                    </div>
+                    <div class="statement">
+                        <span class="level-badge" style="background: #fef9c3; color: #854d0e;">ADV BEGINNER</span>
+                        <span class="text">"I can write test cases for my feature"</span>
+                    </div>
+                    <div class="statement">
+                        <span class="level-badge badge-3">COMPETENT</span>
+                        <span class="text">"I own quality E2E, coordinate with devs"</span>
+                    </div>
+                    <div class="statement">
+                        <span class="level-badge" style="background: #dbeafe; color: #1e40af;">PROFICIENT</span>
+                        <span class="text">"I mentor others, design test strategies"</span>
+                    </div>
+                    <div class="statement">
+                        <span class="level-badge badge-5">EXPERT</span>
+                        <span class="text">"I define standards, consult on critical decisions"</span>
+                    </div>
+                </div>
+                <div class="quote-box mt-2">
+                    <p>💡 You can be Level 4 in one skill, Level 2 in another. It's not one overall level!</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 7: 6 Competency Buckets -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">🎯</span> 6 QA Competency Buckets</h2>
+            </div>
+            <div class="slide-content">
+                <div class="competency-grid">
+                    <div class="competency-card">
+                        <div class="icon">🔬</div>
+                        <h3>Functional Excellence</h3>
+                        <p>Test design, system knowledge, bug analysis</p>
+                    </div>
+                    <div class="competency-card">
+                        <div class="icon">🧩</div>
+                        <h3>Problem Solving</h3>
+                        <p>Root cause, risk assessment, prevention</p>
+                    </div>
+                    <div class="competency-card">
+                        <div class="icon">🎯</div>
+                        <h3>Impact & Ownership</h3>
+                        <p>Accountability, initiative, driving results</p>
+                    </div>
+                    <div class="competency-card">
+                        <div class="icon">💬</div>
+                        <h3>Communication</h3>
+                        <p>Reporting, collaboration, stakeholder mgmt</p>
+                    </div>
+                    <div class="competency-card">
+                        <div class="icon">⚙️</div>
+                        <h3>Process & Strategy</h3>
+                        <p>Test planning, process improvement, tools</p>
+                    </div>
+                    <div class="competency-card">
+                        <div class="icon">💎</div>
+                        <h3>Culture & Values</h3>
+                        <p>Quality mindset, learning, teamwork</p>
+                    </div>
+                </div>
+                <p class="text-center mt-2 text-large">Each bucket has <strong>"I can..."</strong> statements for every level</p>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 8: Example - Functional Excellence -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">🔬</span> Example: Test Design & Coverage</h2>
+            </div>
+            <div class="slide-content">
+                <div class="statement-examples">
+                    <div class="statement">
+                        <span class="level-badge badge-1">Level 1</span>
+                        <span class="text">"I can create test cases by copying existing ones"</span>
+                    </div>
+                    <div class="statement">
+                        <span class="level-badge" style="background: #fef9c3; color: #854d0e;">Level 2</span>
+                        <span class="text">"I can identify basic positive and negative scenarios"</span>
+                    </div>
+                    <div class="statement">
+                        <span class="level-badge badge-3">Level 3</span>
+                        <span class="text">"I can apply boundary value analysis systematically"</span>
+                    </div>
+                    <div class="statement">
+                        <span class="level-badge" style="background: #dbeafe; color: #1e40af;">Level 4</span>
+                        <span class="text">"I can design risk-based test strategies for complex features"</span>
+                    </div>
+                    <div class="statement">
+                        <span class="level-badge badge-5">Level 5</span>
+                        <span class="text">"I can define test design standards for the organization"</span>
+                    </div>
+                </div>
+                <p class="text-center mt-2 text-large">🪞 Where are <strong>YOU</strong> on this spectrum?</p>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 9: QA Personas -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">🧭</span> Find Your Path - 10 QA Personas</h2>
+            </div>
+            <div class="slide-content">
+                <p class="text-large mb-2">Which one sounds like you?</p>
+                <div class="persona-grid">
+                    <div class="persona-card">
+                        <div class="emoji">🌱</div>
+                        <div class="name">Fresh Graduate</div>
+                    </div>
+                    <div class="persona-card">
+                        <div class="emoji">🚀</div>
+                        <div class="name">Ambitious Climber</div>
+                    </div>
+                    <div class="persona-card">
+                        <div class="emoji">🔄</div>
+                        <div class="name">Career Switcher</div>
+                    </div>
+                    <div class="persona-card">
+                        <div class="emoji">🤖</div>
+                        <div class="name">Manual → Auto</div>
+                    </div>
+                    <div class="persona-card">
+                        <div class="emoji">🎯</div>
+                        <div class="name">Specialist Seeker</div>
+                    </div>
+                    <div class="persona-card">
+                        <div class="emoji">😓</div>
+                        <div class="name">Burnt Out</div>
+                    </div>
+                    <div class="persona-card">
+                        <div class="emoji">🦸</div>
+                        <div class="name">Solo QA</div>
+                    </div>
+                    <div class="persona-card">
+                        <div class="emoji">📊</div>
+                        <div class="name">Stuck Mid-Career</div>
+                    </div>
+                    <div class="persona-card">
+                        <div class="emoji">👑</div>
+                        <div class="name">Senior Aspirant</div>
+                    </div>
+                    <div class="persona-card">
+                        <div class="emoji">🔬</div>
+                        <div class="name">Expert Track</div>
+                    </div>
+                </div>
+                <p class="text-center mt-2">Each persona has a <strong>customized learning roadmap!</strong></p>
+                <p class="text-center highlight">📱 Try it: ngobrolqa.com</p>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 10: Section - Part 2 -->
+        <div class="slide section-slide">
+            <div class="section-number">02</div>
+            <h2>AI AS ACCELERATOR</h2>
+            <p class="section-subtitle">Grow Faster with AI Tools</p>
+        </div>
+
+        <!-- Slide 11: AI Not Replacing -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">🤖</span> Let's Address the Elephant</h2>
+            </div>
+            <div class="slide-content">
+                <div class="quote-box">
+                    <p>"Will AI replace QA?"</p>
+                </div>
+                <div class="ai-comparison mt-2">
+                    <div class="ai-box wrong">
+                        <h3>❌ WRONG</h3>
+                        <ul>
+                            <li>AI will take all QA jobs</li>
+                            <li>Manual testing is dead</li>
+                            <li>Only automation engineers survive</li>
+                        </ul>
+                    </div>
+                    <div class="ai-box right">
+                        <h3>✅ RIGHT</h3>
+                        <ul>
+                            <li>QA who USE AI will replace those who don't</li>
+                            <li>AI augments your capabilities</li>
+                            <li>Critical thinking is MORE valuable</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-center mt-2 text-large">AI is an <strong class="highlight">ACCELERATOR</strong> at every Dreyfus level</p>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 12: AI for Each Level -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">🎯</span> AI Tools for Each Level</h2>
+            </div>
+            <div class="slide-content">
+                <table class="ai-level-table">
+                    <tr>
+                        <th>Level</th>
+                        <th>How AI Helps</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Novice</strong></td>
+                        <td>AI explains concepts, generates examples to learn from</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Adv Beginner</strong></td>
+                        <td>AI suggests test scenarios, helps write test cases</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Competent</strong></td>
+                        <td>AI assists debugging, analyzes logs, speeds up RCA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Proficient</strong></td>
+                        <td>AI reviews strategies, generates documentation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Expert</strong></td>
+                        <td>AI for pattern analysis, predictive quality insights</td>
+                    </tr>
+                </table>
+                <p class="text-center mt-2">🛠️ Tools: <strong>ChatGPT, Cursor, Claude, Copilot</strong></p>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 13: Practical AI Use Cases -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">💡</span> Start Using AI Today!</h2>
+            </div>
+            <div class="slide-content">
+                <div class="two-columns">
+                    <div>
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">Use Cases</h3>
+                        <div class="statement-examples">
+                            <div class="statement">
+                                <span class="text">📝 Generate test cases from requirements</span>
+                            </div>
+                            <div class="statement">
+                                <span class="text">🐛 Analyze error logs for root cause</span>
+                            </div>
+                            <div class="statement">
+                                <span class="text">📊 Create test data (valid emails, phones)</span>
+                            </div>
+                            <div class="statement">
+                                <span class="text">📄 Summarize reports for stakeholders</span>
+                            </div>
+                            <div class="statement">
+                                <span class="text">📚 Learn new testing concepts</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">Example Prompt</h3>
+                        <div style="background: #1e293b; color: #e2e8f0; padding: 1.5rem; border-radius: 12px; font-family: monospace; font-size: 0.95rem;">
+                            "Write 5 test cases for user registration.<br><br>
+                            Include: email validation, password rules, duplicate handling.<br><br>
+                            Format: Given-When-Then.<br><br>
+                            Consider Indonesian phone numbers."
+                        </div>
+                        <p class="mt-2" style="color: var(--text-muted);">→ Better prompts = Better outputs!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 14: Critical Thinking -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">⚠️</span> When NOT to Trust AI</h2>
+            </div>
+            <div class="slide-content">
+                <div class="ai-comparison">
+                    <div class="ai-box wrong">
+                        <h3>❌ DON'T</h3>
+                        <ul>
+                            <li>Blindly copy AI-generated test cases</li>
+                            <li>Trust AI for security/compliance decisions</li>
+                            <li>Let AI replace your domain knowledge</li>
+                            <li>Skip verification of AI outputs</li>
+                        </ul>
+                    </div>
+                    <div class="ai-box right">
+                        <h3>✅ DO</h3>
+                        <ul>
+                            <li>Use AI output as a DRAFT</li>
+                            <li>Verify against requirements</li>
+                            <li>Apply YOUR expertise to refine</li>
+                            <li>Question AI's assumptions</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="quote-box mt-2">
+                    <p>"AI is your <strong>copilot</strong>, not your <strong>autopilot</strong>"</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 15: Section - Part 3 -->
+        <div class="slide section-slide">
+            <div class="section-number">03</div>
+            <h2>PROVE YOUR SKILLS</h2>
+            <p class="section-subtitle">ISTQB Certification Path</p>
+        </div>
+
+        <!-- Slide 16: Certification Path -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">📜</span> ISTQB Certification Path</h2>
+            </div>
+            <div class="slide-content">
+                <div class="cert-path">
+                    <div class="cert-card">
+                        <h3>CTFL</h3>
+                        <div class="year">Foundation</div>
+                        <p>Testing fundamentals, techniques, management</p>
+                    </div>
+                    <div class="cert-arrow">→</div>
+                    <div class="cert-card">
+                        <h3>CT-AI</h3>
+                        <div class="year">2021</div>
+                        <p>Broad AI/ML testing, using AI for testing</p>
+                    </div>
+                    <div class="cert-arrow">→</div>
+                    <div class="cert-card highlight" style="position: relative;">
+                        <span style="background: #ef4444; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; position: absolute; top: -10px; right: -10px;">NEW!</span>
+                        <h3>CT-GenAI</h3>
+                        <div class="year">July 2025</div>
+                        <p>LLMs, ChatGPT, hallucinations, prompt engineering</p>
+                    </div>
+                </div>
+                <p class="text-center mt-2 text-large">📍 Get certified via <strong class="highlight">IDSTB</strong> (idstb.org)</p>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 17: CT-GenAI Details -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">🆕</span> CT-GenAI: The Latest Certification</h2>
+            </div>
+            <div class="slide-content">
+                <div class="two-columns">
+                    <div>
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">What You'll Learn</h3>
+                        <div class="syllabus-list">
+                            <div class="syllabus-item"><span class="check">✓</span> LLM Foundations & RAG</div>
+                            <div class="syllabus-item"><span class="check">✓</span> Testing for Hallucinations</div>
+                            <div class="syllabus-item"><span class="check">✓</span> Red-teaming & Jailbreaks</div>
+                            <div class="syllabus-item"><span class="check">✓</span> LLM-as-Judge Evaluation</div>
+                            <div class="syllabus-item"><span class="check">✓</span> Bias & Toxicity Testing</div>
+                            <div class="syllabus-item"><span class="check">✓</span> AI Ethics & Governance</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">Exam Details</h3>
+                        <div style="background: var(--bg); padding: 1.5rem; border-radius: 12px;">
+                            <p style="margin-bottom: 0.75rem;"><strong>Prerequisites:</strong> CTFL</p>
+                            <p style="margin-bottom: 0.75rem;"><strong>Questions:</strong> 40 multiple choice</p>
+                            <p style="margin-bottom: 0.75rem;"><strong>Duration:</strong> 60 minutes</p>
+                            <p style="margin-bottom: 0.75rem;"><strong>Passing:</strong> ~65%</p>
+                            <p><strong>Released:</strong> July 2025</p>
+                        </div>
+                        <p class="mt-2" style="color: var(--primary); font-weight: 600;">🔥 Be an early adopter in Indonesia!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 18: Which Cert? -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">🎯</span> Which Certification for You?</h2>
+            </div>
+            <div class="slide-content">
+                <table class="ai-level-table">
+                    <tr>
+                        <th>Your Context</th>
+                        <th>Recommended</th>
+                    </tr>
+                    <tr>
+                        <td>Testing chatbots, copilots, AI assistants</td>
+                        <td><strong class="highlight">CT-GenAI</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Testing ML predictions, recommendations</td>
+                        <td><strong>CT-AI</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Using AI to write/generate tests</td>
+                        <td><strong>CT-AI</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Testing for hallucinations, prompt attacks</td>
+                        <td><strong class="highlight">CT-GenAI</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Working with both AI types</td>
+                        <td><strong>CT-AI → CT-GenAI</strong></td>
+                    </tr>
+                    <tr>
+                        <td>New to testing altogether</td>
+                        <td><strong>CTFL first!</strong></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 19: IDSTB -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">🇮🇩</span> IDSTB: Your Pathway</h2>
+            </div>
+            <div class="slide-content">
+                <div class="two-columns">
+                    <div>
+                        <h3 style="font-size: 1.8rem; margin-bottom: 1.5rem;">Indonesia Software Testing Board</h3>
+                        <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem;">Official ISTQB® Member Board for Indonesia</p>
+                        <div class="syllabus-list">
+                            <div class="syllabus-item"><span class="check">✓</span> Accredited exam providers</div>
+                            <div class="syllabus-item"><span class="check">✓</span> Indonesian language support</div>
+                            <div class="syllabus-item"><span class="check">✓</span> Local training providers</div>
+                            <div class="syllabus-item"><span class="check">✓</span> Community & networking</div>
+                            <div class="syllabus-item"><span class="check">✓</span> Certification verification</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: center;">
+                        <div style="background: var(--gradient); color: white; padding: 3rem; border-radius: 20px; text-align: center;">
+                            <p style="font-size: 1.5rem; margin-bottom: 1rem;">Visit us at</p>
+                            <p style="font-size: 2.5rem; font-weight: 700;">idstb.org</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 20: Section - Wrap Up -->
+        <div class="slide section-slide">
+            <div class="section-number">✓</div>
+            <h2>YOUR ACTION PLAN</h2>
+            <p class="section-subtitle">Start Today!</p>
+        </div>
+
+        <!-- Slide 21: Action Plan -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">📋</span> Your Action Plan</h2>
+            </div>
+            <div class="slide-content">
+                <div class="action-timeline">
+                    <div class="action-phase">
+                        <h3>📅 WEEK 1: Self-Assessment</h3>
+                        <ul>
+                            <li><span class="checkbox"></span> Visit ngobrolqa.com</li>
+                            <li><span class="checkbox"></span> Identify your Dreyfus level per bucket</li>
+                            <li><span class="checkbox"></span> Find your QA persona</li>
+                        </ul>
+                    </div>
+                    <div class="action-phase">
+                        <h3>📅 WEEK 2-4: AI Practice</h3>
+                        <ul>
+                            <li><span class="checkbox"></span> Try ChatGPT/Cursor for one task daily</li>
+                            <li><span class="checkbox"></span> Practice prompt engineering</li>
+                            <li><span class="checkbox"></span> Build your AI toolkit</li>
+                        </ul>
+                    </div>
+                    <div class="action-phase">
+                        <h3>📅 MONTH 2+: Certification</h3>
+                        <ul>
+                            <li><span class="checkbox"></span> Choose CT-AI or CT-GenAI path</li>
+                            <li><span class="checkbox"></span> Register via IDSTB</li>
+                            <li><span class="checkbox"></span> Study & get certified!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 22: Free Resources -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">🎁</span> Free Resources for You</h2>
+            </div>
+            <div class="slide-content">
+                <div class="resource-grid">
+                    <div class="resource-card">
+                        <div class="icon">📱</div>
+                        <div>
+                            <h4>QA Skill Framework</h4>
+                            <p>ngobrolqa.com</p>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="icon">📚</div>
+                        <div>
+                            <h4>Learning Plans by Persona</h4>
+                            <p>ngobrolqa.com/QA_Learning_Plan.html</p>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="icon">📜</div>
+                        <div>
+                            <h4>ISTQB Certification Info</h4>
+                            <p>idstb.org | istqb.org</p>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="icon">🆕</div>
+                        <div>
+                            <h4>CT-GenAI Syllabus</h4>
+                            <p>istqb.org/certifications/gen-ai</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center mt-2 text-large">All resources are <strong class="highlight">FREE!</strong> 🎉</p>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 23: Key Takeaways -->
+        <div class="slide">
+            <div class="slide-header">
+                <h2><span class="emoji">🎯</span> Remember These 3 Things</h2>
+            </div>
+            <div class="slide-content">
+                <div class="takeaway-list">
+                    <div class="takeaway">
+                        <div class="number">1</div>
+                        <div>
+                            <h3>KNOW YOUR LEVEL</h3>
+                            <p>Use Dreyfus Model + 6 Buckets to self-assess. You can't improve what you can't measure.</p>
+                        </div>
+                    </div>
+                    <div class="takeaway">
+                        <div class="number">2</div>
+                        <div>
+                            <h3>AI IS YOUR ACCELERATOR</h3>
+                            <p>Use AI at every level to learn & work faster. But stay critical - verify, don't autopilot.</p>
+                        </div>
+                    </div>
+                    <div class="takeaway">
+                        <div class="number">3</div>
+                        <div>
+                            <h3>CERTIFY YOUR SKILLS</h3>
+                            <p>CTFL → CT-AI / CT-GenAI for global recognition. IDSTB is your pathway in Indonesia.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>ngobrolqa.com</span>
+                <span>ISQA Conference 2026</span>
+            </div>
+        </div>
+
+        <!-- Slide 24: Q&A -->
+        <div class="slide qa-slide">
+            <h2>❓ Questions?</h2>
+            <p style="font-size: 1.5rem; opacity: 0.9;">Let's discuss!</p>
+            <div class="contact-info">
+                <div class="contact-item">🌐 ngobrolqa.com</div>
+                <div class="contact-item">📜 idstb.org</div>
+            </div>
+        </div>
+
+        <!-- Slide 25: Thank You -->
+        <div class="slide title-slide">
+            <h1>Thank You! 🙏</h1>
+            <p class="subtitle">Know Your Level, Plan Your Path</p>
+            <div class="speaker-info">
+                <strong>Aditya Mirza Bahari</strong><br>
+                IDSTB (Indonesia Software Testing Board)<br><br>
+                🌐 ngobrolqa.com &nbsp;|&nbsp; 📜 idstb.org
+            </div>
+            <div class="event-info">
+                ISQA Conference 2026 | April 26 | #ISQAConf2026
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">←</button>
+        <button class="nav-btn" onclick="nextSlide()">→</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progressBar = document.getElementById('progressBar');
+        const slideNumber = document.getElementById('slideNumber');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            updateProgress();
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        function updateProgress() {
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+            slideNumber.textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === 'Home') {
+                showSlide(0);
+            } else if (e.key === 'End') {
+                showSlide(totalSlides - 1);
+            }
+        });
+
+        // Touch/swipe navigation
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) nextSlide();
+                else prevSlide();
+            }
+        });
+
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>
