@@ -75,32 +75,45 @@
         .nav-links a:hover { color: white; }
         .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
 
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-header .question-number {
+            margin-bottom: 0;
+        }
+
         .lang-toggle {
             display: flex;
-            gap: 0.5rem;
-            margin-left: 1rem;
+            gap: 0.25rem;
+            background: var(--bg);
+            padding: 0.25rem;
+            border-radius: 8px;
         }
 
         .lang-btn {
-            padding: 0.35rem 0.75rem;
-            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.4rem 0.75rem;
+            border: none;
             border-radius: 6px;
             background: transparent;
-            color: rgba(255,255,255,0.8);
+            color: var(--text-muted);
             cursor: pointer;
             font-size: 0.8rem;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.2s;
         }
 
         .lang-btn.active {
-            background: white;
-            color: var(--primary-dark);
-            border-color: white;
+            background: var(--primary);
+            color: white;
         }
 
         .lang-btn:hover:not(.active) {
-            background: rgba(255,255,255,0.1);
+            background: var(--border);
+            color: var(--text);
         }
 
         .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
@@ -310,10 +323,6 @@
                 <a href="QA_Skill_Framework.html">Framework</a>
                 <a href="QA_Learning_Plan.html">Learning</a>
                 <a href="QA_Self_Assessment.html" class="active">Assessment</a>
-                <div class="lang-toggle">
-                    <button class="lang-btn active" id="btnEN" onclick="setLanguage('en')">🇬🇧 EN</button>
-                    <button class="lang-btn" id="btnID" onclick="setLanguage('id')">🇮🇩 ID</button>
-                </div>
             </div>
         </div>
     </nav>
@@ -382,7 +391,13 @@
             </div>
 
             <div class="question-card">
-                <div class="question-number" id="questionNumber">Question 1</div>
+                <div class="question-header">
+                    <div class="question-number" id="questionNumber">Question 1</div>
+                    <div class="lang-toggle">
+                        <button class="lang-btn active" id="btnEN" onclick="setLanguage('en')">EN</button>
+                        <button class="lang-btn" id="btnID" onclick="setLanguage('id')">ID</button>
+                    </div>
+                </div>
                 <div class="question-text" id="questionText">Loading question...</div>
                 <div class="question-context" id="questionContext">Context will appear here.</div>
                 <div class="options-container" id="optionsContainer"></div>
