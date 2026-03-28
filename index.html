@@ -5,103 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NgobrolQA - Platform untuk Ngobrol tentang Quality Assurance</title>
     
-    <!-- Copyright & Ownership -->
     <meta name="author" content="Aditya Mirza Bahari">
     <meta name="copyright" content="© 2026 Aditya Mirza Bahari. All Rights Reserved.">
     <meta name="description" content="NgobrolQA - Platform untuk berbagi dan belajar tentang Quality Assurance. Podcast, Framework, Learning Resources, dan komunitas QA Indonesia.">
     <meta name="keywords" content="QA, Quality Assurance, Testing, Software Testing, Indonesia, Podcast, Learning">
     
-    <!-- Open Graph -->
     <meta property="og:title" content="NgobrolQA - Platform QA Indonesia">
     <meta property="og:description" content="Platform untuk berbagi dan belajar tentang Quality Assurance">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://ngobrolqa.com">
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #ffffff;
-            --bg-surface: #f8fffe;
-            --bg-card: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #475569;
+            --primary: #0d9488;
+            --primary-dark: #0f766e;
+            --primary-light: #5eead4;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
             --text-muted: #64748b;
-            --accent-primary: #14b8a6;
-            --accent-secondary: #06b6d4;
-            --accent-light: #ccfbf1;
             --border: #e2e8f0;
-            --dark: #0d1b2a;
+            --success: #10b981;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
         }
 
-        .container {
+        nav {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        /* Hero Section */
-        .hero {
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-brand img { height: 40px; border-radius: 8px; }
+        .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: white; }
+        .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+        .header {
             text-align: center;
-            padding: 4rem 2rem;
-            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1) 0%, rgba(8, 145, 178, 0.1) 100%);
-            border-radius: 24px;
-            margin-bottom: 3rem;
-            border: 1px solid var(--border);
+            padding: 3rem 0;
         }
 
-        .hero-emoji {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
+        .header-emoji { font-size: 4rem; margin-bottom: 1rem; display: block; }
 
-        .hero h1 {
+        .header h1 {
             font-size: 3rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 0.5rem;
         }
 
-        .hero .tagline {
+        .header .tagline {
             font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
         }
 
-        .hero .description {
+        .header .description {
             font-size: 1rem;
             color: var(--text-muted);
             max-width: 600px;
-            margin: 0 auto 2rem;
+            margin: 0 auto;
         }
 
-        /* Feature Cards */
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 3rem;
+            margin: 3rem 0;
         }
 
         .feature-card {
-            background: var(--bg-card);
+            background: var(--card);
             border-radius: 16px;
             padding: 2rem;
             border: 1px solid var(--border);
@@ -109,35 +127,21 @@
             text-decoration: none;
             color: inherit;
             display: block;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
 
         .feature-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 12px 40px rgba(13, 148, 136, 0.15);
-            border-color: var(--accent-primary);
+            border-color: var(--primary);
         }
 
-        .feature-card.coming-soon {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .feature-card.coming-soon:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
 
         .feature-card h3 {
             font-size: 1.25rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
-            color: var(--text-primary);
         }
 
         .feature-card p {
@@ -149,273 +153,198 @@
         .feature-tag {
             display: inline-block;
             padding: 0.25rem 0.75rem;
-            background: var(--accent-light);
-            color: var(--accent-primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: 600;
         }
 
-        .feature-tag.live {
-            background: #dcfce7;
-            color: #059669;
-        }
-
-        .feature-tag.soon {
-            background: #fef3c7;
-            color: #d97706;
-        }
-
-        /* About Section */
         .about {
-            background: var(--bg-card);
-            border-radius: 16px;
+            background: var(--card);
+            border-radius: 20px;
             padding: 2.5rem;
-            border: 1px solid var(--border);
-            margin-bottom: 3rem;
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .about-content {
-            flex: 1;
-            min-width: 280px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            margin: 3rem 0;
         }
 
         .about h2 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .about p {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
-
-        .about-links {
             display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
         }
+
+        .about p { color: var(--text-muted); margin-bottom: 1rem; }
+
+        .about-links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
 
         .about-link {
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            padding: 0.5rem 1rem;
-            background: var(--accent-light);
-            color: var(--accent-primary);
+            padding: 0.6rem 1.2rem;
+            background: var(--bg);
+            color: var(--primary-dark);
             text-decoration: none;
             border-radius: 8px;
             font-size: 0.85rem;
-            font-weight: 500;
+            font-weight: 600;
+            border: 1px solid var(--border);
             transition: all 0.2s;
         }
 
         .about-link:hover {
-            background: var(--accent-primary);
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .idstb-banner {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            margin: 3rem 0;
             color: white;
         }
 
-        /* IDSTB Banner */
-        .idstb-banner {
-            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
-            border: 2px solid #14b8a6;
-            border-radius: 16px;
-            padding: 2rem;
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .idstb-banner h3 {
-            color: #0f766e;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .idstb-banner p {
-            color: #475569;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
+        .idstb-banner h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+        .idstb-banner p { opacity: 0.9; margin-bottom: 1.5rem; }
 
         .idstb-banner a {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.6rem 1.25rem;
-            background: linear-gradient(135deg, #14b8a6, #06b6d4);
-            color: white;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            color: var(--primary-dark);
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.85rem;
+            border-radius: 10px;
+            font-weight: 700;
             transition: all 0.2s;
         }
 
         .idstb-banner a:hover {
             transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(20, 184, 166, 0.4);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        /* Footer */
-        .footer {
-            text-align: center;
+        footer {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
             padding: 2rem;
-            color: var(--text-muted);
-            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 2rem;
         }
 
-        .footer a {
-            color: var(--accent-primary);
-            text-decoration: none;
-        }
+        footer a { color: white; text-decoration: none; }
 
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero .tagline {
-                font-size: 1rem;
-            }
-            
-            .container {
-                padding: 1rem;
-            }
-
-            .about {
-                flex-direction: column;
-                text-align: center;
-            }
+            .header h1 { font-size: 2rem; }
+            .header .tagline { font-size: 1rem; }
+            .container { padding: 1rem; }
+            .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
-    <!-- Top Navigation Bar -->
-    <nav style="background: linear-gradient(135deg, #14b8a6, #06b6d4); padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-        <a href="index.html" style="color: white; text-decoration: none; font-weight: 600; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-            <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 32px; width: 32px; border-radius: 6px;">
-            NgobrolQA
-        </a>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-            <a href="index.html" style="color: white; text-decoration: none; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid white;">Home</a>
-            <a href="QA_Skill_Framework.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Framework</a>
-            <a href="QA_Learning_Plan.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Learning Plan</a>
-            <a href="QA_Self_Assessment.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Assessment</a>
+    <nav>
+        <div class="nav-content">
+            <a href="index.html" class="nav-brand">
+                <img src="ngobrolqa-logo.png" alt="NgobrolQA" onerror="this.style.display='none'">
+                <span>NgobrolQA</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="QA_Skill_Framework.html">Framework</a>
+                <a href="QA_Learning_Plan.html">Learning</a>
+                <a href="QA_Self_Assessment.html">Assessment</a>
+            </div>
         </div>
     </nav>
 
     <div class="container">
-        <!-- Hero Section -->
-        <section class="hero">
-            <span class="hero-emoji">💬</span>
+        <div class="header">
+            <span class="header-emoji">💬</span>
             <h1>NgobrolQA</h1>
             <p class="tagline">Platform untuk Ngobrol tentang Quality Assurance</p>
             <p class="description">
                 Berbagi pengalaman, belajar bersama, dan berkembang di dunia Quality Assurance. 
                 Dari podcast hingga framework, dari pemula hingga expert.
             </p>
-        </section>
+        </div>
 
-        <!-- Feature Cards -->
-        <section class="features">
+        <div class="features">
             <a href="QA_Skill_Framework.html" class="feature-card">
                 <span class="feature-icon">🎯</span>
-                <h3>QA Skill Acquisition Framework</h3>
-                <p>Framework berbasis Dreyfus Model untuk mengukur dan mengembangkan kompetensi QA. Temukan path-mu dari Novice ke Expert.</p>
-                <span class="feature-tag live">Live</span>
+                <h3>QA Skill Framework</h3>
+                <p>Framework berbasis Dreyfus Model untuk mengukur dan mengembangkan kompetensi QA. 4 dimensi × 5 stages.</p>
+                <span class="feature-tag">Live</span>
+            </a>
+
+            <a href="QA_Self_Assessment.html" class="feature-card">
+                <span class="feature-icon">📊</span>
+                <h3>Self-Assessment</h3>
+                <p>Temukan level-mu di setiap dimensi. 20 pertanyaan, hasil instan dengan radar chart dan PDF export.</p>
+                <span class="feature-tag">New</span>
             </a>
 
             <a href="QA_Learning_Plan.html" class="feature-card">
                 <span class="feature-icon">📚</span>
-                <h3>Learning Plan & Courses</h3>
-                <p>Rekomendasi kursus dan training berdasarkan persona dan level skill-mu. Curated dari Coursera, Udemy, dan platform lainnya.</p>
-                <span class="feature-tag live">Live</span>
+                <h3>Learning Plan</h3>
+                <p>Rekomendasi kursus dan training berdasarkan persona dan level skill-mu. Curated dari berbagai platform.</p>
+                <span class="feature-tag">Live</span>
             </a>
 
-            <a href="QA_Self_Assessment.html" class="feature-card">
-                <span class="feature-icon">🎯</span>
-                <h3>Self-Assessment</h3>
-                <p>Temukan level Dreyfus-mu di setiap competency bucket. Jawab 12 pertanyaan dan dapatkan profil kompetensi QA-mu!</p>
-                <span class="feature-tag live">🆕 New</span>
-            </a>
-
-            <a href="https://open.spotify.com/show/5DHNc6eIO1XjsJKkyAlIAT?si=60d94d11cb7d4b19" class="feature-card" target="_blank">
+            <a href="https://open.spotify.com/show/5DHNc6eIO1XjsJKkyAlIAT" class="feature-card" target="_blank">
                 <span class="feature-icon">🎙️</span>
                 <h3>Podcast</h3>
                 <p>Dengerin obrolan santai tentang QA, career tips, dan pengalaman dari praktisi. Available on Spotify.</p>
-                <span class="feature-tag live">Live</span>
+                <span class="feature-tag">Live</span>
             </a>
 
             <a href="https://www.youtube.com/@ngobrolQA" class="feature-card" target="_blank">
                 <span class="feature-icon">🎬</span>
                 <h3>YouTube Channel</h3>
                 <p>Tutorial, sharing session, dan konten edukatif seputar QA dan software testing.</p>
-                <span class="feature-tag live">Live</span>
+                <span class="feature-tag">Live</span>
             </a>
-        </section>
+        </div>
 
-        <!-- About Section -->
-        <section class="about">
-            <div class="about-content">
-                <h2>👋 About NgobrolQA</h2>
-                <p>
-                    NgobrolQA adalah platform yang dibuat oleh <strong>Aditya Mirza Bahari</strong> untuk berbagi 
-                    pengalaman dan pengetahuan di bidang Quality Assurance. Dari podcast monolog hingga framework 
-                    pengembangan skill, semua dibuat untuk membantu QA di Indonesia berkembang.
-                </p>
-                <p>
-                    Saat ini juga aktif sebagai President di <strong>IDSTB (Indonesia Software Testing Board)</strong>, 
-                    organisasi non-profit untuk komunitas testing di Indonesia.
-                </p>
-                <div class="about-links">
-                    <a href="https://linkedin.com/in/adityabahari" class="about-link" target="_blank">
-                        💼 LinkedIn
-                    </a>
-                    <a href="https://open.spotify.com/show/5DHNc6eIO1XjsJKkyAlIAT?si=60d94d11cb7d4b19" class="about-link" target="_blank">
-                        🎧 Spotify
-                    </a>
-                    <a href="https://youtube.com" class="about-link" target="_blank">
-                        📺 YouTube
-                    </a>
-                </div>
+        <div class="about">
+            <h2>👋 About NgobrolQA</h2>
+            <p>
+                NgobrolQA adalah platform yang dibuat oleh <strong>Aditya Mirza Bahari</strong> untuk berbagi 
+                pengalaman dan pengetahuan di bidang Quality Assurance. Dari podcast monolog hingga framework 
+                pengembangan skill, semua dibuat untuk membantu QA di Indonesia berkembang.
+            </p>
+            <p>
+                Saat ini juga aktif sebagai President di <strong>IDSTB (Indonesia Software Testing Board)</strong>, 
+                organisasi non-profit untuk komunitas testing di Indonesia.
+            </p>
+            <div class="about-links">
+                <a href="https://linkedin.com/in/adityabahari" class="about-link" target="_blank">💼 LinkedIn</a>
+                <a href="https://open.spotify.com/show/5DHNc6eIO1XjsJKkyAlIAT" class="about-link" target="_blank">🎧 Spotify</a>
+                <a href="https://www.youtube.com/@ngobrolQA" class="about-link" target="_blank">📺 YouTube</a>
             </div>
-        </section>
+        </div>
 
-        <!-- IDSTB Banner -->
-        <section class="idstb-banner">
+        <div class="idstb-banner">
             <h3>🇮🇩 Part of Indonesia Software Testing Community</h3>
             <p>NgobrolQA mendukung misi IDSTB untuk mengembangkan komunitas testing di Indonesia</p>
-            <a href="https://idstb.org" target="_blank">
-                Kunjungi IDSTB.org →
-            </a>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer" style="background: linear-gradient(135deg, #14b8a6, #06b6d4); padding: 3rem 2rem; margin-top: 3rem; border-radius: 24px 24px 0 0;">
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-                <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 64px; width: 64px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-                <h3 style="color: white; font-size: 1.3rem; margin: 0;">NgobrolQA</h3>
-                <p style="color: rgba(255,255,255,0.9); max-width: 400px; text-align: center; margin: 0;">Platform untuk berbagi dan belajar tentang Quality Assurance bersama komunitas QA Indonesia.</p>
-                <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
-                    <a href="https://open.spotify.com/show/5DHNc6eIO1XjsJKkyAlIAT" target="_blank" style="color: white; font-size: 1.5rem; opacity: 0.9;" title="Spotify">🎧</a>
-                    <a href="https://linkedin.com/in/adityabahari" target="_blank" style="color: white; font-size: 1.5rem; opacity: 0.9;" title="LinkedIn">💼</a>
-                    <a href="https://idstb.org" target="_blank" style="color: white; font-size: 1.5rem; opacity: 0.9;" title="IDSTB">🌐</a>
-                </div>
-                <hr style="width: 100%; max-width: 300px; border: none; border-top: 1px solid rgba(255,255,255,0.3); margin: 1rem 0;">
-                <p style="color: rgba(255,255,255,0.9); font-size: 0.85rem; margin: 0;">© 2026 <a href="https://linkedin.com/in/adityabahari" style="color: white; text-decoration: underline;">Aditya Mirza Bahari</a>. All Rights Reserved.</p>
-                <p style="color: rgba(255,255,255,0.75); font-size: 0.75rem; margin: 0;">President of IDSTB | Made with ❤️ for QA Indonesia</p>
-            </div>
-        </footer>
+            <a href="https://idstb.org" target="_blank">Kunjungi IDSTB.org →</a>
+        </div>
     </div>
+
+    <footer>
+        <p>© 2026 Aditya Mirza Bahari. All Rights Reserved.</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">
+            <a href="https://linkedin.com/in/adityabahari" target="_blank">LinkedIn</a> •
+            <a href="https://open.spotify.com/show/NgobrolQA" target="_blank">Podcast</a> •
+            <a href="https://idstb.org" target="_blank">IDSTB</a>
+        </p>
+    </footer>
 </body>
 </html>

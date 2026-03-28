@@ -74,38 +74,40 @@
             transition: color 0.2s;
         }
         .nav-links a:hover { color: white; }
+        .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--bg-dark) 0%, #1e3a5f 100%);
-            color: white;
+            background: var(--bg);
             padding: 4rem 2rem;
             text-align: center;
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary-light), #a78bfa);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .hero p {
-            font-size: 1.25rem;
-            opacity: 0.9;
+            font-size: 1.2rem;
+            color: var(--text-muted);
             max-width: 700px;
-            margin: 0 auto 2rem;
+            margin: 0 auto 1.5rem;
         }
 
         .hero-tagline {
             display: inline-block;
-            background: rgba(255,255,255,0.1);
-            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 0.5rem 1.5rem;
             border-radius: 50px;
-            font-size: 1rem;
-            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
         /* Container */
@@ -668,7 +670,7 @@
             </a>
             <div class="nav-links">
                 <a href="index.html">Home</a>
-                <a href="#">Framework</a>
+                <a href="QA_Skill_Framework.html" class="active">Framework</a>
                 <a href="QA_Learning_Plan.html">Learning</a>
                 <a href="QA_Self_Assessment.html">Assessment</a>
             </div>

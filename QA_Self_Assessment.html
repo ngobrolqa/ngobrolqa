@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QA Skill Assessment V2 | ngobrolqa.com</title>
+    <title>QA Skill Assessment | ngobrolqa.com</title>
     <meta name="description" content="Know your level, understand your problem, learn what matters next.">
     <meta name="author" content="Aditya Mirza Bahari">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -73,6 +73,7 @@
             transition: color 0.2s;
         }
         .nav-links a:hover { color: white; }
+        .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
 
         .lang-toggle {
             display: flex;
@@ -308,7 +309,7 @@
                 <a href="index.html">Home</a>
                 <a href="QA_Skill_Framework.html">Framework</a>
                 <a href="QA_Learning_Plan.html">Learning</a>
-                <a href="#">Assessment</a>
+                <a href="QA_Self_Assessment.html" class="active">Assessment</a>
                 <div class="lang-toggle">
                     <button class="lang-btn active" id="btnEN" onclick="setLanguage('en')">🇬🇧 EN</button>
                     <button class="lang-btn" id="btnID" onclick="setLanguage('id')">🇮🇩 ID</button>
@@ -319,7 +320,7 @@
 
     <div class="container">
         <div class="header">
-            <h1 id="headerTitle">QA Skill Assessment V2</h1>
+            <h1 id="headerTitle">QA Skill Assessment</h1>
             <p id="headerSubtitle">Know your level, understand your problem, learn what matters next.</p>
             <div class="tagline" id="tagline">4 Dimensions × 5 Stages × 20 Questions</div>
         </div>
@@ -414,7 +415,7 @@
         // Translations
         const translations = {
             en: {
-                headerTitle: "QA Skill Assessment V2",
+                headerTitle: "QA Skill Assessment",
                 headerSubtitle: "Know your level, understand your problem, learn what matters next.",
                 tagline: "4 Dimensions × 5 Stages × 20 Questions",
                 discoverTitle: "What You'll Discover",
@@ -455,7 +456,7 @@
                 exportPdf: "📄 Export PDF"
             },
             id: {
-                headerTitle: "Asesmen Skill QA V2",
+                headerTitle: "Asesmen Skill QA",
                 headerSubtitle: "Ketahui levelmu, pahami masalahmu, pelajari apa yang penting selanjutnya.",
                 tagline: "4 Dimensi × 5 Tahap × 20 Pertanyaan",
                 discoverTitle: "Yang Akan Kamu Temukan",
@@ -1396,7 +1397,7 @@
                 heightLeft -= pageHeight;
             }
             
-            pdf.save('QA_Skill_Assessment_V2.pdf');
+            pdf.save('QA_Skill_Assessment.pdf');
         }
 
         // Initialize language on load

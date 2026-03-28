@@ -49,6 +49,45 @@
             line-height: 1.6;
         }
 
+        nav {
+            background: linear-gradient(135deg, #0f766e, #0d9488);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-brand img { height: 40px; border-radius: 8px; }
+        .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: white; }
+        .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -466,25 +505,22 @@
         }
 
         /* Footer */
-        .footer {
-            text-align: center;
-            margin-top: 3rem;
+        footer {
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            color: white;
             padding: 2rem;
-            color: var(--text-muted);
-            font-size: 0.85rem;
+            text-align: center;
+            margin-top: 2rem;
         }
 
-        .footer a {
-            color: var(--accent-primary);
+        footer a {
+            color: white;
             text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
+            .nav-links { display: none; }
             .container {
                 padding: 1rem;
             }
@@ -508,16 +544,18 @@
 </head>
 <body>
     <!-- Top Navigation Bar -->
-    <nav style="background: linear-gradient(135deg, #14b8a6, #06b6d4); padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
-        <a href="index.html" style="color: white; text-decoration: none; font-weight: 600; font-size: 1rem; display: flex; align-items: center; gap: 0.5rem;">
-            <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 32px; width: 32px; border-radius: 6px;">
-            NgobrolQA
-        </a>
-        <div style="display: flex; gap: 1rem; align-items: center;">
-            <a href="index.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Home</a>
-            <a href="QA_Skill_Framework.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Framework</a>
-            <a href="QA_Learning_Plan.html" style="color: white; text-decoration: none; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid white;">Learning Plan</a>
-            <a href="QA_Self_Assessment.html" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.85rem;">Assessment</a>
+    <nav>
+        <div class="nav-content">
+            <a href="index.html" class="nav-brand">
+                <img src="ngobrolqa-logo.png" alt="NgobrolQA" onerror="this.style.display='none'">
+                <span>NgobrolQA</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="QA_Skill_Framework.html">Framework</a>
+                <a href="QA_Learning_Plan.html" class="active">Learning</a>
+                <a href="QA_Self_Assessment.html">Assessment</a>
+            </div>
         </div>
     </nav>
 
@@ -1520,15 +1558,16 @@
             </div>
         </div>
 
-        <footer class="footer" style="background: linear-gradient(135deg, #14b8a6, #06b6d4); padding: 2.5rem 2rem; margin-top: 3rem; border-radius: 24px 24px 0 0; color: white;">
-            <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-                <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 48px; width: 48px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-                <p style="color: rgba(255,255,255,0.9); margin: 0;">QA Learning Plan • Companion to <a href="QA_Skill_Framework.html" style="color: white; text-decoration: underline;">QA Skill Framework</a></p>
-                <hr style="width: 100%; max-width: 300px; border: none; border-top: 1px solid rgba(255,255,255,0.3); margin: 0.5rem 0;">
-                <p style="color: rgba(255,255,255,0.9); font-size: 0.85rem; margin: 0;">© 2026 <a href="https://linkedin.com/in/adityabahari" style="color: white; text-decoration: underline;">Aditya Mirza Bahari</a>. All Rights Reserved.</p>
-            </div>
-        </footer>
     </div>
+
+    <footer>
+        <p>© 2026 Aditya Mirza Bahari. All Rights Reserved.</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">
+            <a href="https://linkedin.com/in/adityabahari" target="_blank">LinkedIn</a> •
+            <a href="https://open.spotify.com/show/NgobrolQA" target="_blank">Podcast</a> •
+            <a href="https://idstb.org" target="_blank">IDSTB</a>
+        </p>
+    </footer>
 
     <script>
         function showPersona(id) {
