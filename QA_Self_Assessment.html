@@ -74,6 +74,92 @@
         }
         .nav-links a:hover { color: white; }
         .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
+        
+        .nav-cta {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white !important;
+            padding: 0.6rem 1.25rem;
+            border-radius: 25px;
+            font-weight: 600;
+            border: none;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+        
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 6px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -6px);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        .mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            transition: all 0.2s;
+        }
+        .mobile-menu a:hover {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+        .mobile-menu a.active {
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+        }
+        .mobile-menu .nav-cta {
+            font-size: 1.25rem;
+            padding: 1rem 2rem;
+            margin-top: 1rem;
+        }
 
         .question-header {
             display: flex;
@@ -470,10 +556,21 @@
             .btn { width: 100%; justify-content: center; }
             .framework-grid { grid-template-columns: 1fr; }
             .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu { display: flex; }
         }
     </style>
 </head>
 <body>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="QA_Skill_Framework.html">Framework</a>
+        <a href="QA_Self_Assessment.html" class="active">Assessment</a>
+        <a href="QA_Learning_Plan.html">Learning</a>
+        <a href="QA_Self_Assessment.html" class="nav-cta">Free Assessment</a>
+    </div>
+    
     <nav>
         <div class="nav-content">
             <a href="index.html" class="nav-brand">
@@ -485,6 +582,12 @@
                 <a href="QA_Skill_Framework.html">Framework</a>
                 <a href="QA_Self_Assessment.html" class="active">Assessment</a>
                 <a href="QA_Learning_Plan.html">Learning</a>
+                <a href="QA_Self_Assessment.html" class="nav-cta">Free Assessment</a>
+            </div>
+            <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     </nav>
@@ -615,6 +718,15 @@
         let currentLang = localStorage.getItem('assessmentLangV2') || 'en';
         let userData = { name: '', email: '', org: '' };
         let questionVariations = []; // Stores which variation (0, 1, or 2) to use for each question
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
 
         // Validate form and start assessment
         function validateAndStart() {
