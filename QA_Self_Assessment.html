@@ -270,6 +270,11 @@
             font-weight: 700;
             color: var(--text);
         }
+        .user-org {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
 
         .stage-result {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
@@ -331,7 +336,9 @@
         }
         .user-form h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
         .user-form > p { opacity: 0.9; margin-bottom: 1.5rem; }
-        .form-group { text-align: left; margin-bottom: 1rem; max-width: 400px; margin-left: auto; margin-right: auto; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 500px; margin: 0 auto 1rem; }
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+        .form-group { text-align: left; margin-bottom: 1rem; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem; }
         .form-group .required { color: #fbbf24; }
         .form-group .optional { opacity: 0.7; font-weight: 400; }
@@ -428,11 +435,17 @@
                 <div class="user-form">
                     <h3 id="formTitle">🎯 Ready to discover your QA level?</h3>
                     <p id="formSubtitle">Enter your details to get a personalized result certificate</p>
-                    <div class="form-group">
-                        <label for="userName" id="nameLabel">Full Name <span class="required">*</span></label>
-                        <input type="text" id="userName" placeholder="e.g. Aditya Mirza Bahari" required>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="userName" id="nameLabel">Full Name <span class="required">*</span></label>
+                            <input type="text" id="userName" placeholder="e.g. Aditya Mirza Bahari" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userOrg" id="orgLabel">Company / School <span class="optional">(optional)</span></label>
+                            <input type="text" id="userOrg" placeholder="e.g. Tokopedia, UI, ITB">
+                        </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="max-width: 100%;">
                         <label for="userEmail" id="emailLabel">Email <span class="optional">(optional)</span></label>
                         <input type="email" id="userEmail" placeholder="your@email.com">
                         <small id="emailHint">We'll send your results here for future reference</small>
@@ -495,12 +508,13 @@
     <script>
         // Language state
         let currentLang = localStorage.getItem('assessmentLangV2') || 'en';
-        let userData = { name: '', email: '' };
+        let userData = { name: '', email: '', org: '' };
 
         // Validate form and start assessment
         function validateAndStart() {
             const nameInput = document.getElementById('userName');
             const emailInput = document.getElementById('userEmail');
+            const orgInput = document.getElementById('userOrg');
             
             if (!nameInput.value.trim()) {
                 nameInput.style.borderColor = '#ef4444';
@@ -510,11 +524,15 @@
             
             userData.name = nameInput.value.trim();
             userData.email = emailInput.value.trim();
+            userData.org = orgInput.value.trim();
             
             // Store in localStorage
             localStorage.setItem('assessmentUserName', userData.name);
             if (userData.email) {
                 localStorage.setItem('assessmentUserEmail', userData.email);
+            }
+            if (userData.org) {
+                localStorage.setItem('assessmentUserOrg', userData.org);
             }
             
             startAssessment();
@@ -546,6 +564,7 @@
                 formTitle: "🎯 Ready to discover your QA level?",
                 formSubtitle: "Enter your details to get a personalized result certificate",
                 nameLabel: "Full Name",
+                orgLabel: "Company / School",
                 emailLabel: "Email",
                 emailHint: "We'll send your results here for future reference",
                 startBtn: "Start Assessment →",
@@ -592,6 +611,7 @@
                 formTitle: "🎯 Siap temukan level QA-mu?",
                 formSubtitle: "Masukkan data untuk mendapat sertifikat hasil yang personal",
                 nameLabel: "Nama Lengkap",
+                orgLabel: "Perusahaan / Kampus",
                 emailLabel: "Email",
                 emailHint: "Kami akan kirim hasilmu ke sini untuk referensi",
                 startBtn: "Mulai Asesmen →",
@@ -1188,6 +1208,7 @@
             document.getElementById('formTitle').textContent = t('formTitle');
             document.getElementById('formSubtitle').textContent = t('formSubtitle');
             document.getElementById('nameLabel').innerHTML = t('nameLabel') + ' <span class="required">*</span>';
+            document.getElementById('orgLabel').innerHTML = t('orgLabel') + ' <span class="optional">(optional)</span>';
             document.getElementById('emailLabel').innerHTML = t('emailLabel') + ' <span class="optional">(optional)</span>';
             document.getElementById('emailHint').textContent = t('emailHint');
             document.getElementById('startBtn').textContent = t('startBtn');
@@ -1342,12 +1363,14 @@
                 : { "Testing Fundamentals": "Dasar-Dasar Testing", "Technical Depth": "Kedalaman Teknis", "Quality Thinking": "Pemikiran Kualitas", "Influence & Impact": "Pengaruh & Dampak" };
 
             const userName = userData.name || localStorage.getItem('assessmentUserName') || 'QA Professional';
+            const userOrg = userData.org || localStorage.getItem('assessmentUserOrg') || '';
             
             const resultsHTML = `
                 <div class="results-header">
                     <div class="user-badge">
                         <div class="user-avatar">${userName.charAt(0).toUpperCase()}</div>
                         <div class="user-name">${userName}</div>
+                        ${userOrg ? `<div class="user-org">${userOrg}</div>` : ''}
                     </div>
                     <h2>${t('resultsTitle')}</h2>
                     <p style="color: var(--text-muted);">${t('resultsSubtitle')}</p>
@@ -1504,6 +1527,7 @@
             const { jsPDF } = window.jspdf;
             const resultsContent = document.getElementById('resultsContent');
             const userName = userData.name || localStorage.getItem('assessmentUserName') || 'QA Professional';
+            const userOrg = userData.org || localStorage.getItem('assessmentUserOrg') || '';
             const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
             const canvas = await html2canvas(resultsContent, { 
@@ -1541,7 +1565,7 @@
 
             pdf.setFontSize(12);
             pdf.setFont(undefined, 'normal');
-            pdf.text(`Certificate for: ${userName}`, pageWidth / 2, 32, { align: 'center' });
+            pdf.text(`${userName}${userOrg ? ' • ' + userOrg : ''}`, pageWidth / 2, 32, { align: 'center' });
 
             pdf.setFontSize(9);
             pdf.setTextColor(220, 220, 220);
