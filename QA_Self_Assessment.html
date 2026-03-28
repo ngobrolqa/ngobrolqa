@@ -242,38 +242,111 @@
 
         .results-section { display: none; }
         .results-section.active { display: block; }
-        .results-header { text-align: center; padding: 2rem 0; }
-        .results-header h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
-
-        .user-badge {
+        /* Compact Results Layout */
+        .results-compact { max-width: 900px; margin: 0 auto; }
+        
+        .results-top {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
+            padding: 1.5rem;
+            background: var(--card);
+            border-radius: 16px;
             margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        
+        .user-badge-compact {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
         .user-avatar {
-            width: 80px;
-            height: 80px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.75rem;
-            box-shadow: 0 8px 25px rgba(13, 148, 136, 0.3);
+            flex-shrink: 0;
         }
-        .user-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text);
+        .user-name { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+        .user-org { font-size: 0.85rem; color: var(--text-muted); }
+        
+        .stage-badge {
+            text-align: right;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
         }
-        .user-org {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
+        .stage-badge .stage-label { font-size: 0.75rem; opacity: 0.9; text-transform: uppercase; }
+        .stage-badge .stage-name { font-size: 1.25rem; font-weight: 700; }
+        .stage-badge .stage-score { font-size: 0.85rem; opacity: 0.9; }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .results-left {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1.25rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        
+        .chart-compact { text-align: center; }
+        .chart-compact canvas { max-width: 100%; height: auto !important; }
+        
+        .dimensions-compact { margin-top: 1rem; }
+        .dim-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+        .dim-row:last-child { border-bottom: none; }
+        
+        .results-right {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .insight-compact {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1.25rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .insight-item { margin-bottom: 0.75rem; }
+        .insight-item:last-child { margin-bottom: 0; }
+        .insight-label { font-weight: 600; font-size: 0.85rem; color: var(--primary); }
+        .insight-item p { margin: 0.25rem 0 0; font-size: 0.9rem; color: var(--text-muted); }
+        
+        .recs-compact {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1.25rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            flex: 1;
+        }
+        .recs-title { font-weight: 700; margin-bottom: 0.75rem; }
+        .rec-item { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; font-size: 0.85rem; }
+        .rec-item:last-child { margin-bottom: 0; }
+        
+        @media (max-width: 768px) {
+            .results-top { flex-direction: column; gap: 1rem; text-align: center; }
+            .stage-badge { text-align: center; }
+            .results-grid { grid-template-columns: 1fr; }
         }
 
         .stage-result {
@@ -442,7 +515,7 @@
                         </div>
                         <div class="form-group">
                             <label for="userOrg" id="orgLabel">Company / School <span class="optional">(optional)</span></label>
-                            <input type="text" id="userOrg" placeholder="e.g. Tokopedia, UI, ITB">
+                            <input type="text" id="userOrg" placeholder="e.g. PT Example, Univ Indonesia">
                         </div>
                     </div>
                     <div class="form-group" style="max-width: 100%;">
@@ -1366,69 +1439,51 @@
             const userOrg = userData.org || localStorage.getItem('assessmentUserOrg') || '';
             
             const resultsHTML = `
-                <div class="results-header">
-                    <div class="user-badge">
-                        <div class="user-avatar">${userName.charAt(0).toUpperCase()}</div>
-                        <div class="user-name">${userName}</div>
-                        ${userOrg ? `<div class="user-org">${userOrg}</div>` : ''}
-                    </div>
-                    <h2>${t('resultsTitle')}</h2>
-                    <p style="color: var(--text-muted);">${t('resultsSubtitle')}</p>
-                </div>
-
-                <div class="stage-result">
-                    <div class="stage-label">${t('yourStage')}</div>
-                    <div class="stage-name">${stage.name}</div>
-                    <div class="stage-description">${t('avgScore')}: ${results.overallAvg.toFixed(1)} / 4.0</div>
-                </div>
-
-                <div class="insight-cards">
-                    <div class="insight-card problem">
-                        <h4>🎯 ${t('coreProblem')}</h4>
-                        <p>${stage.problem}</p>
-                    </div>
-                    <div class="insight-card next-move">
-                        <h4>🚀 ${t('nextMove')}</h4>
-                        <p>${stage.nextMove}</p>
-                    </div>
-                    <div class="insight-card ai-role">
-                        <h4>🤖 ${t('aiRole')}</h4>
-                        <p>${stage.aiRole}</p>
-                    </div>
-                </div>
-
-                <div class="chart-container">
-                    <div class="chart-title">${t('skillProfile')}</div>
-                    <canvas id="radarChart" width="400" height="400"></canvas>
-                </div>
-
-                <div class="dimension-breakdown">
-                    <h3 style="margin-bottom: 1rem;">${t('dimensionBreakdown')}</h3>
-                    ${Object.entries(results.dimensionScores).map(([dim, score]) => {
-                        const dimStage = getStageForScore(score);
-                        const icons = { "Testing Fundamentals": "🎯", "Technical Depth": "⚙️", "Quality Thinking": "🧠", "Influence & Impact": "💬" };
-                        const bgColors = { "Testing Fundamentals": "#0d948820", "Technical Depth": "#6366f120", "Quality Thinking": "#f59e0b20", "Influence & Impact": "#ec489920" };
-                        return `
-                            <div class="dimension-item">
-                                <div class="dimension-icon" style="background: ${bgColors[dim]}">${icons[dim]}</div>
-                                <div class="dimension-info">
-                                    <div class="dimension-name">${dimNames[dim]}</div>
-                                    <div class="dimension-stage">${stages[dimStage].name}</div>
-                                </div>
-                                <div class="dimension-score">${score.toFixed(1)}</div>
+                <div class="results-compact">
+                    <div class="results-top">
+                        <div class="user-badge-compact">
+                            <div class="user-avatar">${userName.charAt(0).toUpperCase()}</div>
+                            <div>
+                                <div class="user-name">${userName}</div>
+                                ${userOrg ? `<div class="user-org">${userOrg}</div>` : ''}
                             </div>
-                        `;
-                    }).join('')}
-                </div>
+                        </div>
+                        <div class="stage-badge">
+                            <div class="stage-label">${t('yourStage')}</div>
+                            <div class="stage-name">${stage.name}</div>
+                            <div class="stage-score">${results.overallAvg.toFixed(1)} / 4.0</div>
+                        </div>
+                    </div>
 
-                <div class="recommendations">
-                    <h3>📚 ${t('recommendations')}</h3>
-                    ${getRecommendations(results)}
-                </div>
+                    <div class="results-grid">
+                        <div class="results-left">
+                            <div class="chart-compact">
+                                <canvas id="radarChart" width="280" height="280"></canvas>
+                            </div>
+                            <div class="dimensions-compact">
+                                ${Object.entries(results.dimensionScores).map(([dim, score]) => {
+                                    const icons = { "Testing Fundamentals": "🎯", "Technical Depth": "⚙️", "Quality Thinking": "🧠", "Influence & Impact": "💬" };
+                                    return `<div class="dim-row"><span>${icons[dim]} ${dimNames[dim]}</span><strong>${score.toFixed(1)}</strong></div>`;
+                                }).join('')}
+                            </div>
+                        </div>
+                        <div class="results-right">
+                            <div class="insight-compact">
+                                <div class="insight-item"><span class="insight-label">🎯 ${t('coreProblem')}</span><p>${stage.problem}</p></div>
+                                <div class="insight-item"><span class="insight-label">🚀 ${t('nextMove')}</span><p>${stage.nextMove}</p></div>
+                                <div class="insight-item"><span class="insight-label">🤖 ${t('aiRole')}</span><p>${stage.aiRole}</p></div>
+                            </div>
+                            <div class="recs-compact">
+                                <div class="recs-title">📚 ${t('recommendations')}</div>
+                                ${getRecommendationsCompact(results)}
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="action-buttons">
-                    <button class="btn btn-secondary" onclick="restartAssessment()">${t('retake')}</button>
-                    <button class="btn btn-primary" onclick="exportPDF()">${t('exportPdf')}</button>
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="restartAssessment()">${t('retake')}</button>
+                        <button class="btn btn-primary" onclick="exportPDF()">${t('exportPdf')}</button>
+                    </div>
                 </div>
             `;
 
@@ -1439,7 +1494,10 @@
                 new Chart(ctx, {
                     type: 'radar',
                     data: {
-                        labels: Object.keys(results.dimensionScores).map(d => dimNames[d]),
+                        labels: Object.keys(results.dimensionScores).map(d => {
+                            const short = { "Testing Fundamentals": "Testing", "Technical Depth": "Technical", "Quality Thinking": "Quality", "Influence & Impact": "Influence" };
+                            return short[d];
+                        }),
                         datasets: [{
                             label: 'Score',
                             data: Object.values(results.dimensionScores),
@@ -1450,7 +1508,9 @@
                         }]
                     },
                     options: {
-                        scales: { r: { beginAtZero: true, max: 4, ticks: { stepSize: 1 } } },
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        scales: { r: { beginAtZero: true, max: 4, ticks: { stepSize: 1, font: { size: 10 } }, pointLabels: { font: { size: 11 } } } },
                         plugins: { legend: { display: false } }
                     }
                 });
@@ -1514,6 +1574,51 @@
                     </div>
                 </div>
             `).join('');
+        }
+
+        function getRecommendationsCompact(results) {
+            const recs = [];
+            const weakest = Object.entries(results.dimensionScores).sort((a, b) => a[1] - b[1])[0];
+
+            if (currentLang === 'en') {
+                if (results.overallStage <= 1) {
+                    recs.push({ icon: "📖", text: "Get ISTQB CTFL certified" });
+                    recs.push({ icon: "🤖", text: "Use AI to learn testing concepts" });
+                } else if (results.overallStage === 2) {
+                    recs.push({ icon: "🎯", text: "Choose a specialization path" });
+                    recs.push({ icon: "📜", text: "Consider CT-AI or CT-GenAI cert" });
+                } else {
+                    recs.push({ icon: "👥", text: "Mentor others, multiply impact" });
+                    recs.push({ icon: "🎤", text: "Share knowledge at meetups" });
+                }
+                const dimRecs = {
+                    "Testing Fundamentals": "Practice BVA, EP techniques",
+                    "Technical Depth": "Learn automation/API testing",
+                    "Quality Thinking": "Develop risk-based thinking",
+                    "Influence & Impact": "Build cross-team relationships"
+                };
+                if (weakest[1] < 2) recs.push({ icon: "⚡", text: dimRecs[weakest[0]] });
+            } else {
+                if (results.overallStage <= 1) {
+                    recs.push({ icon: "📖", text: "Ambil sertifikasi ISTQB CTFL" });
+                    recs.push({ icon: "🤖", text: "Gunakan AI untuk belajar testing" });
+                } else if (results.overallStage === 2) {
+                    recs.push({ icon: "🎯", text: "Pilih jalur spesialisasi" });
+                    recs.push({ icon: "📜", text: "Pertimbangkan CT-AI/CT-GenAI" });
+                } else {
+                    recs.push({ icon: "👥", text: "Bimbing orang lain, perbesar dampak" });
+                    recs.push({ icon: "🎤", text: "Berbagi di meetup/konferensi" });
+                }
+                const dimRecs = {
+                    "Testing Fundamentals": "Latih teknik BVA, EP",
+                    "Technical Depth": "Pelajari automation/API testing",
+                    "Quality Thinking": "Kembangkan risk-based thinking",
+                    "Influence & Impact": "Bangun hubungan lintas tim"
+                };
+                if (weakest[1] < 2) recs.push({ icon: "⚡", text: dimRecs[weakest[0]] });
+            }
+
+            return recs.map(r => `<div class="rec-item"><span>${r.icon}</span><span>${r.text}</span></div>`).join('');
         }
 
         function restartAssessment() {
