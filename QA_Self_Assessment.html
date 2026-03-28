@@ -6,6 +6,7 @@
     <title>QA Skill Assessment | ngobrolqa.com</title>
     <meta name="description" content="Know your level, understand your problem, learn what matters next.">
     <meta name="author" content="Aditya Mirza Bahari">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -660,6 +661,9 @@
                             I agree that my assessment results (name, organization, scores) may be stored for research and improvement purposes. Data is kept confidential and never shared publicly.
                         </label>
                     </div>
+                    <div style="display: flex; justify-content: center; margin-top: 1.5rem;">
+                        <div class="g-recaptcha" data-sitekey="6LcseZssAAAAALzkD8Pyb9qZuOygRE5Gb-zspkf5" data-theme="dark"></div>
+                    </div>
                     <button class="btn btn-primary" onclick="validateAndStart()" style="margin: 1.5rem auto 0; display: flex;" id="startBtn">
                         Start Assessment →
                     </button>
@@ -720,7 +724,7 @@
     <script>
         // Language state
         let currentLang = localStorage.getItem('assessmentLangV2') || 'en';
-        let userData = { name: '', email: '', org: '' };
+        let userData = { name: '', email: '', org: '', recaptchaToken: '' };
         let questionVariations = []; // Stores which variation (0, 1, or 2) to use for each question
 
         // Mobile menu toggle
@@ -764,11 +768,19 @@
                 consentCheck.focus();
                 return;
             }
+
+            // Check reCAPTCHA
+            const recaptchaResponse = grecaptcha.getResponse();
+            if (!recaptchaResponse) {
+                alert('Please complete the reCAPTCHA verification.');
+                return;
+            }
             
             userData.name = nameInput.value.trim();
             userData.email = emailInput.value.trim();
             userData.org = orgInput.value.trim();
-            
+            userData.recaptchaToken = recaptchaResponse;
+
             // Store in localStorage
             localStorage.setItem('assessmentUserName', userData.name);
             localStorage.setItem('assessmentUserEmail', userData.email);
@@ -1777,7 +1789,8 @@
                     influenceImpact: results.dimensionScores["Influence & Impact"]?.toFixed(2) || '0',
                     overall: results.overallAvg.toFixed(2)
                 },
-                stage: stage.name
+                stage: stage.name,
+                recaptchaToken: userData.recaptchaToken
             });
             
             const resultsHTML = `
