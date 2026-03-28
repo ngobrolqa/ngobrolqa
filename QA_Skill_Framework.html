@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Skill Framework | ngobrolqa.com</title>
+    <meta name="description" content="Know your level, understand your problem, learn what matters next.">
+    <meta name="author" content="Aditya Mirza Bahari">
+    <meta name="copyright" content="© 2026 Aditya Mirza Bahari. All Rights Reserved.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0d9488;
+            --primary-dark: #0f766e;
+            --primary-light: #5eead4;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --bg-dark: #0f172a;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --dim1: #0d9488;
+            --dim2: #6366f1;
+            --dim3: #f59e0b;
+            --dim4: #ec4899;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-brand img { height: 40px; border-radius: 8px; }
+        .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: white; }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1e3a5f 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-light), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-tagline {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Section */
+        .section {
+            margin: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+
+        /* The Framework Grid */
+        .framework-grid {
+            background: var(--card);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .framework-header {
+            display: grid;
+            grid-template-columns: 150px 1fr 1fr 1fr 1fr;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+        }
+
+        .framework-header > div {
+            padding: 1.25rem;
+            text-align: center;
+            font-weight: 700;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .framework-header > div:last-child { border-right: none; }
+
+        .framework-row {
+            display: grid;
+            grid-template-columns: 150px 1fr 1fr 1fr 1fr;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .framework-row:last-child { border-bottom: none; }
+
+        .stage-cell {
+            padding: 1.5rem 1rem;
+            background: var(--bg);
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-right: 1px solid var(--border);
+        }
+
+        .stage-cell .stage-name {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .stage-cell .stage-score {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .content-cell {
+            padding: 1rem;
+            border-right: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+
+        .content-cell:last-child { border-right: none; }
+
+        .content-cell ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .content-cell li {
+            padding: 0.25rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .content-cell li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        /* Stage Cards */
+        .stages-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stage-card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stage-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        .stage-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stage-number {
+            background: var(--primary);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .stage-card .problem {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            margin: 0.75rem 0;
+        }
+
+        .stage-card .next-move {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            margin: 0.5rem 0;
+        }
+
+        .stage-card .ai-role {
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            margin: 0.5rem 0;
+        }
+
+        .stage-card .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            opacity: 0.8;
+        }
+
+        /* Dimension Cards */
+        .dimensions-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .dimension-card {
+            background: var(--card);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .dimension-header {
+            padding: 1.5rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .dimension-header.dim1 { background: linear-gradient(135deg, var(--dim1), #0f766e); }
+        .dimension-header.dim2 { background: linear-gradient(135deg, var(--dim2), #4f46e5); }
+        .dimension-header.dim3 { background: linear-gradient(135deg, var(--dim3), #d97706); }
+        .dimension-header.dim4 { background: linear-gradient(135deg, var(--dim4), #db2777); }
+
+        .dimension-icon {
+            font-size: 2.5rem;
+        }
+
+        .dimension-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .dimension-header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .dimension-body {
+            padding: 1.5rem;
+        }
+
+        .sub-areas-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .sub-area {
+            display: flex;
+            align-items: flex-start;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #eef2f6;
+        }
+
+        .sub-area:last-of-type { border-bottom: none; }
+
+        .sub-area-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bg);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .sub-area-content h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .sub-area-content p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Indicators Table */
+        .detailed-section {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .detailed-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .detailed-title span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toggle-all-btn {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.6rem;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            color: var(--text-muted);
+            text-transform: none;
+            letter-spacing: 0;
+            transition: all 0.2s;
+        }
+
+        .toggle-all-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .indicators-section {
+            margin-bottom: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .indicators-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0.75rem;
+            background: white;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .indicators-header:hover {
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .indicators-header .toggle-icon {
+            font-size: 0.7rem;
+            transition: transform 0.2s;
+        }
+
+        .indicators-section.open .indicators-header {
+            background: var(--primary);
+            color: white;
+        }
+
+        .indicators-section.open .indicators-header .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .indicators-content {
+            display: none;
+            padding: 0.5rem;
+            background: var(--bg);
+        }
+
+        .indicators-section.open .indicators-content {
+            display: block;
+        }
+
+        .indicator-row {
+            display: flex;
+            padding: 0.4rem 0.6rem;
+            background: white;
+            border-radius: 4px;
+            margin-bottom: 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .indicator-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .indicator-stage {
+            width: 75px;
+            font-weight: 600;
+            flex-shrink: 0;
+            color: var(--primary);
+        }
+
+        .indicator-text {
+            flex: 1;
+            color: var(--text-muted);
+        }
+
+        /* ISTQB Alignment */
+        .istqb-section {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .cert-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg);
+            border-radius: 12px;
+        }
+
+        .cert-card h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cert-list {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .cert-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin: 0.25rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer a { color: white; text-decoration: none; }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stages-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .framework-header, .framework-row {
+                grid-template-columns: 120px repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .dimensions-container {
+                grid-template-columns: 1fr;
+            }
+            .stages-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .cert-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .stages-container {
+                grid-template-columns: 1fr;
+            }
+            .framework-header, .framework-row {
+                display: none;
+            }
+            .nav-links { display: none; }
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            background: var(--card);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .tab:hover {
+            border-color: var(--primary);
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <a href="index.html" class="nav-brand">
+                <img src="ngobrolqa-logo.png" alt="NgobrolQA" onerror="this.style.display='none'">
+                <span>NgobrolQA</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="#">Framework</a>
+                <a href="QA_Learning_Plan.html">Learning</a>
+                <a href="QA_Self_Assessment.html">Assessment</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>QA Skill Framework</h1>
+        <p>Growth isn't about learning more — it's about learning what matters next.</p>
+        <div class="hero-tagline">
+            🎯 Know Your Level &nbsp;•&nbsp; 🧠 Understand Your Problem &nbsp;•&nbsp; 🚀 Plan Your Path
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- The 5 Stages Section -->
+        <div class="section">
+            <h2 class="section-title">The 5 Stages of QA Growth</h2>
+            <p class="section-subtitle">Based on the Dreyfus Model of Skill Acquisition</p>
+
+            <div class="stages-container">
+                <div class="stage-card">
+                    <h3><span class="stage-number">1</span> Starter</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">
+                        Just beginning the journey
+                    </p>
+                    <div class="problem">
+                        <div class="label">Problem</div>
+                        "I don't know what I don't know"
+                    </div>
+                    <div class="next-move">
+                        <div class="label">Next Move</div>
+                        Learn fundamentals
+                    </div>
+                    <div class="ai-role">
+                        <div class="label">AI Role</div>
+                        AI as Teacher
+                    </div>
+                </div>
+
+                <div class="stage-card">
+                    <h3><span class="stage-number">2</span> Practitioner</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">
+                        Building experience
+                    </p>
+                    <div class="problem">
+                        <div class="label">Problem</div>
+                        "I can do it, but not sure if it's right"
+                    </div>
+                    <div class="next-move">
+                        <div class="label">Next Move</div>
+                        Build patterns
+                    </div>
+                    <div class="ai-role">
+                        <div class="label">AI Role</div>
+                        AI as Assistant
+                    </div>
+                </div>
+
+                <div class="stage-card">
+                    <h3><span class="stage-number">3</span> Professional</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">
+                        Competent but seeking direction
+                    </p>
+                    <div class="problem">
+                        <div class="label">Problem</div>
+                        "I'm good at my job, but stuck"
+                    </div>
+                    <div class="next-move">
+                        <div class="label">Next Move</div>
+                        Find your edge
+                    </div>
+                    <div class="ai-role">
+                        <div class="label">AI Role</div>
+                        AI as Accelerator
+                    </div>
+                </div>
+
+                <div class="stage-card">
+                    <h3><span class="stage-number">4</span> Leader</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">
+                        Leading and mentoring
+                    </p>
+                    <div class="problem">
+                        <div class="label">Problem</div>
+                        "I can lead, but impact is limited"
+                    </div>
+                    <div class="next-move">
+                        <div class="label">Next Move</div>
+                        Multiply impact
+                    </div>
+                    <div class="ai-role">
+                        <div class="label">AI Role</div>
+                        AI as Multiplier
+                    </div>
+                </div>
+
+                <div class="stage-card">
+                    <h3><span class="stage-number">5</span> Industry</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.75rem;">
+                        Shaping the profession
+                    </p>
+                    <div class="problem">
+                        <div class="label">Problem</div>
+                        "How do I stay relevant?"
+                    </div>
+                    <div class="next-move">
+                        <div class="label">Next Move</div>
+                        Shape the future
+                    </div>
+                    <div class="ai-role">
+                        <div class="label">AI Role</div>
+                        AI as Partner
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- The 4 Dimensions Section -->
+        <div class="section">
+            <h2 class="section-title">The 4 Skill Dimensions</h2>
+            <p class="section-subtitle">Core areas every QA professional needs to develop</p>
+
+            <div class="dimensions-container">
+                <!-- Dimension 1: Testing Fundamentals -->
+                <div class="dimension-card">
+                    <div class="dimension-header dim1">
+                        <div class="dimension-icon">🎯</div>
+                        <div>
+                            <h3>Testing Fundamentals</h3>
+                            <p>How well do you practice the craft of testing?</p>
+                        </div>
+                    </div>
+                    <div class="dimension-body">
+                        <div class="sub-areas-title">What it covers</div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">📝</div>
+                            <div class="sub-area-content">
+                                <h4>Test Design</h4>
+                                <p>Creating test cases, applying techniques (BVA, EP, decision tables)</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">▶️</div>
+                            <div class="sub-area-content">
+                                <h4>Test Execution</h4>
+                                <p>Running tests, documenting results, managing test data</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">🐛</div>
+                            <div class="sub-area-content">
+                                <h4>Defect Management</h4>
+                                <p>Finding, reporting, tracking, analyzing bugs</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">🔍</div>
+                            <div class="sub-area-content">
+                                <h4>Test Analysis</h4>
+                                <p>Understanding requirements, identifying test conditions</p>
+                            </div>
+                        </div>
+
+                        <div class="detailed-section">
+                            <div class="detailed-title">
+                                <span>📊 Stage Progression</span>
+                                <button class="toggle-all-btn" onclick="toggleAllIndicators(this)">Expand All</button>
+                            </div>
+                            
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Test Design</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Execute test cases written by others</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Write test cases independently using basic techniques</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Apply BVA, EP, decision tables; design test strategies</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Define test approach templates that teams follow</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Innovate testing methods that influence the field</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Defect Management</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Describe what went wrong in basic terms</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Write clear steps to reproduce with screenshots</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Reports are immediately actionable; analyze bug patterns</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Use defect data to drive process improvements</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Design defect prevention systems organization-wide</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Test Analysis</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Test based on what's visible in the UI</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Read requirements and identify what to test</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Find gaps and ambiguities in requirements proactively</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Assess testability and suggest requirement improvements</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Influence how requirements are written across the org</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Test Execution</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Check if the specific bug is fixed</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Verify fix and check a few related areas</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Do regression testing on potentially impacted areas</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Predict impact areas based on system knowledge</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Build systems that automatically identify regression scope</div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dimension 2: Technical Depth -->
+                <div class="dimension-card">
+                    <div class="dimension-header dim2">
+                        <div class="dimension-icon">⚙️</div>
+                        <div>
+                            <h3>Technical Depth</h3>
+                            <p>How deep is your technical toolkit?</p>
+                        </div>
+                    </div>
+                    <div class="dimension-body">
+                        <div class="sub-areas-title">What it covers</div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">🤖</div>
+                            <div class="sub-area-content">
+                                <h4>Automation</h4>
+                                <p>Test automation design, frameworks, CI/CD integration</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">🔌</div>
+                            <div class="sub-area-content">
+                                <h4>API & Integration</h4>
+                                <p>API testing, service testing, integration points</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">⚡</div>
+                            <div class="sub-area-content">
+                                <h4>Performance</h4>
+                                <p>Load testing, performance analysis, bottleneck identification</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">🧠</div>
+                            <div class="sub-area-content">
+                                <h4>AI-Assisted Testing</h4>
+                                <p>Using AI to help you test (prompts, generation) — CT-GenAI</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">🔬</div>
+                            <div class="sub-area-content">
+                                <h4>AI System Testing</h4>
+                                <p>Testing AI/ML products (hallucination, bias) — CT-AI</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">🔒</div>
+                            <div class="sub-area-content">
+                                <h4>Security Basics</h4>
+                                <p>Security testing fundamentals, OWASP awareness</p>
+                            </div>
+                        </div>
+
+                        <div class="detailed-section">
+                            <div class="detailed-title">
+                                <span>📊 Stage Progression</span>
+                                <button class="toggle-all-btn" onclick="toggleAllIndicators(this)">Expand All</button>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Automation</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Run existing automated tests and read results</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Write simple automated tests using Selenium/Playwright</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Design Page Object Model; integrate with CI/CD</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Architect automation framework; set coding standards</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Evaluate emerging tech; contribute to open-source</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>API Testing</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Use Postman to send basic requests</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Test CRUD operations; validate responses</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Design API test suites; automate with code</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Implement contract testing; define API test strategy</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Architect integration testing for microservices</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Performance Testing</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Notice when things are slow</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Use devtools to check page load times</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Create load tests using JMeter/k6; identify bottlenecks</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Set up continuous performance monitoring</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Design performance strategy for distributed systems</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>AI-Assisted Testing (CT-GenAI)</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Use AI to explain testing concepts</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Use AI to draft test cases and suggest edge cases</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Craft effective prompts; critically validate AI outputs</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Integrate AI tools into team workflows; coach others</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Define AI adoption strategy; assess AI governance</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>AI System Testing (CT-AI)</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Understand AI systems need different testing</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Identify AI risks like hallucination and bias</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Design test cases for AI features (accuracy, consistency)</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Define AI testing strategies for AI-powered products</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Establish AI quality frameworks at organizational level</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Security Basics</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Understand basic security concepts (auth, authz)</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Know OWASP Top 10; test for basic vulnerabilities</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Design security test cases; use OWASP ZAP</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Define security testing approach; coordinate with security team</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Establish security testing standards for the organization</div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dimension 3: Quality Thinking -->
+                <div class="dimension-card">
+                    <div class="dimension-header dim3">
+                        <div class="dimension-icon">🧠</div>
+                        <div>
+                            <h3>Quality Thinking</h3>
+                            <p>How strategically do you think about quality?</p>
+                        </div>
+                    </div>
+                    <div class="dimension-body">
+                        <div class="sub-areas-title">What it covers</div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">⚠️</div>
+                            <div class="sub-area-content">
+                                <h4>Risk-Based Thinking</h4>
+                                <p>Identifying, assessing, prioritizing risks</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">🔎</div>
+                            <div class="sub-area-content">
+                                <h4>Root Cause Analysis</h4>
+                                <p>Finding why defects happen, not just what</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">🛡️</div>
+                            <div class="sub-area-content">
+                                <h4>Prevention Mindset</h4>
+                                <p>Shifting left, quality gates, early feedback</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">📊</div>
+                            <div class="sub-area-content">
+                                <h4>Test Strategy</h4>
+                                <p>Planning approach based on context, not templates</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">📈</div>
+                            <div class="sub-area-content">
+                                <h4>Metrics & Analysis</h4>
+                                <p>Using data to drive quality decisions</p>
+                            </div>
+                        </div>
+
+                        <div class="detailed-section">
+                            <div class="detailed-title">
+                                <span>📊 Stage Progression</span>
+                                <button class="toggle-all-btn" onclick="toggleAllIndicators(this)">Expand All</button>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Risk-Based Thinking</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Identify obvious risks when pointed out</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Spot risks in requirements proactively</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Create risk-based test plans; communicate trade-offs</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Define risk frameworks; balance coverage vs. speed</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Shape organizational risk management approach</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Root Cause Analysis</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Report what's broken and move on</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Try to narrow down where the bug originates</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Use 5-Whys technique; recommend preventive actions</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Lead post-mortems; implement process changes</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Build defect prevention systems at organizational level</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Prevention Mindset</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Focus on finding bugs</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Suggest improvements when seeing recurring issues</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Participate in design reviews; implement quality gates</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Design prevention-focused QA processes</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Establish prevention-first quality culture org-wide</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Test Strategy</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Follow existing strategy documents</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Suggest test approaches for assigned features</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Create comprehensive strategies adapted to context</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Align test strategy with business objectives</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Develop testing strategies for emerging technologies</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Metrics & Analysis</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Report basic numbers (tests run, bugs found)</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Track and visualize test progress</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Define meaningful metrics that drive decisions</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Build quality dashboards; demonstrate QA value/ROI</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Benchmark against industry standards</div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dimension 4: Influence & Impact -->
+                <div class="dimension-card">
+                    <div class="dimension-header dim4">
+                        <div class="dimension-icon">💬</div>
+                        <div>
+                            <h3>Influence & Impact</h3>
+                            <p>How much impact do you create through others?</p>
+                        </div>
+                    </div>
+                    <div class="dimension-body">
+                        <div class="sub-areas-title">What it covers</div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">🤝</div>
+                            <div class="sub-area-content">
+                                <h4>Collaboration</h4>
+                                <p>Working with dev, PM, stakeholders effectively</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">📣</div>
+                            <div class="sub-area-content">
+                                <h4>Communication</h4>
+                                <p>Reporting, presenting, explaining quality status</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">🎯</div>
+                            <div class="sub-area-content">
+                                <h4>Ownership</h4>
+                                <p>Taking responsibility for outcomes, not just tasks</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">👥</div>
+                            <div class="sub-area-content">
+                                <h4>Leadership</h4>
+                                <p>Mentoring, leading initiatives, building teams</p>
+                            </div>
+                        </div>
+                        <div class="sub-area">
+                            <div class="sub-area-icon">🏢</div>
+                            <div class="sub-area-content">
+                                <h4>Domain Expertise</h4>
+                                <p>Deep knowledge of your industry/product</p>
+                            </div>
+                        </div>
+
+                        <div class="detailed-section">
+                            <div class="detailed-title">
+                                <span>📊 Stage Progression</span>
+                                <button class="toggle-all-btn" onclick="toggleAllIndicators(this)">Expand All</button>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Collaboration</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Report bugs and wait for them to be fixed</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Explain testing approach; work together on issues</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Negotiate priorities; influence sprint planning</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Build cross-functional relationships at leadership level</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Represent QA perspective at executive level</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Communication</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Give updates when asked</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Provide clear status in team stand-ups</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Present quality status and risks to stakeholders</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Present to senior leadership; demonstrate QA ROI</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Speak at conferences; write influential content</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Ownership</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Complete tasks assigned reliably</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Own testing for assigned features</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Own quality outcomes for product area</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Take accountability for team quality deliverables</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Take ownership of advancing the QA profession</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Leadership & Mentoring</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Open to learning from others</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Help teammates with basic questions</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Mentor junior members; onboard new QAs</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Develop career paths; build high-performing teams</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Mentor leaders; build QA communities</div></div>
+                                </div>
+                            </div>
+
+                            <div class="indicators-section" onclick="this.classList.toggle('open')">
+                                <div class="indicators-header"><span>Domain Expertise</span><span class="toggle-icon">▼</span></div>
+                                <div class="indicators-content">
+                                    <div class="indicator-row"><div class="indicator-stage">Starter</div><div class="indicator-text">Learning about the product being tested</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Practitioner</div><div class="indicator-text">Understand business context of features</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Professional</div><div class="indicator-text">Consulted for domain questions in your area</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Leader</div><div class="indicator-text">Recognized as domain expert; train others</div></div>
+                                    <div class="indicator-row"><div class="indicator-stage">Industry</div><div class="indicator-text">Recognized as domain expert in the industry</div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ISTQB Certification Path -->
+        <div class="section">
+            <h2 class="section-title">ISTQB Certification Alignment</h2>
+            <p class="section-subtitle">Recommended certifications by dimension</p>
+
+            <div class="istqb-section">
+                <div class="cert-grid">
+                    <div class="cert-card">
+                        <h4>🎯 Testing Fundamentals</h4>
+                        <div class="cert-list">
+                            <span class="cert-badge">CTFL</span>
+                            <span class="cert-badge">CTAL-TA</span>
+                        </div>
+                    </div>
+                    <div class="cert-card">
+                        <h4>⚙️ Technical Depth</h4>
+                        <div class="cert-list">
+                            <span class="cert-badge">CT-TAE</span>
+                            <span class="cert-badge">CT-PT</span>
+                            <span class="cert-badge">CT-AI</span>
+                            <span class="cert-badge">CT-GenAI</span>
+                            <span class="cert-badge">CT-SEC</span>
+                        </div>
+                    </div>
+                    <div class="cert-card">
+                        <h4>🧠 Quality Thinking</h4>
+                        <div class="cert-list">
+                            <span class="cert-badge">CTAL-TM</span>
+                            <span class="cert-badge">CT-AI</span>
+                        </div>
+                    </div>
+                    <div class="cert-card">
+                        <h4>💬 Influence & Impact</h4>
+                        <div class="cert-list">
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Domain certifications + soft skills development</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2>Ready to Know Your Level?</h2>
+            <p>Take the self-assessment to discover your stage across all 4 dimensions and get personalized recommendations for your next move.</p>
+            <a href="QA_Self_Assessment.html" class="cta-btn">Take the Assessment →</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Aditya Mirza Bahari. All Rights Reserved.</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">
+            <a href="https://linkedin.com/in/adityabahari" target="_blank">LinkedIn</a> •
+            <a href="https://open.spotify.com/show/NgobrolQA" target="_blank">Podcast</a> •
+            <a href="https://idstb.org" target="_blank">IDSTB</a>
+        </p>
+    </footer>
+
+    <script>
+        function toggleAllIndicators(btn) {
+            const section = btn.closest('.detailed-section');
+            const indicators = section.querySelectorAll('.indicators-section');
+            const isExpanding = btn.textContent === 'Expand All';
+            
+            indicators.forEach(indicator => {
+                if (isExpanding) {
+                    indicator.classList.add('open');
+                } else {
+                    indicator.classList.remove('open');
+                }
+            });
+            
+            btn.textContent = isExpanding ? 'Collapse All' : 'Expand All';
+        }
+    </script>
+</body>
+</html>

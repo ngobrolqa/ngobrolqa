@@ -103,7 +103,7 @@ Aditya is the creator of ngobrolqa.com, a comprehensive resource for QA professi
 ## Resources Mentioned
 
 - **Self-Assessment Tool:** ngobrolqa.com/QA_Self_Assessment.html
-- **Full Framework:** ngobrolqa.com/QA_Skill_Acquisition_Framework.html
+- **Full Framework:** ngobrolqa.com/QA_Skill_Framework.html
 - **Learning Paths:** ngobrolqa.com/QA_Learning_Plan.html
 - **IDSTB:** idstb.org
 - **Podcast:** open.spotify.com/show/NgobrolQA
