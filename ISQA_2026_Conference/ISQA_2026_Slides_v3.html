@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rethinking QA Growth in the AI Era - ISQA Conference 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0d9488;
+            --primary-dark: #0f766e;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gradient-1: linear-gradient(135deg, #0d9488 0%, #6366f1 100%);
+            --gradient-2: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            --gradient-3: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            display: none;
+            padding: 80px 120px;
+            overflow: hidden;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(13, 148, 136, 0.12) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .slide > * { position: relative; z-index: 1; }
+
+        /* Typography - BIG TEXT STYLE */
+        .big-statement {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 5.5rem;
+            font-weight: 700;
+            line-height: 1.15;
+            max-width: 1100px;
+        }
+
+        .big-statement .highlight {
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .big-statement .accent {
+            color: var(--accent);
+        }
+
+        .subtitle {
+            font-size: 2rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 2rem;
+            font-weight: 400;
+        }
+
+        .context {
+            font-size: 1.4rem;
+            color: rgba(255,255,255,0.4);
+            margin-top: auto;
+            padding-top: 3rem;
+        }
+
+        /* Title Slide */
+        .title-slide {
+            align-items: center;
+            text-align: center;
+        }
+
+        .title-slide .big-statement {
+            font-size: 6rem;
+        }
+
+        .speaker-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            padding: 1.5rem 3rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+        }
+
+        .speaker-info .avatar {
+            width: 60px; height: 60px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+        }
+
+        .speaker-info .details {
+            text-align: left;
+        }
+
+        .speaker-info .name {
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .speaker-info .role {
+            color: rgba(255,255,255,0.6);
+            font-size: 1rem;
+        }
+
+        .event-info {
+            position: absolute;
+            bottom: 50px;
+            display: flex;
+            gap: 3rem;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* Section Slide */
+        .section-slide {
+            align-items: center;
+            text-align: center;
+        }
+
+        .section-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 12rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.3;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            height: 100%;
+        }
+
+        .col h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Level Cards */
+        .level-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .level-row {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.2rem 2rem;
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+
+        .level-row:hover { transform: translateX(10px); }
+
+        .level-badge {
+            width: 50px; height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .level-name {
+            font-weight: 600;
+            font-size: 1.2rem;
+            width: 140px;
+        }
+
+        .level-insight {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .l5 { background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(147, 51, 234, 0.05)); border: 1px solid rgba(147, 51, 234, 0.4); }
+        .l5 .level-badge { background: #9333ea; }
+        .l4 { background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(37, 99, 235, 0.05)); border: 1px solid rgba(37, 99, 235, 0.4); }
+        .l4 .level-badge { background: #2563eb; }
+        .l3 { background: linear-gradient(135deg, rgba(22, 163, 74, 0.2), rgba(22, 163, 74, 0.05)); border: 1px solid rgba(22, 163, 74, 0.4); }
+        .l3 .level-badge { background: #16a34a; }
+        .l2 { background: linear-gradient(135deg, rgba(202, 138, 4, 0.2), rgba(202, 138, 4, 0.05)); border: 1px solid rgba(202, 138, 4, 0.4); }
+        .l2 .level-badge { background: #ca8a04; }
+        .l1 { background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(220, 38, 38, 0.05)); border: 1px solid rgba(220, 38, 38, 0.4); }
+        .l1 .level-badge { background: #dc2626; }
+
+        /* Dimension Grid */
+        .dim-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .dim-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .dim-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .dim-card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .dim-card h3 { font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--primary); }
+        .dim-card p { font-size: 1rem; color: rgba(255,255,255,0.6); }
+
+        /* Contrast Box */
+        .contrast-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contrast-box {
+            padding: 3rem;
+            border-radius: 24px;
+        }
+
+        .contrast-box.wrong {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.03));
+            border: 2px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .contrast-box.right {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.03));
+            border: 2px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .contrast-box h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contrast-box ul { list-style: none; }
+        .contrast-box li {
+            padding: 0.75rem 0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Framework Table */
+        .framework-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 0.75rem;
+        }
+
+        .framework-table th {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .framework-table td {
+            padding: 1.2rem 1.5rem;
+            background: rgba(255,255,255,0.03);
+            font-size: 1.1rem;
+        }
+
+        .framework-table tr td:first-child {
+            border-radius: 12px 0 0 12px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .framework-table tr td:last-child {
+            border-radius: 0 12px 12px 0;
+        }
+
+        /* CTA Box */
+        .cta-box {
+            background: var(--gradient-1);
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .cta-box h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-box p { font-size: 1.3rem; opacity: 0.9; }
+
+        /* Resource Grid */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .resource-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            transition: all 0.3s;
+        }
+
+        .resource-card:hover {
+            border-color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .resource-card .icon { font-size: 2rem; }
+        .resource-card h4 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+        .resource-card p { font-size: 0.95rem; color: var(--primary); }
+
+        /* Q&A Slide */
+        .qa-slide {
+            align-items: center;
+            text-align: center;
+        }
+
+        .qa-slide .big-question {
+            font-size: 10rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-row {
+            display: flex;
+            gap: 3rem;
+            margin-top: 2rem;
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Navigation */
+        .progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 4px;
+            background: var(--gradient-1);
+            transition: width 0.3s;
+            z-index: 100;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 40px; left: 50px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.4);
+            z-index: 100;
+        }
+
+        .nav-controls {
+            position: fixed;
+            bottom: 40px; right: 50px;
+            display: flex;
+            gap: 1rem;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            border: none;
+            background: var(--gradient-1);
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 8px 25px rgba(13, 148, 136, 0.4);
+        }
+
+        .nav-btn:hover { transform: scale(1.1); }
+
+        /* Footer */
+        .slide-footer {
+            position: absolute;
+            bottom: 40px;
+            left: 120px;
+            right: 120px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="slide-counter" id="slideCounter"></div>
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide title-slide active">
+        <div style="display: flex; gap: 3rem; align-items: center; margin-bottom: 2rem;">
+            <img src="isqa-logo.png" alt="ISQA" style="height: 60px;">
+            <img src="idstb-logo.png" alt="IDSTB" style="height: 50px;">
+            <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 55px; border-radius: 12px;">
+        </div>
+        <p class="big-statement">
+            <span class="highlight">Rethinking</span> QA Growth<br>in the AI Era
+        </p>
+        <p class="subtitle">Growth isn't about learning more.<br>It's about learning what matters next.</p>
+        <div class="speaker-info">
+            <div class="avatar"></div>
+            <div class="details">
+                <div class="name">Aditya Mirza Bahari</div>
+                <div class="role">President, IDSTB • Indonesia Software Testing Board</div>
+            </div>
+        </div>
+        <div class="event-info">
+            <span>ISQA Conference 2026</span>
+            <span>April 26, 2026</span>
+            <span>10 Years Anniversary</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 1.5: Who Am I -->
+    <div class="slide">
+        <div class="two-col">
+            <div class="col">
+                <h2 style="font-size: 2.5rem;">Aditya Mirza Bahari</h2>
+                <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <img src="idstb-logo.png" alt="IDSTB" style="height: 45px;">
+                        <div>
+                            <p style="font-size: 1.3rem; font-weight: 600;">President, IDSTB</p>
+                            <p style="color: rgba(255,255,255,0.5); font-size: 1rem;">Indonesia Software Testing Board</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1.5rem;">
+                        <img src="ngobrolqa-logo.png" alt="NgobrolQA" style="height: 45px; border-radius: 10px;">
+                        <div>
+                            <p style="font-size: 1.3rem; font-weight: 600;">Creator, NgobrolQA</p>
+                            <p style="color: rgba(255,255,255,0.5); font-size: 1rem;">QA Community & Podcast</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.2rem 1.5rem; border-radius: 12px; border-left: 3px solid var(--accent);">
+                        <p style="font-size: 1.1rem;">🛒 Lead QA, Shopee (Sea Group)</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.2rem 1.5rem; border-radius: 12px; border-left: 3px solid var(--primary);">
+                        <p style="font-size: 1.1rem;">🇮🇩 Member, ISQA Community</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.2rem 1.5rem; border-radius: 12px; border-left: 3px solid var(--primary);">
+                        <p style="font-size: 1.1rem;">🎓 ISTQB Certified Practitioner</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.2rem 1.5rem; border-radius: 12px; border-left: 3px solid var(--primary);">
+                        <p style="font-size: 1.1rem;">🎙️ Host, NgobrolQA Podcast</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="context">Focused on QA growth, skill frameworks, and building the Indonesian QA community.</p>
+    </div>
+
+    <!-- SLIDE 2: QA Context -->
+    <div class="slide">
+        <p class="big-statement">
+            As <span class="highlight">QA professionals</span>,<br>
+            we learn more than ever.
+        </p>
+        <p class="subtitle">Automation. Tools. Frameworks. AI.</p>
+        <p class="context">Yet many of us still feel stuck.</p>
+    </div>
+
+    <!-- SLIDE 3: Opening Hook - Multiple Personas -->
+    <div class="slide">
+        <p style="font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; margin-bottom: 2rem; color: rgba(255,255,255,0.5);">Sound familiar?</p>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 1100px;">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem 2rem;">
+                <span style="font-size: 1.5rem;">🎓</span>
+                <p style="font-size: 1.4rem; margin-top: 0.5rem;"><span style="color: var(--accent);">Fresh Graduate:</span> "I don't know what I don't know"</p>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem 2rem;">
+                <span style="font-size: 1.5rem;">😐</span>
+                <p style="font-size: 1.4rem; margin-top: 0.5rem;"><span style="color: var(--accent);">3-5 years:</span> "I'm doing the same thing, not growing"</p>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem 2rem;">
+                <span style="font-size: 1.5rem;">🎖️</span>
+                <p style="font-size: 1.4rem; margin-top: 0.5rem;"><span style="color: var(--accent);">7+ years:</span> "What's next? Lead? Architect? Switch?"</p>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem 2rem;">
+                <span style="font-size: 1.5rem;">👔</span>
+                <p style="font-size: 1.4rem; margin-top: 0.5rem;"><span style="color: var(--accent);">New Lead:</span> "How do I grow my team?"</p>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem 2rem;">
+                <span style="font-size: 1.5rem;">🤖</span>
+                <p style="font-size: 1.4rem; margin-top: 0.5rem;"><span style="color: var(--accent);">Manual QA:</span> "Everyone says learn automation"</p>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.5rem 2rem;">
+                <span style="font-size: 1.5rem;">🔥</span>
+                <p style="font-size: 1.4rem; margin-top: 0.5rem;"><span style="color: var(--accent);">Burnt out:</span> "I used to love QA, now I'm just tired"</p>
+            </div>
+        </div>
+        <p class="context" style="margin-top: 2rem;">Different stories. Same problem: <strong style="color: var(--primary);">lack of clarity.</strong></p>
+    </div>
+
+    <!-- SLIDE 4: The Insight -->
+    <div class="slide">
+        <p class="big-statement">
+            <span class="highlight">Learning more</span><br>
+            is not growing.
+        </p>
+        <p class="subtitle">Knowing what matters next is.</p>
+    </div>
+
+    <!-- SLIDE 5: The Framework -->
+    <div class="slide">
+        <p class="big-statement">
+            Your problem isn't <span class="accent">skill</span>.<br>
+            It's <span class="highlight">clarity</span>.
+        </p>
+        <p class="context">Today: A framework for QA professionals to find clarity.</p>
+    </div>
+
+    <!-- SLIDE 6: Section 1 -->
+    <div class="slide section-slide">
+        <div class="section-number">01</div>
+        <p class="section-title">WHERE ARE YOU?</p>
+        <p class="subtitle">The science of QA skill acquisition</p>
+    </div>
+
+    <!-- SLIDE 6: Dreyfus Introduction -->
+    <div class="slide">
+        <p class="big-statement">
+            <span class="highlight">Rules</span> protect beginners.<br>
+            <span class="highlight">Rules</span> trap experts.
+        </p>
+        <p class="context">Dreyfus Model (1980) — How humans develop expertise</p>
+    </div>
+
+    <!-- SLIDE 7: The 5 Levels -->
+    <div class="slide">
+        <div class="two-col">
+            <div class="col">
+                <h2>5 Levels of Mastery</h2>
+                <p style="font-size: 1.3rem; color: rgba(255,255,255,0.6); line-height: 1.8;">
+                    You don't grow by learning more.<br>
+                    You grow by <strong style="color: var(--primary);">changing how you think</strong>.
+                </p>
+            </div>
+            <div class="col">
+                <div class="level-stack">
+                    <div class="level-row l5">
+                        <div class="level-badge">5</div>
+                        <div class="level-name">Expert</div>
+                        <div class="level-insight">Intuition. Innovation.</div>
+                    </div>
+                    <div class="level-row l4">
+                        <div class="level-badge">4</div>
+                        <div class="level-name">Proficient</div>
+                        <div class="level-insight">Sees the whole system.</div>
+                    </div>
+                    <div class="level-row l3">
+                        <div class="level-badge">3</div>
+                        <div class="level-name">Competent</div>
+                        <div class="level-insight">Plans. Prioritizes.</div>
+                    </div>
+                    <div class="level-row l2">
+                        <div class="level-badge">2</div>
+                        <div class="level-name">Adv. Beginner</div>
+                        <div class="level-insight">Recognizes patterns.</div>
+                    </div>
+                    <div class="level-row l1">
+                        <div class="level-badge">1</div>
+                        <div class="level-name">Novice</div>
+                        <div class="level-insight">Follows rules.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: Key Insight -->
+    <div class="slide">
+        <p class="big-statement">
+            Your level isn't your <span class="accent">years</span>.<br>
+            It's your last decision<br>
+            <span class="highlight">under pressure</span>.
+        </p>
+    </div>
+
+    <!-- SLIDE 9: 4 Dimensions -->
+    <div class="slide">
+        <div class="two-col">
+            <div class="col">
+                <h2>4 Skill Dimensions</h2>
+                <p style="font-size: 1.3rem; color: rgba(255,255,255,0.6); line-height: 1.8;">
+                    You can be Level 4 in one dimension,<br>
+                    Level 2 in another.<br><br>
+                    <strong style="color: var(--primary);">Know where you're weak.</strong>
+                </p>
+            </div>
+            <div class="col">
+                <div class="dim-grid">
+                    <div class="dim-card">
+                        <div class="icon">🎯</div>
+                        <h3>Testing Fundamentals</h3>
+                        <p>Techniques, coverage, bug analysis</p>
+                    </div>
+                    <div class="dim-card">
+                        <div class="icon">⚙️</div>
+                        <h3>Technical Depth</h3>
+                        <p>Automation, tools, scripting</p>
+                    </div>
+                    <div class="dim-card">
+                        <div class="icon">🧠</div>
+                        <h3>Quality Thinking</h3>
+                        <p>Risk analysis, root cause, strategy</p>
+                    </div>
+                    <div class="dim-card">
+                        <div class="icon">🚀</div>
+                        <h3>Influence & Impact</h3>
+                        <p>Leadership, communication, ownership</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: The Real Problem -->
+    <div class="slide">
+        <p class="big-statement">
+            You're not stuck.<br>
+            You're solving<br>
+            <span class="highlight">the wrong problem</span>.
+        </p>
+        <p class="context">Each level has a different bottleneck.</p>
+    </div>
+
+    <!-- SLIDE 11: QA-Specific Problems -->
+    <div class="slide">
+        <p style="font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; margin-bottom: 2rem;">
+            <span style="background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">QA Problems by Level</span>
+        </p>
+        <table class="framework-table">
+            <tr>
+                <th>Level</th>
+                <th>The QA Problem</th>
+                <th>The Next Move</th>
+            </tr>
+            <tr>
+                <td>Novice</td>
+                <td>"I execute test cases, but I don't know if they're good"</td>
+                <td>Learn test design techniques (BVA, EP)</td>
+            </tr>
+            <tr>
+                <td>Adv. Beginner</td>
+                <td>"I find bugs, but I can't explain the impact"</td>
+                <td>Practice root cause analysis</td>
+            </tr>
+            <tr>
+                <td>Competent</td>
+                <td>"I test my feature, but miss cross-system bugs"</td>
+                <td>Build system-level thinking</td>
+            </tr>
+            <tr>
+                <td>Proficient</td>
+                <td>"I know what's wrong, but can't influence the team"</td>
+                <td>Develop communication & ownership</td>
+            </tr>
+            <tr>
+                <td>Expert</td>
+                <td>"I solve problems intuitively, but can't teach it"</td>
+                <td>Codify your knowledge, mentor others</td>
+            </tr>
+        </table>
+        <p class="context">The bottleneck changes. Your learning should too.</p>
+    </div>
+
+    <!-- SLIDE 12: Level Problems General -->
+    <div class="slide">
+        <table class="framework-table">
+            <tr>
+                <th>Level</th>
+                <th>What You Think</th>
+                <th>What's Actually Holding You Back</th>
+            </tr>
+            <tr>
+                <td>Novice</td>
+                <td>"I need more experience"</td>
+                <td>You need to understand WHY, not just HOW</td>
+            </tr>
+            <tr>
+                <td>Adv. Beginner</td>
+                <td>"I need more tools"</td>
+                <td>You need deeper analysis skills</td>
+            </tr>
+            <tr>
+                <td>Competent</td>
+                <td>"I need automation skills"</td>
+                <td>You need prioritization & ownership</td>
+            </tr>
+            <tr>
+                <td>Proficient</td>
+                <td>"I need a promotion"</td>
+                <td>You need to influence without authority</td>
+            </tr>
+            <tr>
+                <td>Expert</td>
+                <td>"I need a new challenge"</td>
+                <td>You need to multiply yourself through others</td>
+            </tr>
+        </table>
+        <p class="context">Growth happens when you know what to ignore.</p>
+    </div>
+
+    <!-- SLIDE 12: Section 2 -->
+    <div class="slide section-slide">
+        <div class="section-number">02</div>
+        <p class="section-title">AI AS ACCELERATOR</p>
+        <p class="subtitle">The multiplier effect</p>
+    </div>
+
+    <!-- SLIDE 13: AI Truth -->
+    <div class="slide">
+        <p class="big-statement">
+            AI <span class="highlight">amplifies</span> your level.<br>
+            It doesn't <span class="accent">fix</span> it.
+        </p>
+    </div>
+
+    <!-- SLIDE 14: AI Contrast -->
+    <div class="slide">
+        <div class="contrast-grid">
+            <div class="contrast-box wrong">
+                <h3>❌ The Fear</h3>
+                <ul>
+                    <li>AI will replace all QA jobs</li>
+                    <li>Manual testing is dead</li>
+                    <li>Only automation survives</li>
+                </ul>
+            </div>
+            <div class="contrast-box right">
+                <h3>✅ The Reality</h3>
+                <ul>
+                    <li>AI amplifies what you already are</li>
+                    <li>Critical thinking is more valuable</li>
+                    <li>QA who use AI replace those who don't</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 15: AI by Level -->
+    <div class="slide">
+        <table class="framework-table">
+            <tr>
+                <th>Level</th>
+                <th>How AI Helps</th>
+                <th>The Risk</th>
+            </tr>
+            <tr>
+                <td>Novice</td>
+                <td>Explains concepts, generates examples</td>
+                <td>Copies without understanding</td>
+            </tr>
+            <tr>
+                <td>Competent</td>
+                <td>Assists debugging, speeds up RCA</td>
+                <td>Skips verification</td>
+            </tr>
+            <tr>
+                <td>Proficient</td>
+                <td>Reviews strategies, generates docs</td>
+                <td>Over-relies on AI judgment</td>
+            </tr>
+            <tr>
+                <td>Expert</td>
+                <td>Pattern analysis, predictive insights</td>
+                <td>Loses intuition muscle</td>
+            </tr>
+        </table>
+        <p class="context">A novice with AI is fast. An expert with AI is dangerous.</p>
+    </div>
+
+    <!-- SLIDE 16: AI Warning -->
+    <div class="slide">
+        <p class="big-statement">
+            AI is your <span class="highlight">copilot</span>.<br>
+            Not your <span class="accent">autopilot</span>.
+        </p>
+        <p class="subtitle">Verify. Question. Apply your expertise.</p>
+    </div>
+
+    <!-- SLIDE 17: Section 3 -->
+    <div class="slide section-slide">
+        <div class="section-number">03</div>
+        <p class="section-title">PROVE YOUR SKILLS</p>
+        <p class="subtitle">ISTQB certification path</p>
+    </div>
+
+    <!-- SLIDE 18: Certification -->
+    <div class="slide">
+        <div class="two-col">
+            <div class="col">
+                <h2>The AI Certification Path</h2>
+                <p style="font-size: 1.3rem; color: rgba(255,255,255,0.6); line-height: 1.8;">
+                    Certification validates your skills globally.<br><br>
+                    <strong style="color: var(--accent);">CT-GenAI</strong> released July 2025.<br>
+                    Be an early adopter in Indonesia.
+                </p>
+                <div class="cta-box" style="margin-top: 2rem;">
+                    <h3>📍 IDSTB.org</h3>
+                    <p>Official ISTQB pathway for Indonesia</p>
+                </div>
+            </div>
+            <div class="col">
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div style="background: rgba(255,255,255,0.05); border-radius: 16px; padding: 2rem; border-left: 4px solid var(--primary);">
+                        <h4 style="font-size: 1.5rem; margin-bottom: 0.5rem;">CTFL</h4>
+                        <p style="color: rgba(255,255,255,0.6);">Foundation — Testing fundamentals</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); border-radius: 16px; padding: 2rem; border-left: 4px solid var(--secondary);">
+                        <h4 style="font-size: 1.5rem; margin-bottom: 0.5rem;">CT-AI</h4>
+                        <p style="color: rgba(255,255,255,0.6);">Testing AI systems, using AI for testing</p>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.1); border-radius: 16px; padding: 2rem; border-left: 4px solid var(--accent); position: relative;">
+                        <span style="position: absolute; top: -10px; right: 20px; background: var(--gradient-3); padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">NEW!</span>
+                        <h4 style="font-size: 1.5rem; margin-bottom: 0.5rem;">CT-GenAI</h4>
+                        <p style="color: rgba(255,255,255,0.6);">LLMs, hallucination testing, prompts</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 19: Section 4 -->
+    <div class="slide section-slide">
+        <div class="section-number">✓</div>
+        <p class="section-title">YOUR NEXT MOVE</p>
+        <p class="subtitle">Start today</p>
+    </div>
+
+    <!-- SLIDE 20: Action -->
+    <div class="slide">
+        <p class="big-statement">
+            Don't follow <span class="accent">trends</span>.<br>
+            Follow your <span class="highlight">bottleneck</span>.
+        </p>
+        <p class="context">Find your level. Find your real problem. Then act.</p>
+    </div>
+
+    <!-- SLIDE 21: NgobrolQA User Journey -->
+    <div class="slide">
+        <p style="font-family: 'Space Grotesk', sans-serif; font-size: 2.5rem; margin-bottom: 3rem; text-align: center;">
+            <span style="background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Your Growth Journey</span>
+        </p>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+            <div style="background: rgba(13, 148, 136, 0.15); border: 2px solid var(--primary); border-radius: 20px; padding: 2rem; text-align: center; width: 200px;">
+                <p style="font-size: 2.5rem; margin-bottom: 0.5rem;">📚</p>
+                <p style="font-size: 1.1rem; font-weight: 600; color: var(--primary);">1. Understand</p>
+                <p style="font-size: 0.95rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem;">Learn the Framework</p>
+            </div>
+            <p style="font-size: 2rem; color: var(--primary);">→</p>
+            <div style="background: rgba(99, 102, 241, 0.15); border: 2px solid var(--secondary); border-radius: 20px; padding: 2rem; text-align: center; width: 200px;">
+                <p style="font-size: 2.5rem; margin-bottom: 0.5rem;">📝</p>
+                <p style="font-size: 1.1rem; font-weight: 600; color: var(--secondary);">2. Assess</p>
+                <p style="font-size: 0.95rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem;">Know Your Level</p>
+            </div>
+            <p style="font-size: 2rem; color: var(--primary);">→</p>
+            <div style="background: rgba(245, 158, 11, 0.15); border: 2px solid var(--accent); border-radius: 20px; padding: 2rem; text-align: center; width: 200px;">
+                <p style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎯</p>
+                <p style="font-size: 1.1rem; font-weight: 600; color: var(--accent);">3. Plan</p>
+                <p style="font-size: 0.95rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem;">Find Your Bottleneck</p>
+            </div>
+            <p style="font-size: 2rem; color: var(--primary);">→</p>
+            <div style="background: rgba(34, 197, 94, 0.15); border: 2px solid #22c55e; border-radius: 20px; padding: 2rem; text-align: center; width: 200px;">
+                <p style="font-size: 2.5rem; margin-bottom: 0.5rem;">📖</p>
+                <p style="font-size: 1.1rem; font-weight: 600; color: #22c55e;">4. Learn</p>
+                <p style="font-size: 0.95rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem;">Take Courses</p>
+            </div>
+            <p style="font-size: 2rem; color: var(--primary);">→</p>
+            <div style="background: rgba(147, 51, 234, 0.15); border: 2px solid #9333ea; border-radius: 20px; padding: 2rem; text-align: center; width: 200px;">
+                <p style="font-size: 2.5rem; margin-bottom: 0.5rem;">🎓</p>
+                <p style="font-size: 1.1rem; font-weight: 600; color: #9333ea;">5. Certify</p>
+                <p style="font-size: 0.95rem; color: rgba(255,255,255,0.6); margin-top: 0.5rem;">Prove Your Skills</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <p style="font-size: 1.3rem; color: rgba(255,255,255,0.5);">Then <span style="color: var(--primary); font-weight: 600;">reassess</span> and repeat. Growth is a cycle, not a destination.</p>
+        </div>
+    </div>
+
+    <!-- SLIDE: Journey Step 1 - Understand -->
+    <div class="slide">
+        <div class="two-col">
+            <div class="col">
+                <p style="font-size: 1.2rem; color: var(--primary); font-weight: 600; margin-bottom: 1rem;">STEP 1</p>
+                <h2 style="font-size: 3.5rem;">📚 Understand<br>the Framework</h2>
+                <p style="font-size: 1.3rem; color: rgba(255,255,255,0.6); margin-top: 1.5rem; line-height: 1.8;">
+                    Learn the <strong style="color: white;">Dreyfus Model</strong><br>
+                    and the <strong style="color: white;">4 Skill Dimensions</strong>.
+                </p>
+                <div class="cta-box" style="margin-top: 2rem;">
+                    <p style="font-size: 1.2rem;">ngobrolqa.com/QA_Skill_Framework</p>
+                </div>
+            </div>
+            <div class="col">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--primary);">
+                        <p style="font-size: 1.1rem;">🧠 <strong>Dreyfus Model</strong> — 5 levels of mastery</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--primary);">
+                        <p style="font-size: 1.1rem;">🎯 <strong>Testing Fundamentals</strong> — Techniques & coverage</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--primary);">
+                        <p style="font-size: 1.1rem;">⚙️ <strong>Technical Depth</strong> — Automation & tools</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--primary);">
+                        <p style="font-size: 1.1rem;">🧠 <strong>Quality Thinking</strong> — Risk & strategy</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--primary);">
+                        <p style="font-size: 1.1rem;">🚀 <strong>Influence & Impact</strong> — Leadership</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE: Journey Step 2 - Assess -->
+    <div class="slide">
+        <div class="two-col">
+            <div class="col">
+                <p style="font-size: 1.2rem; color: var(--secondary); font-weight: 600; margin-bottom: 1rem;">STEP 2</p>
+                <h2 style="font-size: 3.5rem;">📝 Assess<br>Your Level</h2>
+                <p style="font-size: 1.3rem; color: rgba(255,255,255,0.6); margin-top: 1.5rem; line-height: 1.8;">
+                    <strong style="color: white;">20 questions</strong> across 4 dimensions.<br>
+                    Get your <strong style="color: white;">Dreyfus level</strong> per skill.
+                </p>
+                <div class="cta-box" style="margin-top: 2rem; background: linear-gradient(135deg, var(--secondary), #8b5cf6);">
+                    <p style="font-size: 1.2rem;">ngobrolqa.com/QA_Self_Assessment</p>
+                </div>
+            </div>
+            <div class="col">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="background: rgba(99,102,241,0.1); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--secondary);">
+                        <p style="font-size: 1.1rem;">📊 <strong>Radar Chart</strong> — Visual competency profile</p>
+                    </div>
+                    <div style="background: rgba(99,102,241,0.1); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--secondary);">
+                        <p style="font-size: 1.1rem;">👤 <strong>Persona Match</strong> — Find your QA type</p>
+                    </div>
+                    <div style="background: rgba(99,102,241,0.1); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--secondary);">
+                        <p style="font-size: 1.1rem;">🎯 <strong>Recommendations</strong> — Personalized next steps</p>
+                    </div>
+                    <div style="background: rgba(99,102,241,0.1); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--secondary);">
+                        <p style="font-size: 1.1rem;">📄 <strong>PDF Export</strong> — Save your results</p>
+                    </div>
+                    <div style="background: rgba(99,102,241,0.1); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--secondary);">
+                        <p style="font-size: 1.1rem;">🇮🇩 <strong>Bilingual</strong> — English & Bahasa</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE: Journey Step 3 - Plan -->
+    <div class="slide">
+        <div class="two-col">
+            <div class="col">
+                <p style="font-size: 1.2rem; color: var(--accent); font-weight: 600; margin-bottom: 1rem;">STEP 3</p>
+                <h2 style="font-size: 3.5rem;">🎯 Plan<br>Your Growth</h2>
+                <p style="font-size: 1.3rem; color: rgba(255,255,255,0.6); margin-top: 1.5rem; line-height: 1.8;">
+                    Find your <strong style="color: white;">bottleneck</strong>.<br>
+                    Get a <strong style="color: white;">learning roadmap</strong> for your persona.
+                </p>
+                <div class="cta-box" style="margin-top: 2rem; background: linear-gradient(135deg, var(--accent), #f97316);">
+                    <p style="font-size: 1.2rem;">ngobrolqa.com/QA_Learning_Plan</p>
+                </div>
+            </div>
+            <div class="col">
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="background: rgba(245,158,11,0.1); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--accent);">
+                        <p style="font-size: 1.1rem;">🎓 <strong>Fresh Graduate</strong> — Build your foundation</p>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--accent);">
+                        <p style="font-size: 1.1rem;">😐 <strong>Stuck Mid-Career</strong> — Break the plateau</p>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--accent);">
+                        <p style="font-size: 1.1rem;">🤖 <strong>Manual → Auto</strong> — Technical transition</p>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--accent);">
+                        <p style="font-size: 1.1rem;">👔 <strong>New Lead</strong> — Leadership skills</p>
+                    </div>
+                    <div style="background: rgba(245,158,11,0.1); padding: 1.5rem; border-radius: 12px; border-left: 3px solid var(--accent);">
+                        <p style="font-size: 1.1rem;">+ 6 more personas with curated courses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE: Journey Step 4 & 5 - Learn & Certify -->
+    <div class="slide">
+        <div class="two-col">
+            <div class="col" style="border-right: 1px solid rgba(255,255,255,0.1); padding-right: 3rem;">
+                <p style="font-size: 1.2rem; color: #22c55e; font-weight: 600; margin-bottom: 1rem;">STEP 4</p>
+                <h2 style="font-size: 2.5rem; background: linear-gradient(135deg, #22c55e, #16a34a); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">📖 Learn</h2>
+                <p style="font-size: 1.2rem; color: rgba(255,255,255,0.6); margin-top: 1rem; line-height: 1.8;">
+                    Take <strong style="color: white;">curated courses</strong><br>
+                    mapped to your persona.
+                </p>
+                <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                    <div style="background: rgba(34,197,94,0.1); padding: 1rem; border-radius: 10px; font-size: 1rem;">
+                        📚 Test Automation University (FREE)
+                    </div>
+                    <div style="background: rgba(34,197,94,0.1); padding: 1rem; border-radius: 10px; font-size: 1rem;">
+                        🎓 Coursera, Udemy, LinkedIn Learning
+                    </div>
+                    <div style="background: rgba(34,197,94,0.1); padding: 1rem; border-radius: 10px; font-size: 1rem;">
+                        📖 Books & Free Resources
+                    </div>
+                </div>
+            </div>
+            <div class="col" style="padding-left: 3rem;">
+                <p style="font-size: 1.2rem; color: #9333ea; font-weight: 600; margin-bottom: 1rem;">STEP 5</p>
+                <h2 style="font-size: 2.5rem; background: linear-gradient(135deg, #9333ea, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🎓 Certify</h2>
+                <p style="font-size: 1.2rem; color: rgba(255,255,255,0.6); margin-top: 1rem; line-height: 1.8;">
+                    Prove your skills with<br>
+                    <strong style="color: white;">ISTQB certification</strong>.
+                </p>
+                <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                    <div style="background: rgba(147,51,234,0.1); padding: 1rem; border-radius: 10px; font-size: 1rem;">
+                        📜 CTFL — Foundation
+                    </div>
+                    <div style="background: rgba(147,51,234,0.1); padding: 1rem; border-radius: 10px; font-size: 1rem;">
+                        🤖 CT-AI — AI Testing
+                    </div>
+                    <div style="background: rgba(245,158,11,0.15); padding: 1rem; border-radius: 10px; font-size: 1rem; border: 1px solid var(--accent);">
+                        🆕 CT-GenAI — NEW! July 2025
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; font-size: 1rem; color: var(--primary);">→ idstb.org</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE: Bonus - Consult -->
+    <div class="slide">
+        <div class="two-col">
+            <div class="col">
+                <p style="font-size: 1.2rem; color: var(--primary); font-weight: 600; margin-bottom: 1rem;">BONUS</p>
+                <h2 style="font-size: 3.5rem;">💬 Consult<br>With Us</h2>
+                <p style="font-size: 1.3rem; color: rgba(255,255,255,0.6); margin-top: 1.5rem; line-height: 1.8;">
+                    Stuck? Need guidance?<br>
+                    <strong style="color: white;">Let's ngobrol.</strong>
+                </p>
+                <div class="cta-box" style="margin-top: 2rem;">
+                    <p style="font-size: 1.2rem;">ngobrolqa.com/QA_Consult</p>
+                </div>
+            </div>
+            <div class="col">
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 16px; border-left: 4px solid var(--primary);">
+                        <p style="font-size: 1.5rem; margin-bottom: 0.5rem;">👤 For Individuals</p>
+                        <p style="color: rgba(255,255,255,0.6);">Career guidance, skill roadmap, certification advice</p>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 16px; border-left: 4px solid var(--accent);">
+                        <p style="font-size: 1.5rem; margin-bottom: 0.5rem;">🏢 For Companies</p>
+                        <p style="color: rgba(255,255,255,0.6);">Team assessment, competency framework, training programs</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 21: Free Access Now - with QR Code -->
+    <div class="slide">
+        <p style="font-family: 'Space Grotesk', sans-serif; font-size: 3rem; text-align: center; margin-bottom: 2rem;">
+            <span style="background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Free to Access Now</span>
+        </p>
+        <div style="display: flex; justify-content: center; gap: 3rem; align-items: flex-start;">
+            <!-- QR Code -->
+            <div style="text-align: center;">
+                <div style="width: 220px; height: 220px; background: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://ngobrolqa.com" alt="QR Code" style="width: 200px; height: 200px;">
+                </div>
+                <p style="font-size: 1.3rem; font-weight: 600; color: var(--primary);">ngobrolqa.com</p>
+                <p style="font-size: 1rem; color: rgba(255,255,255,0.5);">Scan to start your journey</p>
+            </div>
+            <!-- Resources List -->
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div style="background: rgba(13,148,136,0.1); padding: 1.2rem 2rem; border-radius: 12px; display: flex; align-items: center; gap: 1rem; border-left: 3px solid var(--primary);">
+                    <span style="font-size: 1.5rem;">📚</span>
+                    <div>
+                        <p style="font-size: 1.1rem; font-weight: 600;">QA Skill Framework</p>
+                        <p style="font-size: 0.9rem; color: rgba(255,255,255,0.5);">Understand your growth path</p>
+                    </div>
+                </div>
+                <div style="background: rgba(99,102,241,0.1); padding: 1.2rem 2rem; border-radius: 12px; display: flex; align-items: center; gap: 1rem; border-left: 3px solid var(--secondary);">
+                    <span style="font-size: 1.5rem;">📝</span>
+                    <div>
+                        <p style="font-size: 1.1rem; font-weight: 600;">Self-Assessment</p>
+                        <p style="font-size: 0.9rem; color: rgba(255,255,255,0.5);">20 questions, know your level</p>
+                    </div>
+                </div>
+                <div style="background: rgba(245,158,11,0.1); padding: 1.2rem 2rem; border-radius: 12px; display: flex; align-items: center; gap: 1rem; border-left: 3px solid var(--accent);">
+                    <span style="font-size: 1.5rem;">🎯</span>
+                    <div>
+                        <p style="font-size: 1.1rem; font-weight: 600;">Learning Plan</p>
+                        <p style="font-size: 0.9rem; color: rgba(255,255,255,0.5);">Curated courses by persona</p>
+                    </div>
+                </div>
+                <div style="background: rgba(34,197,94,0.1); padding: 1.2rem 2rem; border-radius: 12px; display: flex; align-items: center; gap: 1rem; border-left: 3px solid #22c55e;">
+                    <span style="font-size: 1.5rem;">💬</span>
+                    <div>
+                        <p style="font-size: 1.1rem; font-weight: 600;">Consult With Us</p>
+                        <p style="font-size: 0.9rem; color: rgba(255,255,255,0.5);">Individual or company</p>
+                    </div>
+                </div>
+                <div style="background: rgba(147,51,234,0.1); padding: 1.2rem 2rem; border-radius: 12px; display: flex; align-items: center; gap: 1rem; border-left: 3px solid #9333ea;">
+                    <span style="font-size: 1.5rem;">🎓</span>
+                    <div>
+                        <p style="font-size: 1.1rem; font-weight: 600;">ISTQB Certification</p>
+                        <p style="font-size: 0.9rem; color: rgba(255,255,255,0.5);">idstb.org</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 2rem; font-size: 1.2rem; color: rgba(255,255,255,0.4);">All resources are <strong style="color: var(--primary);">100% free</strong>. Start now.</p>
+    </div>
+
+    <!-- SLIDE 23: Key Takeaways -->
+    <div class="slide">
+        <p class="big-statement" style="font-size: 4rem; margin-bottom: 3rem;">
+            Remember <span class="highlight">3 things</span>:
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 800px;">
+            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                <div style="width: 60px; height: 60px; background: var(--gradient-1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700;">1</div>
+                <p style="font-size: 1.6rem;"><strong>Know your level.</strong> You can't fix what you can't see.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                <div style="width: 60px; height: 60px; background: var(--gradient-1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700;">2</div>
+                <p style="font-size: 1.6rem;"><strong>AI amplifies.</strong> It accelerates wherever you are—including wrong.</p>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1.5rem;">
+                <div style="width: 60px; height: 60px; background: var(--gradient-1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700;">3</div>
+                <p style="font-size: 1.6rem;"><strong>Follow your bottleneck.</strong> Not trends. Not advice. Your bottleneck.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 24: Closing Statement -->
+    <div class="slide">
+        <p class="big-statement">
+            Growth isn't about<br>
+            learning <span class="accent">more</span>.<br><br>
+            It's about learning<br>
+            what matters <span class="highlight">next</span>.
+        </p>
+    </div>
+
+    <!-- SLIDE 25: Q&A -->
+    <div class="slide qa-slide">
+        <p class="big-question">❓</p>
+        <p class="big-statement" style="font-size: 5rem;">Questions?</p>
+        <div class="contact-row">
+            <span>🌐 ngobrolqa.com</span>
+            <span>📜 idstb.org</span>
+            <span>💼 linkedin.com/in/adityamirzabahari</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 26: Thank You -->
+    <div class="slide title-slide">
+        <p class="big-statement" style="font-size: 5rem;">
+            <span class="highlight">Thank You</span>
+        </p>
+        <p class="subtitle">Rethinking QA Growth in the AI Era</p>
+        <div class="speaker-info">
+            <div class="avatar"></div>
+            <div class="details">
+                <div class="name">Aditya Mirza Bahari</div>
+                <div class="role">President, IDSTB • ngobrolqa.com</div>
+            </div>
+        </div>
+        <div class="event-info">
+            <span>#ISQAConf2026</span>
+            <span>#KnowYourLevel</span>
+            <span>#RethinkGrowth</span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">←</button>
+        <button class="nav-btn" onclick="nextSlide()">→</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            updateUI();
+        }
+
+        function nextSlide() { showSlide(currentSlide + 1); }
+        function prevSlide() { showSlide(currentSlide - 1); }
+
+        function updateUI() {
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            else if (e.key === 'ArrowLeft') prevSlide();
+            else if (e.key === 'Home') showSlide(0);
+            else if (e.key === 'End') showSlide(totalSlides - 1);
+        });
+
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+        document.addEventListener('touchend', (e) => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+        });
+
+        updateUI();
+    </script>
+</body>
+</html>

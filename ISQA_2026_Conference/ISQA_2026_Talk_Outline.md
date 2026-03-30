@@ -62,7 +62,7 @@
 📍 Today's Journey
 
    1️⃣ WHERE AM I?      → Framework to assess your level
-   2️⃣ WHAT SHOULD I    → 6 competency buckets that matter
+   2️⃣ WHAT SHOULD I    → 4 skill dimensions that matter
       LEARN?
    3️⃣ HOW DO I GROW    → AI as your learning accelerator
       FASTER?
@@ -113,22 +113,19 @@
 
 ---
 
-#### Slide 6: 6 Competency Buckets
+#### Slide 6: 4 Skill Dimensions
 ```
-🎯 The 6 QA Competency Buckets
+🎯 The 4 QA Skill Dimensions
 
    ┌──────────────────┬──────────────────┐
-   │ 🔬 Functional    │ 🧩 Problem       │
-   │    Excellence    │    Solving       │
+   │ 🎯 Testing       │ ⚙️ Technical     │
+   │    Fundamentals  │    Depth         │
    ├──────────────────┼──────────────────┤
-   │ 🎯 Impact &      │ 💬 Communication │
-   │    Ownership     │                  │
-   ├──────────────────┼──────────────────┤
-   │ ⚙️ Process &     │ 💎 Culture &     │
-   │    Strategy      │    Values        │
+   │ 🧠 Quality       │ 🚀 Influence &   │
+   │    Thinking      │    Impact        │
    └──────────────────┴──────────────────┘
    
-   Each bucket has sub-competencies with "I can..." statements
+   Each dimension measured with "I can..." statements
 ```
 
 ---

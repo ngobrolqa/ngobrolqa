@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISQA Conference 2026 - Speaker Notes (Bahasa Indonesia)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+        
+        :root {
+            --primary: #0d9488;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --text: #1e293b;
+            --text-light: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: var(--text);
+            background: white;
+            padding: 2rem;
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+                font-size: 10pt;
+            }
+            .no-print {
+                display: none;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+            h2 {
+                page-break-after: avoid;
+            }
+            .slide-section {
+                page-break-inside: avoid;
+            }
+        }
+        
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+        
+        .meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(90deg, rgba(13,148,136,0.1), transparent);
+            border-left: 4px solid var(--primary);
+        }
+        
+        h3 {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin: 1.5rem 0 0.5rem;
+        }
+        
+        .legend {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0 2rem;
+        }
+        
+        .legend h3 {
+            margin-top: 0;
+            font-size: 1rem;
+            color: var(--primary);
+        }
+        
+        .legend table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .legend td {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .legend td:first-child {
+            width: 80px;
+            font-weight: 600;
+        }
+        
+        .slide-section {
+            background: #fafafa;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+        
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed #d1d5db;
+        }
+        
+        .slide-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .slide-time {
+            font-size: 0.8rem;
+            color: white;
+            background: var(--primary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+        }
+        
+        .tone {
+            font-size: 0.85rem;
+            color: var(--secondary);
+            font-style: italic;
+            margin-bottom: 0.75rem;
+        }
+        
+        .script {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+        
+        .script p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .pause {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .emphasis {
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .killer-line {
+            background: linear-gradient(90deg, rgba(245,158,11,0.2), rgba(245,158,11,0.05));
+            padding: 0.5rem 0.75rem;
+            border-left: 3px solid var(--accent);
+            margin: 0.5rem 0;
+            font-weight: 600;
+        }
+        
+        .killer-line::before {
+            content: "💡 ";
+        }
+        
+        .action {
+            color: var(--text-light);
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+        
+        .part-header {
+            background: var(--dark);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0 1rem;
+        }
+        
+        .part-header h2 {
+            color: white;
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        
+        .part-header .part-time {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+        
+        .quick-ref {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .quick-ref h3 {
+            color: var(--dark);
+            margin-top: 0;
+        }
+        
+        .quick-ref ol {
+            margin-left: 1.5rem;
+        }
+        
+        .quick-ref li {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .time-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .time-table th, .time-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .time-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .time-table tr:last-child {
+            background: #f1f5f9;
+            font-weight: 700;
+        }
+        
+        .checklist {
+            list-style: none;
+            margin: 1rem 0;
+        }
+        
+        .checklist li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+        
+        .checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+        
+        .footer-quote {
+            text-align: center;
+            font-style: italic;
+            color: var(--text-light);
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--primary);
+        }
+        
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(13,148,136,0.3);
+        }
+        
+        .print-btn:hover {
+            background: #0f766e;
+        }
+        
+        .lang-note {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn no-print" onclick="window.print()">📄 Print / Save as PDF</button>
+    
+    <h1>ISQA Conference 2026 - Speaker Notes</h1>
+    <p class="subtitle">"Rethinking QA Growth in the AI Era"</p>
+    <p class="subtitle" style="color: var(--primary); font-weight: 600;">🇮🇩 Versi Bahasa Indonesia (Santai)</p>
+    <div class="meta">
+        <span><strong>Speaker:</strong> Aditya Mirza Bahari</span>
+        <span><strong>Durasi:</strong> ~40-45 menit</span>
+        <span><strong>Slides:</strong> 27</span>
+    </div>
+    
+    <div class="lang-note">
+        <strong>📝 Catatan:</strong> Script ini ditulis dengan gaya santai dan conversational. Sesuaikan dengan gaya bicara kamu sendiri. Yang penting: <strong>natural, jangan kaku!</strong>
+    </div>
+    
+    <div class="legend">
+        <h3>📖 Cara Baca Script Ini</h3>
+        <table>
+            <tr><td>⏸️</td><td>Jeda sebentar (1-2 detik)</td></tr>
+            <tr><td>⏸️⏸️</td><td>Jeda lebih lama (3-4 detik)</td></tr>
+            <tr><td><span class="emphasis">TEBAL</span></td><td>Tekankan kata ini</td></tr>
+            <tr><td><em>[nada]</em></td><td>Petunjuk cara ngomong</td></tr>
+            <tr><td>💡</td><td>Killer line - sampaikan dengan yakin!</td></tr>
+            <tr><td>⏱️</td><td>Perkiraan waktu untuk slide ini</td></tr>
+        </table>
+    </div>
+    
+    <!-- PART 1 -->
+    <div class="part-header">
+        <h2>BAGIAN 1: PEMBUKA & MASALAH</h2>
+        <p class="part-time">Slide 1-5 • ~5 menit</p>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 1: Judul</span>
+            <span class="slide-time">⏱️ 30 detik</span>
+        </div>
+        <p class="tone">[percaya diri, hangat]</p>
+        <div class="script">
+            <p>"Selamat pagi semuanya! <span class="pause">⏸️</span></p>
+            <p>Terima kasih udah join sesi ini. <span class="pause">⏸️</span></p>
+            <p>Nama saya Aditya Mirza Bahari, dan hari ini, kita bakal ngobrolin sesuatu yang menurut saya <span class="emphasis">penting banget</span> buat setiap QA professional. <span class="pause">⏸️</span></p>
+            <p>Kita bakal <span class="emphasis">rethink</span> gimana caranya kita tumbuh di era AI ini."</p>
+            <p class="action">[klik ke slide berikutnya]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 1.5: Siapa Saya</span>
+            <span class="slide-time">⏱️ 45 detik</span>
+        </div>
+        <p class="tone">[santai, humble]</p>
+        <div class="script">
+            <p>"Sebelum mulai, kenalan dulu ya. <span class="pause">⏸️</span></p>
+            <p>Saya President di IDSTB — Indonesia Software Testing Board. Kita yang bawa sertifikasi ISTQB ke Indonesia. <span class="pause">⏸️</span></p>
+            <p>Saya juga bikin NgobrolQA — platform buat bantu QA professionals di Indonesia berkembang. <span class="pause">⏸️</span></p>
+            <p>Dan sehari-hari, saya Lead QA di Shopee. <span class="pause">⏸️</span></p>
+            <p>Tapi yang lebih penting... <span class="pause">⏸️</span> saya pernah ada di posisi <span class="emphasis">kalian</span>. <span class="pause">⏸️</span></p>
+            <p>Stuck. Bingung. Nggak tau harus belajar apa selanjutnya."</p>
+            <p class="action">[jeda sebentar, lalu klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 2: Konteks QA (Hook)</span>
+            <span class="slide-time">⏱️ 45 detik</span>
+        </div>
+        <p class="tone">[reflektif, agak pelan]</p>
+        <div class="script">
+            <p>"Coba saya tanya deh. <span class="pause">⏸️</span></p>
+            <p>Sebagai QA professional... kita belajar <span class="emphasis">lebih banyak</span> dari sebelumnya. <span class="pause">⏸️</span></p>
+            <p>Automation. Tools. Framework. Sekarang AI. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[sedikit condong ke depan, suara lebih pelan]</p>
+            <p>Tapi... <span class="pause">⏸️</span> banyak dari kita masih ngerasa <span class="emphasis">stuck</span>. <span class="pause">⏸️</span></p>
+            <p class="killer-line">Familiar nggak?"</p>
+            <p class="action">[biarkan pertanyaan menggantung, lalu klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 3: Familiar? (Pain Points)</span>
+            <span class="slide-time">⏱️ 1 menit 30 detik</span>
+        </div>
+        <p class="tone">[santai, empati, tunjuk tiap persona]</p>
+        <div class="script">
+            <p>"Saya share beberapa cerita yang <span class="emphasis">sering banget</span> saya denger di NgobrolQA. <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk Fresh Graduate]</p>
+            <p>Fresh graduate yang bilang: 'Saya nggak tau apa yang saya nggak tau.' <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk 3-5 tahun]</p>
+            <p>QA mid-level, pengalaman 3-5 tahun, yang bilang: 'Saya ngerjain hal yang sama terus. Nggak berkembang.' <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk 7+ tahun]</p>
+            <p>Yang senior, 7 tahun lebih, nanya: 'Selanjutnya apa? Lead? Architect? Atau pindah karir aja?' <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk New Lead]</p>
+            <p>Lead baru, tiba-tiba harus manage orang: 'Gimana caranya develop <span class="emphasis">tim</span> saya?' <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk Manual QA]</p>
+            <p>Manual tester yang terus-terusan denger: 'Kamu harus belajar automation.' <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk Burnt out, lebih pelan]</p>
+            <p>Dan QA yang burnt out... yang bilang: 'Dulu saya <span class="emphasis">suka</span> QA. Sekarang... capek aja.' <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[jeda, lihat audience]</p>
+            <p class="killer-line">Ceritanya beda-beda. <span class="pause">⏸️</span> Tapi masalahnya <span class="emphasis">sama</span>."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 4: Belajar Lebih Banyak ≠ Berkembang</span>
+            <span class="slide-time">⏱️ 30 detik</span>
+        </div>
+        <p class="tone">[pelan, tegas - ini tesis utama]</p>
+        <div class="script">
+            <p>"Dan ini insight-nya. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line"><span class="emphasis">Belajar lebih banyak</span>... <span class="pause">⏸️</span> bukan berarti <span class="emphasis">berkembang</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[lebih lembut]</p>
+            <p>Tau apa yang penting <span class="emphasis">selanjutnya</span>... <span class="pause">⏸️</span> <span class="emphasis">itu</span> baru berkembang."</p>
+            <p class="action">[biarkan meresap, klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 5: Bukan Skill, Tapi Clarity</span>
+            <span class="slide-time">⏱️ 30 detik</span>
+        </div>
+        <p class="tone">[percaya diri, langsung]</p>
+        <div class="script">
+            <p>"Jadi, apa masalah sebenarnya? <span class="pause">⏸️</span></p>
+            <p>Masalah kamu bukan <span class="emphasis">skill</span>. <span class="pause">⏸️</span></p>
+            <p class="killer-line">Masalah kamu adalah <span class="emphasis">kejelasan</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[preview]</p>
+            <p>Hari ini, saya mau kasih kamu <span class="emphasis">framework</span>. <span class="pause">⏸️</span></p>
+            <p>Framework untuk bantu kamu menemukan kejelasan itu."</p>
+            <p class="action">[klik ke Section 1]</p>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <!-- PART 2 -->
+    <div class="part-header">
+        <h2>BAGIAN 2: FRAMEWORK</h2>
+        <p class="part-time">Slide 6-13 • ~10 menit</p>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 6: Section 1 - Kamu di Mana?</span>
+            <span class="slide-time">⏱️ 15 detik</span>
+        </div>
+        <p class="tone">[energik, transisi]</p>
+        <div class="script">
+            <p>"Section satu. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">Kamu di mana?</span> <span class="pause">⏸️</span></p>
+            <p>Yuk kita bahas science-nya skill acquisition."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 7: Pengenalan Dreyfus</span>
+            <span class="slide-time">⏱️ 45 detik</span>
+        </div>
+        <p class="tone">[thoughtful, bangun curiosity]</p>
+        <div class="script">
+            <p>"Tahun 1980, dua bersaudara bernama Dreyfus meneliti gimana manusia mengembangkan keahlian. <span class="pause">⏸️</span></p>
+            <p>Dan mereka nemuin sesuatu yang menarik. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line"><span class="emphasis">Aturan</span>... melindungi pemula. <span class="pause">⏸️</span> Tapi <span class="emphasis">aturan</span> yang sama... <span class="pause">⏸️</span> <span class="emphasis">menjebak</span> expert. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[jelaskan]</p>
+            <p>Maksudnya gimana? <span class="pause">⏸️</span></p>
+            <p>Waktu kamu baru mulai, kamu butuh aturan. Step satu, step dua, step tiga. <span class="pause">⏸️</span></p>
+            <p>Tapi seiring berkembang... kamu harus <span class="emphasis">break</span> aturan itu. <span class="pause">⏸️</span></p>
+            <p>Kamu harus liat gambaran yang lebih besar."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 8: 5 Level Mastery</span>
+            <span class="slide-time">⏱️ 1 menit 30 detik</span>
+        </div>
+        <p class="tone">[edukatif, jelas]</p>
+        <div class="script">
+            <p>"Model Dreyfus punya 5 level. <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk tiap level sambil nyebut]</p>
+            <p>Level 1: <span class="emphasis">Novice</span>. Kamu ikutin aturan. Kamu lakuin apa yang disuruh. <span class="pause">⏸️</span></p>
+            <p>Level 2: <span class="emphasis">Advanced Beginner</span>. Kamu mulai liat pola. Kamu kenali situasi. <span class="pause">⏸️</span></p>
+            <p>Level 3: <span class="emphasis">Competent</span>. Kamu bisa planning. Kamu bisa prioritas. Kamu ambil <span class="emphasis">ownership</span>. <span class="pause">⏸️</span></p>
+            <p>Level 4: <span class="emphasis">Proficient</span>. Kamu liat keseluruhan. Keputusan kamu intuitif. <span class="pause">⏸️</span></p>
+            <p>Level 5: <span class="emphasis">Expert</span>. Kamu nggak cuma ikutin best practice. <span class="pause">⏸️</span> Kamu yang <span class="emphasis">bikin</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[poin penting]</p>
+            <p class="killer-line">Kamu berkembang bukan dengan belajar <span class="emphasis">lebih banyak</span>. <span class="pause">⏸️</span> Tapi dengan mengubah <span class="emphasis">cara berpikir</span>."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 9: Key Insight - Level Kamu</span>
+            <span class="slide-time">⏱️ 30 detik</span>
+        </div>
+        <p class="tone">[punchy, memorable]</p>
+        <div class="script">
+            <p>"Dan ini yang penting. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">Level kamu bukan <span class="emphasis">tahun</span> pengalaman. <span class="pause">⏸️</span> Level kamu... adalah keputusan terakhir kamu... <span class="pause">⏸️</span> <span class="emphasis">di bawah tekanan</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[lebih lembut]</p>
+            <p>Saya pernah liat orang dengan pengalaman 10 tahun... masih di level 2. <span class="pause">⏸️</span></p>
+            <p>Dan orang dengan 3 tahun... udah di level 4."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 10: 4 Dimensi Skill</span>
+            <span class="slide-time">⏱️ 1 menit</span>
+        </div>
+        <p class="tone">[jelas, terstruktur]</p>
+        <div class="script">
+            <p>"Nah, di NgobrolQA, kita mapping ini ke <span class="emphasis">4 dimensi skill</span>. <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk masing-masing]</p>
+            <p><span class="emphasis">Testing Fundamentals</span> — Teknik kamu, coverage, desain test. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">Technical Depth</span> — Automation, tools, coding skill. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">Quality Thinking</span> — Risk analysis, strategi, liat big picture. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">Influence & Impact</span> — Komunikasi, leadership, drive perubahan. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[insight penting]</p>
+            <p class="killer-line">Kamu bisa Level 4 di satu dimensi... <span class="pause">⏸️</span> dan Level 2 di dimensi lain. <span class="pause">⏸️</span></p>
+            <p>Itu <span class="emphasis">normal</span>. <span class="pause">⏸️</span></p>
+            <p>Pertanyaannya: kamu <span class="emphasis">tau</span> nggak di mana kelemahanmu?"</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 11: Kamu Nggak Stuck</span>
+            <span class="slide-time">⏱️ 30 detik</span>
+        </div>
+        <p class="tone">[empati, lalu pivot]</p>
+        <div class="script">
+            <p>"Jadi kalau kamu ngerasa stuck... <span class="pause">⏸️</span></p>
+            <p>Saya kasih tau sesuatu. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">Kamu <span class="emphasis">nggak</span> stuck. <span class="pause">⏸️</span> Kamu cuma lagi nyelesaiin <span class="emphasis">masalah yang salah</span>. <span class="pause">⏸️⏸️</span></p>
+            <p>Tiap level... punya <span class="emphasis">bottleneck</span> yang beda."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 12: Problem QA per Level</span>
+            <span class="slide-time">⏱️ 1 menit 30 detik</span>
+        </div>
+        <p class="tone">[lebih pelan, kasih waktu baca tabel]</p>
+        <div class="script">
+            <p>"Saya kasih contoh konkret di QA. <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk baris Novice]</p>
+            <p>Kalau kamu Novice... kamu mungkin bilang: 'Saya execute test case, tapi nggak tau ini bagus atau enggak.' <span class="pause">⏸️</span><br>Next move-nya? Pelajari teknik test design. BVA. Equivalence Partitioning. <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk Advanced Beginner]</p>
+            <p>Advanced Beginner: 'Saya automate, tapi test-nya sering break.' <span class="pause">⏸️</span><br>Next move? Pelajari clean code. Maintainability. <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk Competent]</p>
+            <p>Competent: 'Saya testing-nya bagus, tapi nggak ada yang dengerin.' <span class="pause">⏸️</span><br>Next move? Belajar <span class="emphasis">komunikasi risk</span>. Report yang impactful. <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk Proficient]</p>
+            <p>Proficient: 'Saya drive quality, tapi nggak bisa scale.' <span class="pause">⏸️</span><br>Next move? Bangun proses. Mentor orang lain. <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk Expert]</p>
+            <p>Expert: 'Saya mau <span class="emphasis">shape</span> industri.' <span class="pause">⏸️</span><br>Next move? Nulis. Ngomong. Bangun komunitas. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">Level beda. Problem beda. Langkah beda."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 13: Yang Kamu Pikir vs Realita</span>
+            <span class="slide-time">⏱️ 1 menit</span>
+        </div>
+        <p class="tone">[konfrontatif tapi baik]</p>
+        <div class="script">
+            <p>"Nah ini bagian yang susah. <span class="pause">⏸️</span></p>
+            <p>Kadang... apa yang kita <span class="emphasis">pikir</span> yang nahan kita... <span class="pause">⏸️</span> <span class="emphasis">bukan</span> yang sebenarnya nahan. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[tunjuk tabel]</p>
+            <p>Novice mikir: 'Saya butuh lebih banyak pengalaman.' <span class="pause">⏸️</span><br>Padahal? Mereka butuh ngerti <span class="emphasis">kenapa</span>, bukan cuma gimana. <span class="pause">⏸️</span></p>
+            <p>Advanced Beginner mikir: 'Saya butuh lebih banyak tools.' <span class="pause">⏸️</span><br>Padahal? Mereka butuh <span class="emphasis">kedalaman</span>, bukan keluasan. <span class="pause">⏸️</span></p>
+            <p>Competent mikir: 'Saya butuh recognition.' <span class="pause">⏸️</span><br>Padahal? Mereka butuh <span class="emphasis">influence tanpa authority</span>. <span class="pause">⏸️</span></p>
+            <p class="action">[jeda untuk efek]</p>
+            <p class="killer-line">Langkah pertama untuk berkembang... adalah self-assessment yang <span class="emphasis">jujur</span>."</p>
+            <p class="action">[klik ke Section 2]</p>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <!-- PART 3 -->
+    <div class="part-header">
+        <h2>BAGIAN 3: AI SEBAGAI ACCELERATOR</h2>
+        <p class="part-time">Slide 14-18 • ~6 menit</p>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 14: Section 2 - AI sebagai Accelerator</span>
+            <span class="slide-time">⏱️ 15 detik</span>
+        </div>
+        <p class="tone">[energi berubah]</p>
+        <div class="script">
+            <p>"Section dua. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">AI sebagai Accelerator</span>. <span class="pause">⏸️</span></p>
+            <p>Yuk bahas elephant in the room."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 15: Kebenaran tentang AI</span>
+            <span class="slide-time">⏱️ 30 detik</span>
+        </div>
+        <p class="tone">[pelan, tegas - killer line utama]</p>
+        <div class="script">
+            <p>"Ini kebenaran tentang AI. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">AI <span class="emphasis">memperbesar</span> level kamu. <span class="pause">⏸️</span> Bukan <span class="emphasis">memperbaiki</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[biarkan landing]</p>
+            <p>Kalau kamu Level 2... AI bikin kamu jadi Level 2 yang <span class="emphasis">lebih cepat</span>. <span class="pause">⏸️</span></p>
+            <p>Kalau kamu Level 4... AI bikin kamu <span class="emphasis">unstoppable</span>."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 16: Ketakutan vs Realita AI</span>
+            <span class="slide-time">⏱️ 1 menit</span>
+        </div>
+        <p class="tone">[address kecemasan, lalu reassure]</p>
+        <div class="script">
+            <p>"Ada banyak ketakutan soal AI sekarang. <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk sisi kiri - Ketakutan]</p>
+            <p>Orang bilang: 'AI bakal replace semua kerjaan QA.' <span class="pause">⏸️</span><br>'Manual testing udah mati.' <span class="pause">⏸️</span><br>'Cuma automation yang survive.' <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[tunjuk sisi kanan - Realita]</p>
+            <p>Tapi ini realitanya. <span class="pause">⏸️</span></p>
+            <p>AI memperbesar <span class="emphasis">apa yang kamu sudah punya</span>. <span class="pause">⏸️</span></p>
+            <p>Critical thinking jadi <span class="emphasis">lebih</span> valuable, bukan berkurang. <span class="pause">⏸️</span></p>
+            <p class="killer-line">Yang menang adalah yang <span class="emphasis">adaptasi</span>, bukan yang <span class="emphasis">sembunyi</span>."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 17: AI per Level</span>
+            <span class="slide-time">⏱️ 1 menit 15 detik</span>
+        </div>
+        <p class="tone">[balanced, edukatif]</p>
+        <div class="script">
+            <p>"Saya kasih liat gimana AI membantu — <span class="emphasis">dan risikonya</span> — di tiap level. <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk Novice]</p>
+            <p>Buat Novice: AI bisa jelasin konsep, generate contoh. Bagus! <span class="pause">⏸️</span><br>Tapi risikonya? Kamu <span class="emphasis">copy</span> tanpa ngerti. <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk Competent]</p>
+            <p>Buat Competent: AI bantu debugging, percepat root cause analysis. <span class="pause">⏸️</span><br>Tapi risikonya? Kamu berhenti <span class="emphasis">berpikir kritis</span>. <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk Expert]</p>
+            <p>Buat Expert: AI jadi <span class="emphasis">co-creator</span>. Kamu desain sistem <span class="emphasis">bareng</span> AI. <span class="pause">⏸️</span><br>Risikonya? Nggak ada... kalau kamu tetap curious. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">AI itu <span class="emphasis">multiplier</span>. <span class="pause">⏸️</span> Kamu lagi multiply apa?"</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 18: Warning AI</span>
+            <span class="slide-time">⏱️ 30 detik</span>
+        </div>
+        <p class="tone">[tegas, memorable]</p>
+        <div class="script">
+            <p>"Jadi inget ini. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">AI itu <span class="emphasis">copilot</span> kamu. <span class="pause">⏸️</span> Bukan <span class="emphasis">autopilot</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[praktis]</p>
+            <p>Selalu verify. Selalu question. <span class="pause">⏸️</span></p>
+            <p>Apply expertise <span class="emphasis">kamu</span>."</p>
+            <p class="action">[klik ke Section 3]</p>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <!-- PART 4 -->
+    <div class="part-header">
+        <h2>BAGIAN 4: CERTIFICATION PATH</h2>
+        <p class="part-time">Slide 19-20 • ~3 menit</p>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 19: Section 3 - Buktikan Skill Kamu</span>
+            <span class="slide-time">⏱️ 15 detik</span>
+        </div>
+        <p class="tone">[transisi]</p>
+        <div class="script">
+            <p>"Section tiga. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">Buktikan skill kamu</span>. <span class="pause">⏸️</span></p>
+            <p>Yuk bahas sertifikasi."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 20: Certification Path</span>
+            <span class="slide-time">⏱️ 1 menit 30 detik</span>
+        </div>
+        <p class="tone">[informatif, promo IDSTB]</p>
+        <div class="script">
+            <p>"Nah, saya percaya sama sertifikasi. <span class="pause">⏸️</span></p>
+            <p>Bukan karena bikin kamu pintar. <span class="pause">⏸️</span><br>Tapi karena <span class="emphasis">memvalidasi</span> apa yang udah kamu tau. <span class="pause">⏸️</span><br>Dan kasih kamu <span class="emphasis">bahasa yang sama</span> dengan komunitas global. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[tunjuk path]</p>
+            <p>ISTQB punya path yang jelas. <span class="pause">⏸️</span></p>
+            <p>Foundation level — CTFL. <span class="pause">⏸️</span><br>AI Testing — CT-AI. <span class="pause">⏸️</span><br>Dan yang paling baru: <span class="emphasis">CT-GenAI</span>. <span class="pause">⏸️</span></p>
+            <p class="action">[excited]</p>
+            <p>CT-GenAI baru release Juli 2025. <span class="pause">⏸️</span></p>
+            <p>Ini kesempatan kamu jadi <span class="emphasis">early adopter</span> di Indonesia. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[CTA]</p>
+            <p>Kalau tertarik, kunjungi <span class="emphasis">IDSTB.org</span>. <span class="pause">⏸️</span></p>
+            <p>Itu official ISTQB pathway untuk Indonesia."</p>
+            <p class="action">[klik ke Section 4]</p>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <!-- PART 5 -->
+    <div class="part-header">
+        <h2>BAGIAN 5: LANGKAH SELANJUTNYA</h2>
+        <p class="part-time">Slide 21-27 • ~12 menit</p>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 21: Section 4 - Langkah Selanjutnya</span>
+            <span class="slide-time">⏱️ 15 detik</span>
+        </div>
+        <p class="tone">[energik, action-oriented]</p>
+        <div class="script">
+            <p>"Section empat. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">Langkah selanjutnya</span>. <span class="pause">⏸️</span></p>
+            <p>Yuk kita bikin ini praktis."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 22: Jangan Ikut Trend</span>
+            <span class="slide-time">⏱️ 30 detik</span>
+        </div>
+        <p class="tone">[punchy, langsung]</p>
+        <div class="script">
+            <p>"Ini saran saya. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">Jangan ikut <span class="emphasis">trend</span>. <span class="pause">⏸️</span> Ikutin <span class="emphasis">bottleneck</span> kamu. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[jelaskan]</p>
+            <p>Cari tau level kamu. <span class="pause">⏸️</span><br>Cari tau masalah sebenarnya. <span class="pause">⏸️</span><br>Baru action."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 23: NgobrolQA User Journey</span>
+            <span class="slide-time">⏱️ 1 menit</span>
+        </div>
+        <p class="tone">[excited, jalan through journey]</p>
+        <div class="script">
+            <p>"Di NgobrolQA, kita udah bikinin journey buat kamu. <span class="pause">⏸️</span></p>
+            <p class="action">[tunjuk tiap step]</p>
+            <p>Step 1: <span class="emphasis">Pahami</span> framework-nya. <span class="pause">⏸️</span></p>
+            <p>Step 2: <span class="emphasis">Assess</span> level kamu. <span class="pause">⏸️</span></p>
+            <p>Step 3: <span class="emphasis">Rencanakan</span> growth — cari bottleneck-mu. <span class="pause">⏸️</span></p>
+            <p>Step 4: <span class="emphasis">Belajar</span> — ambil course yang dikurasi. <span class="pause">⏸️</span></p>
+            <p>Step 5: <span class="emphasis">Sertifikasi</span> — buktikan skill-mu. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[gerakan melingkar]</p>
+            <p>Terus? Kamu <span class="emphasis">assess ulang</span>. <span class="pause">⏸️</span></p>
+            <p class="killer-line">Growth itu siklus, bukan destinasi."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDES 24-28: Journey Steps (Cepat)</span>
+            <span class="slide-time">⏱️ 3 menit total</span>
+        </div>
+        <p class="tone">[jelas, edukatif, jalan dengan cepat]</p>
+        <div class="script">
+            <p><strong>Step 1 - Pahami:</strong> "Buka ngobrolqa.com/QA_Skill_Framework. Pelajari Model Dreyfus dan 4 dimensi." <span class="pause">⏸️</span> [klik]</p>
+            <p><strong>Step 2 - Assess:</strong> "20 pertanyaan. Gratis. Dapet radar chart dan persona match. ngobrolqa.com/QA_Self_Assessment." <span class="pause">⏸️</span> [klik]</p>
+            <p><strong>Step 3 - Rencanakan:</strong> "Berdasarkan persona-mu, dapet roadmap belajar yang dikurasi. ngobrolqa.com/QA_Learning_Plan." <span class="pause">⏸️</span> [klik]</p>
+            <p><strong>Step 4 & 5 - Belajar & Sertifikasi:</strong> "Course gratis di Test Automation University. Sertifikasi ISTQB di IDSTB.org. CT-GenAI baru rilis!" <span class="pause">⏸️</span> [klik]</p>
+            <p><strong>Bonus - Konsultasi:</strong> "Stuck? Yuk ngobrol. ngobrolqa.com/QA_Consult. Buat individu atau perusahaan." <span class="pause">⏸️</span> [klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 29: Gratis - Akses Sekarang (QR Code)</span>
+            <span class="slide-time">⏱️ 45 detik</span>
+        </div>
+        <p class="tone">[excited, call to action]</p>
+        <div class="script">
+            <p>"Dan ini bagian terbaiknya. <span class="pause">⏸️</span></p>
+            <p class="killer-line">Semua yang saya sebutin hari ini <span class="emphasis">100% gratis</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[tunjuk QR code]</p>
+            <p>Scan QR code ini sekarang. <span class="pause">⏸️</span><br>Bakal langsung ke ngobrolqa.com. <span class="pause">⏸️</span></p>
+            <p>Framework. Assessment. Learning Plan. Konsultasi. <span class="pause">⏸️</span></p>
+            <p>Semua gratis. Mulai hari ini."</p>
+            <p class="action">[kasih waktu orang scan - 10 detik]</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 30: Key Takeaways</span>
+            <span class="slide-time">⏱️ 1 menit</span>
+        </div>
+        <p class="tone">[lebih pelan, tegas, angkat jari]</p>
+        <div class="script">
+            <p>"Sebelum closing, inget <span class="emphasis">3 hal</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[angkat 1 jari]</p>
+            <p class="killer-line">Pertama: <span class="emphasis">Tau level kamu.</span> <span class="pause">⏸️</span> Kamu nggak bisa benerin apa yang nggak kamu liat. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[angkat 2 jari]</p>
+            <p class="killer-line">Kedua: <span class="emphasis">AI itu multiplier.</span> <span class="pause">⏸️</span> Dia mempercepat ke manapun kamu pergi — termasuk ke arah yang <span class="emphasis">salah</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[angkat 3 jari]</p>
+            <p class="killer-line">Ketiga: <span class="emphasis">Ikutin bottleneck-mu.</span> <span class="pause">⏸️</span> Bukan trend. Bukan saran orang. <span class="emphasis">Bottleneck-mu</span>."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 31: Closing Statement</span>
+            <span class="slide-time">⏱️ 30 detik</span>
+        </div>
+        <p class="tone">[pelan, powerful, killer line terakhir]</p>
+        <div class="script">
+            <p>"Dan terakhir... <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[baca pelan, dengan bobot]</p>
+            <p class="killer-line">Berkembang bukan soal belajar <span class="emphasis">lebih banyak</span>. <span class="pause">⏸️⏸️</span> Tapi soal belajar... apa yang penting... <span class="emphasis">selanjutnya</span>. <span class="pause">⏸️⏸️⏸️</span></p>
+            <p class="action">[lebih lembut]</p>
+            <p>Buat kamu. <span class="pause">⏸️</span> Buat tim kamu. <span class="pause">⏸️</span> Buat karir kamu."</p>
+            <p class="action">[klik]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 32: Q&A</span>
+            <span class="slide-time">⏱️ 5-10 menit</span>
+        </div>
+        <p class="tone">[terbuka, friendly]</p>
+        <div class="script">
+            <p>"Dan itu aja! <span class="pause">⏸️</span></p>
+            <p>Saya pengen denger pertanyaan kalian. <span class="pause">⏸️</span></p>
+            <p>Kalian juga bisa reach out ke saya di LinkedIn, <span class="pause">⏸️</span> atau lewat NgobrolQA dan IDSTB. <span class="pause">⏸️⏸️</span></p>
+            <p>Siapa yang mau tanya?"</p>
+            <p class="action">[tunggu pertanyaan]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 33: Terima Kasih</span>
+            <span class="slide-time">⏱️ 15 detik</span>
+        </div>
+        <p class="tone">[hangat, bersyukur]</p>
+        <div class="script">
+            <p>"Terima kasih banyak atas waktu kalian hari ini. <span class="pause">⏸️</span></p>
+            <p class="killer-line">Tau level kamu. Ikutin bottleneck-mu. Terus berkembang. <span class="pause">⏸️</span></p>
+            <p>Selamat berjuang! Good luck on your journey!"</p>
+            <p class="action">[senyum, lambaikan tangan]</p>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <!-- QUICK REFERENCE -->
+    <div class="quick-ref">
+        <h3>🎤 REFERENSI CEPAT: KILLER LINES</h3>
+        <p style="margin-bottom: 1rem; color: #78350f;">Sampaikan lines ini dengan <strong>percaya diri</strong> dan <strong>jeda</strong>:</p>
+        <ol>
+            <li>"Belajar lebih banyak bukan berarti berkembang. Tau apa yang penting selanjutnya — itu baru berkembang."</li>
+            <li>"Masalah kamu bukan skill. Masalah kamu adalah kejelasan."</li>
+            <li>"Aturan melindungi pemula. Aturan menjebak expert."</li>
+            <li>"Level kamu bukan tahun pengalaman. Level kamu adalah keputusan terakhir di bawah tekanan."</li>
+            <li>"Kamu nggak stuck. Kamu cuma lagi nyelesaiin masalah yang salah."</li>
+            <li>"AI memperbesar level kamu. Bukan memperbaiki."</li>
+            <li>"AI itu copilot kamu. Bukan autopilot."</li>
+            <li>"Jangan ikut trend. Ikutin bottleneck kamu."</li>
+            <li>"Growth itu siklus, bukan destinasi."</li>
+            <li>"Berkembang bukan soal belajar lebih banyak. Tapi soal belajar apa yang penting selanjutnya."</li>
+        </ol>
+    </div>
+    
+    <!-- TIME BREAKDOWN -->
+    <h2>⏱️ Breakdown Waktu</h2>
+    <table class="time-table">
+        <tr>
+            <th>Bagian</th>
+            <th>Durasi</th>
+        </tr>
+        <tr>
+            <td>Bagian 1: Pembuka & Masalah (Slide 1-5)</td>
+            <td>~5 menit</td>
+        </tr>
+        <tr>
+            <td>Bagian 2: Framework (Slide 6-13)</td>
+            <td>~10 menit</td>
+        </tr>
+        <tr>
+            <td>Bagian 3: AI sebagai Accelerator (Slide 14-18)</td>
+            <td>~6 menit</td>
+        </tr>
+        <tr>
+            <td>Bagian 4: Certification (Slide 19-20)</td>
+            <td>~3 menit</td>
+        </tr>
+        <tr>
+            <td>Bagian 5: Langkah Selanjutnya (Slide 21-33)</td>
+            <td>~12 menit</td>
+        </tr>
+        <tr>
+            <td>Q&A</td>
+            <td>~5-10 menit</td>
+        </tr>
+        <tr>
+            <td><strong>TOTAL</strong></td>
+            <td><strong>~40-45 menit</strong></td>
+        </tr>
+    </table>
+    
+    <!-- CHECKLIST -->
+    <h2>📋 Checklist Sebelum Ngomong</h2>
+    <ul class="checklist">
+        <li>Test slides di Zoom screen share</li>
+        <li>QR code keliatan jelas buat di-scan</li>
+        <li>Buka speaker notes di layar kedua / HP</li>
+        <li>Test audio dan video</li>
+        <li>Matikan notifikasi</li>
+        <li>Siapin air minum</li>
+        <li>Tarik napas dalam. Kamu pasti bisa! 🎯</li>
+    </ul>
+    
+    <p class="footer-quote">
+        <em>"Tau level kamu. Ikutin bottleneck-mu. Terus berkembang."</em><br>
+        — Aditya Mirza Bahari
+    </p>
+</body>
+</html>

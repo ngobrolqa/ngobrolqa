@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISQA Conference 2026 - Speaker Notes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+        
+        :root {
+            --primary: #0d9488;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --text: #1e293b;
+            --text-light: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: var(--text);
+            background: white;
+            padding: 2rem;
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+                font-size: 10pt;
+            }
+            .no-print {
+                display: none;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+            h2 {
+                page-break-after: avoid;
+            }
+            .slide-section {
+                page-break-inside: avoid;
+            }
+        }
+        
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+        }
+        
+        .meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(90deg, rgba(13,148,136,0.1), transparent);
+            border-left: 4px solid var(--primary);
+        }
+        
+        h3 {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin: 1.5rem 0 0.5rem;
+        }
+        
+        .legend {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0 2rem;
+        }
+        
+        .legend h3 {
+            margin-top: 0;
+            font-size: 1rem;
+            color: var(--primary);
+        }
+        
+        .legend table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .legend td {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .legend td:first-child {
+            width: 80px;
+            font-weight: 600;
+        }
+        
+        .slide-section {
+            background: #fafafa;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+        
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed #d1d5db;
+        }
+        
+        .slide-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .slide-time {
+            font-size: 0.8rem;
+            color: white;
+            background: var(--primary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+        }
+        
+        .tone {
+            font-size: 0.85rem;
+            color: var(--secondary);
+            font-style: italic;
+            margin-bottom: 0.75rem;
+        }
+        
+        .script {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+        
+        .script p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .pause {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .emphasis {
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .killer-line {
+            background: linear-gradient(90deg, rgba(245,158,11,0.2), rgba(245,158,11,0.05));
+            padding: 0.5rem 0.75rem;
+            border-left: 3px solid var(--accent);
+            margin: 0.5rem 0;
+            font-weight: 600;
+        }
+        
+        .killer-line::before {
+            content: "💡 ";
+        }
+        
+        .action {
+            color: var(--text-light);
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+        
+        .part-header {
+            background: var(--dark);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0 1rem;
+        }
+        
+        .part-header h2 {
+            color: white;
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        
+        .part-header .part-time {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+        
+        .quick-ref {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .quick-ref h3 {
+            color: var(--dark);
+            margin-top: 0;
+        }
+        
+        .quick-ref ol {
+            margin-left: 1.5rem;
+        }
+        
+        .quick-ref li {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .time-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .time-table th, .time-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .time-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .time-table tr:last-child {
+            background: #f1f5f9;
+            font-weight: 700;
+        }
+        
+        .checklist {
+            list-style: none;
+            margin: 1rem 0;
+        }
+        
+        .checklist li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+        }
+        
+        .checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+        
+        .footer-quote {
+            text-align: center;
+            font-style: italic;
+            color: var(--text-light);
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--primary);
+        }
+        
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(13,148,136,0.3);
+        }
+        
+        .print-btn:hover {
+            background: #0f766e;
+        }
+    </style>
+</head>
+<body>
+    <button class="print-btn no-print" onclick="window.print()">📄 Print / Save as PDF</button>
+    
+    <h1>ISQA Conference 2026 - Speaker Notes</h1>
+    <p class="subtitle">"Rethinking QA Growth in the AI Era"</p>
+    <div class="meta">
+        <span><strong>Speaker:</strong> Aditya Mirza Bahari</span>
+        <span><strong>Duration:</strong> ~40-45 minutes</span>
+        <span><strong>Slides:</strong> 27</span>
+    </div>
+    
+    <div class="legend">
+        <h3>📖 How to Read This Script</h3>
+        <table>
+            <tr><td>⏸️</td><td>Pause (1-2 seconds)</td></tr>
+            <tr><td>⏸️⏸️</td><td>Longer pause (3-4 seconds)</td></tr>
+            <tr><td><span class="emphasis">BOLD</span></td><td>Emphasize this word</td></tr>
+            <tr><td><em>[tone]</em></td><td>Delivery tone indicator</td></tr>
+            <tr><td>💡</td><td>Killer line - deliver with conviction</td></tr>
+            <tr><td>⏱️</td><td>Approximate time for this slide</td></tr>
+        </table>
+    </div>
+    
+    <!-- PART 1 -->
+    <div class="part-header">
+        <h2>PART 1: HOOK & PROBLEM</h2>
+        <p class="part-time">Slides 1-5 • ~5 minutes</p>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 1: Title Slide</span>
+            <span class="slide-time">⏱️ 30 sec</span>
+        </div>
+        <p class="tone">[confident, warm]</p>
+        <div class="script">
+            <p>"Good morning everyone. <span class="pause">⏸️</span></p>
+            <p>Thank you for joining this session. <span class="pause">⏸️</span></p>
+            <p>My name is Aditya Mirza Bahari, and today, we're going to talk about something that I believe <span class="emphasis">every</span> QA professional needs to hear. <span class="pause">⏸️</span></p>
+            <p>We're going to <span class="emphasis">rethink</span> how we grow in this AI era."</p>
+            <p class="action">[click to next slide]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 1.5: Who Am I</span>
+            <span class="slide-time">⏱️ 45 sec</span>
+        </div>
+        <p class="tone">[conversational, humble]</p>
+        <div class="script">
+            <p>"Before we start, a quick introduction. <span class="pause">⏸️</span></p>
+            <p>I'm the President of IDSTB — Indonesia Software Testing Board. We bring ISTQB certification to Indonesia. <span class="pause">⏸️</span></p>
+            <p>I also created NgobrolQA — a platform to help QA professionals in Indonesia grow. <span class="pause">⏸️</span></p>
+            <p>And in my day job, I'm a Lead QA at Shopee. <span class="pause">⏸️</span></p>
+            <p>But more importantly... <span class="pause">⏸️</span> I've been where <span class="emphasis">you</span> are. <span class="pause">⏸️</span></p>
+            <p>Stuck. Confused. Not sure what to learn next."</p>
+            <p class="action">[slight pause, then click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 2: QA Context (Hook)</span>
+            <span class="slide-time">⏱️ 45 sec</span>
+        </div>
+        <p class="tone">[reflective, slightly slower pace]</p>
+        <div class="script">
+            <p>"Let me ask you something. <span class="pause">⏸️</span></p>
+            <p>As QA professionals... we learn <span class="emphasis">more</span> than ever. <span class="pause">⏸️</span></p>
+            <p>Automation. Tools. Frameworks. Now AI. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[lean in slightly, lower voice]</p>
+            <p>And yet... <span class="pause">⏸️</span> many of us still feel <span class="emphasis">stuck</span>. <span class="pause">⏸️</span></p>
+            <p class="killer-line">Does that sound familiar?"</p>
+            <p class="action">[let the question hang, then click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 3: Sound Familiar? (Pain Points)</span>
+            <span class="slide-time">⏱️ 1 min 30 sec</span>
+        </div>
+        <p class="tone">[conversational, empathetic, point to each persona]</p>
+        <div class="script">
+            <p>"Let me share some stories I hear <span class="emphasis">all the time</span> at NgobrolQA. <span class="pause">⏸️</span></p>
+            <p class="action">[point to Fresh Graduate]</p>
+            <p>The fresh graduate who says: 'I don't know what I don't know.' <span class="pause">⏸️</span></p>
+            <p class="action">[point to 3-5 years]</p>
+            <p>The mid-level QA, 3 to 5 years experience, who says: 'I'm doing the same thing. I'm not growing.' <span class="pause">⏸️</span></p>
+            <p class="action">[point to 7+ years]</p>
+            <p>The senior, 7 plus years, asking: 'What's next? Lead? Architect? Or should I switch?' <span class="pause">⏸️</span></p>
+            <p class="action">[point to New Lead]</p>
+            <p>The new lead, suddenly managing people: 'How do I grow my <span class="emphasis">team</span>?' <span class="pause">⏸️</span></p>
+            <p class="action">[point to Manual QA]</p>
+            <p>The manual tester who keeps hearing: 'You need to learn automation.' <span class="pause">⏸️</span></p>
+            <p class="action">[point to Burnt out, slower]</p>
+            <p>And the burnt out QA... who says: 'I <span class="emphasis">used</span> to love QA. Now I'm just... tired.' <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[pause, look at audience]</p>
+            <p class="killer-line">Different stories. <span class="pause">⏸️</span> But the <span class="emphasis">same</span> problem."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 4: Learning More ≠ Growing</span>
+            <span class="slide-time">⏱️ 30 sec</span>
+        </div>
+        <p class="tone">[slow, deliberate - this is the thesis]</p>
+        <div class="script">
+            <p>"And here is the insight. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line"><span class="emphasis">Learning more</span>... <span class="pause">⏸️</span> is <span class="emphasis">not</span> growing. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[softer]</p>
+            <p>Knowing what matters <span class="emphasis">next</span>... <span class="pause">⏸️</span> <span class="emphasis">that's</span> growing."</p>
+            <p class="action">[let it sink in, click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 5: It's Not Skill, It's Clarity</span>
+            <span class="slide-time">⏱️ 30 sec</span>
+        </div>
+        <p class="tone">[confident, direct]</p>
+        <div class="script">
+            <p>"So what's the real problem? <span class="pause">⏸️</span></p>
+            <p>Your problem isn't <span class="emphasis">skill</span>. <span class="pause">⏸️</span></p>
+            <p class="killer-line">Your problem is <span class="emphasis">clarity</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[preview]</p>
+            <p>Today, I want to give you a <span class="emphasis">framework</span>. <span class="pause">⏸️</span></p>
+            <p>A framework to help you find that clarity."</p>
+            <p class="action">[click to Section 1]</p>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <!-- PART 2 -->
+    <div class="part-header">
+        <h2>PART 2: THE FRAMEWORK</h2>
+        <p class="part-time">Slides 6-12 • ~10 minutes</p>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 6: Section 1 - Where Are You?</span>
+            <span class="slide-time">⏱️ 15 sec</span>
+        </div>
+        <p class="tone">[energetic, transitional]</p>
+        <div class="script">
+            <p>"Section one. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">Where are you?</span> <span class="pause">⏸️</span></p>
+            <p>Let's talk about the science of skill acquisition."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 7: Dreyfus Introduction</span>
+            <span class="slide-time">⏱️ 45 sec</span>
+        </div>
+        <p class="tone">[thoughtful, building curiosity]</p>
+        <div class="script">
+            <p>"In 1980, two brothers named Dreyfus studied how humans develop expertise. <span class="pause">⏸️</span></p>
+            <p>And they found something interesting. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line"><span class="emphasis">Rules</span>... protect beginners. <span class="pause">⏸️</span> But the same <span class="emphasis">rules</span>... <span class="pause">⏸️</span> <span class="emphasis">trap</span> experts. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[explain]</p>
+            <p>What do I mean? <span class="pause">⏸️</span></p>
+            <p>When you're new, you need rules. Step one, step two, step three. <span class="pause">⏸️</span></p>
+            <p>But as you grow... you need to <span class="emphasis">break</span> those rules. <span class="pause">⏸️</span></p>
+            <p>You need to see the bigger picture."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 8: 5 Levels of Mastery</span>
+            <span class="slide-time">⏱️ 1 min 30 sec</span>
+        </div>
+        <p class="tone">[educational, clear]</p>
+        <div class="script">
+            <p>"The Dreyfus model has 5 levels. <span class="pause">⏸️</span></p>
+            <p class="action">[point to each level as you mention it]</p>
+            <p>Level 1: <span class="emphasis">Novice</span>. You follow rules. You do what you're told. <span class="pause">⏸️</span></p>
+            <p>Level 2: <span class="emphasis">Advanced Beginner</span>. You start to see patterns. You recognize situations. <span class="pause">⏸️</span></p>
+            <p>Level 3: <span class="emphasis">Competent</span>. You can plan. You can prioritize. You take <span class="emphasis">ownership</span>. <span class="pause">⏸️</span></p>
+            <p>Level 4: <span class="emphasis">Proficient</span>. You see the whole picture. You make decisions intuitively. <span class="pause">⏸️</span></p>
+            <p>Level 5: <span class="emphasis">Expert</span>. You don't just follow best practices. <span class="pause">⏸️</span> You <span class="emphasis">create</span> them. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[important point]</p>
+            <p class="killer-line">You don't grow by learning <span class="emphasis">more</span>. <span class="pause">⏸️</span> You grow by changing <span class="emphasis">how you think</span>."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 9: Key Insight - Your Level</span>
+            <span class="slide-time">⏱️ 30 sec</span>
+        </div>
+        <p class="tone">[punchy, memorable]</p>
+        <div class="script">
+            <p>"And here's the thing. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">Your level isn't your <span class="emphasis">years</span> of experience. <span class="pause">⏸️</span> Your level... is your last decision... <span class="pause">⏸️</span> <span class="emphasis">under pressure</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[softer]</p>
+            <p>I've seen people with 10 years experience... still at level 2. <span class="pause">⏸️</span></p>
+            <p>And people with 3 years... already at level 4."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 10: 4 Skill Dimensions</span>
+            <span class="slide-time">⏱️ 1 min</span>
+        </div>
+        <p class="tone">[clear, structured]</p>
+        <div class="script">
+            <p>"Now, at NgobrolQA, we mapped this to <span class="emphasis">4 skill dimensions</span>. <span class="pause">⏸️</span></p>
+            <p class="action">[point to each]</p>
+            <p><span class="emphasis">Testing Fundamentals</span> — Your techniques, your coverage, your design. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">Technical Depth</span> — Automation, tools, coding skills. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">Quality Thinking</span> — Risk analysis, strategy, seeing the bigger picture. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">Influence and Impact</span> — Communication, leadership, driving change. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[important insight]</p>
+            <p class="killer-line">You can be Level 4 in one dimension... <span class="pause">⏸️</span> and Level 2 in another. <span class="pause">⏸️</span></p>
+            <p>That's <span class="emphasis">normal</span>. <span class="pause">⏸️</span></p>
+            <p>The question is: do you <span class="emphasis">know</span> where you're weak?"</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 11: You're Not Stuck</span>
+            <span class="slide-time">⏱️ 30 sec</span>
+        </div>
+        <p class="tone">[empathetic, then pivoting]</p>
+        <div class="script">
+            <p>"So if you feel stuck... <span class="pause">⏸️</span></p>
+            <p>Let me tell you something. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">You're <span class="emphasis">not</span> stuck. <span class="pause">⏸️</span> You're just solving the <span class="emphasis">wrong problem</span>. <span class="pause">⏸️⏸️</span></p>
+            <p>Each level... has a <span class="emphasis">different</span> bottleneck."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 12: QA Problems by Level</span>
+            <span class="slide-time">⏱️ 1 min 30 sec</span>
+        </div>
+        <p class="tone">[slower, give time to read table]</p>
+        <div class="script">
+            <p>"Let me show you what I mean with real QA examples. <span class="pause">⏸️</span></p>
+            <p class="action">[point to Novice row]</p>
+            <p>If you're a Novice... you might say: 'I execute test cases, but I don't know if they're good.' <span class="pause">⏸️</span><br>Your next move? Learn test design techniques. BVA. Equivalence Partitioning. <span class="pause">⏸️</span></p>
+            <p class="action">[point to Advanced Beginner row]</p>
+            <p>Advanced Beginner: 'I automate, but my tests break all the time.' <span class="pause">⏸️</span><br>Your next move? Study clean code. Learn maintainability. <span class="pause">⏸️</span></p>
+            <p class="action">[point to Competent row]</p>
+            <p>Competent: 'I test well, but nobody listens to me.' <span class="pause">⏸️</span><br>Your next move? Learn to <span class="emphasis">communicate risk</span>. Report with impact. <span class="pause">⏸️</span></p>
+            <p class="action">[point to Proficient row]</p>
+            <p>Proficient: 'I drive quality, but I can't scale it.' <span class="pause">⏸️</span><br>Your next move? Build processes. Mentor others. <span class="pause">⏸️</span></p>
+            <p class="action">[point to Expert row]</p>
+            <p>Expert: 'I want to <span class="emphasis">shape</span> the industry.' <span class="pause">⏸️</span><br>Your next move? Write. Speak. Build community. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">Different levels. Different problems. Different moves."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 13: What You Think vs Reality</span>
+            <span class="slide-time">⏱️ 1 min</span>
+        </div>
+        <p class="tone">[confrontational but kind]</p>
+        <div class="script">
+            <p>"Now this is the hard part. <span class="pause">⏸️</span></p>
+            <p>Sometimes... what we <span class="emphasis">think</span> is holding us back... <span class="pause">⏸️</span> is <span class="emphasis">not</span> what's actually holding us back. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[point to table]</p>
+            <p>The Novice thinks: 'I need more experience.' <span class="pause">⏸️</span><br>But actually? They need to understand <span class="emphasis">why</span>, not just how. <span class="pause">⏸️</span></p>
+            <p>The Advanced Beginner thinks: 'I need more tools.' <span class="pause">⏸️</span><br>But actually? They need <span class="emphasis">depth</span>, not breadth. <span class="pause">⏸️</span></p>
+            <p>The Competent person thinks: 'I need recognition.' <span class="pause">⏸️</span><br>But actually? They need to <span class="emphasis">influence without authority</span>. <span class="pause">⏸️</span></p>
+            <p class="action">[pause for effect]</p>
+            <p class="killer-line">The first step to growth... is <span class="emphasis">honest</span> self-assessment."</p>
+            <p class="action">[click to Section 2]</p>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <!-- PART 3 -->
+    <div class="part-header">
+        <h2>PART 3: AI AS ACCELERATOR</h2>
+        <p class="part-time">Slides 14-18 • ~6 minutes</p>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 14: Section 2 - AI as Accelerator</span>
+            <span class="slide-time">⏱️ 15 sec</span>
+        </div>
+        <p class="tone">[energetic shift]</p>
+        <div class="script">
+            <p>"Section two. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">AI as Accelerator</span>. <span class="pause">⏸️</span></p>
+            <p>Let's talk about the elephant in the room."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 15: AI Truth</span>
+            <span class="slide-time">⏱️ 30 sec</span>
+        </div>
+        <p class="tone">[slow, deliberate - key killer line]</p>
+        <div class="script">
+            <p>"Here is the truth about AI. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">AI <span class="emphasis">amplifies</span> your level. <span class="pause">⏸️</span> It doesn't <span class="emphasis">fix</span> it. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[let it land]</p>
+            <p>If you're a Level 2... AI makes you a <span class="emphasis">faster</span> Level 2. <span class="pause">⏸️</span></p>
+            <p>If you're a Level 4... AI makes you <span class="emphasis">unstoppable</span>."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 16: AI Fear vs Reality</span>
+            <span class="slide-time">⏱️ 1 min</span>
+        </div>
+        <p class="tone">[addressing anxiety, then reassuring]</p>
+        <div class="script">
+            <p>"There's a lot of fear around AI right now. <span class="pause">⏸️</span></p>
+            <p class="action">[point to left side - Fear]</p>
+            <p>People say: 'AI will replace all QA jobs.' <span class="pause">⏸️</span><br>'Manual testing is dead.' <span class="pause">⏸️</span><br>'Only automation survives.' <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[point to right side - Reality]</p>
+            <p>But here's the reality. <span class="pause">⏸️</span></p>
+            <p>AI amplifies <span class="emphasis">what you already are</span>. <span class="pause">⏸️</span></p>
+            <p>Critical thinking becomes <span class="emphasis">more</span> valuable, not less. <span class="pause">⏸️</span></p>
+            <p class="killer-line">The winners are those who <span class="emphasis">adapt</span>, not those who <span class="emphasis">hide</span>."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 17: AI by Level</span>
+            <span class="slide-time">⏱️ 1 min 15 sec</span>
+        </div>
+        <p class="tone">[balanced, educational]</p>
+        <div class="script">
+            <p>"Let me show you how AI helps — <span class="emphasis">and risks</span> — at each level. <span class="pause">⏸️</span></p>
+            <p class="action">[point to Novice]</p>
+            <p>For the Novice: AI can explain concepts, generate examples. Great! <span class="pause">⏸️</span><br>But the risk? You <span class="emphasis">copy</span> without understanding. <span class="pause">⏸️</span></p>
+            <p class="action">[point to Competent]</p>
+            <p>For the Competent: AI assists debugging, speeds up root cause analysis. <span class="pause">⏸️</span><br>But the risk? You stop <span class="emphasis">thinking critically</span>. <span class="pause">⏸️</span></p>
+            <p class="action">[point to Expert]</p>
+            <p>For the Expert: AI becomes a <span class="emphasis">co-creator</span>. You design systems <span class="emphasis">with</span> AI. <span class="pause">⏸️</span><br>The risk? None... if you stay curious. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">AI is a <span class="emphasis">multiplier</span>. <span class="pause">⏸️</span> What are you multiplying?"</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 18: AI Warning</span>
+            <span class="slide-time">⏱️ 30 sec</span>
+        </div>
+        <p class="tone">[firm, memorable]</p>
+        <div class="script">
+            <p>"So remember this. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">AI is your <span class="emphasis">copilot</span>. <span class="pause">⏸️</span> Not your <span class="emphasis">autopilot</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[practical]</p>
+            <p>Always verify. Always question. <span class="pause">⏸️</span></p>
+            <p>Apply <span class="emphasis">your</span> expertise."</p>
+            <p class="action">[click to Section 3]</p>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <!-- PART 4 -->
+    <div class="part-header">
+        <h2>PART 4: CERTIFICATION PATH</h2>
+        <p class="part-time">Slides 19-20 • ~3 minutes</p>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 19: Section 3 - Prove Your Skills</span>
+            <span class="slide-time">⏱️ 15 sec</span>
+        </div>
+        <p class="tone">[transitional]</p>
+        <div class="script">
+            <p>"Section three. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">Prove your skills</span>. <span class="pause">⏸️</span></p>
+            <p>Let's talk about certification."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 20: Certification Path</span>
+            <span class="slide-time">⏱️ 1 min 30 sec</span>
+        </div>
+        <p class="tone">[informative, with IDSTB plug]</p>
+        <div class="script">
+            <p>"Now, I believe in certification. <span class="pause">⏸️</span></p>
+            <p>Not because it makes you smart. <span class="pause">⏸️</span><br>But because it <span class="emphasis">validates</span> what you already know. <span class="pause">⏸️</span><br>And it gives you a <span class="emphasis">common language</span> with the global community. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[point to path]</p>
+            <p>ISTQB has a clear path. <span class="pause">⏸️</span></p>
+            <p>Foundation level — CTFL. <span class="pause">⏸️</span><br>AI Testing — CT-AI. <span class="pause">⏸️</span><br>And the newest one: <span class="emphasis">CT-GenAI</span>. <span class="pause">⏸️</span></p>
+            <p class="action">[excited]</p>
+            <p>CT-GenAI was just released in July 2025. <span class="pause">⏸️</span></p>
+            <p>This is your chance to be an <span class="emphasis">early adopter</span> in Indonesia. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[CTA]</p>
+            <p>If you're interested, visit <span class="emphasis">IDSTB.org</span>. <span class="pause">⏸️</span></p>
+            <p>That's the official ISTQB pathway for Indonesia."</p>
+            <p class="action">[click to Section 4]</p>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <!-- PART 5 -->
+    <div class="part-header">
+        <h2>PART 5: YOUR NEXT MOVE</h2>
+        <p class="part-time">Slides 21-27 • ~12 minutes</p>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 21: Section 4 - Your Next Move</span>
+            <span class="slide-time">⏱️ 15 sec</span>
+        </div>
+        <p class="tone">[energetic, action-oriented]</p>
+        <div class="script">
+            <p>"Section four. <span class="pause">⏸️</span></p>
+            <p><span class="emphasis">Your next move</span>. <span class="pause">⏸️</span></p>
+            <p>Let's make this practical."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 22: Don't Follow Trends</span>
+            <span class="slide-time">⏱️ 30 sec</span>
+        </div>
+        <p class="tone">[punchy, direct]</p>
+        <div class="script">
+            <p>"Here's my advice. <span class="pause">⏸️⏸️</span></p>
+            <p class="killer-line">Don't follow <span class="emphasis">trends</span>. <span class="pause">⏸️</span> Follow your <span class="emphasis">bottleneck</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[explain]</p>
+            <p>Find your level. <span class="pause">⏸️</span><br>Find your real problem. <span class="pause">⏸️</span><br>Then act."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 23: NgobrolQA User Journey</span>
+            <span class="slide-time">⏱️ 1 min</span>
+        </div>
+        <p class="tone">[excited, walking through journey]</p>
+        <div class="script">
+            <p>"At NgobrolQA, we built a journey for you. <span class="pause">⏸️</span></p>
+            <p class="action">[point to each step]</p>
+            <p>Step 1: <span class="emphasis">Understand</span> the framework. <span class="pause">⏸️</span></p>
+            <p>Step 2: <span class="emphasis">Assess</span> your level. <span class="pause">⏸️</span></p>
+            <p>Step 3: <span class="emphasis">Plan</span> your growth — find your bottleneck. <span class="pause">⏸️</span></p>
+            <p>Step 4: <span class="emphasis">Learn</span> — take curated courses. <span class="pause">⏸️</span></p>
+            <p>Step 5: <span class="emphasis">Certify</span> — prove your skills. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[circular motion]</p>
+            <p>And then? You <span class="emphasis">reassess</span>. <span class="pause">⏸️</span></p>
+            <p class="killer-line">Growth is a cycle, not a destination."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDES 24-28: Journey Steps (Quick)</span>
+            <span class="slide-time">⏱️ 3 min total</span>
+        </div>
+        <p class="tone">[clear, educational, move through briskly]</p>
+        <div class="script">
+            <p><strong>Step 1 - Understand:</strong> "Go to ngobrolqa.com/QA_Skill_Framework. Learn the Dreyfus Model and 4 dimensions." <span class="pause">⏸️</span> [click]</p>
+            <p><strong>Step 2 - Assess:</strong> "20 questions. Free. Get your radar chart and persona match. ngobrolqa.com/QA_Self_Assessment." <span class="pause">⏸️</span> [click]</p>
+            <p><strong>Step 3 - Plan:</strong> "Based on your persona, get a curated learning roadmap. ngobrolqa.com/QA_Learning_Plan." <span class="pause">⏸️</span> [click]</p>
+            <p><strong>Step 4 & 5 - Learn & Certify:</strong> "Free courses at Test Automation University. ISTQB certs at IDSTB.org. CT-GenAI is new!" <span class="pause">⏸️</span> [click]</p>
+            <p><strong>Bonus - Consult:</strong> "Stuck? Let's talk. ngobrolqa.com/QA_Consult. For individuals or companies." <span class="pause">⏸️</span> [click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 29: Free to Access Now (QR Code)</span>
+            <span class="slide-time">⏱️ 45 sec</span>
+        </div>
+        <p class="tone">[excited, call to action]</p>
+        <div class="script">
+            <p>"And here's the best part. <span class="pause">⏸️</span></p>
+            <p class="killer-line">Everything I mentioned today is <span class="emphasis">100% free</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[point to QR code]</p>
+            <p>Scan this QR code right now. <span class="pause">⏸️</span><br>It takes you to ngobrolqa.com. <span class="pause">⏸️</span></p>
+            <p>Framework. Assessment. Learning Plan. Consultation. <span class="pause">⏸️</span></p>
+            <p>All free. Start today."</p>
+            <p class="action">[give people time to scan - 10 seconds]</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 30: Key Takeaways</span>
+            <span class="slide-time">⏱️ 1 min</span>
+        </div>
+        <p class="tone">[slower, emphatic, counting with fingers]</p>
+        <div class="script">
+            <p>"Before we close, remember <span class="emphasis">3 things</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[hold up 1 finger]</p>
+            <p class="killer-line">Number one: <span class="emphasis">Know your level.</span> <span class="pause">⏸️</span> You can't fix what you can't see. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[hold up 2 fingers]</p>
+            <p class="killer-line">Number two: <span class="emphasis">AI amplifies.</span> <span class="pause">⏸️</span> It accelerates wherever you are — including <span class="emphasis">wrong</span>. <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[hold up 3 fingers]</p>
+            <p class="killer-line">Number three: <span class="emphasis">Follow your bottleneck.</span> <span class="pause">⏸️</span> Not trends. Not advice. <span class="emphasis">Your</span> bottleneck."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 31: Closing Statement</span>
+            <span class="slide-time">⏱️ 30 sec</span>
+        </div>
+        <p class="tone">[slow, powerful, final killer line]</p>
+        <div class="script">
+            <p>"And finally... <span class="pause">⏸️⏸️</span></p>
+            <p class="action">[read slowly, with weight]</p>
+            <p class="killer-line">Growth isn't about learning <span class="emphasis">more</span>. <span class="pause">⏸️⏸️</span> It's about learning... what matters... <span class="emphasis">next</span>. <span class="pause">⏸️⏸️⏸️</span></p>
+            <p class="action">[softer]</p>
+            <p>For you. <span class="pause">⏸️</span> For your team. <span class="pause">⏸️</span> For your career."</p>
+            <p class="action">[click]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 32: Q&A</span>
+            <span class="slide-time">⏱️ 5-10 min</span>
+        </div>
+        <p class="tone">[open, friendly]</p>
+        <div class="script">
+            <p>"And that's it! <span class="pause">⏸️</span></p>
+            <p>I'd love to hear your questions. <span class="pause">⏸️</span></p>
+            <p>You can also reach me on LinkedIn, <span class="pause">⏸️</span> or through NgobrolQA and IDSTB. <span class="pause">⏸️⏸️</span></p>
+            <p>Who has a question?"</p>
+            <p class="action">[wait for questions]</p>
+        </div>
+    </div>
+    
+    <div class="slide-section">
+        <div class="slide-header">
+            <span class="slide-title">🎯 SLIDE 33: Thank You</span>
+            <span class="slide-time">⏱️ 15 sec</span>
+        </div>
+        <p class="tone">[warm, grateful]</p>
+        <div class="script">
+            <p>"Thank you so much for your time today. <span class="pause">⏸️</span></p>
+            <p class="killer-line">Know your level. Follow your bottleneck. Keep growing. <span class="pause">⏸️</span></p>
+            <p>Selamat berjuang! Good luck on your journey!"</p>
+            <p class="action">[smile, wave]</p>
+        </div>
+    </div>
+    
+    <div class="page-break"></div>
+    
+    <!-- QUICK REFERENCE -->
+    <div class="quick-ref">
+        <h3>🎤 QUICK REFERENCE: KILLER LINES</h3>
+        <p style="margin-bottom: 1rem; color: #78350f;">Use these lines with <strong>confidence</strong> and <strong>pauses</strong>:</p>
+        <ol>
+            <li>"Learning more is not growing. Knowing what matters next is."</li>
+            <li>"Your problem isn't skill. It's clarity."</li>
+            <li>"Rules protect beginners. Rules trap experts."</li>
+            <li>"Your level isn't your years. It's your last decision under pressure."</li>
+            <li>"You're not stuck. You're solving the wrong problem."</li>
+            <li>"AI amplifies your level. It doesn't fix it."</li>
+            <li>"AI is your copilot. Not your autopilot."</li>
+            <li>"Don't follow trends. Follow your bottleneck."</li>
+            <li>"Growth is a cycle, not a destination."</li>
+            <li>"Growth isn't about learning more. It's about learning what matters next."</li>
+        </ol>
+    </div>
+    
+    <!-- TIME BREAKDOWN -->
+    <h2>⏱️ Time Breakdown</h2>
+    <table class="time-table">
+        <tr>
+            <th>Section</th>
+            <th>Duration</th>
+        </tr>
+        <tr>
+            <td>Part 1: Hook & Problem (Slides 1-5)</td>
+            <td>~5 min</td>
+        </tr>
+        <tr>
+            <td>Part 2: Framework (Slides 6-13)</td>
+            <td>~10 min</td>
+        </tr>
+        <tr>
+            <td>Part 3: AI as Accelerator (Slides 14-18)</td>
+            <td>~6 min</td>
+        </tr>
+        <tr>
+            <td>Part 4: Certification (Slides 19-20)</td>
+            <td>~3 min</td>
+        </tr>
+        <tr>
+            <td>Part 5: Your Next Move (Slides 21-33)</td>
+            <td>~12 min</td>
+        </tr>
+        <tr>
+            <td>Q&A</td>
+            <td>~5-10 min</td>
+        </tr>
+        <tr>
+            <td><strong>TOTAL</strong></td>
+            <td><strong>~40-45 min</strong></td>
+        </tr>
+    </table>
+    
+    <!-- CHECKLIST -->
+    <h2>📋 Pre-Talk Checklist</h2>
+    <ul class="checklist">
+        <li>Test slides on Zoom screen share</li>
+        <li>Have QR code visible for scanning</li>
+        <li>Open speaker notes on second screen/phone</li>
+        <li>Test audio and video</li>
+        <li>Mute notifications</li>
+        <li>Have water nearby</li>
+        <li>Take a deep breath. You've got this! 🎯</li>
+    </ul>
+    
+    <p class="footer-quote">
+        <em>"Know your level. Follow your bottleneck. Keep growing."</em><br>
+        — Aditya Mirza Bahari
+    </p>
+</body>
+</html>

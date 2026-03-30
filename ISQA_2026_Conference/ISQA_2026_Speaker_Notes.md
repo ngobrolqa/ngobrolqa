@@ -1,769 +1,849 @@
-# Speaker Notes: Rethinking QA Growth in the AI Era
-## ISQA Conference 2026 | Aditya Mirza Bahari | IDSTB
-
-**Total Time: 45 minutes**
-- Presentation: 35-38 minutes
-- Q&A: 7-10 minutes
-
----
-
-## Slide 1: Title Slide
-**⏱️ Duration: 30 seconds**
-
-### What to Say
-> "Selamat siang, semuanya! Perkenalkan, saya Aditya Mirza Bahari dari IDSTB – Indonesia Software Testing Board, yang merupakan national board dari ISTQB untuk Indonesia.
->
-> Hari ini saya ingin mengajak kita semua untuk rethink cara kita grow sebagai QA di era AI.
->
-> Ada satu hal yang saya ingin challenge: Growth itu bukan soal belajar lebih banyak – tapi soal belajar apa yang matters NEXT."
-
-### Stage Direction
-- Stand center stage
-- Make eye contact with different sections of audience
-- Pause after "what matters NEXT" for impact
-- Smile confidently
-
-### Transition
-> "Tapi sebelum kita mulai, coba saya tanya dulu..."
+# ISQA Conference 2026 - Speaker Notes
+## "Rethinking QA Growth in the AI Era"
+**Speaker:** Aditya Mirza Bahari  
+**Duration:** ~40-45 minutes (incl. Q&A)  
+**Total Slides:** 27
 
 ---
 
-## Slide 2: The QA Life - Pain Points
-**⏱️ Duration: 1.5 minutes**
+## 📖 How to Use This Script
 
-### What to Say
-> "Siapa di sini yang pernah merasa seperti ini?"
->
-> [Point to each card]
->
-> "Sudah kerja bertahun-tahun, tapi ketika lihat job description baru... kok masih banyak yang gak bisa?"
->
-> "Atau bingung mau upskill apa dulu?"
->
-> "Sudah ikut berbagai training, tapi kok kayaknya gak sistematis?"
->
-> "Atau yang paling sering sekarang... 'Apakah AI akan menggantikan pekerjaan saya?'"
->
-> [Pause for effect]
->
-> "Kalau ada yang relate, angkat tangan!"
-
-### Stage Direction
-- Point to each pain point card as you mention it
-- Pause after "Am I obsolete?" for 2 seconds
-- Wait for hands to raise
-
-### Engagement Cue
-- 🙋 Ask for raised hands
-- Acknowledge the response: "Ternyata banyak juga ya yang relate"
-
-### Transition
-> "Good news: Hari ini kita akan solve all of these. Let me show you how."
+| Symbol | Meaning |
+|--------|---------|
+| ⏸️ | Pause (1-2 seconds) |
+| ⏸️⏸️ | Longer pause (3-4 seconds) |
+| **BOLD** | Emphasize this word |
+| [tone] | Delivery tone indicator |
+| 💡 | Killer line - deliver with conviction |
+| ⏱️ | Approximate time for this slide |
 
 ---
 
-## Slide 3: Today's Journey
-**⏱️ Duration: 1 minute**
-
-### What to Say
-> "Jadi hari ini kita akan explore 4 hal:
->
-> Pertama, 'Where Am I?' – kita akan gunakan scientific framework untuk assess skill level kita.
->
-> Kedua, 'How AI Fits In' – bukan menggantikan, tapi accelerate growth kita.
->
-> Ketiga, 'Prove It' – bagaimana membuktikan skill kita dengan certification.
->
-> Dan terakhir, 'What's Next' – action plan yang concrete untuk masing-masing level.
->
-> Plus... ada bonus live demo di akhir!"
-
-### Stage Direction
-- Point to each numbered box
-- Build anticipation for the demo
-
-### Transition
-> "Let's start dengan pertanyaan pertama..."
+# PART 1: HOOK & PROBLEM
+## Slides 1-5 (~5 minutes)
 
 ---
 
-## Slide 4: Section - Where Am I?
-**⏱️ Duration: 10 seconds**
+### 🎯 SLIDE 1: Title Slide
+**⏱️ 30 seconds**
 
-### What to Say
-> "Section 1: Where Am I? Di mana posisi skill kita sekarang?"
+[confident, warm]
 
-### Stage Direction
-- Pause, let the title sink in
-- Take a breath before next slide
+"Good morning everyone. ⏸️
 
----
+Thank you for joining this session. ⏸️
 
-## Slide 5: What is the Dreyfus Model?
-**⏱️ Duration: 2 minutes**
+My name is Aditya Mirza Bahari, and today, we're going to talk about something that I believe **every** QA professional needs to hear. ⏸️
 
-### What to Say
-> "Untuk menjawab pertanyaan itu, kita akan pakai model yang namanya Dreyfus Model of Skill Acquisition.
->
-> Model ini diciptakan tahun 1980 oleh dua bersaudara – Stuart dan Hubert Dreyfus – dua profesor di UC Berkeley.
->
-> Yang menarik, mereka mempelajari berbagai profession: pilot pesawat, chess master, nurse, engineer – dan menemukan pattern yang sama di semua bidang!
->
-> Key insight dari penelitian mereka: skill development itu BUKAN linear. Bukan cuma soal tau lebih banyak facts.
->
-> Tapi tentang transformasi dari 'following rules' ke 'intuitive expertise'.
->
-> Bayangkan beda antara seseorang yang baru belajar nyetir – dia harus ingat setiap langkah: injak kopling, masukkan gigi, lepas perlahan... Versus supir profesional yang bisa nyetir sambil ngobrol, tanpa mikir step-by-step.
->
-> Nah, model ini applicable di berbagai bidang: medicine, nursing, aviation, engineering, chess... dan tentu saja, SOFTWARE TESTING!"
+We're going to **rethink** how we grow in this AI era."
 
-### Key Points to Emphasize
-- **Not linear** – it's about transformation
-- **From rules to intuition**
-- **Universal application** across professions
-
-### Transition
-> "So, what are the 5 levels exactly?"
+[click to next slide]
 
 ---
 
-## Slide 6: 5 Levels Overview
-**⏱️ Duration: 1.5 minutes**
+### 🎯 SLIDE 1.5: Who Am I
+**⏱️ 45 seconds**
 
-### What to Say
-> [Start from bottom]
->
-> "Level 1: Novice. Di tahap ini, kita butuh rules yang jelas. 'Kalau A, lakukan B.' Strict guidelines.
->
-> Level 2: Advanced Beginner. Mulai bisa apply rules di situasi nyata, tapi masih butuh guidance.
->
-> Level 3: Competent. Ini pivotal level! Di sini kita bisa plan dan prioritize. Mulai take ownership.
->
-> Level 4: Proficient. Kita mulai lihat 'big picture'. Pattern recognition jadi natural. Decision-making lebih fluid.
->
-> Level 5: Expert. Di level ini, kita tidak lagi 'think about rules' – we just KNOW. Intuitive. Dan yang paling penting: kita bisa innovate, bukan cuma follow best practices."
->
-> [Pause]
->
-> "Coba introspeksi sebentar... where do YOU think you are?"
+[conversational, humble]
 
-### Stage Direction
-- Point to each level as you explain
-- Pause at the end for self-reflection
+"Before we start, a quick introduction. ⏸️
 
-### Engagement Cue
-- 🤔 Ask audience to silently reflect
+I'm the President of IDSTB — Indonesia Software Testing Board. We bring ISTQB certification to Indonesia. ⏸️
 
-### Transition
-> "Let me make this more concrete for us, QA professionals..."
+I also created NgobrolQA — a platform to help QA professionals in Indonesia grow. ⏸️
+
+And in my day job, I'm a Lead QA at Shopee. ⏸️
+
+But more importantly... ⏸️ I've been where **you** are. ⏸️
+
+Stuck. Confused. Not sure what to learn next."
+
+[slight pause, then click]
 
 ---
 
-## Slide 7: Dreyfus Applied to QA
-**⏱️ Duration: 1.5 minutes**
+### 🎯 SLIDE 2: QA Context (Hook)
+**⏱️ 45 seconds**
 
-### What to Say
-> "Here's how it looks specifically for QA:
->
-> Level 1 Novice: 'Saya butuh checklist detail untuk testing.' – And that's totally fine! Everyone starts here.
->
-> Level 2 Advanced Beginner: 'Saya bisa apply test techniques, tapi butuh guidance.' – Starting to build pattern recognition.
->
-> Level 3 Competent: 'Saya bisa plan testing sendiri dan prioritize risks.' – This is where ownership begins!
->
-> Level 4 Proficient: 'Saya bisa adapt strategy based on project context.' – Seeing the bigger picture.
->
-> Level 5 Expert: 'I innovate testing approaches and mentor others.' – Creating new methods, not just applying them."
->
-> [Important point]
->
-> "One thing I want to emphasize: You can be at DIFFERENT levels for DIFFERENT skills! Maybe you're Level 4 in manual testing, but Level 2 in API testing. That's completely normal and expected."
+[reflective, slightly slower pace]
 
-### Key Points to Emphasize
-- **Different levels for different skills** is normal
-- **Level 3 (Competent)** is where real ownership begins
+"Let me ask you something. ⏸️
 
-### Transition
-> "Let me give you more specific examples..."
+As QA professionals... we learn **more** than ever. ⏸️
+
+Automation. Tools. Frameworks. Now AI. ⏸️⏸️
+
+[lean in slightly, lower voice]
+
+And yet... ⏸️ many of us still feel **stuck**. ⏸️
+
+💡 Does that sound familiar?"
+
+[let the question hang, then click]
 
 ---
 
-## Slide 8: Real QA Examples by Level
-**⏱️ Duration: 2 minutes**
+### 🎯 SLIDE 3: Sound Familiar? (Pain Points)
+**⏱️ 1 minute 30 seconds**
 
-### What to Say
-> "Here are two concrete examples – Bug Reporting and Test Planning:
->
-> [Bug Reporting]
->
-> Level 1-2: The bug report describes WHAT happened – 'Button doesn't work.' That's it.
->
-> Level 3: We start adding context – 'I think this impacts mobile users, reproduces consistently.'
->
-> Level 4: Now we see cross-impacts – 'This is connected to the auth issue we saw last sprint.'
->
-> [Test Planning]
->
-> Level 1-2: We follow templates. 'Fill in the test plan document according to this format.'
->
-> Level 3: We customize based on project – 'For this feature, I'll focus more on integration tests.'
->
-> Level 4: We predict what we'll find – 'Based on past patterns, I expect issues in the payment module.'
->
-> [Pause]
->
-> "Which of these examples resonated with you? Where do you see yourself?"
+[conversational, empathetic, point to each persona]
 
-### Stage Direction
-- Use left hand for Bug Reporting examples
-- Use right hand for Test Planning examples
-- Visual separation helps audience follow
+"Let me share some stories I hear **all the time** at NgobrolQA. ⏸️
 
-### Transition
-> "Now, what skills should we actually focus on growing?"
+[point to Fresh Graduate]
+The fresh graduate who says: 'I don't know what I don't know.' ⏸️
+
+[point to 3-5 years]
+The mid-level QA, 3 to 5 years experience, who says: 'I'm doing the same thing. I'm not growing.' ⏸️
+
+[point to 7+ years]
+The senior, 7 plus years, asking: 'What's next? Lead? Architect? Or should I switch?' ⏸️
+
+[point to New Lead]
+The new lead, suddenly managing people: 'How do I grow my **team**?' ⏸️
+
+[point to Manual QA]
+The manual tester who keeps hearing: 'You need to learn automation.' ⏸️
+
+[point to Burnt out, slower]
+And the burnt out QA... who says: 'I **used** to love QA. Now I'm just... tired.' ⏸️⏸️
+
+[pause, look at audience]
+
+💡 Different stories. ⏸️ But the **same** problem."
+
+[click]
 
 ---
 
-## Slide 9: Six Competency Buckets
-**⏱️ Duration: 2 minutes**
+### 🎯 SLIDE 4: Learning More ≠ Growing (Core Insight)
+**⏱️ 30 seconds**
 
-### What to Say
-> "Based on my research – looking at job descriptions, industry frameworks, and real QA career paths – I've identified 6 core competency buckets:
->
-> 1. Testing Fundamentals – the foundation. ISTQB concepts, test design, execution.
->
-> 2. Technical Skills – API testing, database, performance. The technical toolkit.
->
-> 3. Domain Knowledge – your business expertise. Payment systems, e-commerce, healthcare, whatever your domain.
->
-> 4. Process & Methodology – Agile, DevOps, CI/CD. How we work.
->
-> 5. Soft Skills – communication, collaboration, stakeholder management. Often underrated!
->
-> 6. Tools & Automation – from basic tools to full automation frameworks.
->
-> Yang penting: These are universal, not company-specific. Any QA, anywhere in the world, needs to grow in these 6 areas."
->
-> [Mention resource]
->
-> "I have a full breakdown of specific skills in each bucket at ngobrolqa.com. Feel free to check it out later."
+[slow, deliberate, this is the thesis]
 
-### Key Points to Emphasize
-- **Universal framework** – applies anywhere
-- Each bucket has sub-skills
-- Resource available at ngobrolqa.com
+"And here is the insight. ⏸️⏸️
 
-### Transition
-> "Now, where might you fit overall?"
+💡 **Learning more**... ⏸️ is **not** growing. ⏸️⏸️
+
+[softer]
+Knowing what matters **next**... ⏸️ **that's** growing."
+
+[let it sink in, click]
 
 ---
 
-## Slide 10: QA Personas
-**⏱️ Duration: 1.5 minutes**
+### 🎯 SLIDE 5: It's Not Skill, It's Clarity
+**⏱️ 30 seconds**
 
-### What to Say
-> "Based on common patterns, I've identified 10 QA personas:
->
-> [Scan through quickly, highlight a few]
->
-> Fresh Graduate – just starting, learning the basics
->
-> Career Switcher – coming from different field, bringing unique perspective
->
-> The Specialist – deep in one area, like performance or security
->
-> The Expert – the one everyone goes to for advice
->
-> And there are others like Generalist, Automation Enthusiast, Rising Star...
->
-> The interesting thing is: the self-assessment tool I built will actually match you to one of these personas! It gives you a sense of where you are and what to focus on next."
+[confident, direct]
 
-### Stage Direction
-- Don't read all 10 in detail
-- Tease the self-assessment tool
+"So what's the real problem? ⏸️
 
-### Engagement Cue
-- 🎯 "We'll see this in action during the demo!"
+Your problem isn't **skill**. ⏸️
 
-### Transition
-> "Now let's talk about the exciting part – how AI fits into all of this..."
+💡 Your problem is **clarity**. ⏸️⏸️
+
+[preview]
+Today, I want to give you a **framework**. ⏸️
+
+A framework to help you find that clarity."
+
+[click to Section 1]
 
 ---
 
-## Slide 11: Section - How AI Fits In
-**⏱️ Duration: 10 seconds**
-
-### What to Say
-> "Section 2: How AI Fits In. Let's address the elephant in the room."
+# PART 2: THE FRAMEWORK
+## Slides 6-12 (~10 minutes)
 
 ---
 
-## Slide 12: AI Multiplier Effect
-**⏱️ Duration: 1.5 minutes**
+### 🎯 SLIDE 6: Section 1 - Where Are You?
+**⏱️ 15 seconds**
 
-### What to Say
-> "Banyak orang khawatir: 'AI akan menggantikan pekerjaan saya.'
->
-> But here's the truth: AI is a MULTIPLIER, not a replacement.
->
-> [Point to formula]
->
-> Think of it this way: AI multiplies your existing skill level.
->
-> If you're a Level 1 Novice and use AI? You get 1 × AI = marginal improvement.
->
-> If you're a Level 3 Competent and use AI? You get 3 × AI = significant acceleration.
->
-> If you're a Level 5 Expert and use AI? You get 5 × AI = transformative impact.
->
-> The key insight: The better YOU are, the better your AI outputs will be. AI amplifies your expertise – it doesn't replace it.
->
-> So the answer to 'Will AI replace QAs?' is: AI will replace QAs who don't learn to use AI."
+[energetic, transitional]
 
-### Key Points to Emphasize
-- **Multiplier, not replacement**
-- **Your skill level determines AI effectiveness**
-- **Invest in yourself first**
+"Section one. ⏸️
 
-### Transition
-> "So what does AI usage look like at each level?"
+**Where are you?** ⏸️
+
+Let's talk about the science of skill acquisition."
+
+[click]
 
 ---
 
-## Slide 13: AI Use Cases by Level
-**⏱️ Duration: 2 minutes**
+### 🎯 SLIDE 7: Dreyfus Introduction
+**⏱️ 45 seconds**
 
-### What to Say
-> "Here's how AI usage differs by skill level:
->
-> Novice: 'Write a test case for login.' – Basic, generic prompts.
->
-> Competent: 'Generate edge cases for this payment API, considering these business rules...' – More context, better results.
->
-> Expert: They're using AI for innovation – generating testing frameworks, automating complex analysis, building AI-powered test infrastructure.
->
-> [Key point]
->
-> Notice the progression? Higher skill = more sophisticated AI usage = better outputs.
->
-> A Novice using AI will get generic results because they give generic prompts.
->
-> An Expert using AI will get excellent results because they know exactly what to ask for, how to validate the output, and how to iterate."
+[thoughtful, building curiosity]
 
-### Key Points to Emphasize
-- **Prompts reflect expertise**
-- **Validation requires knowledge**
-- **Iteration needs experience**
+"In 1980, two brothers named Dreyfus studied how humans develop expertise. ⏸️
 
-### Transition
-> "Let me show you what a good prompt looks like..."
+And they found something interesting. ⏸️⏸️
+
+💡 **Rules**... protect beginners. ⏸️
+
+But the same **rules**... ⏸️ **trap** experts. ⏸️⏸️
+
+[explain]
+What do I mean? ⏸️
+
+When you're new, you need rules. Step one, step two, step three. ⏸️
+
+But as you grow... you need to **break** those rules. ⏸️
+
+You need to see the bigger picture."
+
+[click]
 
 ---
 
-## Slide 14: Practical AI Example
-**⏱️ Duration: 2 minutes**
+### 🎯 SLIDE 8: 5 Levels of Mastery
+**⏱️ 1 minute 30 seconds**
 
-### What to Say
-> "Here's a real example of a well-crafted prompt:
->
-> [Read the prompt]
->
-> Notice what makes this effective:
->
-> 1. CONTEXT – 'e-commerce cart system, handles 10K concurrent users'
->
-> 2. SPECIFIC ASK – 'edge cases for quantity handling'
->
-> 3. BUSINESS RULES – 'max 10 items, minimum order value'
->
-> 4. FORMAT REQUESTED – 'table format with priority'
->
-> This is NOT a prompt a Novice would write. This requires domain knowledge, technical understanding, and clarity about what you need.
->
-> The better your prompt, the better your AI output. Garbage in, garbage out – but also: Expertise in, excellence out!"
+[educational, clear]
 
-### Stage Direction
-- Read the prompt slowly
-- Point to each element as you explain
+"The Dreyfus model has 5 levels. ⏸️
 
-### Key Points to Emphasize
-- **Context matters**
-- **Specificity matters**
-- **Format matters**
+[point to each level as you mention it]
 
-### Transition
-> "But even with great prompts, when should we NOT trust AI?"
+Level 1: **Novice**. You follow rules. You do what you're told. ⏸️
+
+Level 2: **Advanced Beginner**. You start to see patterns. You recognize situations. ⏸️
+
+Level 3: **Competent**. You can plan. You can prioritize. You take **ownership**. ⏸️
+
+Level 4: **Proficient**. You see the whole picture. You make decisions intuitively. ⏸️
+
+Level 5: **Expert**. You don't just follow best practices. ⏸️ You **create** them. ⏸️⏸️
+
+[important point]
+
+💡 You don't grow by learning **more**. ⏸️
+
+You grow by changing **how you think**."
+
+[click]
 
 ---
 
-## Slide 15: AI Guardrails
-**⏱️ Duration: 1.5 minutes**
+### 🎯 SLIDE 9: Key Insight - Your Level
+**⏱️ 30 seconds**
 
-### What to Say
-> "Important: There are times when you should NOT blindly trust AI.
->
-> DON'T trust AI for:
-> - Security testing decisions – AI can miss context-specific vulnerabilities
-> - Final test coverage judgment – AI doesn't understand business criticality
-> - Domain-specific edge cases – AI lacks your institutional knowledge
->
-> DO use AI for:
-> - Initial test case generation – great starting point
-> - Documentation drafts – saves time
-> - Code review assistance – catches common issues
-> - Learning new concepts – great teacher
->
-> [Key message]
->
-> Remember: AI is your COPILOT, not your AUTOPILOT.
->
-> You're still the pilot. You make the final decisions. You take responsibility for quality."
+[punchy, memorable]
 
-### Key Points to Emphasize
-- **Copilot, not autopilot**
-- **Critical thinking remains essential**
-- **You're responsible for the output**
+"And here's the thing. ⏸️⏸️
 
-### Transition
-> "So how do we PROVE our AI skills? Through certification."
+💡 Your level isn't your **years** of experience. ⏸️
+
+Your level... is your last decision... ⏸️ **under pressure**. ⏸️⏸️
+
+[softer]
+I've seen people with 10 years experience... still at level 2. ⏸️
+
+And people with 3 years... already at level 4."
+
+[click]
 
 ---
 
-## Slide 16: Section - Prove It
-**⏱️ Duration: 10 seconds**
+### 🎯 SLIDE 10: 4 Skill Dimensions
+**⏱️ 1 minute**
 
-### What to Say
-> "Section 3: Prove It. How do we validate and certify our skills?"
+[clear, structured]
 
----
+"Now, at NgobrolQA, we mapped this to **4 skill dimensions**. ⏸️
 
-## Slide 17: Why AI Certification NOW?
-**⏱️ Duration: 2 minutes**
+[point to each]
 
-### What to Say
-> "Why should you care about AI certification right now?
->
-> Let me give you some data:
->
-> 78% of companies are already using AI in software development – that's more than 3 out of 4 companies. If you're not prepared, you're falling behind.
->
-> QAs with AI skills command up to 3× salary premium compared to those without. That's significant for your career.
->
-> And what are employers looking for? They want people who understand AI capabilities AND limitations. Not just 'can use ChatGPT' but truly understands how to apply AI effectively in testing.
->
-> [Key message]
->
-> Here's the thing about certification: Being early matters. When CT-AI first came out, early adopters stood out in their organizations. The same will happen with CT-GenAI.
->
-> If you wait until everyone has it, you've lost the competitive advantage."
+**Testing Fundamentals** — Your techniques, your coverage, your design. ⏸️
 
-### Key Points to Emphasize
-- **78% adoption** – it's happening now
-- **3× salary premium** – real financial impact
-- **Early adopter advantage** – be first
+**Technical Depth** — Automation, tools, coding skills. ⏸️
 
-### Transition
-> "Let me show you the certification path..."
+**Quality Thinking** — Risk analysis, strategy, seeing the bigger picture. ⏸️
+
+**Influence and Impact** — Communication, leadership, driving change. ⏸️⏸️
+
+[important insight]
+
+💡 You can be Level 4 in one dimension... ⏸️ and Level 2 in another. ⏸️
+
+That's **normal**. ⏸️
+
+The question is: do you **know** where you're weak?"
+
+[click]
 
 ---
 
-## Slide 18: Certification Path
-**⏱️ Duration: 1.5 minutes**
+### 🎯 SLIDE 11: You're Not Stuck
+**⏱️ 30 seconds**
 
-### What to Say
-> "Here's the recommended certification path:
->
-> Foundation: Start with CTFL – Certified Tester Foundation Level. This gives you the solid base of testing fundamentals.
->
-> Then move to CT-AI – Certified Tester AI Testing. This covers AI IN testing – using AI to test, testing AI systems.
->
-> And the newest addition: CT-GenAI – just released July 2025! This is specifically about Generative AI – LLMs, prompt engineering, hallucination testing.
->
-> [For Indonesian audience]
->
-> Untuk registrasi exam di Indonesia, bisa langsung ke IDSTB. Kita handle semua exam ISTQB di Indonesia.
->
-> Exam fee untuk CT-GenAI sama dengan CT-AI, dan bisa online."
+[empathetic, then pivoting]
 
-### Key Points to Emphasize
-- **Logical progression** – Foundation → AI → GenAI
-- **CT-GenAI is NEW** – July 2025
-- **IDSTB for registration** in Indonesia
+"So if you feel stuck... ⏸️
 
-### Transition
-> "Let me tell you more about CT-GenAI specifically..."
+Let me tell you something. ⏸️⏸️
+
+💡 You're **not** stuck. ⏸️
+
+You're just solving the **wrong problem**. ⏸️⏸️
+
+Each level... has a **different** bottleneck."
+
+[click]
 
 ---
 
-## Slide 19: CT-GenAI Deep Dive
-**⏱️ Duration: 2 minutes**
+### 🎯 SLIDE 12: QA Problems by Level
+**⏱️ 1 minute 30 seconds**
 
-### What to Say
-> "CT-GenAI is exciting because it's very cutting-edge:
->
-> What you'll learn:
-> - How LLMs work – transformers, tokens, context windows
-> - How to test GenAI applications – unique challenges like non-deterministic outputs
-> - Hallucination testing – how to catch when AI makes things up
-> - Prompt engineering for QA – getting better outputs
-> - Risk assessment for AI systems
->
-> Exam details:
-> - 40 multiple choice questions
-> - 60 minutes
-> - 65% passing score
-> - Prerequisite: CTFL only
->
-> [Key point]
->
-> Indonesia belum banyak yang punya CT-GenAI. If you get it now, you'll be among the first in the country. That's a differentiator on your LinkedIn, your resume, and in your organization."
+[slower, give time to read table]
 
-### Key Points to Emphasize
-- **Cutting-edge content** – very relevant
-- **Reasonable exam** – 40 MCQ, 60 min
-- **Early adopter in Indonesia** – competitive advantage
+"Let me show you what I mean with real QA examples. ⏸️
 
-### Transition
-> "Now let's put this all together into YOUR action plan..."
+[point to Novice row]
+If you're a Novice... you might say: 'I execute test cases, but I don't know if they're good.' ⏸️
+Your next move? Learn test design techniques. BVA. Equivalence Partitioning. ⏸️
 
----
+[point to Advanced Beginner row]
+Advanced Beginner: 'I automate, but my tests break all the time.' ⏸️
+Your next move? Study clean code. Learn maintainability. ⏸️
 
-## Slide 20: Section - What's Next?
-**⏱️ Duration: 10 seconds**
+[point to Competent row]
+Competent: 'I test well, but nobody listens to me.' ⏸️
+Your next move? Learn to **communicate risk**. Report with impact. ⏸️
 
-### What to Say
-> "Final section: What's Next? Let's make this actionable."
+[point to Proficient row]
+Proficient: 'I drive quality, but I can't scale it.' ⏸️
+Your next move? Build processes. Mentor others. ⏸️
+
+[point to Expert row]
+Expert: 'I want to **shape** the industry.' ⏸️
+Your next move? Write. Speak. Build community. ⏸️⏸️
+
+💡 Different levels. Different problems. Different moves."
+
+[click]
 
 ---
 
-## Slide 21: Action Plan
-**⏱️ Duration: 1.5 minutes**
+### 🎯 SLIDE 13: What You Think vs Reality
+**⏱️ 1 minute**
 
-### What to Say
-> "Here's a concrete action plan:
->
-> Week 1: Take the self-assessment at ngobrolqa.com. Understand where you are across all 6 competency buckets.
->
-> Week 2-4: Start using AI daily. Make it a habit. Every test case you write, every bug you report – ask yourself: 'How could AI help here?'
->
-> Month 2+: Pick ONE certification to pursue. Don't try to do everything at once. Focus on what's most relevant to your current level.
->
-> The key is: START. Don't wait for the perfect moment. Take the assessment today, start using AI tomorrow, sign up for certification next month."
+[confrontational but kind]
 
-### Key Points to Emphasize
-- **Concrete timeline** – Week 1, Week 2-4, Month 2+
-- **Progressive steps** – assess, practice, certify
-- **Start NOW**
+"Now this is the hard part. ⏸️
 
-### Transition
-> "But what should you focus on based on YOUR current level?"
+Sometimes... what we **think** is holding us back... ⏸️ is **not** what's actually holding us back. ⏸️⏸️
 
----
+[point to table]
 
-## Slide 22: What's Next for YOUR Level
-**⏱️ Duration: 2 minutes**
+The Novice thinks: 'I need more experience.' ⏸️
+But actually? They need to understand **why**, not just how. ⏸️
 
-### What to Say
-> "Here's level-specific guidance:
->
-> Level 1-2 (Novice/Advanced Beginner):
-> - Focus on CTFL first – build that foundation
-> - Use AI for learning: 'Explain boundary value analysis with examples'
-> - Practice basic prompting
-> - Timeline: Get CTFL in 3 months
->
-> Level 3 (Competent):
-> - You're ready for CT-AI
-> - Start using AI for test case generation, reviews
-> - Focus on prompt refinement
-> - Timeline: CT-AI in 4-6 months
->
-> Level 4 (Proficient):
-> - Go for CT-GenAI
-> - Integrate AI into your workflows systematically
-> - Mentor others on AI usage
-> - Timeline: CT-GenAI in 3-4 months
->
-> Level 5 (Expert):
-> - You could get both CT-AI and CT-GenAI
-> - Focus on innovation: creating new AI-powered testing approaches
-> - Lead AI adoption in your organization
-> - Timeline: Both in 6 months
->
-> Find YOUR box and follow that path!"
+The Advanced Beginner thinks: 'I need more tools.' ⏸️
+But actually? They need **depth**, not breadth. ⏸️
 
-### Key Points to Emphasize
-- **Personalized paths** for each level
-- **Specific certifications** recommended
-- **Realistic timelines**
+The Competent person thinks: 'I need recognition.' ⏸️
+But actually? They need to **influence without authority**. ⏸️
 
-### Transition
-> "Now, let me show you the self-assessment tool..."
+[pause for effect]
+
+💡 The first step to growth... is **honest** self-assessment."
+
+[click to Section 2]
 
 ---
 
-## Slide 23: Self-Assessment Tool Demo
-**⏱️ Duration: 3 minutes**
-
-### What to Say
-> "Let me show you the self-assessment tool I built at ngobrolqa.com:
->
-> [If doing live demo, open the URL]
->
-> Features:
->
-> - 12 questions covering all 6 competency buckets
-> - 3 different question sets – so if you retake, you get different questions
-> - Available in English and Bahasa Indonesia
->
-> Results include:
-> - Radar chart showing your levels across all buckets
-> - Persona matching – which of the 10 QA personas you're closest to
-> - Personalized recommendations for what to learn next
-> - Export as PDF for your records
->
-> [Show the URL]
->
-> You can try it right now on your phone: ngobrolqa.com/QA_Self_Assessment.html
->
-> Or if you prefer, try it during the break. It takes about 5 minutes."
-
-### Stage Direction
-- If possible, do a live demo
-- Show the QR code or URL
-- Encourage immediate action
-
-### Engagement Cue
-- 📱 "Take out your phone and try it now if you'd like!"
-
-### Transition
-> "Here are all the resources I mentioned today..."
+# PART 3: AI AS ACCELERATOR
+## Slides 13-16 (~6 minutes)
 
 ---
 
-## Slide 24: Resources
-**⏱️ Duration: 1 minute**
+### 🎯 SLIDE 14: Section 2 - AI as Accelerator
+**⏱️ 15 seconds**
 
-### What to Say
-> "Here are all the resources we discussed:
->
-> ngobrolqa.com – Full skill framework, self-assessment, learning paths
->
-> ISTQB official materials – study guides, sample exams
->
-> IDSTB – for exam registration in Indonesia
->
-> All of these are FREE or officially available.
->
-> Pro tip: Screenshot this slide so you have all the links!"
+[energetic shift]
 
-### Stage Direction
-- Pause to let people take photos
-- Point to each resource
+"Section two. ⏸️
 
-### Transition
-> "Let me leave you with 3 key takeaways..."
+**AI as Accelerator**. ⏸️
+
+Let's talk about the elephant in the room."
+
+[click]
 
 ---
 
-## Slide 25: Key Takeaways
-**⏱️ Duration: 1 minute**
+### 🎯 SLIDE 15: AI Truth
+**⏱️ 30 seconds**
 
-### What to Say
-> "Three things to remember:
->
-> 1. Growth ≠ Learning More – It's about learning what matters NEXT for YOUR level. Stop following trends blindly.
->
-> 2. AI Amplifies Your Level – Without clarity, AI accelerates the wrong direction. Know where you stand first.
->
-> 3. Clarity Before Action – Take the assessment, understand your real bottleneck, then decide what to learn.
->
-> [Pause]
->
-> If you remember nothing else: Rethink how you grow. Clarity first, then action."
+[slow, deliberate - this is a key killer line]
 
-### Stage Direction
-- Read each takeaway slowly
-- Pause between each for impact
-- End with memorable tagline
+"Here is the truth about AI. ⏸️⏸️
+
+💡 AI **amplifies** your level. ⏸️
+
+It doesn't **fix** it. ⏸️⏸️
+
+[let it land]
+
+If you're a Level 2... AI makes you a **faster** Level 2. ⏸️
+
+If you're a Level 4... AI makes you **unstoppable**."
+
+[click]
 
 ---
 
-## Slide 26: Q&A
-**⏱️ Duration: 5 minutes**
+### 🎯 SLIDE 16: AI Fear vs Reality
+**⏱️ 1 minute**
 
-### What to Say
-> "Any questions?"
+[addressing anxiety, then reassuring]
 
-### Prepared Questions (if audience is quiet):
-1. "One question I often get: 'How long does it take to move from one Dreyfus level to the next?' The answer varies – typically 1-3 years per level, depending on intensity of practice and feedback quality."
+"There's a lot of fear around AI right now. ⏸️
 
-2. "Another common question: 'Should I get CT-AI or CT-GenAI first?' If you're focused on testing AI systems, start with CT-AI. If you want to leverage GenAI tools, go CT-GenAI. Both are valuable."
+[point to left side - Fear]
+People say: 'AI will replace all QA jobs.' ⏸️
+'Manual testing is dead.' ⏸️
+'Only automation survives.' ⏸️⏸️
 
-3. "People also ask: 'Is the self-assessment accurate?' It's a self-assessment, so accuracy depends on your self-awareness. But it gives you a structured starting point."
+[point to right side - Reality]
+But here's the reality. ⏸️
 
-### Stage Direction
-- Wait 5-10 seconds for hands
-- If none, use prepared questions
-- Keep answers concise (1-2 minutes max)
+AI amplifies **what you already are**. ⏸️
 
----
+Critical thinking becomes **more** valuable, not less. ⏸️
 
-## Slide 27: Thank You
-**⏱️ Duration: 30 seconds**
+💡 The winners are those who **adapt**, not those who **hide**."
 
-### What to Say
-> "Thank you so much for your time today!
->
-> Remember: Growth isn't about learning more—it's about learning what matters next.
->
-> AI amplifies where you are. Make sure you know where that is first.
->
-> Connect with me on LinkedIn, try the self-assessment, and let's continue the conversation.
->
-> Terima kasih! Any final questions, feel free to catch me after the session."
-
-### Stage Direction
-- Smile
-- Bow slightly
-- Stay available for individual questions
+[click]
 
 ---
 
-## Appendix: Timing Summary
+### 🎯 SLIDE 17: AI by Level
+**⏱️ 1 minute 15 seconds**
 
-| Section | Slides | Duration |
-|---------|--------|----------|
-| Opening | 1-3 | 3 min |
-| Where Am I? (Dreyfus) | 4-10 | 12 min |
-| How AI Fits In | 11-15 | 9 min |
-| Prove It (Certification) | 16-19 | 7 min |
-| What's Next? | 20-24 | 9 min |
-| Q&A | 25-26 | 5 min |
-| **Total** | | **45 min** |
+[balanced, educational]
 
----
+"Let me show you how AI helps — **and risks** — at each level. ⏸️
 
-## Appendix: Checklist Before Presenting
+[point to Novice]
+For the Novice: AI can explain concepts, generate examples. Great! ⏸️
+But the risk? You **copy** without understanding. ⏸️
 
-### Technical
-- [ ] Laptop charged or plugged in
-- [ ] Presentation loaded and tested on venue projector
-- [ ] ngobrolqa.com accessible (for live demo)
-- [ ] Backup PDF of slides on phone
-- [ ] Slide remote/clicker tested
+[point to Competent]
+For the Competent: AI assists debugging, speeds up root cause analysis. ⏸️
+But the risk? You stop **thinking critically**. ⏸️
 
-### Personal
-- [ ] Water bottle nearby
-- [ ] Business cards ready
-- [ ] Phone on silent
-- [ ] Early arrival (30 min before)
+[point to Expert]
+For the Expert: AI becomes a **co-creator**. You design systems **with** AI. ⏸️
+The risk? None... if you stay curious. ⏸️⏸️
 
-### Content
-- [ ] Key stats memorized (78%, 3×, July 2025)
-- [ ] QR code/URL visible on demo slide
-- [ ] Prepared Q&A questions ready
+💡 AI is a **multiplier**. ⏸️ What are you multiplying?"
+
+[click]
 
 ---
 
-**Good luck! You've got this! 🎤**
+### 🎯 SLIDE 18: AI Warning
+**⏱️ 30 seconds**
+
+[firm, memorable]
+
+"So remember this. ⏸️⏸️
+
+💡 AI is your **copilot**. ⏸️
+
+Not your **autopilot**. ⏸️⏸️
+
+[practical]
+Always verify. Always question. ⏸️
+
+Apply **your** expertise."
+
+[click to Section 3]
+
+---
+
+# PART 4: CERTIFICATION PATH
+## Slides 17-18 (~3 minutes)
+
+---
+
+### 🎯 SLIDE 19: Section 3 - Prove Your Skills
+**⏱️ 15 seconds**
+
+[transitional]
+
+"Section three. ⏸️
+
+**Prove your skills**. ⏸️
+
+Let's talk about certification."
+
+[click]
+
+---
+
+### 🎯 SLIDE 20: Certification Path
+**⏱️ 1 minute 30 seconds**
+
+[informative, with IDSTB plug]
+
+"Now, I believe in certification. ⏸️
+
+Not because it makes you smart. ⏸️
+But because it **validates** what you already know. ⏸️
+And it gives you a **common language** with the global community. ⏸️⏸️
+
+[point to path]
+
+ISTQB has a clear path. ⏸️
+
+Foundation level — CTFL. ⏸️
+AI Testing — CT-AI. ⏸️
+And the newest one: **CT-GenAI**. ⏸️
+
+[excited]
+CT-GenAI was just released in July 2025. ⏸️
+
+This is your chance to be an **early adopter** in Indonesia. ⏸️⏸️
+
+[CTA]
+If you're interested, visit **IDSTB.org**. ⏸️
+
+That's the official ISTQB pathway for Indonesia."
+
+[click to Section 4]
+
+---
+
+# PART 5: YOUR NEXT MOVE
+## Slides 19-26 (~12 minutes)
+
+---
+
+### 🎯 SLIDE 21: Section 4 - Your Next Move
+**⏱️ 15 seconds**
+
+[energetic, action-oriented]
+
+"Section four. ⏸️
+
+**Your next move**. ⏸️
+
+Let's make this practical."
+
+[click]
+
+---
+
+### 🎯 SLIDE 22: Don't Follow Trends
+**⏱️ 30 seconds**
+
+[punchy, direct]
+
+"Here's my advice. ⏸️⏸️
+
+💡 Don't follow **trends**. ⏸️
+
+Follow your **bottleneck**. ⏸️⏸️
+
+[explain]
+Find your level. ⏸️
+Find your real problem. ⏸️
+Then act."
+
+[click]
+
+---
+
+### 🎯 SLIDE 23: NgobrolQA User Journey
+**⏱️ 1 minute**
+
+[excited, walking through journey]
+
+"At NgobrolQA, we built a journey for you. ⏸️
+
+[point to each step]
+
+Step 1: **Understand** the framework. ⏸️
+
+Step 2: **Assess** your level. ⏸️
+
+Step 3: **Plan** your growth — find your bottleneck. ⏸️
+
+Step 4: **Learn** — take curated courses. ⏸️
+
+Step 5: **Certify** — prove your skills. ⏸️⏸️
+
+[circular motion]
+And then? You **reassess**. ⏸️
+
+💡 Growth is a cycle, not a destination."
+
+[click]
+
+---
+
+### 🎯 SLIDE 24: Step 1 - Understand
+**⏱️ 45 seconds**
+
+[clear, educational]
+
+"Step 1: Understand the framework. ⏸️
+
+On NgobrolQA, you can read about the Dreyfus Model. ⏸️
+And the 4 Skill Dimensions. ⏸️
+
+[point to URL]
+Go to ngobrolqa.com/QA_Skill_Framework. ⏸️
+
+This gives you the **mental model** you need to understand your growth."
+
+[click]
+
+---
+
+### 🎯 SLIDE 25: Step 2 - Assess
+**⏱️ 45 seconds**
+
+[practical, inviting]
+
+"Step 2: Assess your level. ⏸️
+
+We have a free self-assessment. ⏸️
+20 questions. 4 dimensions. ⏸️
+
+You'll get a **radar chart** showing your profile. ⏸️
+A **persona match** — what type of QA are you? ⏸️
+And **personalized recommendations**. ⏸️
+
+[point to URL]
+Go to ngobrolqa.com/QA_Self_Assessment. ⏸️
+
+It's free. It takes 10 minutes. ⏸️
+
+💡 You can't fix what you can't see."
+
+[click]
+
+---
+
+### 🎯 SLIDE 26: Step 3 - Plan
+**⏱️ 45 seconds**
+
+[helpful]
+
+"Step 3: Plan your growth. ⏸️
+
+Based on your persona — whether you're a fresh graduate, ⏸️ stuck mid-career, ⏸️ transitioning from manual to automation, ⏸️ or a new lead — ⏸️
+
+We give you a **curated learning roadmap**. ⏸️
+
+[point to URL]
+Go to ngobrolqa.com/QA_Learning_Plan. ⏸️
+
+This tells you: **what to learn next**."
+
+[click]
+
+---
+
+### 🎯 SLIDE 27: Step 4 & 5 - Learn & Certify
+**⏱️ 1 minute**
+
+[practical, encouraging]
+
+"Steps 4 and 5: Learn and Certify. ⏸️
+
+For learning, we recommend free resources first. ⏸️
+Test Automation University — completely free. ⏸️
+Coursera, Udemy, LinkedIn Learning. ⏸️
+And lots of free books and materials. ⏸️⏸️
+
+For certification... ⏸️
+
+[point to cert list]
+Start with CTFL if you haven't. ⏸️
+CT-AI for AI testing. ⏸️
+And the new **CT-GenAI** — be an early adopter. ⏸️⏸️
+
+[CTA]
+Go to IDSTB.org to register for exams in Indonesia."
+
+[click]
+
+---
+
+### 🎯 SLIDE 28: Bonus - Consult With Us
+**⏱️ 45 seconds**
+
+[warm, inviting]
+
+"And here's a bonus. ⏸️
+
+Sometimes you need someone to talk to. ⏸️
+
+Maybe you're stuck. ⏸️
+Maybe you need career guidance. ⏸️
+Maybe your **company** needs help with QA strategy. ⏸️⏸️
+
+We have a **Consult** page. ⏸️
+
+[point to URL]
+Go to ngobrolqa.com/QA_Consult. ⏸️
+
+Tell us your challenge. ⏸️
+Let's ngobrol. Let's talk."
+
+[click]
+
+---
+
+### 🎯 SLIDE 29: Free to Access Now (QR Code)
+**⏱️ 45 seconds**
+
+[excited, call to action]
+
+"And here's the best part. ⏸️
+
+💡 Everything I mentioned today is **100% free**. ⏸️⏸️
+
+[point to QR code]
+Scan this QR code right now. ⏸️
+It takes you to ngobrolqa.com. ⏸️
+
+Framework. Assessment. Learning Plan. Consultation. ⏸️
+
+All free. Start today."
+
+[give people time to scan - 10 seconds]
+
+[click]
+
+---
+
+### 🎯 SLIDE 30: Key Takeaways
+**⏱️ 1 minute**
+
+[slower, emphatic, counting with fingers]
+
+"Before we close, remember **3 things**. ⏸️⏸️
+
+[hold up 1 finger]
+💡 Number one: **Know your level.** ⏸️
+You can't fix what you can't see. ⏸️⏸️
+
+[hold up 2 fingers]
+💡 Number two: **AI amplifies.** ⏸️
+It accelerates wherever you are — including **wrong**. ⏸️⏸️
+
+[hold up 3 fingers]
+💡 Number three: **Follow your bottleneck.** ⏸️
+Not trends. Not advice. **Your** bottleneck."
+
+[click]
+
+---
+
+### 🎯 SLIDE 31: Closing Statement
+**⏱️ 30 seconds**
+
+[slow, powerful, final killer line]
+
+"And finally... ⏸️⏸️
+
+[read slowly, with weight]
+
+💡 Growth isn't about learning **more**. ⏸️⏸️
+
+It's about learning... what matters... **next**. ⏸️⏸️⏸️
+
+[softer]
+For you. ⏸️ For your team. ⏸️ For your career."
+
+[click]
+
+---
+
+### 🎯 SLIDE 32: Q&A
+**⏱️ 5-10 minutes**
+
+[open, friendly]
+
+"And that's it! ⏸️
+
+I'd love to hear your questions. ⏸️
+
+You can also reach me on LinkedIn, ⏸️
+or through NgobrolQA and IDSTB. ⏸️⏸️
+
+Who has a question?"
+
+[wait for questions]
+
+---
+
+### 🎯 SLIDE 33: Thank You
+**⏱️ 15 seconds**
+
+[warm, grateful]
+
+"Thank you so much for your time today. ⏸️
+
+💡 Know your level. Follow your bottleneck. Keep growing. ⏸️
+
+Selamat berjuang! Good luck on your journey!"
+
+[smile, wave]
+
+---
+
+# 🎤 QUICK REFERENCE: KILLER LINES
+
+Use these lines with **confidence** and **pauses**:
+
+1. "Learning more is not growing. Knowing what matters next is."
+2. "Your problem isn't skill. It's clarity."
+3. "Rules protect beginners. Rules trap experts."
+4. "Your level isn't your years. It's your last decision under pressure."
+5. "You're not stuck. You're solving the wrong problem."
+6. "AI amplifies your level. It doesn't fix it."
+7. "AI is your copilot. Not your autopilot."
+8. "Don't follow trends. Follow your bottleneck."
+9. "Growth is a cycle, not a destination."
+10. "Growth isn't about learning more. It's about learning what matters next."
+
+---
+
+# ⏱️ TIME BREAKDOWN
+
+| Section | Duration |
+|---------|----------|
+| Part 1: Hook & Problem (Slides 1-5) | ~5 min |
+| Part 2: Framework (Slides 6-12) | ~10 min |
+| Part 3: AI as Accelerator (Slides 13-16) | ~6 min |
+| Part 4: Certification (Slides 17-18) | ~3 min |
+| Part 5: Your Next Move (Slides 19-26) | ~12 min |
+| Q&A | ~5-10 min |
+| **TOTAL** | **~40-45 min** |
+
+---
+
+# 📋 PRE-TALK CHECKLIST
+
+- [ ] Test slides on Zoom screen share
+- [ ] Have QR code visible for scanning
+- [ ] Open speaker notes on second screen/phone
+- [ ] Test audio and video
+- [ ] Mute notifications
+- [ ] Have water nearby
+- [ ] Take a deep breath. You've got this! 🎯
+
+---
+
+*"Know your level. Follow your bottleneck. Keep growing."*  
+— Aditya Mirza Bahari
