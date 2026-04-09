@@ -228,6 +228,82 @@
             font-weight: 600;
         }
 
+        .insights {
+            margin: 3rem 0;
+        }
+
+        .insights h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: var(--text);
+        }
+
+        .insight-item {
+            display: block;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            border-radius: 0 12px 12px 0;
+            padding: 1.5rem 2rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+        }
+
+        .insight-item:hover {
+            border-left-color: var(--secondary);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transform: translateX(4px);
+        }
+
+        .insight-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-tag {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            background: rgba(13,148,136,0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .insight-date {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .insight-item h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .insight-item p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .insight-link {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .insight-item:hover .insight-link {
+            color: var(--secondary);
+        }
+
         .about {
             background: var(--card);
             border-radius: 20px;
@@ -403,6 +479,19 @@
                 <h3>YouTube</h3>
                 <p>Tutorial, sharing session, dan konten edukatif seputar QA dan software testing.</p>
                 <span class="feature-tag">Watch</span>
+            </a>
+        </div>
+
+        <div class="insights">
+            <h2>📝 NgobrolQA Insights</h2>
+            <a href="QA_Career_Compounding.html" class="insight-item">
+                <div class="insight-meta">
+                    <span class="insight-tag">Original Theory</span>
+                    <span class="insight-date">2026</span>
+                </div>
+                <h3>Career Compounding Theory</h3>
+                <p>Why some QA professionals grow faster than others, and what your 20-year career is really made of.</p>
+                <span class="insight-link">Read more →</span>
             </a>
         </div>
 
