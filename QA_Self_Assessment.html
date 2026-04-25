@@ -769,11 +769,16 @@
                 return;
             }
 
-            // Check reCAPTCHA
-            const recaptchaResponse = grecaptcha.getResponse();
-            if (!recaptchaResponse) {
-                alert('Please complete the reCAPTCHA verification.');
-                return;
+            // Check reCAPTCHA (bypass for local/offline testing)
+            const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:';
+            let recaptchaResponse = isLocalhost ? 'bypass-token-for-local-testing' : '';
+            
+            if (!isLocalhost && typeof grecaptcha !== 'undefined') {
+                recaptchaResponse = grecaptcha.getResponse();
+                if (!recaptchaResponse) {
+                    alert('Please complete the reCAPTCHA verification.');
+                    return;
+                }
             }
             
             userData.name = nameInput.value.trim();
@@ -1535,19 +1540,19 @@
 
         // Stage definitions - both languages
         const stagesEN = {
-            0: { name: "Starter", problem: "No foundation", nextMove: "Learn fundamentals", aiRole: "AI as Teacher" },
-            1: { name: "Practitioner", problem: "No confidence", nextMove: "Build patterns", aiRole: "AI as Assistant" },
-            2: { name: "Professional", problem: "No direction", nextMove: "Find your edge", aiRole: "AI as Accelerator" },
-            3: { name: "Leader", problem: "No scale", nextMove: "Multiply impact", aiRole: "AI as Multiplier" },
-            4: { name: "Industry", problem: "Staying relevant", nextMove: "Shape the future", aiRole: "AI as Partner" }
+            0: { name: "Starter", problem: "Lack of foundational testing knowledge makes it hard to know where to begin.", nextMove: "Focus on learning core testing fundamentals like test design techniques and defect reporting.", aiRole: "Use AI as a Teacher to explain testing concepts, terminology, and basic techniques." },
+            1: { name: "Practitioner", problem: "Struggling with confidence when applying testing techniques in real-world scenarios.", nextMove: "Start building consistent testing patterns and practice writing automated tests.", aiRole: "Use AI as an Assistant to help generate test cases and explain complex code." },
+            2: { name: "Professional", problem: "Feeling stuck in daily execution without a clear direction for specialized career growth.", nextMove: "Find your technical edge by specializing in areas like automation, performance, or security.", aiRole: "Use AI as an Accelerator to speed up your automation scripts and improve code quality." },
+            3: { name: "Leader", problem: "Having a limited impact that is confined only to your immediate team or project.", nextMove: "Multiply your impact by mentoring others and leading quality initiatives across the organization.", aiRole: "Use AI as a Multiplier to build quality frameworks, analyze metrics, and optimize processes." },
+            4: { name: "Industry", problem: "The challenge of staying relevant and continuously adapting to fast-paced industry changes.", nextMove: "Shape the future by establishing innovative practices and sharing knowledge with the community.", aiRole: "Use AI as a Partner to explore emerging technologies and design next-generation testing strategies." }
         };
 
         const stagesID = {
-            0: { name: "Starter", problem: "Belum ada fondasi", nextMove: "Pelajari dasar-dasar", aiRole: "AI sebagai Guru" },
-            1: { name: "Practitioner", problem: "Kurang percaya diri", nextMove: "Bangun pola kerja", aiRole: "AI sebagai Asisten" },
-            2: { name: "Professional", problem: "Tidak ada arah", nextMove: "Temukan keunggulanmu", aiRole: "AI sebagai Akselerator" },
-            3: { name: "Leader", problem: "Dampak terbatas", nextMove: "Perbesar dampak", aiRole: "AI sebagai Multiplier" },
-            4: { name: "Industry", problem: "Tetap relevan", nextMove: "Bentuk masa depan", aiRole: "AI sebagai Partner" }
+            0: { name: "Starter", problem: "Kurangnya pengetahuan dasar testing membuatmu bingung harus mulai dari mana.", nextMove: "Fokus mempelajari dasar-dasar testing seperti teknik desain test dan pelaporan defect.", aiRole: "Gunakan AI sebagai Guru untuk menjelaskan konsep, terminologi, dan teknik dasar testing." },
+            1: { name: "Practitioner", problem: "Kurang percaya diri saat menerapkan teknik testing dalam skenario dunia nyata.", nextMove: "Mulai bangun pola kerja testing yang konsisten dan praktikkan penulisan automated test.", aiRole: "Gunakan AI sebagai Asisten untuk membantu membuat test case dan menjelaskan kode yang kompleks." },
+            2: { name: "Professional", problem: "Merasa terjebak dalam rutinitas eksekusi tanpa arah yang jelas untuk spesialisasi karir.", nextMove: "Temukan keunggulanmu dengan mendalami spesialisasi seperti automation, performance, atau security.", aiRole: "Gunakan AI sebagai Akselerator untuk mempercepat pembuatan script automation dan meningkatkan kualitas kode." },
+            3: { name: "Leader", problem: "Dampak yang kamu berikan masih terbatas hanya pada tim atau proyekmu sendiri.", nextMove: "Perbesar dampakmu dengan membimbing tim lain dan memimpin inisiatif kualitas di seluruh organisasi.", aiRole: "Gunakan AI sebagai Multiplier untuk membangun framework kualitas, menganalisis metrik, dan mengoptimalkan proses." },
+            4: { name: "Industry", problem: "Tantangan untuk tetap relevan dan terus beradaptasi dengan perubahan industri yang serba cepat.", nextMove: "Bentuk masa depan dengan menciptakan praktik inovatif dan berbagi pengetahuan dengan komunitas.", aiRole: "Gunakan AI sebagai Partner untuk mengeksplorasi teknologi baru dan merancang strategi testing masa depan." }
         };
 
         // State
