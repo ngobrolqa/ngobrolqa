@@ -1682,6 +1682,7 @@
             document.getElementById('startSection').classList.remove('active');
             document.getElementById('assessmentSection').classList.add('active');
             renderQuestion();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function renderQuestion() {
@@ -1942,11 +1943,11 @@
 
             if (currentLang === 'en') {
                 if (results.overallStage <= 1) {
-                    recs.push({ icon: "📖", text: "Get ISTQB CTFL certified" });
+                    recs.push({ icon: "📖", text: 'Get <a href="https://idstb.org/exam-lists/" target="_blank" style="color: #0f766e; text-decoration: underline;">ISTQB CTFL</a> certified' });
                     recs.push({ icon: "🤖", text: "Use AI to learn testing concepts" });
                 } else if (results.overallStage === 2) {
                     recs.push({ icon: "🎯", text: "Choose a specialization path" });
-                    recs.push({ icon: "📜", text: "Consider CT-AI or CT-GenAI cert" });
+                    recs.push({ icon: "📜", text: 'Consider <a href="https://idstb.org/exam-lists/" target="_blank" style="color: #0f766e; text-decoration: underline;">CT-AI or CT-GenAI</a> cert' });
                 } else {
                     recs.push({ icon: "👥", text: "Mentor others, multiply impact" });
                     recs.push({ icon: "🎤", text: "Share knowledge at meetups" });
@@ -1960,11 +1961,11 @@
                 if (weakest[1] < 2) recs.push({ icon: "⚡", text: dimRecs[weakest[0]] });
             } else {
                 if (results.overallStage <= 1) {
-                    recs.push({ icon: "📖", text: "Ambil sertifikasi ISTQB CTFL" });
+                    recs.push({ icon: "📖", text: 'Ambil sertifikasi <a href="https://idstb.org/exam-lists/" target="_blank" style="color: #0f766e; text-decoration: underline;">ISTQB CTFL</a>' });
                     recs.push({ icon: "🤖", text: "Gunakan AI untuk belajar testing" });
                 } else if (results.overallStage === 2) {
                     recs.push({ icon: "🎯", text: "Pilih jalur spesialisasi" });
-                    recs.push({ icon: "📜", text: "Pertimbangkan CT-AI/CT-GenAI" });
+                    recs.push({ icon: "📜", text: 'Pertimbangkan cert <a href="https://idstb.org/exam-lists/" target="_blank" style="color: #0f766e; text-decoration: underline;">CT-AI/CT-GenAI</a>' });
                 } else {
                     recs.push({ icon: "👥", text: "Bimbing orang lain, perbesar dampak" });
                     recs.push({ icon: "🎤", text: "Berbagi di meetup/konferensi" });
