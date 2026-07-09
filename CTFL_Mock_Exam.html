@@ -223,8 +223,22 @@
             <p class="tagline">Practice for the ISTQB® CTFL v4.0 exam — 40 questions, 60 minutes, 65% to pass</p>
         </div>
 
+        <!-- Password Gate -->
+        <div id="gateSection" class="exam-section active">
+            <div class="user-form">
+                <h3>🔒 Team preview</h3>
+                <p>This page is only for the NgobrolQA team right now. Enter the password to continue.</p>
+                <div class="form-group" style="max-width: 400px; margin: 0 auto 1rem;">
+                    <label for="gatePassword">Password</label>
+                    <input type="password" id="gatePassword" placeholder="Enter password" onkeydown="if(event.key==='Enter') checkGate()">
+                </div>
+                <button class="btn btn-primary" id="gateBtn" onclick="checkGate()" style="margin: 1rem auto 0;">Unlock →</button>
+                <p id="gateError" class="error-text" style="color: #fecaca;"></p>
+            </div>
+        </div>
+
         <!-- Register -->
-        <div id="registerSection" class="exam-section active">
+        <div id="registerSection" class="exam-section">
             <div class="user-form">
                 <h3>🎯 Let's get started</h3>
                 <p>Enter your details to begin practicing</p>
@@ -325,6 +339,32 @@
         const EXAM_SECONDS = 60 * 60;
         const PASS_PERCENTAGE = 65;
 
+        // Team-only preview gate. NOTE: visible in page source, this is a soft
+        // gate to keep casual public visitors out, not real access control —
+        // Code.gs checks the same password server-side for the actual API calls.
+        const GATE_PASSWORD = 'Jakarta2026';
+
+        function checkGate() {
+            const input = document.getElementById('gatePassword');
+            const errorEl = document.getElementById('gateError');
+            if (input.value === GATE_PASSWORD) {
+                localStorage.setItem('ctfl_gate_passed', 'true');
+                errorEl.style.display = 'none';
+                enterApp();
+            } else {
+                errorEl.textContent = 'Incorrect password.';
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function enterApp() {
+            if (user) {
+                loadQuestions().then(() => showSection('pickerSection'));
+            } else {
+                showSection('registerSection');
+            }
+        }
+
         let user = JSON.parse(localStorage.getItem('ctfl_user') || 'null');
         let allQuestions = [];
         let questionsByLO = {};
@@ -349,7 +389,7 @@
             const res = await fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(Object.assign({ action: action }, payload)),
+                body: JSON.stringify(Object.assign({ action: action, password: GATE_PASSWORD }, payload)),
             });
             const data = await res.json();
             if (data.error) throw new Error(data.error);
@@ -574,9 +614,10 @@
             if (examVisible && !examSubmitted) { e.preventDefault(); e.returnValue = ''; }
         });
 
-        // Skip straight to the picker if we already know who this browser is.
-        if (user) {
-            loadQuestions().then(() => showSection('pickerSection'));
+        // If this browser already passed the gate, skip straight past it
+        // (and further to the picker if we already know who they are).
+        if (localStorage.getItem('ctfl_gate_passed') === 'true') {
+            enterApp();
         }
     </script>
 </body>
