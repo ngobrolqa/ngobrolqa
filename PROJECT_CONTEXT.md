@@ -40,6 +40,7 @@ Use this document to onboard quickly into the NgobrolQA project. It covers the w
 | `QA_Learning_Plan.html` | ngobrolqa.com/QA_Learning_Plan | Curated learning paths by persona and stage |
 | `QA_Consult.html` | ngobrolqa.com/QA_Consult | Consultation page for individual/company QA challenges |
 | `QA_Career_Compounding.html` | ngobrolqa.com/QA_Career_Compounding | NgobrolQA Career Compounding Theory (article-style page) |
+| `CTFL_Mock_Exam.html` | ngobrolqa.com/CTFL_Mock_Exam | ISTQB CTFL v4.0 mock exam: register, pick a sample set (A-D) or a random mix, timed 40-question exam, instant scoring + review, team leaderboard |
 
 ### User Journey (intended flow)
 
@@ -58,6 +59,8 @@ Career Compounding Theory (accessible via Insights section on homepage
 | `CNAME` | GitHub Pages custom domain config (contains: `ngobrolqa.com`) |
 | `docs/` | Early framework drafts (Markdown): `Framework_Complete.md`, `Framework_Draft.md`, `Self_Assessment_Detailed.md` |
 | `_archive/` | Old v1 framework files |
+| `ctfl-exam/data/questions.json` | Static question bank for `CTFL_Mock_Exam.html` (question text/options only, no answers — answer key lives only in the Apps Script backend) |
+| `ctfl-exam/apps-script/` | `Code.gs` (backend: register/grade/leaderboard via a Google Sheet) + deployment `README.md` |
 
 ---
 
@@ -119,6 +122,12 @@ Both forms submit to the same Google Sheet but different tabs:
    - Deployed URL: `https://script.google.com/macros/s/AKfycbzzq3z8Pfe4sbP2vv4byxRP5tIrWBweE9EKaJewiNcaJVL6xrZsn--Ddo9pve1DNDsgug/exec`
    - Targets "Consult" tab
    - Includes reCAPTCHA server-side verification
+
+3. **NgobrolQA-CTFL-Exam** (for `CTFL_Mock_Exam.html`) — source kept in-repo at `ctfl-exam/apps-script/Code.gs`
+   - Deployed URL: _not yet deployed — see `ctfl-exam/apps-script/README.md`_
+   - Targets "CTFL_Registrations" and "CTFL_Results" tabs (auto-created)
+   - Holds the private answer key server-side; grades submissions and serves the leaderboard
+   - No reCAPTCHA (low-stakes internal practice tool, not a public lead-gen form)
 
 ### reCAPTCHA v2 (Checkbox)
 
