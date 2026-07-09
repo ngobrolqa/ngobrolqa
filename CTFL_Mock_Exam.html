@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTFL Mock Exam - NgobrolQA</title>
+
+    <meta name="author" content="Aditya Mirza Bahari">
+    <meta name="description" content="Free ISTQB CTFL v4.0 mock exam. 40 questions, 60 minutes, instant scoring and review, team leaderboard.">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0d9488;
+            --primary-dark: #0f766e;
+            --primary-light: #5eead4;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --danger: #dc2626;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        nav {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .nav-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: white; }
+        .nav-brand img { height: 40px; border-radius: 8px; }
+        .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links a { color: rgba(255,255,255,0.9); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s; }
+        .nav-links a:hover { color: white; }
+        .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
+        .nav-cta {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white !important;
+            padding: 0.6rem 1.25rem;
+            border-radius: 25px;
+            font-weight: 600;
+            border: none;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; padding: 0.5rem; z-index: 1001; }
+        .hamburger span { width: 25px; height: 3px; background: white; margin: 3px 0; border-radius: 3px; transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+        .mobile-menu {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            z-index: 1000; flex-direction: column; justify-content: center; align-items: center; gap: 2rem;
+            opacity: 0; visibility: hidden; transition: all 0.3s;
+        }
+        .mobile-menu.active { opacity: 1; visibility: visible; }
+        .mobile-menu a { color: white; text-decoration: none; font-size: 1.5rem; font-weight: 600; padding: 0.75rem 2rem; transition: all 0.2s; }
+        .mobile-menu a:hover, .mobile-menu a.active { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .mobile-menu .nav-cta { font-size: 1.25rem; padding: 1rem 2rem; margin-top: 1rem; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+
+        .header { text-align: center; padding: 2rem 0; }
+        .header-emoji { font-size: 3rem; margin-bottom: 1rem; display: block; }
+        .header h1 {
+            font-size: 2.25rem; font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        .header .tagline { font-size: 1.1rem; color: var(--text-muted); }
+
+        .exam-section { display: none; }
+        .exam-section.active { display: block; }
+
+        .card { background: var(--card); border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 1.5rem; }
+
+        .user-form {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 2rem; border-radius: 20px; margin: 1rem 0; color: white; text-align: center;
+        }
+        .user-form h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .user-form > p { opacity: 0.9; margin-bottom: 1.5rem; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 500px; margin: 0 auto 1rem; }
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+        .form-group { text-align: left; margin-bottom: 1rem; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .form-group .required { color: #fbbf24; }
+        .form-group .optional { opacity: 0.7; font-weight: 400; }
+        .form-group input {
+            width: 100%; padding: 0.75rem 1rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 10px;
+            background: rgba(255,255,255,0.1); color: white; font-size: 1rem; transition: all 0.2s;
+        }
+        .form-group input::placeholder { color: rgba(255,255,255,0.5); }
+        .form-group input:focus { outline: none; border-color: white; background: rgba(255,255,255,0.2); }
+        .user-form .btn-primary { background: white; color: var(--primary-dark); }
+        .user-form .btn-primary:hover { background: #f0fdfa; }
+
+        .btn {
+            padding: 1rem 2rem; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer;
+            transition: all 0.2s ease; border: none; display: inline-flex; align-items: center; gap: 0.5rem;
+            text-decoration: none;
+        }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--border); }
+        .btn-block { width: 100%; justify-content: center; }
+
+        .error-text { color: var(--danger); font-size: 0.9rem; margin-top: 0.75rem; display: none; }
+
+        .exam-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+        .exam-card {
+            background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem;
+            transition: all 0.2s;
+        }
+        .exam-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(13,148,136,0.12); border-color: var(--primary); }
+        .exam-card.random { background: linear-gradient(135deg, var(--secondary), #4f46e5); color: white; border: none; }
+        .exam-card.random p { color: rgba(255,255,255,0.85); }
+        .exam-card h3 { font-size: 1.15rem; margin-bottom: 0.4rem; }
+        .exam-card p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem; }
+
+        .timer-bar {
+            position: sticky; top: 0; z-index: 50; background: var(--card); border-bottom: 1px solid var(--border);
+            padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center;
+            font-weight: 700; font-size: 1.05rem;
+        }
+        .timer-bar.warning { color: var(--danger); }
+        .progress-text { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; }
+
+        .question-block { margin-bottom: 1rem; }
+        .question-block .q-head { font-weight: 600; margin-bottom: 0.75rem; }
+        .question-block p.stem { margin-bottom: 0.75rem; }
+        .option-row {
+            display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.7rem 0.9rem; border-radius: 10px;
+            margin-bottom: 0.5rem; border: 1px solid var(--border); cursor: pointer; transition: all 0.15s;
+        }
+        .option-row:hover { background: var(--bg); border-color: var(--primary); }
+        .option-row input { margin-top: 3px; }
+
+        .score-big { font-size: 3rem; font-weight: 800; color: var(--primary-dark); }
+        .badge { display: inline-block; padding: 0.3rem 1rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700; }
+        .badge.pass { background: #dcfce7; color: #16a34a; }
+        .badge.fail { background: #fee2e2; color: var(--danger); }
+
+        .review-item { border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
+        .review-item.correct { border-color: #bbf7d0; background: #f0fdf4; }
+        .review-item.incorrect { border-color: #fecaca; background: #fef2f2; }
+
+        table.leaderboard { width: 100%; border-collapse: collapse; }
+        table.leaderboard th, table.leaderboard td { text-align: left; padding: 0.7rem 0.5rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        table.leaderboard th { color: var(--text-muted); font-weight: 600; }
+
+        footer { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 2rem; text-align: center; margin-top: 2rem; }
+        footer a { color: white; text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.75rem; }
+            .container { padding: 1rem; }
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu { display: flex; }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="QA_Skill_Framework.html">Framework</a>
+        <a href="QA_Self_Assessment.html">Assessment</a>
+        <a href="QA_Learning_Plan.html">Learning</a>
+        <a href="QA_Consult.html">Consult</a>
+        <a href="CTFL_Mock_Exam.html" class="active">CTFL Exam</a>
+        <a href="QA_Self_Assessment.html" class="nav-cta">Free Assessment</a>
+    </div>
+
+    <nav>
+        <div class="nav-content">
+            <a href="index.html" class="nav-brand">
+                <img src="ngobrolqa-logo.png" alt="NgobrolQA" onerror="this.style.display='none'">
+                <span>NgobrolQA</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="QA_Skill_Framework.html">Framework</a>
+                <a href="QA_Self_Assessment.html">Assessment</a>
+                <a href="QA_Learning_Plan.html">Learning</a>
+                <a href="QA_Consult.html">Consult</a>
+                <a href="CTFL_Mock_Exam.html" class="active">CTFL Exam</a>
+                <a href="QA_Self_Assessment.html" class="nav-cta">Free Assessment</a>
+            </div>
+            <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <span class="header-emoji">📝</span>
+            <h1>CTFL Mock Exam</h1>
+            <p class="tagline">Practice for the ISTQB® CTFL v4.0 exam — 40 questions, 60 minutes, 65% to pass</p>
+        </div>
+
+        <!-- Register -->
+        <div id="registerSection" class="exam-section active">
+            <div class="user-form">
+                <h3>🎯 Let's get started</h3>
+                <p>Enter your details to begin practicing</p>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="regName">Full Name <span class="required">*</span></label>
+                        <input type="text" id="regName" placeholder="e.g. Aditya Mirza Bahari" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="regPhone">Phone <span class="optional">(optional)</span></label>
+                        <input type="text" id="regPhone" placeholder="e.g. 0812xxxxxxx">
+                    </div>
+                </div>
+                <div class="form-group" style="max-width: 500px; margin: 0 auto 1rem;">
+                    <label for="regEmail">Email <span class="required">*</span></label>
+                    <input type="email" id="regEmail" placeholder="your@email.com" required>
+                </div>
+                <button class="btn btn-primary" id="registerBtn" onclick="submitRegister()" style="margin: 1rem auto 0;">Continue →</button>
+                <p id="registerError" class="error-text" style="color: #fecaca;"></p>
+            </div>
+        </div>
+
+        <!-- Picker -->
+        <div id="pickerSection" class="exam-section">
+            <div class="card">
+                <h2 style="margin-bottom: 0.5rem;">Choose an exam set</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1.25rem;">Each set has 40 questions covering the full CTFL syllabus.</p>
+                <div class="exam-grid">
+                    <div class="exam-card"><h3>Sample Exam A</h3><p>40 questions · 40 points</p><button class="btn btn-secondary btn-block" onclick="startExam('A')">Start</button></div>
+                    <div class="exam-card"><h3>Sample Exam B</h3><p>40 questions · 40 points</p><button class="btn btn-secondary btn-block" onclick="startExam('B')">Start</button></div>
+                    <div class="exam-card"><h3>Sample Exam C</h3><p>40 questions · 40 points</p><button class="btn btn-secondary btn-block" onclick="startExam('C')">Start</button></div>
+                    <div class="exam-card"><h3>Sample Exam D</h3><p>40 questions · 40 points</p><button class="btn btn-secondary btn-block" onclick="startExam('D')">Start</button></div>
+                    <div class="exam-card random"><h3>🎲 Random Mix</h3><p>Fresh 40-question mix from all sets, every time</p><button class="btn btn-primary btn-block" onclick="startExam('RANDOM')">Start</button></div>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <a href="#" class="btn btn-secondary" onclick="showLeaderboard(); return false;">🏆 View Leaderboard</a>
+            </div>
+        </div>
+
+        <!-- Exam -->
+        <div id="examSection" class="exam-section">
+            <div class="timer-bar" id="timerBar">
+                <span id="timerLabel">Loading...</span>
+                <span class="progress-text" id="progressLabel"></span>
+            </div>
+            <div id="questionsContainer" class="card">Loading exam...</div>
+            <button class="btn btn-primary btn-block" id="submitExamBtn" onclick="confirmSubmitExam()">Submit Exam</button>
+        </div>
+
+        <!-- Result -->
+        <div id="resultSection" class="exam-section">
+            <div class="card" id="resultSummary"></div>
+            <div class="card">
+                <h2 style="margin-bottom: 1rem;">Answer review</h2>
+                <div id="reviewList"></div>
+            </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div id="leaderboardSection" class="exam-section">
+            <div class="card">
+                <h2 style="margin-bottom: 0.5rem;">🏆 Leaderboard</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1.25rem;">Best attempt per person, across all exam sets.</p>
+                <div style="overflow-x: auto;">
+                    <table class="leaderboard">
+                        <thead><tr><th>#</th><th>Name</th><th>Set</th><th>Score</th><th>%</th><th>Result</th></tr></thead>
+                        <tbody id="leaderboardBody"></tbody>
+                    </table>
+                </div>
+                <button class="btn btn-secondary" style="margin-top: 1.25rem;" onclick="showPicker()">← Back to exams</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Aditya Mirza Bahari. All Rights Reserved.</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">
+            <a href="https://id.linkedin.com/in/adityamirzabahari" target="_blank">LinkedIn</a> •
+            <a href="https://www.instagram.com/ngobrolqa/" target="_blank">Instagram</a> •
+            <a href="https://www.youtube.com/@ngobrolQA" target="_blank">YouTube</a> •
+            <a href="https://open.spotify.com/show/NgobrolQA" target="_blank">Podcast</a> •
+            <a href="https://idstb.org" target="_blank">IDSTB</a>
+        </p>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        // Paste the Apps Script /exec URL here after deploying ctfl-exam/apps-script/Code.gs
+        const APPS_SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE';
+        const EXAM_SECONDS = 60 * 60;
+        const PASS_PERCENTAGE = 65;
+
+        let user = JSON.parse(localStorage.getItem('ctfl_user') || 'null');
+        let allQuestions = [];
+        let questionsByLO = {};
+        let currentExamSet = '';
+        let currentQuestions = [];
+        let answers = {};
+        let secondsLeft = EXAM_SECONDS;
+        let startedAt = null;
+        let timerInterval = null;
+        let examSubmitted = false;
+
+        function showSection(id) {
+            document.querySelectorAll('.exam-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function showPicker() { showSection('pickerSection'); }
+
+        // Apps Script CORS trick: text/plain avoids the preflight OPTIONS request
+        // (which Apps Script doesn't handle), so we can still read the JSON response.
+        async function callApi(action, payload) {
+            const res = await fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(Object.assign({ action: action }, payload)),
+            });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            return data;
+        }
+
+        async function loadQuestions() {
+            if (allQuestions.length) return;
+            const res = await fetch('ctfl-exam/data/questions.json');
+            const data = await res.json();
+            allQuestions = data.questions;
+            questionsByLO = {};
+            allQuestions.forEach(q => {
+                (questionsByLO[q.learningObjective] = questionsByLO[q.learningObjective] || []).push(q);
+            });
+        }
+
+        function shuffled(array) {
+            const copy = array.slice();
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function buildRandomExam() {
+            const los = shuffled(Object.keys(questionsByLO)).slice(0, 40);
+            const picked = los.map(lo => {
+                const options = questionsByLO[lo];
+                return options[Math.floor(Math.random() * options.length)];
+            });
+            picked.sort((a, b) => a.learningObjective.localeCompare(b.learningObjective));
+            return picked;
+        }
+
+        async function submitRegister() {
+            const btn = document.getElementById('registerBtn');
+            const errorEl = document.getElementById('registerError');
+            errorEl.style.display = 'none';
+            const name = document.getElementById('regName').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            if (!name || !email) {
+                errorEl.textContent = 'Name and email are required.';
+                errorEl.style.display = 'block';
+                return;
+            }
+            btn.disabled = true;
+            btn.textContent = 'Please wait...';
+            try {
+                const data = await callApi('register', { name, email, phone });
+                user = { userId: data.userId, name: data.name, email: data.email };
+                localStorage.setItem('ctfl_user', JSON.stringify(user));
+                await loadQuestions();
+                showSection('pickerSection');
+            } catch (err) {
+                errorEl.textContent = err.message;
+                errorEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Continue →';
+            }
+        }
+
+        async function startExam(examSet) {
+            if (!user) { showSection('registerSection'); return; }
+            await loadQuestions();
+            currentExamSet = examSet;
+            currentQuestions = examSet === 'RANDOM' ? buildRandomExam() : allQuestions.filter(q => q.examSet === examSet).sort((a, b) => a.questionNumber - b.questionNumber);
+            answers = {};
+            examSubmitted = false;
+            secondsLeft = EXAM_SECONDS;
+            startedAt = new Date().toISOString();
+            renderQuestions();
+            updateProgress();
+            showSection('examSection');
+            clearInterval(timerInterval);
+            timerInterval = setInterval(tick, 1000);
+            document.getElementById('timerBar').classList.remove('warning');
+            document.getElementById('timerLabel').textContent = 'Time left: ' + formatTime(secondsLeft);
+        }
+
+        function optionRow(q, letter, label) {
+            const inputType = q.multiSelect ? 'checkbox' : 'radio';
+            const name = 'q-' + q.questionId;
+            return '<label class="option-row">' +
+                '<input type="' + inputType + '" name="' + name + '" value="' + letter + '" data-qid="' + q.questionId + '" data-multi="' + q.multiSelect + '">' +
+                '<span><strong>' + letter + ')</strong> ' + label + '</span></label>';
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = currentQuestions.map((q, idx) => {
+                const optsHtml = Object.entries(q.options).map(([letter, label]) => optionRow(q, letter, label)).join('');
+                const selectHint = q.multiSelect ? ' — Select TWO options' : ' — Select ONE option';
+                return '<div class="question-block">' +
+                    '<div class="q-head">Question ' + (idx + 1) + ' of ' + currentQuestions.length + ' (' + q.points + ' pt)' + selectHint + '</div>' +
+                    '<p class="stem">' + q.question + '</p>' + optsHtml + '</div>';
+            }).join('<hr style="border: none; border-top: 1px solid var(--border); margin: 1.25rem 0;">');
+
+            container.querySelectorAll('input').forEach(input => {
+                input.addEventListener('change', () => {
+                    const qid = input.dataset.qid;
+                    const isMulti = input.dataset.multi === 'true';
+                    if (isMulti) {
+                        const current = new Set((answers[qid] || '').split(',').filter(Boolean));
+                        if (input.checked) current.add(input.value); else current.delete(input.value);
+                        answers[qid] = Array.from(current).sort().join(',');
+                    } else {
+                        answers[qid] = input.value;
+                    }
+                    updateProgress();
+                });
+            });
+        }
+
+        function updateProgress() {
+            const answered = Object.keys(answers).filter(k => answers[k]).length;
+            document.getElementById('progressLabel').textContent = answered + ' / ' + currentQuestions.length + ' answered';
+        }
+
+        function formatTime(sec) {
+            const m = Math.floor(sec / 60).toString().padStart(2, '0');
+            const s = (sec % 60).toString().padStart(2, '0');
+            return m + ':' + s;
+        }
+
+        function tick() {
+            secondsLeft--;
+            document.getElementById('timerLabel').textContent = 'Time left: ' + formatTime(Math.max(secondsLeft, 0));
+            if (secondsLeft <= 300) document.getElementById('timerBar').classList.add('warning');
+            if (secondsLeft <= 0) { clearInterval(timerInterval); submitExam(true); }
+        }
+
+        function confirmSubmitExam() {
+            const answered = Object.keys(answers).filter(k => answers[k]).length;
+            const remaining = currentQuestions.length - answered;
+            const msg = remaining > 0 ? ('You have ' + remaining + ' unanswered question(s). Submit anyway?') : 'Submit your exam now?';
+            if (confirm(msg)) submitExam(false);
+        }
+
+        async function submitExam(timedOut) {
+            if (examSubmitted) return;
+            examSubmitted = true;
+            clearInterval(timerInterval);
+            const btn = document.getElementById('submitExamBtn');
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+            try {
+                const result = await callApi('submit', {
+                    userId: user.userId,
+                    name: user.name,
+                    email: user.email,
+                    examSet: currentExamSet,
+                    questionIds: currentQuestions.map(q => q.questionId),
+                    answers: answers,
+                    startedAt: startedAt,
+                    finishedAt: new Date().toISOString(),
+                });
+                renderResult(result, timedOut);
+                showSection('resultSection');
+            } catch (err) {
+                alert('Failed to submit: ' + err.message);
+                examSubmitted = false;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Submit Exam';
+            }
+        }
+
+        function renderResult(result, timedOut) {
+            const passed = result.passed;
+            const examLabel = currentExamSet === 'RANDOM' ? 'Random Mix' : ('Sample Exam ' + currentExamSet);
+            document.getElementById('resultSummary').innerHTML =
+                '<h2>' + examLabel + ' — Result</h2>' +
+                (timedOut ? '<p style="color: var(--danger);">Time ran out — exam was auto-submitted.</p>' : '') +
+                '<div class="score-big">' + result.score + ' / ' + result.totalPoints + '</div>' +
+                '<p class="progress-text">' + result.percentage + '% — needs ' + result.passPercentage + '% to pass</p>' +
+                '<span class="badge ' + (passed ? 'pass' : 'fail') + '">' + (passed ? 'PASS' : 'FAIL') + '</span>' +
+                '<div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">' +
+                '<button class="btn btn-primary" onclick="showPicker()">Try another set</button>' +
+                '<button class="btn btn-secondary" onclick="showLeaderboard()">View leaderboard</button></div>';
+
+            const questionById = {};
+            currentQuestions.forEach(q => { questionById[q.questionId] = q; });
+
+            document.getElementById('reviewList').innerHTML = result.review.map(r => {
+                const q = questionById[r.questionId];
+                const optsHtml = Object.entries(q.options).map(([letter, label]) => '<div>' + letter + ') ' + label + '</div>').join('');
+                return '<div class="review-item ' + (r.isCorrect ? 'correct' : 'incorrect') + '">' +
+                    '<div class="q-head">Q' + q.questionNumber + '. ' + q.question + '</div>' + optsHtml +
+                    '<p style="margin-top: 0.5rem;"><strong>Your answer:</strong> ' + (r.yourAnswer ? r.yourAnswer.toUpperCase() : '(none)') +
+                    ' &nbsp;|&nbsp; <strong>Correct answer:</strong> ' + r.correctAnswer.toUpperCase() +
+                    ' (' + (r.isCorrect ? 'Correct' : 'Incorrect') + ')</p></div>';
+            }).join('');
+        }
+
+        async function showLeaderboard() {
+            showSection('leaderboardSection');
+            const body = document.getElementById('leaderboardBody');
+            body.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
+            try {
+                const data = await callApi('leaderboard', {});
+                const rows = data.leaderboard;
+                if (!rows.length) {
+                    body.innerHTML = '<tr><td colspan="6">No attempts yet. Be the first!</td></tr>';
+                    return;
+                }
+                body.innerHTML = rows.map((row, idx) =>
+                    '<tr><td>' + (idx + 1) + '</td><td>' + row.name + '</td><td>' + (row.examSet === 'RANDOM' ? 'Mix' : row.examSet) + '</td>' +
+                    '<td>' + row.score + ' / ' + row.totalPoints + '</td><td>' + row.percentage + '%</td>' +
+                    '<td><span class="badge ' + (row.passed ? 'pass' : 'fail') + '">' + (row.passed ? 'PASS' : 'FAIL') + '</span></td></tr>'
+                ).join('');
+            } catch (err) {
+                body.innerHTML = '<tr><td colspan="6">Failed to load: ' + err.message + '</td></tr>';
+            }
+        }
+
+        window.addEventListener('beforeunload', (e) => {
+            const examVisible = document.getElementById('examSection').classList.contains('active');
+            if (examVisible && !examSubmitted) { e.preventDefault(); e.returnValue = ''; }
+        });
+
+        // Skip straight to the picker if we already know who this browser is.
+        if (user) {
+            loadQuestions().then(() => showSection('pickerSection'));
+        }
+    </script>
+</body>
+</html>
