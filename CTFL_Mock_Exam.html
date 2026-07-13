@@ -142,9 +142,12 @@
         .exam-card p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem; }
 
         .timer-bar {
-            position: sticky; top: 0; z-index: 50; background: var(--card); border-bottom: 1px solid var(--border);
+            /* Docks directly under the site nav (also sticky, z-index 100) rather than
+               overlapping it — --nav-height is measured and set in JS on load/resize. */
+            position: sticky; top: var(--nav-height, 64px); z-index: 90; background: var(--card);
+            border-bottom: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             padding: 0.75rem 1.5rem; display: flex; justify-content: space-between; align-items: center;
-            font-weight: 700; font-size: 1.05rem;
+            font-weight: 700; font-size: 1.05rem; margin: 0 -2rem 1rem;
         }
         .timer-bar.warning { color: var(--danger); }
         .progress-text { color: var(--text-muted); font-size: 0.85rem; font-weight: 500; }
@@ -204,6 +207,7 @@
             .nav-links { display: none; }
             .hamburger { display: flex; }
             .mobile-menu { display: flex; }
+            .timer-bar { margin: 0 -1rem 1rem; padding: 0.75rem 1rem; }
         }
     </style>
 </head>
@@ -356,6 +360,16 @@
             mobileMenu.classList.toggle('active');
             document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
         }
+
+        // Keep the exam timer bar's sticky offset in sync with the nav's real
+        // height (it changes across the mobile breakpoint) so the timer docks
+        // right below the nav instead of guessing a fixed pixel value.
+        function updateNavHeight() {
+            const nav = document.querySelector('nav');
+            if (nav) document.documentElement.style.setProperty('--nav-height', nav.offsetHeight + 'px');
+        }
+        updateNavHeight();
+        window.addEventListener('resize', updateNavHeight);
 
         // Paste the Apps Script /exec URL here after deploying ctfl-exam/apps-script/Code.gs
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzq55gjVwckD9mzKKl0vy1G_4pHYgQ5jad-tZ21b1Ve6azWx4zBy2CXoj2u969nhf2aSw/exec';
