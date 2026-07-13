@@ -190,6 +190,16 @@
         .badge.pass { background: #dcfce7; color: #16a34a; }
         .badge.fail { background: #fee2e2; color: var(--danger); }
 
+        .result-cert { text-align: center; padding: 0.5rem 0 1rem; }
+        .result-cert-title { font-size: 1.9rem; font-weight: 800; margin-bottom: 1rem; }
+        .result-cert-title.pass { color: var(--success); }
+        .result-cert-title.fail { color: var(--accent); }
+        .result-cert-name {
+            font-size: 1.7rem; font-weight: 700; color: var(--text); margin-bottom: 0.25rem;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+        .result-cert-sub { color: var(--text-muted); margin-bottom: 1.25rem; }
+
         .review-item { border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
         .review-item.correct { border-color: #bbf7d0; background: #f0fdf4; }
         .review-item.incorrect { border-color: #fecaca; background: #fef2f2; }
@@ -617,16 +627,21 @@
         function renderResult(result, timedOut) {
             const passed = result.passed;
             const examLabel = currentExamSet === 'RANDOM' ? 'Random Mix' : ('Sample Exam ' + currentExamSet);
+            const title = passed ? 'Congratulations!' : 'Keep Practicing!';
+            const verb = passed ? 'has successfully passed' : 'has completed';
             document.getElementById('resultSummary').innerHTML =
-                '<h2>' + examLabel + ' — Result</h2>' +
-                '<p class="progress-text" style="margin-bottom: 0.75rem;">' + escapeHtml(user.name) + '</p>' +
+                '<div class="result-cert">' +
+                '<div class="result-cert-title ' + (passed ? 'pass' : 'fail') + '">' + title + '</div>' +
+                '<div class="result-cert-name">' + escapeHtml(user.name) + '</div>' +
+                '<p class="result-cert-sub">' + verb + ' the <strong>' + examLabel + '</strong> mock exam</p>' +
                 (timedOut ? '<p style="color: var(--danger);">Time ran out — exam was auto-submitted.</p>' : '') +
                 '<div class="score-big">' + result.score + ' / ' + result.totalPoints + '</div>' +
                 '<p class="progress-text">' + result.percentage + '% — needs ' + result.passPercentage + '% to pass</p>' +
                 '<span class="badge ' + (passed ? 'pass' : 'fail') + '">' + (passed ? 'PASS' : 'FAIL') + '</span>' +
-                '<div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap;">' +
+                '<div style="margin-top: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">' +
                 '<button class="btn btn-primary" onclick="showPicker()">Try another set</button>' +
-                '<button class="btn btn-secondary" onclick="showLeaderboard()">View leaderboard</button></div>';
+                '<button class="btn btn-secondary" onclick="showLeaderboard()">View leaderboard</button></div>' +
+                '</div>';
 
             const questionById = {};
             currentQuestions.forEach(q => { questionById[q.questionId] = q; });
