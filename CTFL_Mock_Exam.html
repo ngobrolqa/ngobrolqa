@@ -151,7 +151,19 @@
 
         .question-block { margin-bottom: 1rem; }
         .question-block .q-head { font-weight: 600; margin-bottom: 0.75rem; }
-        .question-block p.stem { margin-bottom: 0.75rem; }
+        .stem { margin-bottom: 0.75rem; }
+        .stem p { margin-bottom: 0.6rem; }
+        .stem ul, .stem ol { margin: 0 0 0.75rem 1.5rem; padding: 0; }
+        .stem li { margin-bottom: 0.3rem; }
+        .stem pre {
+            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+            padding: 0.75rem 1rem; margin: 0 0 0.75rem; overflow-x: auto;
+            font-size: 0.82rem; line-height: 1.5; font-family: 'SF Mono', Menlo, Consolas, monospace;
+        }
+        .stem img.question-diagram {
+            display: block; max-width: 100%; margin: 0.5rem 0 1rem; border: 1px solid var(--border);
+            border-radius: 8px; background: #fff; padding: 0.75rem;
+        }
         .option-row {
             display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.7rem 0.9rem; border-radius: 10px;
             margin-bottom: 0.5rem; border: 1px solid var(--border); cursor: pointer; transition: all 0.15s;
@@ -401,6 +413,12 @@
             const res = await fetch('ctfl-exam/data/questions.json');
             const data = await res.json();
             allQuestions = data.questions;
+            // Question HTML carries an __IMAGE_BASE__ placeholder for diagram images
+            // since the same questions.json is also used by a local prototype with a
+            // different relative image path — swap in this page's real path once here.
+            allQuestions.forEach(q => {
+                q.question = q.question.replaceAll('__IMAGE_BASE__', 'ctfl-exam/data/images');
+            });
             questionsByLO = {};
             allQuestions.forEach(q => {
                 (questionsByLO[q.learningObjective] = questionsByLO[q.learningObjective] || []).push(q);
@@ -488,7 +506,7 @@
                 const selectHint = q.multiSelect ? ' — Select TWO options' : ' — Select ONE option';
                 return '<div class="question-block">' +
                     '<div class="q-head">Question ' + (idx + 1) + ' of ' + currentQuestions.length + ' (' + q.points + ' pt)' + selectHint + '</div>' +
-                    '<p class="stem">' + q.question + '</p>' + optsHtml + '</div>';
+                    '<div class="stem">' + q.question + '</div>' + optsHtml + '</div>';
             }).join('<hr style="border: none; border-top: 1px solid var(--border); margin: 1.25rem 0;">');
 
             container.querySelectorAll('input').forEach(input => {
@@ -581,7 +599,8 @@
                 const q = questionById[r.questionId];
                 const optsHtml = Object.entries(q.options).map(([letter, label]) => '<div>' + letter + ') ' + label + '</div>').join('');
                 return '<div class="review-item ' + (r.isCorrect ? 'correct' : 'incorrect') + '">' +
-                    '<div class="q-head">Q' + q.questionNumber + '. ' + q.question + '</div>' + optsHtml +
+                    '<div class="q-head">Question ' + q.questionNumber + '</div>' +
+                    '<div class="stem">' + q.question + '</div>' + optsHtml +
                     '<p style="margin-top: 0.5rem;"><strong>Your answer:</strong> ' + (r.yourAnswer ? r.yourAnswer.toUpperCase() : '(none)') +
                     ' &nbsp;|&nbsp; <strong>Correct answer:</strong> ' + r.correctAnswer.toUpperCase() +
                     ' (' + (r.isCorrect ? 'Correct' : 'Incorrect') + ')</p></div>';
