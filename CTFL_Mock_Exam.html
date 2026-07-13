@@ -416,6 +416,10 @@
         function showSection(id) {
             document.querySelectorAll('.exam-section').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
+            // Every section switch (submit -> result, picker -> exam, etc.) should
+            // start at the top rather than wherever the previous section happened
+            // to be scrolled to.
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function showPicker() { showSection('pickerSection'); }
@@ -448,6 +452,12 @@
             allQuestions.forEach(q => {
                 (questionsByLO[q.learningObjective] = questionsByLO[q.learningObjective] || []).push(q);
             });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         function shuffled(array) {
@@ -609,6 +619,7 @@
             const examLabel = currentExamSet === 'RANDOM' ? 'Random Mix' : ('Sample Exam ' + currentExamSet);
             document.getElementById('resultSummary').innerHTML =
                 '<h2>' + examLabel + ' — Result</h2>' +
+                '<p class="progress-text" style="margin-bottom: 0.75rem;">' + escapeHtml(user.name) + '</p>' +
                 (timedOut ? '<p style="color: var(--danger);">Time ran out — exam was auto-submitted.</p>' : '') +
                 '<div class="score-big">' + result.score + ' / ' + result.totalPoints + '</div>' +
                 '<p class="progress-text">' + result.percentage + '% — needs ' + result.passPercentage + '% to pass</p>' +
