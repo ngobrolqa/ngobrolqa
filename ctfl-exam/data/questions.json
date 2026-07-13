@@ -69,7 +69,7 @@
       "examSet": "A",
       "questionNumber": 5,
       "points": 1,
-      "question": "<p>Which of the following factors have a SIGNIFICANT influence on the test approach?</p><pre>                i.       The SDLC\n               ii.       The number of defects detected in previous projects\n              iii.       The identified product risks\n              iv.        New regulatory requirements forcing formal white-box testing\n               v.        The test environment setup</pre>",
+      "question": "<p>Which of the following factors have a SIGNIFICANT influence on the test approach?</p><ol type=\"i\"><li>The SDLC</li><li>The number of defects detected in previous projects</li><li>The identified product risks</li><li>New regulatory requirements forcing formal white-box testing</li><li>The test environment setup</li></ol>",
       "options": {
         "a": "i, ii have significant influence",
         "b": "i, iii, iv have significant influence",
@@ -102,7 +102,7 @@
       "examSet": "A",
       "questionNumber": 7,
       "points": 1,
-      "question": "<p>Which of the following skills (i-v) are the MOST important skills of a tester?</p><pre>                i.       Having domain knowledge\n               ii.       Creating a product vision\n              iii.       Being a good team player\n              iv.        Planning and organizing the work of the team\n               v.        Critical thinking</pre>",
+      "question": "<p>Which of the following skills (i-v) are the MOST important skills of a tester?</p><ol type=\"i\"><li>Having domain knowledge</li><li>Creating a product vision</li><li>Being a good team player</li><li>Planning and organizing the work of the team</li><li>Critical thinking</li></ol>",
       "options": {
         "a": "ii and iv are important",
         "b": "i, iii and v are important",
@@ -214,7 +214,7 @@
       "examSet": "A",
       "questionNumber": 14,
       "points": 1,
-      "question": "<p>You are testing a user story with three acceptance criteria: AC1, AC2 and AC3. AC1 is covered by test case TC1, AC2 by TC2, and AC3 by TC3. The test execution history had three test runs on three consecutive versions of the software as follows:</p><pre>                                                         Execution 1    Execution 2    Execution 3\n                                       TC1                 (1) Failed    (4) Passed     (7) Passed\n                                       TC2                (2) Passed      (5) Failed    (8) Passed\n                                       TC3                 (3) Failed     (6) Failed    (9) Passed</pre><p>Tests are repeated once you are informed that all defects found in the test run are corrected and a new version of the software is available. Which of the above tests are executed as regression tests?</p>",
+      "question": "<p>You are testing a user story with three acceptance criteria: AC1, AC2 and AC3. AC1 is covered by test case TC1, AC2 by TC2, and AC3 by TC3. The test execution history had three test runs on three consecutive versions of the software as follows:</p><table class=\"stem-table\"><tr><th></th><th>Execution 1</th><th>Execution 2</th><th>Execution 3</th></tr><tr><td>TC1</td><td>(1) Failed</td><td>(4) Passed</td><td>(7) Passed</td></tr><tr><td>TC2</td><td>(2) Passed</td><td>(5) Failed</td><td>(8) Passed</td></tr><tr><td>TC3</td><td>(3) Failed</td><td>(6) Failed</td><td>(9) Passed</td></tr></table><p>Tests are repeated once you are informed that all defects found in the test run are corrected and a new version of the software is available. Which of the above tests are executed as regression tests?</p>",
       "options": {
         "a": "Only 4, 7, 8, 9",
         "b": "Only 5, 7",
@@ -326,7 +326,7 @@
       "examSet": "A",
       "questionNumber": 21,
       "points": 1,
-      "question": "<p>You are testing a system that calculates the final course grade for a given student.</p><p>The final grade is assigned based on the final result, according to the following rules:</p><ul><li>0 – 50 points: failed</li><li>51 – 60 points: fair</li><li>61 – 70 points: satisfactory</li><li>71 – 80 points: good</li><li>81 – 90 points: very good</li><li>91 – 100 points: excellent</li></ul><p>You have prepared the following set of test cases:</p><pre>                                     Final                  Final\n                                    result                  grade\n                  TC1                 91                  excellent\n                  TC2                 50                    failed\n                  TC3                 81                  very good\n                  TC4                 60                      fair\n                  TC5                 70                 satisfactory\n                  TC6                 80                    good</pre><p>What is the 2-value boundary value analysis (BVA) coverage for the final result that is achieved with the existing test cases?</p>",
+      "question": "<p>You are testing a system that calculates the final course grade for a given student.</p><p>The final grade is assigned based on the final result, according to the following rules:</p><ul><li>0 – 50 points: failed</li><li>51 – 60 points: fair</li><li>61 – 70 points: satisfactory</li><li>71 – 80 points: good</li><li>81 – 90 points: very good</li><li>91 – 100 points: excellent</li></ul><p>You have prepared the following set of test cases:</p><table class=\"stem-table\"><tr><th></th><th>Final</th><th>Final</th></tr><tr><th></th><th>result</th><th>grade</th></tr><tr><td>TC1</td><td>91</td><td>excellent</td></tr><tr><td>TC2</td><td>50</td><td>failed</td></tr><tr><td>TC3</td><td>81</td><td>very good</td></tr><tr><td>TC4</td><td>60</td><td>fair</td></tr><tr><td>TC5</td><td>70</td><td>satisfactory</td></tr><tr><td>TC6</td><td>80</td><td>good</td></tr></table><p>What is the 2-value boundary value analysis (BVA) coverage for the final result that is achieved with the existing test cases?</p>",
       "options": {
         "a": "50%",
         "b": "60%",
@@ -342,7 +342,7 @@
       "examSet": "A",
       "questionNumber": 22,
       "points": 1,
-      "question": "<p>Your favorite bicycle daily rental store has just introduced a new Customer Relationship Management system and asked you, one of their most loyal members, to test it.</p><p>The implemented features are as follows:</p><ul><li>Anyone can rent a bicycle, but members receive a 20% discount</li><li>However, if the return deadline is missed, the discount is no longer available</li><li>After 15 rentals, members get a gift: a T-Shirt</li></ul><p>Decision table describing the implemented features looks as follows:</p><pre>                            Conditions                   R1   R2    R3   R4   R5   R6   R7    R8\n                             Being a member              T    T     T    T    F    F    F     F\n                             Missed deadline             T    F     T    F    T    F    F     T\n                                  15th rental            F    F     T    T    F    F    T     T\n                            Actions\n                                20% discount                   X          X\n                                  Gift T-Shirt                      X     X                    X</pre><p>Based ONLY on the feature description of the Customer Relationship Management system, which of the above rules describes an impossible situation?</p>",
+      "question": "<p>Your favorite bicycle daily rental store has just introduced a new Customer Relationship Management system and asked you, one of their most loyal members, to test it.</p><p>The implemented features are as follows:</p><ul><li>Anyone can rent a bicycle, but members receive a 20% discount</li><li>However, if the return deadline is missed, the discount is no longer available</li><li>After 15 rentals, members get a gift: a T-Shirt</li></ul><p>Decision table describing the implemented features looks as follows:</p><table class=\"stem-table\"><tr><th>Conditions</th><th>R1</th><th>R2</th><th>R3</th><th>R4</th><th>R5</th><th>R6</th><th>R7</th><th>R8</th></tr><tr><td>Being a member</td><td>T</td><td>T</td><td>T</td><td>T</td><td>F</td><td>F</td><td>F</td><td>F</td></tr><tr><td>Missed deadline</td><td>T</td><td>F</td><td>T</td><td>F</td><td>T</td><td>F</td><td>F</td><td>T</td></tr><tr><td>15th rental</td><td>F</td><td>F</td><td>T</td><td>T</td><td>F</td><td>F</td><td>T</td><td>T</td></tr></table><p>Actions</p><pre>                                20% discount                   X          X\n                                  Gift T-Shirt                      X     X                    X</pre><p>Based ONLY on the feature description of the Customer Relationship Management system, which of the above rules describes an impossible situation?</p>",
       "options": {
         "a": "R4",
         "b": "R2",
@@ -983,7 +983,7 @@
       "examSet": "B",
       "questionNumber": 22,
       "points": 1,
-      "question": "<p>The following decision table contains the rules for determining the risk of atherosclerosis.</p><pre>                                                Rule 1    Rule 2    Rule 3    Rule 4    Rule 5\n Conditions\n       Cholesterol (mg/dl)                                          125 –     125 –\n                                                  ≤124    ≤ 124                         ≥ 201\n                                                                     200       200\n     Blood pressure (mm\n                                                 ≤ 140    &gt; 140     ≤ 140     &gt; 140       –\n                     Hg)\n Action\n                        Risk level             very low    low     medium      high    very high</pre><p>You designed the test cases with the following input data:</p><p>TC1:            Cholesterol = 125 mg/dl            Blood pressure = 141 mm Hg</p><p>TC2:            Cholesterol = 200 mg/dl            Blood pressure = 201 mm Hg</p><p>TC3:            Cholesterol = 124 mg/dl            Blood pressure = 201 mm Hg</p><p>TC4:            Cholesterol = 109 mg/dl            Blood pressure = 200 mm Hg</p><p>TC5:            Cholesterol = 201 mg/dl            Blood pressure = 140 mm Hg</p><p>What is the decision table coverage achieved by these test cases?</p>",
+      "question": "<p>The following decision table contains the rules for determining the risk of atherosclerosis.</p><p>Rule 1    Rule 2    Rule 3    Rule 4    Rule 5 Conditions</p><pre>       Cholesterol (mg/dl)                                          125 –     125 –\n                                                  ≤124    ≤ 124                         ≥ 201\n                                                                     200       200</pre><p>Blood pressure (mm ≤ 140    &gt; 140     ≤ 140     &gt; 140       – Hg) Action Risk level             very low    low     medium      high    very high</p><p>You designed the test cases with the following input data:</p><p>TC1:            Cholesterol = 125 mg/dl            Blood pressure = 141 mm Hg</p><p>TC2:            Cholesterol = 200 mg/dl            Blood pressure = 201 mm Hg</p><p>TC3:            Cholesterol = 124 mg/dl            Blood pressure = 201 mm Hg</p><p>TC4:            Cholesterol = 109 mg/dl            Blood pressure = 200 mm Hg</p><p>TC5:            Cholesterol = 201 mg/dl            Blood pressure = 140 mm Hg</p><p>What is the decision table coverage achieved by these test cases?</p>",
       "options": {
         "a": "40%",
         "b": "60%",
@@ -1128,7 +1128,7 @@
       "examSet": "B",
       "questionNumber": 31,
       "points": 1,
-      "question": "<p>You want to estimate the test effort for the new project using estimation based on ratios. You calculate the test-to-development effort ratio using averaged data for both development effort and test effort from four historical projects similar to the new one. The table shows this historical data.</p><pre>                                     Project             Development effort     Test effort\n                                                                ($)                ($)\n                                         P1                   800,000             40,000\n                                         P2                  1,200,000           130,000\n                                         P3                   600,000             70,000\n                                         P4                  1,000,000           120,000</pre><p>The estimated development effort for the new project is $800,000. What is your estimate of the test effort in this project?</p>",
+      "question": "<p>You want to estimate the test effort for the new project using estimation based on ratios. You calculate the test-to-development effort ratio using averaged data for both development effort and test effort from four historical projects similar to the new one. The table shows this historical data.</p><table class=\"stem-table\"><tr><th>Project</th><th>Development effort</th><th>Test effort</th></tr><tr><th></th><th>($)</th><th>($)</th></tr><tr><td>P1</td><td>800,000</td><td>40,000</td></tr><tr><td>P2</td><td>1,200,000</td><td>130,000</td></tr><tr><td>P3</td><td>600,000</td><td>70,000</td></tr><tr><td>P4</td><td>1,000,000</td><td>120,000</td></tr></table><p>The estimated development effort for the new project is $800,000. What is your estimate of the test effort in this project?</p>",
       "options": {
         "a": "$40,000",
         "b": "$80,000",
@@ -1240,7 +1240,7 @@
       "examSet": "B",
       "questionNumber": 38,
       "points": 1,
-      "question": "<p>You are testing a sort function that gets a set of numbers as input and returns the same set of numbers sorted in ascending order. The log from the test execution looks as follows.</p><pre>Environment configuration: sort function build 2.002.2182, test case set: TCS-3, # of TCs: 5\nTest run ID: 736\nStart 12:43:21.003\n12:43:21.003 Execution of TC1. Input: 3.              Output: 3.            Result: passed\n12:43:21.003 Execution of TC2. Input: 3 11 6 5.       Output: 3 5 6 11.     Result: passed\n12:43:21.004 Execution of TC3. Input: 8 7 3 7 1.      Output: 1 3 7 8.      Result: failed\n12:43:21.005 Execution of TC4. Input: -2 -2 -2 -3 -3. Output: -3 -2.        Result: failed\n12:43:21.005 Execution of TC5. Input: 0 -2 0 3 4 4. Output: -2 0 3 4.       Result: failed\nEnd 12:43:21.005\nTotal time of test cycle: 0:00:00.002</pre><p>Which of the following provides the BEST description of the failure that can be used in a defect report?</p>",
+      "question": "<p>You are testing a sort function that gets a set of numbers as input and returns the same set of numbers sorted in ascending order. The log from the test execution looks as follows.</p><p>Environment configuration: sort function build 2.002.2182, test case set: TCS-3, # of TCs: 5 Test run ID: 736 Start 12:43:21.003</p><pre>12:43:21.003 Execution of TC1. Input: 3.              Output: 3.            Result: passed\n12:43:21.003 Execution of TC2. Input: 3 11 6 5.       Output: 3 5 6 11.     Result: passed\n12:43:21.004 Execution of TC3. Input: 8 7 3 7 1.      Output: 1 3 7 8.      Result: failed\n12:43:21.005 Execution of TC4. Input: -2 -2 -2 -3 -3. Output: -3 -2.        Result: failed\n12:43:21.005 Execution of TC5. Input: 0 -2 0 3 4 4. Output: -2 0 3 4.       Result: failed</pre><p>End 12:43:21.005 Total time of test cycle: 0:00:00.002</p><p>Which of the following provides the BEST description of the failure that can be used in a defect report?</p>",
       "options": {
         "a": "The system fails to sort several sets of numbers. Reference: TC3, TC4, TC5.",
         "b": "The system seems to disregard duplicates while sorting. Reference: TC3, TC4, TC5.",
@@ -1513,7 +1513,7 @@
       "examSet": "C",
       "questionNumber": 15,
       "points": 1,
-      "question": "<pre>Given the following example defects:\n          i.   Two different parts of the design specification disagree due to the complexity of the\n               design\n         ii.   A response time is too long and so makes users lose patience\n        iii.   A path in the code cannot be reached during execution\n        iv.    A variable is declared but never subsequently used in the program\n         v.    The amount of memory needed by the program to generate a report is too high</pre><p>Which of the following BEST identifies example defects that could be found by static testing (rather than dynamic testing)?</p>",
+      "question": "<p>Given the following example defects:</p><ol type=\"i\"><li>Two different parts of the design specification disagree due to the complexity of the design</li><li>A response time is too long and so makes users lose patience</li><li>A path in the code cannot be reached during execution</li><li>A variable is declared but never subsequently used in the program</li><li>The amount of memory needed by the program to generate a report is too high</li></ol><p>Which of the following BEST identifies example defects that could be found by static testing (rather than dynamic testing)?</p>",
       "options": {
         "a": "ii, v",
         "b": "iii, v",
@@ -1993,7 +1993,7 @@
       "examSet": "D",
       "questionNumber": 5,
       "points": 1,
-      "question": "<pre>Given the following testware:\n          i.   Test completion report\n         ii.   Data held in a database used for test inputs and expected results\n        iii.   The list of elements needed to build the test environment\n        iv.    Documented sequences of test cases in execution order\n         v.    Test cases</pre><p>Which of the following BEST shows the testware produced as a result of performing test implementation?</p>",
+      "question": "<p>Given the following testware:</p><ol type=\"i\"><li>Test completion report</li><li>Data held in a database used for test inputs and expected results</li><li>The list of elements needed to build the test environment</li><li>Documented sequences of test cases in execution order</li><li>Test cases</li></ol><p>Which of the following BEST shows the testware produced as a result of performing test implementation?</p>",
       "options": {
         "a": "ii, iv",
         "b": "iii, v",
@@ -2041,7 +2041,7 @@
       "examSet": "D",
       "questionNumber": 8,
       "points": 1,
-      "question": "<pre>Given the following benefits and drawbacks of the independence of testing:\n          i.   The testers work in a different location from the developers\n         ii.   Testers question the assumptions programmers make while writing code\n        iii.   A confrontational dynamic has been established between testers and developers\n        iv.    Developers have convinced themselves that testers are mostly accountable for\n               quality\n         v.    Testers have different biases than those held by the developers</pre><p>Which are MOST likely to be considered benefits?</p>",
+      "question": "<p>Given the following benefits and drawbacks of the independence of testing:</p><ol type=\"i\"><li>The testers work in a different location from the developers</li><li>Testers question the assumptions programmers make while writing code</li><li>A confrontational dynamic has been established between testers and developers</li><li>Developers have convinced themselves that testers are mostly accountable for quality</li><li>Testers have different biases than those held by the developers</li></ol><p>Which are MOST likely to be considered benefits?</p>",
       "options": {
         "a": "i, iv",
         "b": "ii, v",
@@ -2282,7 +2282,7 @@
       "examSet": "D",
       "questionNumber": 23,
       "points": 1,
-      "question": "<p>You are applying state transition testing to the hotel room reservation system modeled by the following state transition table, with 4 states and 5 different events:</p><pre>                                                                            Events\n           State                    Available            NotAvailable   ChangeRoom   Cancel   Pay\nS1: Requesting                            S2                 S3\nS2: Confirmed                                                                S1       S4      S4\nS3: Waiting list                          S2                                          S4\nS4: End</pre><p>Assuming all test cases start in the ‘Requesting’ state, which of the following test cases, represented as sequences of events, achieves the highest valid transitions coverage?</p>",
+      "question": "<p>You are applying state transition testing to the hotel room reservation system modeled by the following state transition table, with 4 states and 5 different events:</p><p>Events</p><pre>           State                    Available            NotAvailable   ChangeRoom   Cancel   Pay\nS1: Requesting                            S2                 S3\nS2: Confirmed                                                                S1       S4      S4\nS3: Waiting list                          S2                                          S4</pre><p>S4: End</p><p>Assuming all test cases start in the ‘Requesting’ state, which of the following test cases, represented as sequences of events, achieves the highest valid transitions coverage?</p>",
       "options": {
         "a": "NotAvailable, Available,  ChangeRoom, NotAvailable, Cancel",
         "b": "Available,    ChangeRoom, NotAvailable, Available,  Pay",
@@ -2427,7 +2427,7 @@
       "examSet": "D",
       "questionNumber": 32,
       "points": 1,
-      "question": "<p>The table shows the traceability matrix from test cases to requirements. “X” means that a given test case covers the corresponding requirement.</p><pre>                         Req1          Req2              Req3   Req4    Req5    Req6     Req7\n            TC1             X                             X      X                        X\n            TC2             X                                             X               X\n            TC3                                                           X          X\n            TC4                            X\nYou want to prioritize the test cases following the additional coverage prioritization technique.</pre><p>You execute all four test cases.</p><p>Which test case should be executed as the LAST one?</p>",
+      "question": "<p>The table shows the traceability matrix from test cases to requirements. “X” means that a given test case covers the corresponding requirement.</p><pre>                         Req1          Req2              Req3   Req4    Req5    Req6     Req7\n            TC1             X                             X      X                        X\n            TC2             X                                             X               X\n            TC3                                                           X          X\n            TC4                            X</pre><p>You want to prioritize the test cases following the additional coverage prioritization technique.</p><p>You execute all four test cases.</p><p>Which test case should be executed as the LAST one?</p>",
       "options": {
         "a": "TC1",
         "b": "TC2",
@@ -2524,7 +2524,7 @@
       "examSet": "D",
       "questionNumber": 38,
       "points": 1,
-      "question": "<p>Consider the following defect report for a Book Lending System.</p><pre>Defect ID: 001 | Title: Unable to Return a Book                     |\nSeverity: High | Priority:                                          |\nEnvironment: Windows 10, Google Chrome</pre><p>Description: When attempting to return a book using the Book Return feature, the system does not register the return and the book remains checked out to the user.</p><p>Steps to Reproduce: Login to the Book Lending System as a user who has checked out a book. Click on the &quot;Book Return&quot; button for the book that has been checked out. System does not register the return and the book remains checked out.</p><p>Expected Result: The book should be returned and no longer appear as checked out to the user. Actual Result: The book remains checked out to the user and is not registered as returned in the system.</p><p>Attachments: [empty list]</p><p>Which of the following is MOST likely to help the developer reproduce the failure quickly?</p>",
+      "question": "<p>Consider the following defect report for a Book Lending System.</p><pre>Defect ID: 001 | Title: Unable to Return a Book                     |\nSeverity: High | Priority:                                          |</pre><p>Environment: Windows 10, Google Chrome</p><p>Description: When attempting to return a book using the Book Return feature, the system does not register the return and the book remains checked out to the user.</p><p>Steps to Reproduce: Login to the Book Lending System as a user who has checked out a book. Click on the &quot;Book Return&quot; button for the book that has been checked out. System does not register the return and the book remains checked out.</p><p>Expected Result: The book should be returned and no longer appear as checked out to the user. Actual Result: The book remains checked out to the user and is not registered as returned in the system.</p><p>Attachments: [empty list]</p><p>Which of the following is MOST likely to help the developer reproduce the failure quickly?</p>",
       "options": {
         "a": "Adding information about which users and which books the failure affects to the “Description” section",
         "b": "Filling in the missing value for the “Priority” field",
@@ -2540,7 +2540,7 @@
       "examSet": "D",
       "questionNumber": 39,
       "points": 1,
-      "question": "<pre>Given the following test tool categories:\n          i.   Collaboration tools\n         ii.   DevOps tools\n        iii.   Management tools\n        iv.    Non-functional testing tools\n         v.    Test design and implementation tools\nTools from which of the categories are MOST likely to facilitate test execution?</pre>",
+      "question": "<p>Given the following test tool categories:</p><ol type=\"i\"><li>Collaboration tools</li><li>DevOps tools</li><li>Management tools</li><li>Non-functional testing tools</li><li>Test design and implementation tools</li></ol><p>Tools from which of the categories are MOST likely to facilitate test execution?</p>",
       "options": {
         "a": "i, v",
         "b": "ii, iv",
