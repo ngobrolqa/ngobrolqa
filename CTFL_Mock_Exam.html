@@ -200,6 +200,18 @@
         }
         .result-cert-sub { color: var(--text-muted); margin-bottom: 1.25rem; }
 
+        .lo-row { margin-bottom: 1.1rem; }
+        .lo-row:last-child { margin-bottom: 0; }
+        .lo-row-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem; margin-bottom: 0.35rem; }
+        .lo-row-head .lo-name { font-weight: 600; font-size: 0.92rem; }
+        .lo-row-head .lo-score { color: var(--text-muted); font-size: 0.85rem; white-space: nowrap; }
+        .lo-bar-track { background: var(--bg); border-radius: 999px; height: 10px; overflow: hidden; }
+        .lo-bar-fill { height: 100%; border-radius: 999px; }
+        .lo-bar-fill.strong { background: var(--success); }
+        .lo-bar-fill.medium { background: var(--accent); }
+        .lo-bar-fill.weak { background: var(--danger); }
+        .lo-missed { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem; }
+
         .review-item { border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
         .review-item.correct { border-color: #bbf7d0; background: #f0fdf4; }
         .review-item.incorrect { border-color: #fecaca; background: #fef2f2; }
@@ -329,6 +341,11 @@
         <!-- Result -->
         <div id="resultSection" class="exam-section">
             <div class="card" id="resultSummary"></div>
+            <div class="card" id="loBreakdownCard">
+                <h2 style="margin-bottom: 0.25rem;">Performance by Topic</h2>
+                <p class="progress-text" style="margin-bottom: 1rem;">Weakest areas first — this attempt only.</p>
+                <div id="loBreakdown"></div>
+            </div>
             <div class="card">
                 <h2 style="margin-bottom: 1rem;">Answer review</h2>
                 <div id="reviewList"></div>
@@ -624,6 +641,51 @@
             }
         }
 
+        // Official CTFL v4.0 syllabus chapters — Learning Objective codes look like
+        // "FL-4.2.3" (chapter.section.objective), so the chapter number is all we
+        // need to group by. Every question is already tagged with its own LO in
+        // questions.json, so this whole breakdown needs no backend changes.
+        const CHAPTER_NAMES = {
+            '1': 'Fundamentals of Testing',
+            '2': 'Testing Throughout the SDLC',
+            '3': 'Static Testing',
+            '4': 'Test Analysis and Design',
+            '5': 'Managing the Test Activities',
+            '6': 'Tool Support for Testing',
+        };
+
+        function renderLOBreakdown(review, questionById) {
+            const chapters = {};
+            review.forEach(r => {
+                const lo = questionById[r.questionId].learningObjective;
+                const chapterNum = lo.split('-')[1].split('.')[0];
+                const chapter = chapters[chapterNum] || (chapters[chapterNum] = { correct: 0, total: 0, missed: [] });
+                chapter.total++;
+                if (r.isCorrect) chapter.correct++; else chapter.missed.push(lo);
+            });
+
+            const rows = Object.keys(chapters).map(num => {
+                const c = chapters[num];
+                return { num, name: CHAPTER_NAMES[num] || ('Chapter ' + num), correct: c.correct, total: c.total, pct: Math.round((c.correct / c.total) * 100), missed: c.missed.sort() };
+            });
+            rows.sort((a, b) => a.pct - b.pct);
+
+            document.getElementById('loBreakdown').innerHTML = rows.map(row => {
+                const strength = row.pct >= 65 ? 'strong' : (row.pct >= 40 ? 'medium' : 'weak');
+                const missedHtml = row.missed.length
+                    ? '<div class="lo-missed">Review: ' + row.missed.map(escapeHtml).join(', ') + '</div>'
+                    : '';
+                return '<div class="lo-row">' +
+                    '<div class="lo-row-head">' +
+                    '<span class="lo-name">Chapter ' + row.num + ': ' + escapeHtml(row.name) + '</span>' +
+                    '<span class="lo-score">' + row.correct + '/' + row.total + ' (' + row.pct + '%)</span>' +
+                    '</div>' +
+                    '<div class="lo-bar-track"><div class="lo-bar-fill ' + strength + '" style="width:' + row.pct + '%;"></div></div>' +
+                    missedHtml +
+                    '</div>';
+            }).join('');
+        }
+
         function renderResult(result, timedOut) {
             const passed = result.passed;
             const examLabel = currentExamSet === 'RANDOM' ? 'Random Mix' : ('Sample Exam ' + currentExamSet);
@@ -645,6 +707,8 @@
 
             const questionById = {};
             currentQuestions.forEach(q => { questionById[q.questionId] = q; });
+
+            renderLOBreakdown(result.review, questionById);
 
             document.getElementById('reviewList').innerHTML = result.review.map(r => {
                 const q = questionById[r.questionId];
