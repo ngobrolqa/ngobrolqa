@@ -500,7 +500,10 @@
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
-            return div.innerHTML;
+            // Also escape quotes so this stays safe if ever used inside an HTML
+            // attribute value, not just text content (see Admin.html for why this
+            // matters — the same gap there caused a real quote-collision bug).
+            return div.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
         }
 
         function shuffled(array) {
