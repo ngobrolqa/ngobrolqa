@@ -379,7 +379,7 @@
                         <tbody id="leaderboardBody"></tbody>
                     </table>
                 </div>
-                <button class="btn btn-secondary" style="margin-top: 1.25rem;" onclick="showPicker()">← Back to exams</button>
+                <button class="btn btn-secondary" id="leaderboardBackBtn" style="margin-top: 1.25rem;" onclick="backFromLeaderboard()">← Back</button>
             </div>
         </div>
     </div>
@@ -466,6 +466,11 @@
         }
 
         function showPicker() { showSection('pickerSection'); }
+
+        // The leaderboard can be reached from either the picker ("View Leaderboard")
+        // or the result page (after finishing an exam) — "Back" should return to
+        // whichever one the user actually came from, not always the exam list.
+        let leaderboardReturnSection = 'pickerSection';
 
         // Apps Script CORS trick: text/plain avoids the preflight OPTIONS request
         // (which Apps Script doesn't handle), so we can still read the JSON response.
@@ -763,6 +768,12 @@
         }
 
         async function showLeaderboard() {
+            // Capture the CURRENTLY active section before switching away from it —
+            // showSection() below removes its 'active' class, so this has to happen first.
+            const current = document.querySelector('.exam-section.active');
+            if (current) leaderboardReturnSection = current.id;
+            document.getElementById('leaderboardBackBtn').textContent =
+                leaderboardReturnSection === 'resultSection' ? '← Back to result' : '← Back to exams';
             showSection('leaderboardSection');
             const body = document.getElementById('leaderboardBody');
             body.innerHTML = '<tr><td colspan="6">Loading...</td></tr>';
@@ -781,6 +792,10 @@
             } catch (err) {
                 body.innerHTML = '<tr><td colspan="6">Failed to load: ' + err.message + '</td></tr>';
             }
+        }
+
+        function backFromLeaderboard() {
+            showSection(leaderboardReturnSection);
         }
 
         window.addEventListener('beforeunload', (e) => {
