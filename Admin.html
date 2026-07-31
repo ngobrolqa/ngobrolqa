@@ -9,6 +9,7 @@
     <meta name="author" content="Aditya Mirza Bahari">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
     <style>
         :root {
             --primary: #0d9488;
@@ -109,6 +110,37 @@
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
         .top-bar .logged-in-as { color: var(--text-muted); font-size: 0.9rem; }
 
+        .admin-tile.clickable { opacity: 1; cursor: pointer; transition: all 0.2s; }
+        .admin-tile.clickable:hover { border-color: var(--primary); transform: translateY(-2px); }
+
+        .back-link { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 1rem; }
+        .back-link:hover { color: var(--primary); }
+
+        .article-row {
+            display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+            padding: 1rem; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 0.75rem;
+        }
+        .article-row .article-info h4 { margin-bottom: 0.2rem; }
+        .article-row .article-info p { color: var(--text-muted); font-size: 0.85rem; }
+        .article-row .article-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+        .status-badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.7rem; font-weight: 700; margin-left: 0.5rem; }
+        .status-badge.published { background: #dcfce7; color: #16a34a; }
+        .status-badge.draft { background: var(--bg); color: var(--text-muted); }
+
+        .field-group { margin-bottom: 1.25rem; }
+        .field-group label { display: block; font-weight: 600; margin-bottom: 0.4rem; font-size: 0.9rem; }
+        .field-group input, .field-group select {
+            width: 100%; padding: 0.65rem 0.9rem; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem;
+        }
+        .field-row { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; }
+        @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; } }
+
+        #quillEditor { background: white; min-height: 280px; margin-bottom: 1.25rem; }
+        .share-url {
+            background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+            padding: 0.75rem 1rem; font-size: 0.85rem; word-break: break-all; margin-top: 1rem;
+        }
+
         footer { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 2rem; text-align: center; margin-top: 2rem; }
         footer a { color: white; text-decoration: none; }
 
@@ -169,11 +201,58 @@
                     <p>Add, edit, or remove CTFL mock exam questions.</p>
                     <span class="badge">Coming soon</span>
                 </div>
-                <div class="admin-tile">
+                <div class="admin-tile clickable" onclick="openArticlesList()">
                     <h3>Articles</h3>
                     <p>Write and publish new NgobrolQA articles.</p>
-                    <span class="badge">Coming soon</span>
+                    <span class="badge" style="background: #dcfce7; color: #16a34a;">Manage →</span>
                 </div>
+            </div>
+        </div>
+
+        <!-- Articles: list -->
+        <div id="articlesListSection" class="admin-section">
+            <a href="#" class="back-link" onclick="showSection('dashboardSection'); return false;">← Back to dashboard</a>
+            <div class="card">
+                <div class="top-bar">
+                    <h2>Articles</h2>
+                    <button class="btn btn-primary" onclick="openArticleEditor()">+ New Article</button>
+                </div>
+                <div id="articlesList"><p class="progress-text">Loading…</p></div>
+            </div>
+        </div>
+
+        <!-- Articles: editor -->
+        <div id="articleEditorSection" class="admin-section">
+            <a href="#" class="back-link" onclick="showSection('articlesListSection'); return false;">← Back to articles</a>
+            <div class="card">
+                <h2 id="editorHeading" style="margin-bottom: 1.25rem;">New Article</h2>
+                <div class="field-row">
+                    <div class="field-group">
+                        <label for="articleTitle">Title</label>
+                        <input type="text" id="articleTitle" placeholder="e.g. 5 Tips for Your First QA Job" oninput="onTitleInput()">
+                    </div>
+                    <div class="field-group">
+                        <label for="articleStatus">Status</label>
+                        <select id="articleStatus">
+                            <option value="draft">Draft</option>
+                            <option value="published">Published</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-group">
+                    <label for="articleSlug">URL slug</label>
+                    <input type="text" id="articleSlug" placeholder="e.g. 5-tips-for-your-first-qa-job" oninput="slugEditedByHand = true">
+                </div>
+                <div class="field-group">
+                    <label>Body</label>
+                    <div id="quillEditor"></div>
+                </div>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" id="saveArticleBtn" onclick="saveArticle()">Save</button>
+                    <button class="btn btn-secondary" onclick="showSection('articlesListSection')">Cancel</button>
+                </div>
+                <p id="editorError" class="error-text"></p>
+                <div id="shareUrlBox" class="share-url" style="display: none;"></div>
             </div>
         </div>
     </div>
@@ -189,13 +268,14 @@
         </p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script>
-        // Soft gate for now — visible in page source, same tradeoff as the exam's
-        // team password. Fine while there's nothing behind it but "Coming soon"
-        // tiles; once Vouchers/Questions/Articles get real Apps Script actions,
-        // each of those needs this SAME password checked server-side too (mirror
-        // of how CTFL_Mock_Exam.html's GATE_PASSWORD is checked in Code.gs).
+        // Soft gate — visible in page source, same tradeoff as the exam's team
+        // password. Code.gs checks this SAME password server-side for every
+        // article action (listArticles/saveArticle/deleteArticle/uploadImage),
+        // so this client-side check alone isn't the real security boundary.
         const ADMIN_PASSWORD = 'Topan804';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzq55gjVwckD9mzKKl0vy1G_4pHYgQ5jad-tZ21b1Ve6azWx4zBy2CXoj2u969nhf2aSw/exec';
 
         function showSection(id) {
             document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
@@ -225,6 +305,251 @@
 
         if (sessionStorage.getItem('ngobrolqa_admin') === 'true') {
             showSection('dashboardSection');
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            // The textContent/innerHTML round-trip escapes &, <, > for safe use in
+            // HTML text content, but NOT quote characters — those only matter inside
+            // an attribute value's delimiters, which innerHTML serialization doesn't
+            // know we're about to do. Escape them too so this is safe to embed in
+            // data-*="..." attributes as well as plain text (see the article-title
+            // quote-collision bug this same issue caused in loadArticlesList).
+            return div.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        // Same CORS-preflight-dodging trick used by CTFL_Mock_Exam.html: text/plain
+        // content type avoids the OPTIONS preflight Apps Script can't handle, while
+        // still letting us read the JSON response (unlike mode:'no-cors').
+        async function adminApi(action, payload) {
+            const res = await fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(Object.assign({ action: action, adminPassword: ADMIN_PASSWORD }, payload)),
+            });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            return data;
+        }
+
+        function slugify(text) {
+            return text.toLowerCase().trim()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
+        }
+
+        let quill = null;
+        let editingArticleId = null;
+        let slugEditedByHand = false;
+
+        function getQuill() {
+            if (!quill) {
+                quill = new Quill('#quillEditor', {
+                    theme: 'snow',
+                    modules: { toolbar: [
+                        [{ header: [2, 3, false] }],
+                        ['bold', 'italic', 'underline', 'link'],
+                        [{ list: 'ordered' }, { list: 'bullet' }],
+                        ['blockquote', 'image'],
+                        ['clean'],
+                    ] },
+                });
+                quill.getModule('toolbar').addHandler('image', selectAndUploadImage);
+                // Toolbar click only covers the image button — a pasted or dragged
+                // image bypasses it entirely, and Quill's default behavior for those
+                // is to embed the image as a giant base64 data: URI directly in the
+                // article HTML. That's easily large enough to exceed a Google Sheets
+                // cell's ~50,000-character limit, which throws server-side and (since
+                // the crash produces Google's generic error page instead of our JSON
+                // response) shows up in the browser as a confusing CORS error rather
+                // than a clear "too large" message. Route these through the same
+                // Drive upload as the toolbar button instead of letting them embed.
+                // Capture phase (true) + stopImmediatePropagation below: Quill's own
+                // Clipboard module registers its own separate paste/drop listener
+                // that embeds images as base64 regardless of preventDefault() here —
+                // preventDefault only stops the browser's native action, not OTHER
+                // JS listeners on the same event. Running in capture phase gets us
+                // in first, and stopImmediatePropagation stops Quill's listener
+                // (and anything else) from also firing on this same event.
+                quill.root.addEventListener('paste', interceptPastedOrDroppedImage, true);
+                quill.root.addEventListener('drop', interceptPastedOrDroppedImage, true);
+            }
+            return quill;
+        }
+
+        function interceptPastedOrDroppedImage(event) {
+            const items = (event.clipboardData || event.dataTransfer || {}).items || (event.dataTransfer || {}).files;
+            if (!items) return;
+            for (const item of items) {
+                const file = item.getAsFile ? item.getAsFile() : item;
+                if (file && file.type && file.type.indexOf('image') !== -1) {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                    uploadAndInsertImage(file);
+                    return;
+                }
+            }
+        }
+
+        function selectAndUploadImage() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = () => {
+                if (input.files[0]) uploadAndInsertImage(input.files[0]);
+            };
+            input.click();
+        }
+
+        function uploadAndInsertImage(file) {
+            const reader = new FileReader();
+            reader.onload = async () => {
+                const base64 = reader.result.split(',')[1];
+                const range = getQuill().getSelection(true) || { index: getQuill().getLength() };
+                try {
+                    const result = await adminApi('uploadImage', { imageBase64: base64, mimeType: file.type, filename: file.name || 'pasted-image.png' });
+                    getQuill().insertEmbed(range.index, 'image', result.url, 'user');
+                    getQuill().setSelection(range.index + 1);
+                } catch (err) {
+                    alert('Image upload failed: ' + err.message);
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function onTitleInput() {
+            if (slugEditedByHand) return;
+            document.getElementById('articleSlug').value = slugify(document.getElementById('articleTitle').value);
+        }
+
+        function openArticlesList() {
+            showSection('articlesListSection');
+            loadArticlesList();
+        }
+
+        async function loadArticlesList() {
+            const el = document.getElementById('articlesList');
+            el.innerHTML = '<p class="progress-text">Loading…</p>';
+            try {
+                const data = await adminApi('listArticles', {});
+                if (!data.articles.length) {
+                    el.innerHTML = '<p class="progress-text">No articles yet — click "+ New Article" to write one.</p>';
+                    return;
+                }
+                // Article titles can contain quotes/special characters — building
+                // onclick="fn('...')" strings by hand breaks the moment a title has
+                // a quote in it (JSON.stringify's own quotes collide with the HTML
+                // attribute's quotes and corrupt the markup). data-* attributes +
+                // addEventListener sidesteps this entirely, no escaping gymnastics.
+                el.innerHTML = data.articles.map(a => (
+                    '<div class="article-row">' +
+                    '<div class="article-info"><h4>' + escapeHtml(a.title) + '<span class="status-badge ' + a.status + '">' + a.status + '</span></h4>' +
+                    '<p>/Article.html?slug=' + escapeHtml(a.slug) + '</p></div>' +
+                    '<div class="article-actions">' +
+                    '<button class="btn btn-secondary edit-article-btn" data-id="' + escapeHtml(a.articleId) + '">Edit</button>' +
+                    '<button class="btn btn-secondary delete-article-btn" data-id="' + escapeHtml(a.articleId) + '" data-title="' + escapeHtml(a.title) + '">Delete</button>' +
+                    '</div></div>'
+                )).join('');
+                el.querySelectorAll('.edit-article-btn').forEach(btn => {
+                    btn.addEventListener('click', () => openArticleEditor(btn.dataset.id));
+                });
+                el.querySelectorAll('.delete-article-btn').forEach(btn => {
+                    btn.addEventListener('click', () => confirmDeleteArticle(btn.dataset.id, btn.dataset.title));
+                });
+            } catch (err) {
+                el.innerHTML = '<p class="error-text" style="display: block;">Failed to load: ' + escapeHtml(err.message) + '</p>';
+            }
+        }
+
+        async function openArticleEditor(articleId) {
+            editingArticleId = articleId || null;
+            slugEditedByHand = false;
+            document.getElementById('editorHeading').textContent = editingArticleId ? 'Edit Article' : 'New Article';
+            document.getElementById('editorError').style.display = 'none';
+            document.getElementById('shareUrlBox').style.display = 'none';
+            document.getElementById('articleTitle').value = '';
+            document.getElementById('articleSlug').value = '';
+            document.getElementById('articleStatus').value = 'draft';
+            // Show the section BEFORE initializing Quill — creating the editor while
+            // its container is display:none (still true at this point on the very
+            // first open) leaves it rendered but not actually accepting input, even
+            // after the container becomes visible a moment later.
+            showSection('articleEditorSection');
+            getQuill().setContents([]);
+            // Clicking a toolbar button implicitly focuses Quill internally, which
+            // turned out to be exactly what "unlocks" typing — without an explicit
+            // focus, Quill doesn't fully attach its editable/selection state even
+            // once visible. requestAnimationFrame waits one frame so the browser
+            // has actually applied the display:none -> block change above before
+            // Quill focuses into what could otherwise still measure as zero-size.
+            requestAnimationFrame(() => getQuill().focus());
+
+            if (editingArticleId) {
+                try {
+                    const data = await adminApi('listArticles', {});
+                    const article = data.articles.find(a => a.articleId === editingArticleId);
+                    if (!article) throw new Error('Article not found');
+                    document.getElementById('articleTitle').value = article.title;
+                    document.getElementById('articleSlug').value = article.slug;
+                    document.getElementById('articleStatus').value = article.status;
+                    slugEditedByHand = true;
+                    // listArticles doesn't include bodyHtml (keeps the list payload
+                    // small) — fetch the full content via the public getArticle
+                    // action, which works for drafts too since we know the slug.
+                    const full = await adminApi('getArticle', { slug: article.slug }).catch(() => null);
+                    if (full && full.bodyHtml) getQuill().clipboard.dangerouslyPasteHTML(full.bodyHtml);
+                } catch (err) {
+                    document.getElementById('editorError').textContent = 'Failed to load article: ' + err.message;
+                    document.getElementById('editorError').style.display = 'block';
+                }
+            }
+        }
+
+        async function saveArticle() {
+            const title = document.getElementById('articleTitle').value.trim();
+            const slug = document.getElementById('articleSlug').value.trim();
+            const status = document.getElementById('articleStatus').value;
+            const errorEl = document.getElementById('editorError');
+            errorEl.style.display = 'none';
+            if (!title) {
+                errorEl.textContent = 'Title is required.';
+                errorEl.style.display = 'block';
+                return;
+            }
+            const btn = document.getElementById('saveArticleBtn');
+            btn.disabled = true;
+            btn.textContent = 'Saving…';
+            try {
+                const result = await adminApi('saveArticle', {
+                    articleId: editingArticleId,
+                    title: title,
+                    slug: slug,
+                    status: status,
+                    bodyHtml: getQuill().root.innerHTML,
+                });
+                editingArticleId = result.articleId;
+                const shareUrl = window.location.origin + window.location.pathname.replace('Admin.html', '') + 'Article.html?slug=' + result.slug;
+                const shareBox = document.getElementById('shareUrlBox');
+                shareBox.style.display = 'block';
+                shareBox.innerHTML = 'Saved. Shareable link: <a href="' + shareUrl + '" target="_blank">' + escapeHtml(shareUrl) + '</a>' +
+                    (status === 'draft' ? '<br><em>Draft — not visible via that link until published.</em>' : '');
+            } catch (err) {
+                errorEl.textContent = err.message;
+                errorEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Save';
+            }
+        }
+
+        function confirmDeleteArticle(articleId, title) {
+            if (!confirm('Delete "' + title + '"? This can\'t be undone.')) return;
+            adminApi('deleteArticle', { articleId: articleId })
+                .then(() => loadArticlesList())
+                .catch(err => alert('Failed to delete: ' + err.message));
         }
     </script>
 </body>
