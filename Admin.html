@@ -479,6 +479,13 @@
             // after the container becomes visible a moment later.
             showSection('articleEditorSection');
             getQuill().setContents([]);
+            // Clicking a toolbar button implicitly focuses Quill internally, which
+            // turned out to be exactly what "unlocks" typing — without an explicit
+            // focus, Quill doesn't fully attach its editable/selection state even
+            // once visible. requestAnimationFrame waits one frame so the browser
+            // has actually applied the display:none -> block change above before
+            // Quill focuses into what could otherwise still measure as zero-size.
+            requestAnimationFrame(() => getQuill().focus());
 
             if (editingArticleId) {
                 try {
