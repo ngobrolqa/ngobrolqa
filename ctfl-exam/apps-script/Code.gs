@@ -220,10 +220,20 @@ function handleGetArticle_(data) {
   };
 }
 
+// Google Sheets caps a single cell at ~50,000 characters. The client now routes
+// pasted/dragged images through Drive upload instead of embedding them as base64,
+// but this stays as a defensive check so any future oversized content fails with
+// a clear message instead of throwing and returning a CORS-header-less error page
+// (which shows up in the browser as a confusing "Failed to fetch" instead).
+const MAX_BODY_HTML_LENGTH = 45000;
+
 function handleSaveArticle_(data) {
   const title = (data.title || '').trim();
   const slug = slugify_(data.slug || data.title);
   if (!title || !slug) return { error: 'Title (and slug) are required' };
+  if ((data.bodyHtml || '').length > MAX_BODY_HTML_LENGTH) {
+    return { error: 'Article content is too large — likely an embedded image that wasn\'t uploaded to Drive. Try removing and re-adding any pasted images.' };
+  }
 
   const rowsData = articleRowsIndexed_();
   const idx = rowsData.idx;

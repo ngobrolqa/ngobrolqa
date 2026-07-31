@@ -352,8 +352,32 @@
                     ] },
                 });
                 quill.getModule('toolbar').addHandler('image', selectAndUploadImage);
+                // Toolbar click only covers the image button — a pasted or dragged
+                // image bypasses it entirely, and Quill's default behavior for those
+                // is to embed the image as a giant base64 data: URI directly in the
+                // article HTML. That's easily large enough to exceed a Google Sheets
+                // cell's ~50,000-character limit, which throws server-side and (since
+                // the crash produces Google's generic error page instead of our JSON
+                // response) shows up in the browser as a confusing CORS error rather
+                // than a clear "too large" message. Route these through the same
+                // Drive upload as the toolbar button instead of letting them embed.
+                quill.root.addEventListener('paste', interceptPastedOrDroppedImage);
+                quill.root.addEventListener('drop', interceptPastedOrDroppedImage);
             }
             return quill;
+        }
+
+        function interceptPastedOrDroppedImage(event) {
+            const items = (event.clipboardData || event.dataTransfer || {}).items || (event.dataTransfer || {}).files;
+            if (!items) return;
+            for (const item of items) {
+                const file = item.getAsFile ? item.getAsFile() : item;
+                if (file && file.type && file.type.indexOf('image') !== -1) {
+                    event.preventDefault();
+                    uploadAndInsertImage(file);
+                    return;
+                }
+            }
         }
 
         function selectAndUploadImage() {
@@ -361,22 +385,25 @@
             input.type = 'file';
             input.accept = 'image/*';
             input.onchange = () => {
-                const file = input.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = async () => {
-                    const base64 = reader.result.split(',')[1];
-                    const range = getQuill().getSelection(true);
-                    try {
-                        const result = await adminApi('uploadImage', { imageBase64: base64, mimeType: file.type, filename: file.name });
-                        getQuill().insertEmbed(range.index, 'image', result.url, 'user');
-                    } catch (err) {
-                        alert('Image upload failed: ' + err.message);
-                    }
-                };
-                reader.readAsDataURL(file);
+                if (input.files[0]) uploadAndInsertImage(input.files[0]);
             };
             input.click();
+        }
+
+        function uploadAndInsertImage(file) {
+            const reader = new FileReader();
+            reader.onload = async () => {
+                const base64 = reader.result.split(',')[1];
+                const range = getQuill().getSelection(true) || { index: getQuill().getLength() };
+                try {
+                    const result = await adminApi('uploadImage', { imageBase64: base64, mimeType: file.type, filename: file.name || 'pasted-image.png' });
+                    getQuill().insertEmbed(range.index, 'image', result.url, 'user');
+                    getQuill().setSelection(range.index + 1);
+                } catch (err) {
+                    alert('Image upload failed: ' + err.message);
+                }
+            };
+            reader.readAsDataURL(file);
         }
 
         function onTitleInput() {
@@ -421,8 +448,12 @@
             document.getElementById('articleTitle').value = '';
             document.getElementById('articleSlug').value = '';
             document.getElementById('articleStatus').value = 'draft';
-            getQuill().setContents([]);
+            // Show the section BEFORE initializing Quill — creating the editor while
+            // its container is display:none (still true at this point on the very
+            // first open) leaves it rendered but not actually accepting input, even
+            // after the container becomes visible a moment later.
             showSection('articleEditorSection');
+            getQuill().setContents([]);
 
             if (editingArticleId) {
                 try {
