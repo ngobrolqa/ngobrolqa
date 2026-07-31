@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - NgobrolQA</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <meta name="author" content="Aditya Mirza Bahari">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0d9488;
+            --primary-dark: #0f766e;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --danger: #dc2626;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        nav {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .nav-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: white; }
+        .nav-brand img { height: 40px; border-radius: 8px; }
+        .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links a { color: rgba(255,255,255,0.9); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s; }
+        .nav-links a:hover { color: white; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+
+        .header { text-align: center; padding: 2rem 0; }
+        .header h1 {
+            font-size: 2.25rem; font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        .header .tagline { font-size: 1.1rem; color: var(--text-muted); }
+
+        .admin-section { display: none; }
+        .admin-section.active { display: block; }
+
+        .card { background: var(--card); border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 1.5rem; }
+
+        .user-form {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 2rem; border-radius: 20px; margin: 1rem 0; color: white; text-align: center;
+        }
+        .user-form h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .user-form > p { opacity: 0.9; margin-bottom: 1.5rem; }
+        .form-group { text-align: left; margin: 0 auto 1rem; max-width: 400px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .form-group input {
+            width: 100%; padding: 0.75rem 1rem; border: 2px solid rgba(255,255,255,0.3); border-radius: 10px;
+            background: rgba(255,255,255,0.1); color: white; font-size: 1rem; transition: all 0.2s;
+        }
+        .form-group input::placeholder { color: rgba(255,255,255,0.5); }
+        .form-group input:focus { outline: none; border-color: white; background: rgba(255,255,255,0.2); }
+        .user-form .btn-primary { background: white; color: var(--primary-dark); }
+        .user-form .btn-primary:hover { background: #f0fdfa; }
+
+        .btn {
+            padding: 1rem 2rem; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer;
+            transition: all 0.2s ease; border: none; display: inline-flex; align-items: center; gap: 0.5rem;
+            text-decoration: none;
+        }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+        .btn-secondary:hover { background: var(--border); }
+        .error-text { color: var(--danger); font-size: 0.9rem; margin-top: 0.75rem; display: none; }
+
+        .admin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+        .admin-tile {
+            background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem;
+            opacity: 0.6;
+        }
+        .admin-tile h3 { margin-bottom: 0.4rem; }
+        .admin-tile p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.75rem; }
+        .admin-tile .badge {
+            display: inline-block; padding: 0.25rem 0.75rem; border-radius: 999px;
+            font-size: 0.75rem; font-weight: 700; background: var(--bg); color: var(--text-muted);
+        }
+
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .top-bar .logged-in-as { color: var(--text-muted); font-size: 0.9rem; }
+
+        footer { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 2rem; text-align: center; margin-top: 2rem; }
+        footer a { color: white; text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.75rem; }
+            .container { padding: 1rem; }
+            .nav-links a:not(.nav-brand) { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <a href="index.html" class="nav-brand">
+                <img src="ngobrolqa-logo.png" alt="NgobrolQA" onerror="this.style.display='none'">
+                <span>NgobrolQA Admin</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Back to site</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Admin Panel</h1>
+            <p class="tagline">Internal tools for managing ngobrolqa.com content</p>
+        </div>
+
+        <!-- Login -->
+        <div id="loginSection" class="admin-section active">
+            <div class="user-form">
+                <h3>Admin sign-in</h3>
+                <p>This page isn't linked from the site — enter the admin password to continue.</p>
+                <div class="form-group">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" placeholder="Enter password" onkeydown="if(event.key==='Enter') checkAdminLogin()">
+                </div>
+                <button class="btn btn-primary" onclick="checkAdminLogin()" style="margin: 1rem auto 0;">Sign in</button>
+                <p id="loginError" class="error-text" style="color: #fecaca;"></p>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboardSection" class="admin-section">
+            <div class="top-bar">
+                <span class="logged-in-as">Signed in as admin</span>
+                <button class="btn btn-secondary" onclick="adminLogout()">Sign out</button>
+            </div>
+            <div class="admin-grid">
+                <div class="admin-tile">
+                    <h3>Vouchers</h3>
+                    <p>Generate single-use codes that gate exam access.</p>
+                    <span class="badge">Coming soon</span>
+                </div>
+                <div class="admin-tile">
+                    <h3>Questions</h3>
+                    <p>Add, edit, or remove CTFL mock exam questions.</p>
+                    <span class="badge">Coming soon</span>
+                </div>
+                <div class="admin-tile">
+                    <h3>Articles</h3>
+                    <p>Write and publish new NgobrolQA articles.</p>
+                    <span class="badge">Coming soon</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Aditya Mirza Bahari. All Rights Reserved.</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">
+            <a href="https://id.linkedin.com/in/adityamirzabahari" target="_blank">LinkedIn</a> •
+            <a href="https://www.instagram.com/ngobrolqa/" target="_blank">Instagram</a> •
+            <a href="https://www.youtube.com/@ngobrolQA" target="_blank">YouTube</a> •
+            <a href="https://open.spotify.com/show/NgobrolQA" target="_blank">Podcast</a> •
+            <a href="https://idstb.org" target="_blank">IDSTB</a>
+        </p>
+    </footer>
+
+    <script>
+        // Soft gate for now — visible in page source, same tradeoff as the exam's
+        // team password. Fine while there's nothing behind it but "Coming soon"
+        // tiles; once Vouchers/Questions/Articles get real Apps Script actions,
+        // each of those needs this SAME password checked server-side too (mirror
+        // of how CTFL_Mock_Exam.html's GATE_PASSWORD is checked in Code.gs).
+        const ADMIN_PASSWORD = 'Topan804';
+
+        function showSection(id) {
+            document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function checkAdminLogin() {
+            const input = document.getElementById('adminPassword');
+            const errorEl = document.getElementById('loginError');
+            if (input.value === ADMIN_PASSWORD) {
+                // sessionStorage (not localStorage) — admin access is more sensitive
+                // than the exam gate, so it doesn't persist past closing the tab.
+                sessionStorage.setItem('ngobrolqa_admin', 'true');
+                errorEl.style.display = 'none';
+                showSection('dashboardSection');
+            } else {
+                errorEl.textContent = 'Incorrect password.';
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function adminLogout() {
+            sessionStorage.removeItem('ngobrolqa_admin');
+            document.getElementById('adminPassword').value = '';
+            showSection('loginSection');
+        }
+
+        if (sessionStorage.getItem('ngobrolqa_admin') === 'true') {
+            showSection('dashboardSection');
+        }
+    </script>
+</body>
+</html>
