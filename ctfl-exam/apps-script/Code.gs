@@ -220,6 +220,25 @@ function handleGetArticle_(data) {
   };
 }
 
+// Admin-only — unlike handleGetArticle_, returns an article regardless of
+// status (draft or published), since the Admin editor needs to load draft
+// content too. Looked up by articleId, not slug, since a draft's slug can
+// still be edited/collide.
+function handleGetArticleForEdit_(data) {
+  const rowsData = articleRowsIndexed_();
+  const idx = rowsData.idx;
+  const match = rowsData.rows.find(function (row) {
+    return row[idx.article_id] === data.articleId;
+  });
+  if (!match) return { error: 'Article not found' };
+  return {
+    title: match[idx.title],
+    bodyHtml: match[idx.body_html],
+    status: match[idx.status],
+    updatedAt: match[idx.updated_at],
+  };
+}
+
 // Google Sheets caps a single cell at ~50,000 characters. The client now routes
 // pasted/dragged images through Drive upload instead of embedding them as base64,
 // but this stays as a defensive check so any future oversized content fails with
@@ -292,7 +311,7 @@ function handleUploadImage_(data) {
 // - ADMIN_ACTIONS: the admin panel's ADMIN_PASSWORD (a different audience/secret).
 // - Anything not listed in either (e.g. getArticle) is public — no password.
 const EXAM_ACTIONS = ['register', 'submit', 'leaderboard'];
-const ADMIN_ACTIONS = ['listArticles', 'saveArticle', 'deleteArticle', 'uploadImage'];
+const ADMIN_ACTIONS = ['listArticles', 'saveArticle', 'deleteArticle', 'uploadImage', 'getArticleForEdit'];
 
 function doPost(e) {
   let data;
@@ -322,6 +341,9 @@ function doPost(e) {
       break;
     case 'getArticle':
       result = handleGetArticle_(data);
+      break;
+    case 'getArticleForEdit':
+      result = handleGetArticleForEdit_(data);
       break;
     case 'listArticles':
       result = handleListArticles_();
