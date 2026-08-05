@@ -497,9 +497,10 @@
                     document.getElementById('articleStatus').value = article.status;
                     slugEditedByHand = true;
                     // listArticles doesn't include bodyHtml (keeps the list payload
-                    // small) — fetch the full content via the public getArticle
-                    // action, which works for drafts too since we know the slug.
-                    const full = await adminApi('getArticle', { slug: article.slug }).catch(() => null);
+                    // small) — fetch the full content via the admin-only
+                    // getArticleForEdit action, which (unlike the public getArticle)
+                    // returns drafts too.
+                    const full = await adminApi('getArticleForEdit', { articleId: editingArticleId }).catch(() => null);
                     if (full && full.bodyHtml) getQuill().clipboard.dangerouslyPasteHTML(full.bodyHtml);
                 } catch (err) {
                     document.getElementById('editorError').textContent = 'Failed to load article: ' + err.message;
