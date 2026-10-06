@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Career Compounding Theory | NgobrolQA</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <meta name="description" content="Your QA career is a 20-year investment across 4 domains. The NgobrolQA Career Compounding Theory.">
     <meta name="author" content="Aditya Mirza Bahari">
     <meta name="copyright" content="© 2026 Aditya Mirza Bahari. All Rights Reserved.">
@@ -14,17 +17,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0d9488;
-            --primary-dark: #0f766e;
-            --primary-light: #5eead4;
-            --secondary: #6366f1;
+            --primary: #0f62f0;
+            --navy: #071c44;
+            --primary-dark: #0a47b8;
+            --primary-light: #8db6ff;
+            --secondary: #071c44;
             --accent: #f59e0b;
-            --bg: #f8fafc;
-            --bg-dark: #0f172a;
+            --bg: #f4f7fb;
+            --bg-dark: #071c44;
             --card: #ffffff;
-            --text: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --text: #0f1f3d;
+            --text-muted: #55657f;
+            --border: #dbe3ef;
             --fund: #0d9488;
             --market: #6366f1;
             --future: #f59e0b;
@@ -42,7 +46,7 @@
 
         /* Nav */
         nav {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            background: var(--navy);
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
@@ -66,8 +70,9 @@
             color: white;
         }
 
-        .nav-brand img { height: 40px; border-radius: 8px; }
+        .nav-brand img { height: 40px; }
         .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+        .nav-brand span .qa { color: #5a9bff; }
 
         .nav-links { display: flex; gap: 1.5rem; align-items: center; }
         .nav-links a {
@@ -81,14 +86,14 @@
         .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
 
         .nav-cta {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: var(--primary);
             color: white !important;
             padding: 0.6rem 1.25rem;
             border-radius: 25px;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 15px rgba(15, 98, 240, 0.45);
         }
         .nav-cta:hover { transform: translateY(-2px); }
 
@@ -108,7 +113,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            background: var(--navy);
             z-index: 1000;
             flex-direction: column;
             justify-content: center;
@@ -438,13 +443,13 @@
         }
 
         .vs-card.dreyfus {
-            background: rgba(99,102,241,0.06);
-            border: 1.5px solid rgba(99,102,241,0.2);
+            background: rgba(85,101,127,0.07);
+            border: 1.5px solid rgba(85,101,127,0.25);
         }
 
         .vs-card.compound {
-            background: rgba(13,148,136,0.06);
-            border: 1.5px solid rgba(13,148,136,0.2);
+            background: rgba(15, 98, 240,0.06);
+            border: 1.5px solid rgba(15, 98, 240,0.2);
         }
 
         .vs-card h4 { font-size: 1rem; margin-bottom: 0.5rem; }
@@ -482,7 +487,7 @@
         }
 
         .check-item:hover { border-color: var(--primary); }
-        .check-item.checked { border-color: var(--primary); background: rgba(13,148,136,0.04); }
+        .check-item.checked { border-color: var(--primary); background: rgba(15, 98, 240,0.04); }
         .check-item.checked .check-icon { background: var(--primary); color: white; border-color: var(--primary); }
 
         .check-header {
@@ -515,7 +520,7 @@
 
         .check-result {
             display: none;
-            background: linear-gradient(135deg, rgba(13,148,136,0.08), rgba(99,102,241,0.04));
+            background: linear-gradient(135deg, rgba(15, 98, 240,0.08), rgba(10, 71, 184,0.04));
             border: 2px solid var(--primary);
             border-radius: 12px;
             padding: 1.5rem;
@@ -654,8 +659,8 @@
     <nav>
         <div class="nav-content">
             <a href="index.html" class="nav-brand">
-                <img src="ngobrolqa-logo.png" alt="NgobrolQA">
-                <span>NgobrolQA</span>
+                <img src="ngobrolqa-mark-reversed.svg" alt="NgobrolQA">
+                <span>Ngobrol<span class="qa">QA</span></span>
             </a>
             <div class="nav-links">
                 <a href="index.html">Home</a>

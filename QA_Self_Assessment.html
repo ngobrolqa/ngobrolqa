@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QA Skill Assessment | ngobrolqa.com</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <meta name="description" content="Know your level, understand your problem, learn what matters next.">
     <meta name="author" content="Aditya Mirza Bahari">
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -13,17 +16,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         :root {
-            --primary: #0d9488;
-            --primary-dark: #0f766e;
-            --primary-light: #5eead4;
-            --secondary: #6366f1;
+            --primary: #0f62f0;
+            --navy: #071c44;
+            --primary-dark: #0a47b8;
+            --primary-light: #8db6ff;
+            --secondary: #071c44;
             --accent: #f59e0b;
-            --bg: #f8fafc;
-            --bg-dark: #0f172a;
+            --bg: #f4f7fb;
+            --bg-dark: #071c44;
             --card: #ffffff;
-            --text: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --text: #0f1f3d;
+            --text-muted: #55657f;
+            --border: #dbe3ef;
             --success: #10b981;
             --warning: #f59e0b;
         }
@@ -38,7 +42,7 @@
         }
 
         nav {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            background: var(--navy);
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
@@ -62,8 +66,9 @@
             color: white;
         }
 
-        .nav-brand img { height: 40px; border-radius: 8px; }
+        .nav-brand img { height: 40px; }
         .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+        .nav-brand span .qa { color: #5a9bff; }
 
         .nav-links { display: flex; gap: 1.5rem; align-items: center; }
         .nav-links a {
@@ -77,7 +82,7 @@
         .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
         
         .nav-cta {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: var(--primary);
             color: white !important;
             padding: 0.6rem 1.25rem;
             border-radius: 25px;
@@ -85,11 +90,11 @@
             border: none;
             text-decoration: none;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 15px rgba(15, 98, 240, 0.45);
         }
         .nav-cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 6px 20px rgba(15, 98, 240, 0.55);
         }
         
         /* Hamburger Menu */
@@ -126,7 +131,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            background: var(--navy);
             z-index: 1000;
             flex-direction: column;
             justify-content: center;
@@ -290,7 +295,7 @@
             transition: all 0.2s ease;
         }
         .option:hover { background: white; border-color: var(--primary-light); transform: translateX(4px); }
-        .option.selected { background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(99, 102, 241, 0.1)); border-color: var(--primary); }
+        .option.selected { background: linear-gradient(135deg, rgba(15, 98, 240, 0.1), rgba(10, 71, 184, 0.1)); border-color: var(--primary); }
         .option-marker {
             width: 36px;
             height: 36px;
@@ -324,7 +329,7 @@
         .btn-secondary { background: var(--bg); color: var(--text); }
         .btn-secondary:hover { background: var(--border); }
         .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(15, 98, 240, 0.3); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         .results-section { display: none; }
@@ -478,7 +483,7 @@
 
         .action-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
 
-        footer { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 2rem; text-align: center; margin-top: 4rem; }
+        footer { background: var(--navy); color: white; padding: 2rem; text-align: center; margin-top: 4rem; }
         footer a { color: white; text-decoration: none; }
 
         .assessment-section { display: none; }
@@ -516,7 +521,7 @@
         .form-group input:focus { outline: none; border-color: white; background: rgba(255,255,255,0.2); }
         .form-group small { display: block; margin-top: 0.5rem; opacity: 0.7; font-size: 0.8rem; }
         .user-form .btn-primary { background: white; color: var(--primary-dark); }
-        .user-form .btn-primary:hover { background: #f0fdfa; transform: translateY(-2px); }
+        .user-form .btn-primary:hover { background: #e8f0fe; transform: translateY(-2px); }
         .consent-group { 
             display: flex; 
             align-items: flex-start; 
@@ -577,8 +582,8 @@
     <nav>
         <div class="nav-content">
             <a href="index.html" class="nav-brand">
-                <img src="ngobrolqa-logo.png" alt="NgobrolQA" onerror="this.style.display='none'">
-                <span>NgobrolQA</span>
+                <img src="ngobrolqa-mark-reversed.svg" alt="NgobrolQA" onerror="this.style.display='none'">
+                <span>Ngobrol<span class="qa">QA</span></span>
             </a>
             <div class="nav-links">
                 <a href="index.html">Home</a>
@@ -1864,10 +1869,10 @@
                         datasets: [{
                             label: 'Score',
                             data: Object.values(results.dimensionScores),
-                            backgroundColor: 'rgba(13, 148, 136, 0.2)',
-                            borderColor: 'rgba(13, 148, 136, 1)',
+                            backgroundColor: 'rgba(15, 98, 240, 0.2)',
+                            borderColor: 'rgba(15, 98, 240, 1)',
                             borderWidth: 2,
-                            pointBackgroundColor: 'rgba(13, 148, 136, 1)'
+                            pointBackgroundColor: 'rgba(15, 98, 240, 1)'
                         }]
                     },
                     options: {
@@ -1945,11 +1950,11 @@
 
             if (currentLang === 'en') {
                 if (results.overallStage <= 1) {
-                    recs.push({ icon: "📖", text: 'Get <a href="https://idstb.org/exam-lists/" target="_blank" style="color: #0f766e; text-decoration: underline;">ISTQB CTFL</a> certified' });
+                    recs.push({ icon: "📖", text: 'Get <a href="https://idstb.org/exam-lists/" target="_blank" style="color: #0a47b8; text-decoration: underline;">ISTQB CTFL</a> certified' });
                     recs.push({ icon: "🤖", text: "Use AI to learn testing concepts" });
                 } else if (results.overallStage === 2) {
                     recs.push({ icon: "🎯", text: "Choose a specialization path" });
-                    recs.push({ icon: "📜", text: 'Consider <a href="https://idstb.org/exam-lists/" target="_blank" style="color: #0f766e; text-decoration: underline;">CT-AI or CT-GenAI</a> cert' });
+                    recs.push({ icon: "📜", text: 'Consider <a href="https://idstb.org/exam-lists/" target="_blank" style="color: #0a47b8; text-decoration: underline;">CT-AI or CT-GenAI</a> cert' });
                 } else {
                     recs.push({ icon: "👥", text: "Mentor others, multiply impact" });
                     recs.push({ icon: "🎤", text: "Share knowledge at meetups" });
@@ -1963,11 +1968,11 @@
                 if (weakest[1] < 2) recs.push({ icon: "⚡", text: dimRecs[weakest[0]] });
             } else {
                 if (results.overallStage <= 1) {
-                    recs.push({ icon: "📖", text: 'Ambil sertifikasi <a href="https://idstb.org/exam-lists/" target="_blank" style="color: #0f766e; text-decoration: underline;">ISTQB CTFL</a>' });
+                    recs.push({ icon: "📖", text: 'Ambil sertifikasi <a href="https://idstb.org/exam-lists/" target="_blank" style="color: #0a47b8; text-decoration: underline;">ISTQB CTFL</a>' });
                     recs.push({ icon: "🤖", text: "Gunakan AI untuk belajar testing" });
                 } else if (results.overallStage === 2) {
                     recs.push({ icon: "🎯", text: "Pilih jalur spesialisasi" });
-                    recs.push({ icon: "📜", text: 'Pertimbangkan cert <a href="https://idstb.org/exam-lists/" target="_blank" style="color: #0f766e; text-decoration: underline;">CT-AI/CT-GenAI</a>' });
+                    recs.push({ icon: "📜", text: 'Pertimbangkan cert <a href="https://idstb.org/exam-lists/" target="_blank" style="color: #0a47b8; text-decoration: underline;">CT-AI/CT-GenAI</a>' });
                 } else {
                     recs.push({ icon: "👥", text: "Bimbing orang lain, perbesar dampak" });
                     recs.push({ icon: "🎤", text: "Berbagi di meetup/konferensi" });

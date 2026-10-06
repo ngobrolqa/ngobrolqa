@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - NgobrolQA</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <meta name="robots" content="noindex, nofollow">
 
     <meta name="author" content="Aditya Mirza Bahari">
@@ -12,15 +15,16 @@
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
     <style>
         :root {
-            --primary: #0d9488;
-            --primary-dark: #0f766e;
-            --secondary: #6366f1;
+            --primary: #0f62f0;
+            --navy: #071c44;
+            --primary-dark: #0a47b8;
+            --secondary: #071c44;
             --accent: #f59e0b;
-            --bg: #f8fafc;
+            --bg: #f4f7fb;
             --card: #ffffff;
-            --text: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --text: #0f1f3d;
+            --text-muted: #55657f;
+            --border: #dbe3ef;
             --success: #10b981;
             --danger: #dc2626;
         }
@@ -35,7 +39,7 @@
         }
 
         nav {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            background: var(--navy);
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
@@ -44,8 +48,9 @@
         }
         .nav-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .nav-brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: white; }
-        .nav-brand img { height: 40px; border-radius: 8px; }
+        .nav-brand img { height: 40px; }
         .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+        .nav-brand span .qa { color: #5a9bff; }
         .nav-links { display: flex; gap: 1.5rem; align-items: center; }
         .nav-links a { color: rgba(255,255,255,0.9); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s; }
         .nav-links a:hover { color: white; }
@@ -81,7 +86,7 @@
         .form-group input::placeholder { color: rgba(255,255,255,0.5); }
         .form-group input:focus { outline: none; border-color: white; background: rgba(255,255,255,0.2); }
         .user-form .btn-primary { background: white; color: var(--primary-dark); }
-        .user-form .btn-primary:hover { background: #f0fdfa; }
+        .user-form .btn-primary:hover { background: #e8f0fe; }
 
         .btn {
             padding: 1rem 2rem; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer;
@@ -89,7 +94,7 @@
             text-decoration: none;
         }
         .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(15, 98, 240, 0.3); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
         .btn-secondary:hover { background: var(--border); }
@@ -141,7 +146,7 @@
             padding: 0.75rem 1rem; font-size: 0.85rem; word-break: break-all; margin-top: 1rem;
         }
 
-        footer { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 2rem; text-align: center; margin-top: 2rem; }
+        footer { background: var(--navy); color: white; padding: 2rem; text-align: center; margin-top: 2rem; }
         footer a { color: white; text-decoration: none; }
 
         @media (max-width: 768px) {
@@ -155,8 +160,8 @@
     <nav>
         <div class="nav-content">
             <a href="index.html" class="nav-brand">
-                <img src="ngobrolqa-logo.png" alt="NgobrolQA" onerror="this.style.display='none'">
-                <span>NgobrolQA Admin</span>
+                <img src="ngobrolqa-mark-reversed.svg" alt="NgobrolQA" onerror="this.style.display='none'">
+                <span>Ngobrol<span class="qa">QA</span> Admin</span>
             </a>
             <div class="nav-links">
                 <a href="index.html">Back to site</a>

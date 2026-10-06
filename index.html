@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NgobrolQA - Platform untuk Ngobrol tentang Quality Assurance</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     
     <meta name="author" content="Aditya Mirza Bahari">
     <meta name="copyright" content="© 2026 Aditya Mirza Bahari. All Rights Reserved.">
@@ -18,16 +21,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0d9488;
-            --primary-dark: #0f766e;
-            --primary-light: #5eead4;
-            --secondary: #6366f1;
+            --primary: #0f62f0;
+            --navy: #071c44;
+            --primary-dark: #0a47b8;
+            --primary-light: #8db6ff;
+            --secondary: #071c44;
             --accent: #f59e0b;
-            --bg: #f8fafc;
+            --bg: #f4f7fb;
             --card: #ffffff;
-            --text: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --text: #0f1f3d;
+            --text-muted: #55657f;
+            --border: #dbe3ef;
             --success: #10b981;
         }
 
@@ -41,7 +45,7 @@
         }
 
         nav {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            background: var(--navy);
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
@@ -65,8 +69,9 @@
             color: white;
         }
 
-        .nav-brand img { height: 40px; border-radius: 8px; }
+        .nav-brand img { height: 40px; }
         .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+        .nav-brand span .qa { color: #5a9bff; }
 
         .nav-links { display: flex; gap: 1.5rem; align-items: center; }
         .nav-links a {
@@ -80,7 +85,7 @@
         .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
         
         .nav-cta {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: var(--primary);
             color: white !important;
             padding: 0.6rem 1.25rem;
             border-radius: 25px;
@@ -88,11 +93,11 @@
             border: none;
             text-decoration: none;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 15px rgba(15, 98, 240, 0.45);
         }
         .nav-cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 6px 20px rgba(15, 98, 240, 0.55);
         }
         
         .hamburger {
@@ -118,7 +123,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            background: var(--navy);
             z-index: 1000;
             flex-direction: column;
             justify-content: center;
@@ -154,7 +159,7 @@
             padding: 3rem 0;
         }
 
-        .header-emoji { font-size: 4rem; margin-bottom: 1rem; display: block; }
+        .hero-mark { display: block; height: 96px; width: auto; margin: 0 auto 1.25rem; }
 
         .header h1 {
             font-size: 3rem;
@@ -200,7 +205,7 @@
 
         .feature-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(13, 148, 136, 0.15);
+            box-shadow: 0 12px 40px rgba(15, 98, 240, 0.15);
             border-color: var(--primary);
         }
 
@@ -271,7 +276,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--primary);
-            background: rgba(13,148,136,0.1);
+            background: rgba(15, 98, 240,0.1);
             padding: 0.2rem 0.6rem;
             border-radius: 4px;
         }
@@ -376,7 +381,7 @@
         }
 
         footer {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: var(--navy);
             color: white;
             padding: 2rem;
             text-align: center;
@@ -409,8 +414,8 @@
     <nav>
         <div class="nav-content">
             <a href="index.html" class="nav-brand">
-                <img src="ngobrolqa-logo.png" alt="NgobrolQA" onerror="this.style.display='none'">
-                <span>NgobrolQA</span>
+                <img src="ngobrolqa-mark-reversed.svg" alt="NgobrolQA" onerror="this.style.display='none'">
+                <span>Ngobrol<span class="qa">QA</span></span>
             </a>
             <div class="nav-links">
                 <a href="index.html" class="active">Home</a>
@@ -431,7 +436,7 @@
 
     <div class="container">
         <div class="header">
-            <span class="header-emoji">💬</span>
+            <img src="ngobrolqa-mark.svg" alt="NgobrolQA" class="hero-mark">
             <h1>NgobrolQA</h1>
             <p class="tagline">Rethinking QA Growth in the AI Era</p>
             <p class="description">
