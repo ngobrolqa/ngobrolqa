@@ -184,7 +184,7 @@
                     <label for="adminPassword">Password</label>
                     <input type="password" id="adminPassword" placeholder="Enter password" onkeydown="if(event.key==='Enter') checkAdminLogin()">
                 </div>
-                <button class="btn btn-primary" onclick="checkAdminLogin()" style="margin: 1rem auto 0;">Sign in</button>
+                <button class="btn btn-primary" id="loginBtn" onclick="checkAdminLogin()" style="margin: 1rem auto 0;">Sign in</button>
                 <p id="loginError" class="error-text" style="color: #fecaca;"></p>
             </div>
         </div>
@@ -275,11 +275,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script>
-        // Soft gate — visible in page source, same tradeoff as the exam's team
-        // password. Code.gs checks this SAME password server-side for every
-        // article action (listArticles/saveArticle/deleteArticle/uploadImage),
-        // so this client-side check alone isn't the real security boundary.
-        const ADMIN_PASSWORD = 'Topan804';
+        // The password is never stored in this page: the admin types it, the server
+        // (Code.gs, Script Property ADMIN_PASSWORD) checks it, and this tab remembers it for
+        // the session only (sessionStorage), so API calls can send it along.
+        let adminSecret = sessionStorage.getItem('ngobrolqa_admin_pw') || '';
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzq55gjVwckD9mzKKl0vy1G_4pHYgQ5jad-tZ21b1Ve6azWx4zBy2CXoj2u969nhf2aSw/exec';
 
         function showSection(id) {
@@ -287,29 +286,49 @@
             document.getElementById(id).classList.add('active');
         }
 
-        function checkAdminLogin() {
+        async function checkAdminLogin() {
             const input = document.getElementById('adminPassword');
             const errorEl = document.getElementById('loginError');
-            if (input.value === ADMIN_PASSWORD) {
-                // sessionStorage (not localStorage) — admin access is more sensitive
-                // than the exam gate, so it doesn't persist past closing the tab.
-                sessionStorage.setItem('ngobrolqa_admin', 'true');
+            const btn = document.getElementById('loginBtn');
+            const attempt = input.value;
+            if (!attempt) {
+                errorEl.textContent = 'Enter the password.';
+                errorEl.style.display = 'block';
+                return;
+            }
+            btn.disabled = true;
+            btn.textContent = 'Checking…';
+            adminSecret = attempt;
+            try {
+                await adminApi('verifyAdmin', {});
+                // sessionStorage (not localStorage): admin access doesn't outlive the tab.
+                sessionStorage.setItem('ngobrolqa_admin_pw', attempt);
                 errorEl.style.display = 'none';
                 showSection('dashboardSection');
-            } else {
-                errorEl.textContent = 'Incorrect password.';
+            } catch (err) {
+                adminSecret = '';
+                errorEl.textContent = err.message === 'Incorrect admin password' ? 'Incorrect password.' : 'Could not check the password: ' + err.message;
                 errorEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Sign in';
             }
         }
 
         function adminLogout() {
-            sessionStorage.removeItem('ngobrolqa_admin');
+            adminSecret = '';
+            sessionStorage.removeItem('ngobrolqa_admin_pw');
             document.getElementById('adminPassword').value = '';
             showSection('loginSection');
         }
 
-        if (sessionStorage.getItem('ngobrolqa_admin') === 'true') {
-            showSection('dashboardSection');
+        // Same tab, already signed in: confirm the saved password still works before
+        // showing the dashboard (it may have been changed since).
+        sessionStorage.removeItem('ngobrolqa_admin');
+        if (adminSecret) {
+            adminApi('verifyAdmin', {})
+                .then(() => showSection('dashboardSection'))
+                .catch(() => { adminSecret = ''; sessionStorage.removeItem('ngobrolqa_admin_pw'); });
         }
 
         function escapeHtml(text) {
@@ -331,10 +350,14 @@
             const res = await fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(Object.assign({ action: action, adminPassword: ADMIN_PASSWORD }, payload)),
+                body: JSON.stringify(Object.assign({ action: action, adminPassword: adminSecret }, payload)),
             });
             const data = await res.json();
-            if (data.error) throw new Error(data.error);
+            if (data.error) {
+                // Password changed or removed while signed in: back to the sign-in screen.
+                if (data.error === 'Incorrect admin password' && action !== 'verifyAdmin') adminLogout();
+                throw new Error(data.error);
+            }
             return data;
         }
 
