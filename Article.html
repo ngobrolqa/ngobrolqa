@@ -69,6 +69,10 @@
             color: var(--text-muted); font-style: italic;
         }
 
+        .article-body .ql-ui { display: none; }
+        .article-body li[data-list="bullet"] { list-style-type: disc; }
+        .article-body li[data-list="ordered"] { list-style-type: decimal; }
+
         .not-found { text-align: center; padding: 2rem 0; color: var(--text-muted); }
 
         footer { background: var(--navy); color: white; padding: 2rem; text-align: center; margin-top: 2rem; }
@@ -115,6 +119,70 @@
     <script>
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzq55gjVwckD9mzKKl0vy1G_4pHYgQ5jad-tZ21b1Ve6azWx4zBy2CXoj2u969nhf2aSw/exec';
 
+        // Article bodies come from the admin editor, but the endpoint that stores them can be
+        // called by anyone who learns the admin password, so the HTML is never trusted:
+        // it is rebuilt from an allowlist of tags and attributes instead of injected as-is.
+        const ALLOWED_TAGS = ['P', 'BR', 'STRONG', 'B', 'EM', 'I', 'U', 'S', 'H1', 'H2', 'H3', 'H4', 'UL', 'OL', 'LI',
+            'BLOCKQUOTE', 'A', 'IMG', 'PRE', 'CODE', 'SPAN', 'DIV', 'HR', 'SUB', 'SUP'];
+        const DROP_TAGS = ['SCRIPT', 'STYLE', 'IFRAME', 'OBJECT', 'EMBED', 'LINK', 'META', 'BASE', 'FORM', 'INPUT', 'BUTTON',
+            'TEXTAREA', 'SELECT', 'SVG', 'MATH', 'TEMPLATE', 'NOSCRIPT', 'VIDEO', 'AUDIO', 'SOURCE', 'TRACK', 'CANVAS',
+            'FRAME', 'FRAMESET', 'APPLET', 'HEAD', 'TITLE'];
+        const LIST_TYPES = ['bullet', 'ordered', 'checked', 'unchecked'];
+
+        function safeUrl(value, allowMailto) {
+            try {
+                const url = new URL(String(value).trim(), window.location.href);
+                if (url.protocol === 'https:' || url.protocol === 'http:') return url.href;
+                if (allowMailto && url.protocol === 'mailto:') return url.href;
+            } catch (e) { /* not a URL */ }
+            return null;
+        }
+
+        function cleanChildren(source, target) {
+            source.childNodes.forEach(function (node) {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    target.appendChild(document.createTextNode(node.nodeValue));
+                    return;
+                }
+                if (node.nodeType !== Node.ELEMENT_NODE) return;
+                const tag = node.tagName.toUpperCase();
+                if (DROP_TAGS.indexOf(tag) !== -1) return;
+                if (ALLOWED_TAGS.indexOf(tag) === -1) { cleanChildren(node, target); return; }
+
+                const el = document.createElement(tag.toLowerCase());
+                const classes = (node.getAttribute('class') || '').split(/\s+/).filter(function (c) { return /^ql-[a-z0-9-]+$/.test(c); });
+                if (classes.length) el.className = classes.join(' ');
+
+                if (tag === 'A') {
+                    const href = safeUrl(node.getAttribute('href') || '', true);
+                    if (href) {
+                        el.setAttribute('href', href);
+                        el.setAttribute('target', '_blank');
+                        el.setAttribute('rel', 'noopener noreferrer');
+                    }
+                } else if (tag === 'IMG') {
+                    const src = safeUrl(node.getAttribute('src') || '', false);
+                    if (!src || src.indexOf('https:') !== 0) return;
+                    el.setAttribute('src', src);
+                    el.setAttribute('alt', node.getAttribute('alt') || '');
+                    el.setAttribute('loading', 'lazy');
+                } else if (tag === 'LI') {
+                    const listType = node.getAttribute('data-list');
+                    if (LIST_TYPES.indexOf(listType) !== -1) el.setAttribute('data-list', listType);
+                }
+                cleanChildren(node, el);
+                target.appendChild(el);
+            });
+        }
+
+        function sanitizeToFragment(html) {
+            // DOMParser documents are inert: nothing runs and nothing loads while we read it.
+            const doc = new DOMParser().parseFromString('<!doctype html><body>' + String(html || ''), 'text/html');
+            const fragment = document.createDocumentFragment();
+            cleanChildren(doc.body, fragment);
+            return fragment;
+        }
+
         async function loadArticle() {
             const slug = new URLSearchParams(window.location.search).get('slug');
             const card = document.getElementById('articleCard');
@@ -138,8 +206,11 @@
                 const updated = data.updatedAt ? new Date(data.updatedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
                 card.innerHTML =
                     '<h1 class="article-title">' + escapeHtml(data.title) + '</h1>' +
-                    (updated ? '<p class="article-meta">Last updated ' + updated + '</p>' : '') +
-                    '<div class="article-body">' + data.bodyHtml + '</div>';
+                    (updated ? '<p class="article-meta">Last updated ' + updated + '</p>' : '');
+                const bodyEl = document.createElement('div');
+                bodyEl.className = 'article-body';
+                bodyEl.appendChild(sanitizeToFragment(data.bodyHtml));
+                card.appendChild(bodyEl);
             } catch (err) {
                 card.innerHTML = '<p class="not-found">Failed to load article: ' + escapeHtml(err.message) + '</p>';
             }

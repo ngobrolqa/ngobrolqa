@@ -424,21 +424,36 @@
         const EXAM_SECONDS = 60 * 60;
         const PASS_PERCENTAGE = 65;
 
-        // Team-only preview gate. NOTE: visible in page source, this is a soft
-        // gate to keep casual public visitors out, not real access control —
-        // Code.gs checks the same password server-side for the actual API calls.
-        const GATE_PASSWORD = 'Jakarta2026';
+        // Team-only preview gate. The password is never stored in this page: the visitor
+        // types it, the server (Code.gs, Script Property GATE_PASSWORD) checks it, and this
+        // browser then remembers what was typed so later API calls can send it along.
+        let gateSecret = localStorage.getItem('ctfl_gate_password') || '';
 
-        function checkGate() {
+        async function checkGate() {
             const input = document.getElementById('gatePassword');
             const errorEl = document.getElementById('gateError');
-            if (input.value === GATE_PASSWORD) {
-                localStorage.setItem('ctfl_gate_passed', 'true');
+            const btn = document.getElementById('gateBtn');
+            const attempt = input.value;
+            if (!attempt) {
+                errorEl.textContent = 'Enter the password.';
+                errorEl.style.display = 'block';
+                return;
+            }
+            btn.disabled = true;
+            btn.textContent = 'Checking…';
+            gateSecret = attempt;
+            try {
+                await callApi('verifyGate', {});
+                localStorage.setItem('ctfl_gate_password', attempt);
                 errorEl.style.display = 'none';
                 enterApp();
-            } else {
-                errorEl.textContent = 'Incorrect password.';
+            } catch (err) {
+                gateSecret = '';
+                errorEl.textContent = err.message === 'Incorrect password' ? 'Incorrect password.' : 'Could not check the password: ' + err.message;
                 errorEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Unlock →';
             }
         }
 
@@ -483,7 +498,7 @@
             const res = await fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(Object.assign({ action: action, password: GATE_PASSWORD }, payload)),
+                body: JSON.stringify(Object.assign({ action: action, password: gateSecret }, payload)),
             });
             const data = await res.json();
             if (data.error) throw new Error(data.error);
@@ -790,12 +805,12 @@
                     return;
                 }
                 body.innerHTML = rows.map((row, idx) =>
-                    '<tr><td>' + (idx + 1) + '</td><td>' + row.name + '</td><td>' + (row.examSet === 'RANDOM' ? 'Mix' : row.examSet) + '</td>' +
+                    '<tr><td>' + (idx + 1) + '</td><td>' + escapeHtml(row.name) + '</td><td>' + (row.examSet === 'RANDOM' ? 'Mix' : row.examSet) + '</td>' +
                     '<td>' + row.score + ' / ' + row.totalPoints + '</td><td>' + row.percentage + '%</td>' +
                     '<td><span class="badge ' + (row.passed ? 'pass' : 'fail') + '">' + (row.passed ? 'PASS' : 'FAIL') + '</span></td></tr>'
                 ).join('');
             } catch (err) {
-                body.innerHTML = '<tr><td colspan="6">Failed to load: ' + err.message + '</td></tr>';
+                body.innerHTML = '<tr><td colspan="6">Failed to load: ' + escapeHtml(err.message) + '</td></tr>';
             }
         }
 
@@ -808,10 +823,26 @@
             if (examVisible && !examSubmitted) { e.preventDefault(); e.returnValue = ''; }
         });
 
-        // If this browser already passed the gate, skip straight past it
-        // (and further to the picker if we already know who they are).
-        if (localStorage.getItem('ctfl_gate_passed') === 'true') {
-            enterApp();
+        // Returning visitor: ask the server whether the saved password still works (it may
+        // have been changed), then skip the gate. Visitors from before this change only
+        // have the old "passed" flag, which carries no password, so they enter it once more.
+        localStorage.removeItem('ctfl_gate_passed');
+        if (gateSecret) {
+            const gateBtn = document.getElementById('gateBtn');
+            gateBtn.disabled = true;
+            gateBtn.textContent = 'Checking saved password…';
+            callApi('verifyGate', {})
+                .then(() => enterApp())
+                .catch(err => {
+                    gateSecret = '';
+                    if (err.message === 'Incorrect password') localStorage.removeItem('ctfl_gate_password');
+                    const errorEl = document.getElementById('gateError');
+                    errorEl.textContent = err.message === 'Incorrect password'
+                        ? 'The password has changed. Enter the new one.'
+                        : 'Could not reach the server: ' + err.message;
+                    errorEl.style.display = 'block';
+                })
+                .finally(() => { gateBtn.disabled = false; gateBtn.textContent = 'Unlock →'; });
         }
     </script>
 </body>

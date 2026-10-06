@@ -59,7 +59,7 @@ Career Compounding Theory (accessible via Insights section on homepage
 | `CNAME` | GitHub Pages custom domain config (contains: `ngobrolqa.com`) |
 | `docs/` | Early framework drafts (Markdown): `Framework_Complete.md`, `Framework_Draft.md`, `Self_Assessment_Detailed.md` |
 | `_archive/` | Old v1 framework files |
-| `ctfl-exam/data/questions.json` | Static question bank for `CTFL_Mock_Exam.html` (question text/options only, no answers — answer key lives only in the Apps Script backend) |
+| `ctfl-exam/data/questions.json` | Static question bank for `CTFL_Mock_Exam.html` (question text/options only, no answers — answer key lives only in a private tab of the spreadsheet, read by the Apps Script backend) |
 | `ctfl-exam/apps-script/` | `Code.gs` (backend: register/grade/leaderboard via a Google Sheet) + deployment `README.md` |
 
 ---
@@ -126,7 +126,7 @@ Both forms submit to the same Google Sheet but different tabs:
 3. **NgobrolQA-CTFL-Exam** (for `CTFL_Mock_Exam.html`) — source kept in-repo at `ctfl-exam/apps-script/Code.gs`
    - Deployed URL: _not yet deployed — see `ctfl-exam/apps-script/README.md`_
    - Targets "CTFL_Registrations" and "CTFL_Results" tabs (auto-created)
-   - Holds the private answer key server-side; grades submissions and serves the leaderboard
+   - Reads the private answer key (sheet tab `CTFL_AnswerKey`) and the passwords (Script Properties) server-side; grades submissions and serves the leaderboard
    - No reCAPTCHA (low-stakes internal practice tool, not a public lead-gen form)
 
 ### reCAPTCHA v2 (Checkbox)
