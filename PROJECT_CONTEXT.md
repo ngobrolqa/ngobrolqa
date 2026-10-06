@@ -194,11 +194,14 @@ The presentation follows a keynote style (big text, one idea per slide, killer s
 ### Colors
 
 ```
-Primary:    #0d9488 (teal)
-Primary Dark: #0f766e
-Secondary:  #6366f1 (indigo)
+Primary:    #0f62f0 (blue)
+Primary Dark: #0a47b8
+Navy:       #071c44 (nav, footer, mobile menu; also --secondary)
 Accent:     #f59e0b (amber)
 Pink:       #ec4899 (used for "Others" domain in Career Compounding)
+
+The four skill-dimension colors in QA_Skill_Framework.html (teal, indigo, amber, pink) are categorical data colors, not brand colors, and were deliberately left unchanged in the 2026-10 navy/blue rebrand.
+Mark: plain N (ngobrolqa-mark.svg; ngobrolqa-mark-reversed.svg for navy bars); favicon: favicon.svg.
 ```
 
 ### Fonts

@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CTFL Mock Exam - NgobrolQA</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
     <meta name="author" content="Aditya Mirza Bahari">
     <meta name="description" content="Free ISTQB CTFL v4.0 mock exam. 40 questions, 60 minutes, instant scoring and review, team leaderboard.">
@@ -11,16 +14,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0d9488;
-            --primary-dark: #0f766e;
-            --primary-light: #5eead4;
-            --secondary: #6366f1;
+            --primary: #0f62f0;
+            --navy: #071c44;
+            --primary-dark: #0a47b8;
+            --primary-light: #8db6ff;
+            --secondary: #071c44;
             --accent: #f59e0b;
-            --bg: #f8fafc;
+            --bg: #f4f7fb;
             --card: #ffffff;
-            --text: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --text: #0f1f3d;
+            --text-muted: #55657f;
+            --border: #dbe3ef;
             --success: #10b981;
             --danger: #dc2626;
         }
@@ -35,7 +39,7 @@
         }
 
         nav {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            background: var(--navy);
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
@@ -44,14 +48,15 @@
         }
         .nav-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
         .nav-brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: white; }
-        .nav-brand img { height: 40px; border-radius: 8px; }
+        .nav-brand img { height: 40px; }
         .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+        .nav-brand span .qa { color: #5a9bff; }
         .nav-links { display: flex; gap: 1.5rem; align-items: center; }
         .nav-links a { color: rgba(255,255,255,0.9); text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: color 0.2s; }
         .nav-links a:hover { color: white; }
         .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
         .nav-cta {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: var(--primary);
             color: white !important;
             padding: 0.6rem 1.25rem;
             border-radius: 25px;
@@ -59,9 +64,9 @@
             border: none;
             text-decoration: none;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 15px rgba(15, 98, 240, 0.45);
         }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(15, 98, 240, 0.55); }
         .hamburger { display: none; flex-direction: column; cursor: pointer; padding: 0.5rem; z-index: 1001; }
         .hamburger span { width: 25px; height: 3px; background: white; margin: 3px 0; border-radius: 3px; transition: all 0.3s; }
         .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
@@ -69,7 +74,7 @@
         .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
         .mobile-menu {
             display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            background: var(--navy);
             z-index: 1000; flex-direction: column; justify-content: center; align-items: center; gap: 2rem;
             opacity: 0; visibility: hidden; transition: all 0.3s;
         }
@@ -114,7 +119,7 @@
         .form-group input::placeholder { color: rgba(255,255,255,0.5); }
         .form-group input:focus { outline: none; border-color: white; background: rgba(255,255,255,0.2); }
         .user-form .btn-primary { background: white; color: var(--primary-dark); }
-        .user-form .btn-primary:hover { background: #f0fdfa; }
+        .user-form .btn-primary:hover { background: #e8f0fe; }
 
         .btn {
             padding: 1rem 2rem; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer;
@@ -122,7 +127,7 @@
             text-decoration: none;
         }
         .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(15, 98, 240, 0.3); }
         .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
         .btn-secondary:hover { background: var(--border); }
@@ -135,8 +140,8 @@
             background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem;
             transition: all 0.2s;
         }
-        .exam-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(13,148,136,0.12); border-color: var(--primary); }
-        .exam-card.random { background: linear-gradient(135deg, var(--secondary), #4f46e5); color: white; border: none; }
+        .exam-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(15, 98, 240,0.12); border-color: var(--primary); }
+        .exam-card.random { background: linear-gradient(135deg, var(--secondary), #0a47b8); color: white; border: none; }
         .exam-card.random p { color: rgba(255,255,255,0.85); }
         .exam-card h3 { font-size: 1.15rem; margin-bottom: 0.4rem; }
         .exam-card p { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem; }
@@ -220,7 +225,7 @@
         table.leaderboard th, table.leaderboard td { text-align: left; padding: 0.7rem 0.5rem; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
         table.leaderboard th { color: var(--text-muted); font-weight: 600; }
 
-        footer { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 2rem; text-align: center; margin-top: 2rem; }
+        footer { background: var(--navy); color: white; padding: 2rem; text-align: center; margin-top: 2rem; }
         footer a { color: white; text-decoration: none; }
 
         @media (max-width: 768px) {
@@ -263,8 +268,8 @@
     <nav>
         <div class="nav-content">
             <a href="index.html" class="nav-brand">
-                <img src="ngobrolqa-logo.png" alt="NgobrolQA" onerror="this.style.display='none'">
-                <span>NgobrolQA</span>
+                <img src="ngobrolqa-mark-reversed.svg" alt="NgobrolQA" onerror="this.style.display='none'">
+                <span>Ngobrol<span class="qa">QA</span></span>
             </a>
             <div class="nav-links">
                 <a href="index.html">Home</a>

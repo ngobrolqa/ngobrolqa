@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QA Learning Plan - Training Course Mapping</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
     
     <!-- Copyright & Ownership -->
     <meta name="author" content="Aditya Mirza Bahari">
@@ -13,17 +16,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0d9488;
-            --primary-dark: #0f766e;
-            --primary-light: #5eead4;
-            --secondary: #6366f1;
+            --primary: #0f62f0;
+            --navy: #071c44;
+            --primary-dark: #0a47b8;
+            --primary-light: #8db6ff;
+            --secondary: #071c44;
             --accent: #f59e0b;
-            --bg: #f8fafc;
-            --bg-dark: #0f172a;
+            --bg: #f4f7fb;
+            --bg-dark: #071c44;
             --card: #ffffff;
-            --text: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --text: #0f1f3d;
+            --text-muted: #55657f;
+            --border: #dbe3ef;
             --success: #10b981;
             --warning: #f59e0b;
             --level-1: #fecaca;
@@ -44,7 +48,7 @@
         }
 
         nav {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            background: var(--navy);
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
@@ -68,8 +72,9 @@
             color: white;
         }
 
-        .nav-brand img { height: 40px; border-radius: 8px; }
+        .nav-brand img { height: 40px; }
         .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+        .nav-brand span .qa { color: #5a9bff; }
 
         .nav-links { display: flex; gap: 1.5rem; align-items: center; }
         .nav-links a {
@@ -83,7 +88,7 @@
         .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
         
         .nav-cta {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: var(--primary);
             color: white !important;
             padding: 0.6rem 1.25rem;
             border-radius: 25px;
@@ -91,9 +96,9 @@
             border: none;
             text-decoration: none;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 15px rgba(15, 98, 240, 0.45);
         }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(15, 98, 240, 0.55); }
         
         .hamburger {
             display: none;
@@ -111,7 +116,7 @@
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            background: var(--navy);
             z-index: 1000;
             flex-direction: column;
             justify-content: center;
@@ -190,7 +195,7 @@
 
         .nav-tab {
             padding: 0.6rem 1rem;
-            background: #e0f5f2;
+            background: #e8f0fe;
             border: 1px solid var(--border);
             border-radius: 8px;
             cursor: pointer;
@@ -201,7 +206,7 @@
         }
 
         .nav-tab:hover {
-            background: #b8ebe4;
+            background: #c7dafc;
         }
 
         .nav-tab.active {
@@ -240,11 +245,11 @@
         }
 
         .category-filter:hover {
-            background: #e0f5f2;
+            background: #e8f0fe;
         }
 
         .category-filter.active {
-            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+            background: linear-gradient(135deg, #0f62f0, #0a47b8);
             color: white;
             border-color: transparent;
         }
@@ -331,7 +336,7 @@
 
         .category-header {
             padding: 1rem 1.5rem;
-            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1) 0%, rgba(8, 145, 178, 0.1) 100%);
+            background: linear-gradient(135deg, rgba(15, 98, 240, 0.1) 0%, rgba(10, 71, 184, 0.1) 100%);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -349,7 +354,7 @@
             width: 28px;
             height: 28px;
             border-radius: 6px;
-            background: #b8ebe4;
+            background: #c7dafc;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -378,8 +383,8 @@
         }
 
         .course-card {
-            background: #e0f5f2;
-            border: 1px solid #b8ebe4;
+            background: #e8f0fe;
+            border: 1px solid #c7dafc;
             border-radius: 12px;
             padding: 1rem 1.25rem;
             transition: all 0.2s;
@@ -388,7 +393,7 @@
         .course-card:hover {
             border-color: var(--primary);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.1);
+            box-shadow: 0 4px 12px rgba(15, 98, 240, 0.1);
         }
 
         .course-title {
@@ -536,7 +541,7 @@
         }
         .idstb-link:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+            box-shadow: 0 4px 15px rgba(15, 98, 240, 0.3);
         }
 
         /* Free Resources Section */
@@ -563,8 +568,8 @@
         }
 
         .resource-card {
-            background: #e0f5f2;
-            border: 1px solid #b8ebe4;
+            background: #e8f0fe;
+            border: 1px solid #c7dafc;
             border-radius: 10px;
             padding: 1rem;
         }
@@ -587,7 +592,7 @@
 
         /* Cost Summary */
         .cost-summary {
-            background: linear-gradient(135deg, #14b8a6, #06b6d4);
+            background: linear-gradient(135deg, #0f62f0, #0a47b8);
             border-radius: 16px;
             padding: 1.5rem;
             margin-top: 2rem;
@@ -629,7 +634,7 @@
 
         /* Footer */
         footer {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: var(--navy);
             color: white;
             padding: 2rem;
             text-align: center;
@@ -683,8 +688,8 @@
     <nav>
         <div class="nav-content">
             <a href="index.html" class="nav-brand">
-                <img src="ngobrolqa-logo.png" alt="NgobrolQA" onerror="this.style.display='none'">
-                <span>NgobrolQA</span>
+                <img src="ngobrolqa-mark-reversed.svg" alt="NgobrolQA" onerror="this.style.display='none'">
+                <span>Ngobrol<span class="qa">QA</span></span>
             </a>
             <div class="nav-links">
                 <a href="index.html">Home</a>
