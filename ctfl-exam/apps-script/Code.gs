@@ -3,7 +3,7 @@
  *
  * Deploy: script.google.com > New project > paste this file > Deploy > New deployment >
  * type "Web app" > Execute as "Me" > Who has access "Anyone" > Deploy > copy the /exec URL
- * into CTFL_Mock_Exam.html's APPS_SCRIPT_URL constant.
+ * into ctfl-mock-exam.html's APPS_SCRIPT_URL constant.
  *
  * Fill in SHEET_ID below with the target spreadsheet's ID (the long string in its URL).
  * Sheet tabs "CTFL_Registrations" and "CTFL_Results" are created automatically on first use.

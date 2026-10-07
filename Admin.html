@@ -159,12 +159,12 @@
 <body>
     <nav>
         <div class="nav-content">
-            <a href="index.html" class="nav-brand">
+            <a href="/" class="nav-brand">
                 <img src="ngobrolqa-mark-reversed.svg" alt="NgobrolQA" onerror="this.style.display='none'">
                 <span>Ngobrol<span class="qa">QA</span> Admin</span>
             </a>
             <div class="nav-links">
-                <a href="index.html">Back to site</a>
+                <a href="/">Back to site</a>
             </div>
         </div>
     </nav>
@@ -475,7 +475,7 @@
                 el.innerHTML = data.articles.map(a => (
                     '<div class="article-row">' +
                     '<div class="article-info"><h4>' + escapeHtml(a.title) + '<span class="status-badge ' + a.status + '">' + a.status + '</span></h4>' +
-                    '<p>/Article.html?slug=' + escapeHtml(a.slug) + '</p></div>' +
+                    '<p>/Article?slug=' + escapeHtml(a.slug) + '</p></div>' +
                     '<div class="article-actions">' +
                     '<button class="btn btn-secondary edit-article-btn" data-id="' + escapeHtml(a.articleId) + '">Edit</button>' +
                     '<button class="btn btn-secondary delete-article-btn" data-id="' + escapeHtml(a.articleId) + '" data-title="' + escapeHtml(a.title) + '">Delete</button>' +
@@ -560,7 +560,7 @@
                     bodyHtml: getQuill().root.innerHTML,
                 });
                 editingArticleId = result.articleId;
-                const shareUrl = window.location.origin + window.location.pathname.replace('Admin.html', '') + 'Article.html?slug=' + result.slug;
+                const shareUrl = window.location.origin + '/Article?slug=' + result.slug;
                 const shareBox = document.getElementById('shareUrlBox');
                 shareBox.style.display = 'block';
                 shareBox.innerHTML = 'Saved. Shareable link: <a href="' + shareUrl + '" target="_blank">' + escapeHtml(shareUrl) + '</a>' +
