@@ -21,7 +21,7 @@ outside the repo (see "Secrets" and "Answer key tab" below).
    - Execute as: **Me**
    - Who has access: **Anyone**
 5. Click **Deploy**, authorize when prompted, then copy the `.../exec` URL it gives you.
-6. Paste that URL into `CTFL_Mock_Exam.html`, `Admin.html` and `Article.html` (`APPS_SCRIPT_URL`) and commit.
+6. Paste that URL into `ctfl-mock-exam.html`, `Admin.html` and `Article.html` (`APPS_SCRIPT_URL`) and commit.
 7. Set the secrets and create the answer key tab (next two sections).
 
 The script auto-creates the `CTFL_Registrations`, `CTFL_Results` and `NgobrolQA_Articles`

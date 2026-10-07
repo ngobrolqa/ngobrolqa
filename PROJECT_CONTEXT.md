@@ -38,9 +38,9 @@ Use this document to onboard quickly into the NgobrolQA project. It covers the w
 | `QA_Skill_Framework.html` | ngobrolqa.com/QA_Skill_Framework | The core framework: 5 Stages of QA Growth + 4 Skill Dimensions with full stage progression |
 | `QA_Self_Assessment.html` | ngobrolqa.com/QA_Self_Assessment | 20-question self-assessment across 4 dimensions, generates radar chart + personalized results |
 | `QA_Learning_Plan.html` | ngobrolqa.com/QA_Learning_Plan | Curated learning paths by persona and stage |
-| `QA_Consult.html` | ngobrolqa.com/QA_Consult | Consultation page for individual/company QA challenges |
+| `consult.html` | ngobrolqa.com/consult (old `/QA_Consult` still redirects) | Consultation page for individual/company QA challenges |
 | `QA_Career_Compounding.html` | ngobrolqa.com/QA_Career_Compounding | NgobrolQA Career Compounding Theory (article-style page) |
-| `CTFL_Mock_Exam.html` | ngobrolqa.com/CTFL_Mock_Exam | ISTQB CTFL v4.0 mock exam: register, pick a sample set (A-D) or a random mix, timed 40-question exam, instant scoring + review, team leaderboard |
+| `ctfl-mock-exam.html` | ngobrolqa.com/ctfl-mock-exam (old `/CTFL_Mock_Exam` still redirects) | ISTQB CTFL v4.0 mock exam: register, pick a sample set (A-D) or a random mix, timed 40-question exam, instant scoring + review, team leaderboard |
 
 ### User Journey (intended flow)
 
@@ -59,7 +59,7 @@ Career Compounding Theory (accessible via Insights section on homepage
 | `CNAME` | GitHub Pages custom domain config (contains: `ngobrolqa.com`) |
 | `docs/` | Early framework drafts (Markdown): `Framework_Complete.md`, `Framework_Draft.md`, `Self_Assessment_Detailed.md` |
 | `_archive/` | Old v1 framework files |
-| `ctfl-exam/data/questions.json` | Static question bank for `CTFL_Mock_Exam.html` (question text/options only, no answers — answer key lives only in a private tab of the spreadsheet, read by the Apps Script backend) |
+| `ctfl-exam/data/questions.json` | Static question bank for `ctfl-mock-exam.html` (question text/options only, no answers — answer key lives only in a private tab of the spreadsheet, read by the Apps Script backend) |
 | `ctfl-exam/apps-script/` | `Code.gs` (backend: register/grade/leaderboard via a Google Sheet) + deployment `README.md` |
 
 ---
@@ -118,12 +118,12 @@ Both forms submit to the same Google Sheet but different tabs:
    - Targets "Result" tab
    - Includes reCAPTCHA server-side verification
 
-2. **NgobrolQA-Consult** (for `QA_Consult.html`)
+2. **NgobrolQA-Consult** (for `consult.html`)
    - Deployed URL: `https://script.google.com/macros/s/AKfycbzzq3z8Pfe4sbP2vv4byxRP5tIrWBweE9EKaJewiNcaJVL6xrZsn--Ddo9pve1DNDsgug/exec`
    - Targets "Consult" tab
    - Includes reCAPTCHA server-side verification
 
-3. **NgobrolQA-CTFL-Exam** (for `CTFL_Mock_Exam.html`) — source kept in-repo at `ctfl-exam/apps-script/Code.gs`
+3. **NgobrolQA-CTFL-Exam** (for `ctfl-mock-exam.html`) — source kept in-repo at `ctfl-exam/apps-script/Code.gs`
    - Deployed URL: _not yet deployed — see `ctfl-exam/apps-script/README.md`_
    - Targets "CTFL_Registrations" and "CTFL_Results" tabs (auto-created)
    - Reads the private answer key (sheet tab `CTFL_AnswerKey`) and the passwords (Script Properties) server-side; grades submissions and serves the leaderboard
@@ -246,3 +246,11 @@ open index.html
 open QA_Career_Compounding.html
 open ISQA_2026_Conference/ISQA_2026_Slides_v4.html
 ```
+
+## URLs (2026-10)
+
+Internal links and canonical tags use extensionless URLs (`/consult`, `/QA_Learning_Plan`, `/`); GitHub Pages
+serves `/x` from `x.html`, so both forms work. Renamed pages: `QA_Consult.html` -> `consult.html`,
+`CTFL_Mock_Exam.html` -> `ctfl-mock-exam.html` (NOT `ctfl-exam`: that name is the data/apps-script folder).
+The old filenames remain as tiny redirect stubs because printed slides and shared links use them; do not delete them.
+`python3 -m http.server` cannot serve extensionless URLs, so test locally with a server that tries `path.html`.
