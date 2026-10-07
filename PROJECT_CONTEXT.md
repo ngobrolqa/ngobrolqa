@@ -35,11 +35,11 @@ Use this document to onboard quickly into the NgobrolQA project. It covers the w
 | File | URL | Purpose |
 |------|-----|---------|
 | `index.html` | ngobrolqa.com | Homepage with feature cards, NgobrolQA Insights section, About |
-| `QA_Skill_Framework.html` | ngobrolqa.com/QA_Skill_Framework | The core framework: 5 Stages of QA Growth + 4 Skill Dimensions with full stage progression |
-| `QA_Self_Assessment.html` | ngobrolqa.com/QA_Self_Assessment | 20-question self-assessment across 4 dimensions, generates radar chart + personalized results |
-| `QA_Learning_Plan.html` | ngobrolqa.com/QA_Learning_Plan | Curated learning paths by persona and stage |
+| `qa-skill-framework.html` | ngobrolqa.com/qa-skill-framework | The core framework: 5 Stages of QA Growth + 4 Skill Dimensions with full stage progression |
+| `qa-self-assessment.html` | ngobrolqa.com/qa-self-assessment | 20-question self-assessment across 4 dimensions, generates radar chart + personalized results |
+| `qa-learning-plan.html` | ngobrolqa.com/qa-learning-plan | Curated learning paths by persona and stage |
 | `consult.html` | ngobrolqa.com/consult (old `/QA_Consult` still redirects) | Consultation page for individual/company QA challenges |
-| `QA_Career_Compounding.html` | ngobrolqa.com/QA_Career_Compounding | NgobrolQA Career Compounding Theory (article-style page) |
+| `qa-career-compounding.html` | ngobrolqa.com/qa-career-compounding | NgobrolQA Career Compounding Theory (article-style page) |
 | `ctfl-mock-exam.html` | ngobrolqa.com/ctfl-mock-exam (old `/CTFL_Mock_Exam` still redirects) | ISTQB CTFL v4.0 mock exam: register, pick a sample set (A-D) or a random mix, timed 40-question exam, instant scoring + review, team leaderboard |
 
 ### User Journey (intended flow)
@@ -113,7 +113,7 @@ Both forms submit to the same Google Sheet but different tabs:
 
 ### Google Apps Script (Two separate projects)
 
-1. **NgobrolQA-Assessment** (for `QA_Self_Assessment.html`)
+1. **NgobrolQA-Assessment** (for `qa-self-assessment.html`)
    - Deployed URL: `https://script.google.com/macros/s/AKfycbwxJ9cH9b2H_j6CIn8QdP75XiYHUq9-DqcLP6zoFy_6Y7bo00UIPkP5Su1p5lIFBcjD9g/exec`
    - Targets "Result" tab
    - Includes reCAPTCHA server-side verification
@@ -249,8 +249,10 @@ open ISQA_2026_Conference/ISQA_2026_Slides_v4.html
 
 ## URLs (2026-10)
 
-Internal links and canonical tags use extensionless URLs (`/consult`, `/QA_Learning_Plan`, `/`); GitHub Pages
-serves `/x` from `x.html`, so both forms work. Renamed pages: `QA_Consult.html` -> `consult.html`,
-`CTFL_Mock_Exam.html` -> `ctfl-mock-exam.html` (NOT `ctfl-exam`: that name is the data/apps-script folder).
-The old filenames remain as tiny redirect stubs because printed slides and shared links use them; do not delete them.
+Internal links and canonical tags use extensionless, lowercase, hyphenated URLs (`/consult`, `/ctfl-mock-exam`,
+`/qa-skill-framework`, `/qa-self-assessment`, `/qa-learning-plan`, `/qa-career-compounding`, `/`); GitHub Pages
+serves `/x` from `x.html`, so both forms work. Old names (`QA_Consult`, `CTFL_Mock_Exam`, `QA_Skill_Framework`,
+`QA_Self_Assessment`, `QA_Learning_Plan`, `QA_Career_Compounding`) remain as tiny redirect stubs (they keep query
+strings and hashes); do not delete them if old links may still be out there (e.g. LinkedIn shares of the Career
+Compounding article). `ctfl-mock-exam` is not `ctfl-exam` because that name is the data/apps-script folder.
 `python3 -m http.server` cannot serve extensionless URLs, so test locally with a server that tries `path.html`.
