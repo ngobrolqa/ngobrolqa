@@ -8,11 +8,11 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <meta name="description" content="A true story about passwords in a public repo, and an interactive least-privilege check for giving AI agents access to code and systems.">
+    <meta name="description" content="Two illustrative scenarios of access that grew quietly, and an interactive least-privilege check before giving AI agents access to code and systems.">
     <meta name="author" content="Aditya Mirza Bahari">
     <meta name="copyright" content="&copy; 2026 Aditya Mirza Bahari. All Rights Reserved.">
     <meta property="og:title" content="What Can Your AI Agent Break? A Least-Privilege Check | NgobrolQA">
-    <meta property="og:description" content="A true story about passwords in a public repo, and an interactive least-privilege check for giving AI agents access to code and systems.">
+    <meta property="og:description" content="Two illustrative scenarios of access that grew quietly, and an interactive least-privilege check before giving AI agents access to code and systems.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://ngobrolqa.com/qa-ai-agent-least-privilege">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -444,19 +444,21 @@
 
             <p>Security people have had an answer to this for a very long time. It is called <strong>least privilege</strong>, and it fits in one sentence: give something only the access it genuinely needs, and nothing more.</p>
 
-            <p>I want to tell you about the time I learned why that sentence matters, because it happened on my own project.</p>
+            <p>It sounds almost too simple to need an article. The reason it does is that real access tends to grow in the cracks of a busy week, one convenient shortcut at a time. Two illustrations show how that looks.</p>
         </div>
 
         <div class="separator">&bull; &bull; &bull;</div>
 
         <div class="article-section">
-            <h2>The passwords in the public repo</h2>
+            <h2>Two ways access quietly grows</h2>
 
-            <p>This website runs on static pages with a small Google Apps Script behind it, and its repository is public. Not long ago I found out that the password for the admin page, the password for the exam gate, and the entire answer key for the exam were written directly into files in that repository.</p>
+            <p>These are illustrations built from patterns that turn up in many teams, not accounts of one particular company.</p>
 
-            <p>Anyone could have read them. And with them, anyone could have called the backend directly, without ever opening the admin page: publishing or deleting articles, uploading files into my Google Drive, reading drafts, or reading the exam's answer key.</p>
+            <p>First, picture a small startup moving fast. A developer needs the payment integration to work before a demo, so they put the provider's API key and an admin password into a configuration file and commit it "just for now". The repository is public. Nobody notices, because everything works.</p>
 
-            <p>As far as I can tell, nobody did any of that, and the hole is closed now. I am telling you because the same pattern turns up in almost every project I look at, with or without AI.</p>
+            <p>Anyone who finds that file now holds the keys. They do not need to open the admin page or log in at all. They can call the backend directly, change or delete content, read data meant to be private, or spend money on the company's account. Nothing was hacked. The door was simply left open, and nothing in the daily routine would ever show it.</p>
+
+            <p>Second, picture a team that gives an AI agent a database credential so it can "clean up test data". The credential works on production as well as on the test environment, because that was the credential already lying around. One misread instruction later, the agent runs a delete against the wrong place. It followed its instructions exactly. The access was the mistake.</p>
 
             <p>AI agents raise the stakes in two ways. They read repositories, and they often carry what they read into prompts, logs and output. And because people now build faster, the habit of "I'll tidy it up later" has less and less time to be tidied.</p>
 
@@ -491,13 +493,11 @@
         <div class="separator">&bull; &bull; &bull;</div>
 
         <div class="article-section">
-            <h2>What we changed afterwards</h2>
+            <h2>What a team can change afterwards</h2>
 
-            <p>The fixes were not exotic. The passwords moved out of the code and into settings that live only on the server. The answer key moved into a private spreadsheet tab. If a password is not set, the server now refuses every request, rather than letting everyone in.</p>
+            <p>The fixes are rarely exotic. Secrets move out of the code and into settings that live only on the server, or into a proper secret manager. If a secret is missing, the system refuses every request instead of letting everyone in. Pages stop carrying passwords at all, so the visitor types one and the server checks it. Wrong guesses are slowed down so that guessing is not worth the effort.</p>
 
-            <p>The pages stopped carrying any password at all: the visitor types it, and the server checks it. Wrong guesses are slowed down so that guessing is not worth the effort. And because git remembers everything, the old passwords were treated as leaked and replaced, even though the files had been cleaned.</p>
-
-            <p>One more layer went in for good measure. The page that shows articles now rebuilds their content from a short list of allowed tags, so that even if a password leaks again, an attacker still cannot run a script on the site.</p>
+            <p>A leaked secret is treated as leaked for good and replaced, even after the file is cleaned, because version control remembers everything. And any content the site displays from users or admins is rebuilt from a short list of allowed tags, so that even if a password leaks again, an attacker still cannot run a script on the site.</p>
 
             <h2>Before you hand an agent the keys</h2>
 
@@ -534,7 +534,7 @@
             </div>
         </div>
 
-        <p class="origin-note">Written by Aditya Mirza Bahari, 2026. The risk weights in the demo are an illustration, not a standard.</p>
+        <p class="origin-note">Written by Aditya Mirza Bahari, 2026. The scenarios are illustrations of common patterns, and the risk weights in the demo are a judgment call, not a standard.</p>
     </div>
 
     <footer>
@@ -558,7 +558,7 @@
         }
         const pageUrl = 'https://ngobrolqa.com/qa-ai-agent-least-privilege';
         const shareTitle = "What Can Your AI Agent Break?";
-        const shareText = "A true story about passwords in a public repo, and a quick least-privilege check before you give an AI agent access.";
+        const shareText = "Two ways access quietly grows, and a quick least-privilege check before you give an AI agent the keys.";
         function shareLinkedIn() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(pageUrl), '_blank', 'noopener'); }
         function shareTwitter() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText + ' ' + pageUrl), '_blank', 'noopener'); }
         function shareWhatsApp() { window.open('https://wa.me/?text=' + encodeURIComponent(shareTitle + '\n\n' + shareText + '\n\n' + pageUrl), '_blank', 'noopener'); }
