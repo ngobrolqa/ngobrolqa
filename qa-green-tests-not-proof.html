@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Tests Were Green. The Page Was Broken. | NgobrolQA</title>
+    <link rel="canonical" href="https://ngobrolqa.com/qa-green-tests-not-proof">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta name="description" content="Four illustrative scenarios, from marketplaces to mobile apps, where AI-written tests passed and a person still found the bug.">
+    <meta name="author" content="Aditya Mirza Bahari">
+    <meta name="copyright" content="&copy; 2026 Aditya Mirza Bahari. All Rights Reserved.">
+    <meta property="og:title" content="The Tests Were Green. The Page Was Broken. | NgobrolQA">
+    <meta property="og:description" content="Four illustrative scenarios, from marketplaces to mobile apps, where AI-written tests passed and a person still found the bug.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://ngobrolqa.com/qa-green-tests-not-proof">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f62f0;
+            --navy: #071c44;
+            --primary-dark: #0a47b8;
+            --primary-light: #8db6ff;
+            --secondary: #071c44;
+            --accent: #f59e0b;
+            --bg: #f4f7fb;
+            --bg-dark: #071c44;
+            --card: #ffffff;
+            --text: #0f1f3d;
+            --text-muted: #55657f;
+            --border: #dbe3ef;
+            --fund: #0d9488;
+            --market: #6366f1;
+            --future: #f59e0b;
+            --others: #ec4899;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Nav */
+        nav {
+            background: var(--navy);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-brand img { height: 40px; }
+        .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+        .nav-brand span .qa { color: #5a9bff; }
+
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: white; }
+        .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
+
+        .nav-cta {
+            background: var(--primary);
+            color: white !important;
+            padding: 0.6rem 1.25rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(15, 98, 240, 0.45);
+        }
+        .nav-cta:hover { transform: translateY(-2px); }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+        .hamburger span { width: 25px; height: 3px; background: white; margin: 3px 0; border-radius: 3px; transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--navy);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        .mobile-menu.active { opacity: 1; visibility: visible; }
+        .mobile-menu a { color: white; text-decoration: none; font-size: 1.5rem; font-weight: 600; padding: 0.75rem 2rem; transition: all 0.2s; }
+        .mobile-menu a:hover { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .mobile-menu .nav-cta { font-size: 1.25rem; padding: 1rem 2rem; margin-top: 1rem; }
+
+        /* Article Hero */
+        .article-hero {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1e293b 100%);
+            color: white;
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .article-hero .badge {
+            display: inline-block;
+            background: rgba(245,158,11,0.15);
+            color: var(--accent);
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-hero h1 {
+            font-family: 'Lora', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            line-height: 1.3;
+            max-width: 700px;
+            margin: 0 auto 1rem;
+        }
+
+        .article-hero .subtitle {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.5);
+            max-width: 550px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .article-meta span { display: flex; align-items: center; gap: 0.4rem; }
+
+        /* Article Body */
+        .article {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 90%;
+        }
+
+        .article-section {
+            padding: 3rem 0;
+        }
+
+        .article p {
+            font-family: 'Lora', serif;
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #374151;
+            margin-bottom: 1.5rem;
+        }
+
+        .article p strong { color: var(--text); }
+
+        .article h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            line-height: 1.3;
+        }
+
+        .article h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 2rem 0 0.75rem;
+            color: var(--text);
+        }
+
+        .pull-quote {
+            font-family: 'Lora', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--primary-dark);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 0 1rem 2rem;
+            margin: 2.5rem 0;
+            line-height: 1.6;
+        }
+
+        .separator {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--border);
+            font-size: 1.5rem;
+            letter-spacing: 1rem;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            padding: 3.5rem 2rem;
+            text-align: center;
+            border-radius: 20px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 { font-size: 1.75rem; margin-bottom: 0.75rem; }
+        .cta-section p { font-family: 'Inter', sans-serif !important; font-size: 1rem !important; opacity: 0.8; margin-bottom: 1.5rem !important; color: white !important; }
+
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .cta-btn {
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .cta-btn.primary { background: white; color: var(--primary-dark); }
+        .cta-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+        .cta-btn.secondary { background: rgba(255,255,255,0.15); color: white; border: 2px solid rgba(255,255,255,0.3); }
+        .cta-btn.secondary:hover { background: rgba(255,255,255,0.25); }
+
+        /* Share */
+        .share-section {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            margin: 2rem 0;
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            background: var(--card);
+        }
+
+        .share-label {
+            font-family: 'Lora', serif !important;
+            font-size: 1.1rem !important;
+            color: var(--text) !important;
+            margin-bottom: 1.25rem !important;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        .share-btn.linkedin { background: #0A66C2; color: white; }
+        .share-btn.twitter { background: #000; color: white; }
+        .share-btn.whatsapp { background: #25D366; color: white; }
+        .share-btn.copy { background: var(--bg); color: var(--text); border: 1.5px solid var(--border); }
+        .share-btn.copy:hover { border-color: var(--primary); color: var(--primary); }
+
+        .origin-note {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        footer {
+            background: var(--bg-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        footer a { color: var(--primary-light); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+
+        /* Interactive blocks */
+        .lab {
+            background: var(--card);
+            border: 1.5px solid var(--border);
+            border-radius: 18px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            box-shadow: 0 4px 20px rgba(7,28,68,0.05);
+        }
+        .lab-title { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-dark); margin-bottom: 0.4rem; }
+        .lab h3 { font-family: 'Inter', sans-serif; font-size: 1.25rem; color: var(--text); margin-bottom: 0.5rem; }
+        .lab .lab-intro { font-family: 'Inter', sans-serif !important; font-size: 0.95rem !important; color: var(--text-muted) !important; line-height: 1.6 !important; margin-bottom: 1.25rem !important; }
+        .lab button { font-family: 'Inter', sans-serif; cursor: pointer; }
+        .lab :focus-visible, .share-btn:focus-visible, .cta-btn:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+        .pill { display: inline-block; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.65rem; border-radius: 999px; letter-spacing: 0.3px; }
+        .pill.green { background: #dcfce7; color: #166534; }
+        .pill.red { background: #fee2e2; color: #991b1b; }
+        .pill.blue { background: #e8f0fe; color: #0a47b8; }
+        .pill.amber { background: #fef3c7; color: #92400e; }
+        .small-label { font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.35rem; }
+        .lab p.plain { font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.65; color: #374151; margin-bottom: 0.9rem; }
+
+
+        /* Bug cards */
+        .bug-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .bug {
+            text-align: left; width: 100%;
+            background: var(--bg); border: 1.5px solid var(--border); border-radius: 14px;
+            padding: 1.1rem 1.2rem; transition: all 0.2s; font-family: 'Inter', sans-serif; color: var(--text);
+        }
+        .bug:hover { border-color: var(--primary); }
+        .bug .tag { font-size: 0.7rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); }
+        .bug h4 { font-size: 1.05rem; margin: 0.3rem 0 0.4rem; line-height: 1.35; }
+        .bug .hint { font-size: 0.85rem; color: var(--text-muted); }
+        .bug.open { background: #fff; border-color: var(--primary); grid-column: 1 / -1; box-shadow: 0 6px 24px rgba(15,98,240,0.12); }
+        .bug .detail { display: none; margin-top: 1rem; }
+        .bug.open .detail { display: block; }
+        .bug.open .hint { display: none; }
+        .face-off { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-bottom: 1rem; }
+        .face { border-radius: 12px; padding: 0.95rem 1rem; font-size: 0.93rem; line-height: 1.55; }
+        .face.ok { background: #f0fdf4; border: 1px solid #bbf7d0; }
+        .face.bad { background: #fef2f2; border: 1px solid #fecaca; }
+        .face .small-label { margin-bottom: 0.4rem; }
+        .face.ok .small-label { color: #166534; }
+        .face.bad .small-label { color: #991b1b; }
+        .lab p.cause { font-family: 'Inter', sans-serif; font-size: 0.93rem; line-height: 1.65; color: #374151; margin-bottom: 0.75rem; }
+        .progress { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.25rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; color: var(--text-muted); }
+        .progress .bar { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+        .progress .fill { height: 100%; width: 0; background: var(--primary); transition: width 0.4s; }
+        .reveal { display: none; margin-top: 1.25rem; background: var(--bg-dark); color: #fff; border-radius: 14px; padding: 1.4rem 1.5rem; }
+        .reveal.visible { display: block; }
+        .reveal h4 { font-family: 'Inter', sans-serif; font-size: 1.05rem; margin-bottom: 0.4rem; }
+        .reveal p { font-family: 'Inter', sans-serif !important; font-size: 0.93rem !important; line-height: 1.65 !important; color: rgba(255,255,255,0.82) !important; margin: 0 !important; }
+        .checks { margin: 1.5rem 0 0.5rem 1.4rem; font-family: 'Lora', serif; font-size: 1.1rem; line-height: 1.8; color: #374151; }
+        .checks li { margin-bottom: 0.6rem; padding-left: 0.3rem; }
+        @media (max-width: 768px) { .face-off { grid-template-columns: 1fr; } }
+
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu { display: flex; }
+            .article-hero { padding: 3.5rem 1.25rem 3rem; }
+            .article-hero h1 { font-size: 2rem; }
+            .article-hero .subtitle { font-size: 1rem; }
+            .article { padding: 0 1.25rem; }
+            .article p { font-size: 1.05rem; }
+            .pull-quote { font-size: 1.25rem; padding-left: 1.5rem; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .lab-grid { grid-template-columns: 1fr; }
+            .bug-grid { grid-template-columns: 1fr; }
+            .lab { padding: 1.25rem; }
+        }
+        @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/">Home</a>
+        <a href="/qa-skill-framework">Framework</a>
+        <a href="/qa-self-assessment">Assessment</a>
+        <a href="/qa-learning-plan">Learning</a>
+        <a href="/insights">Insights</a>
+        <a href="/consult">Consult</a>
+        <a href="/ctfl-mock-exam">CTFL Exam</a>
+        <a href="/qa-self-assessment" class="nav-cta">Free Assessment</a>
+    </div>
+
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="nav-brand">
+                <img src="ngobrolqa-mark-reversed.svg" alt="NgobrolQA">
+                <span>Ngobrol<span class="qa">QA</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/qa-skill-framework">Framework</a>
+                <a href="/qa-self-assessment">Assessment</a>
+                <a href="/qa-learning-plan">Learning</a>
+                <a href="/insights">Insights</a>
+                <a href="/consult">Consult</a>
+        <a href="/ctfl-mock-exam">CTFL Exam</a>
+                <a href="/qa-self-assessment" class="nav-cta">Free Assessment</a>
+            </div>
+            <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="article-hero">
+        <div class="badge">NgobrolQA Insight</div>
+        <h1>The Tests Were Green. The Page Was Broken.</h1>
+        <p class="subtitle">Four illustrative scenarios of green tests and a broken product, and why no test could see them.</p>
+        <div class="article-meta">
+            <span>NgobrolQA</span>
+            <span>&bull;</span>
+            <span>6 min read</span>
+        </div>
+    </div>
+
+    <div class="article">
+
+        <div class="article-section">
+            <p>Picture a small team shipping a checkout feature for an online marketplace. They are using an AI coding agent, and it is going well. The agent writes the code, writes the tests, runs them, and reports that everything passes.</p>
+
+            <p>It is a very good feeling, the kind where you almost don't want to look at the thing, in case looking changes the answer. So someone looks. They use the feature by hand for an afternoon and find <strong>four problems</strong>, and not one of them had been caught by a single test.</p>
+
+            <p>The four scenarios below are illustrations. They are built from failure patterns that turn up again and again in software, not accounts of one particular company. They are here because each one hides in a different place, and that is the whole point.</p>
+
+            <p class="pull-quote">The code was correct according to its own tests. That was exactly the problem.</p>
+        </div>
+
+        <div class="separator">&bull; &bull; &bull;</div>
+
+        <div class="article-section">
+            <h2>Four scenarios, four different shapes</h2>
+
+            <p>None of this is a story about a careless tool. The tests are doing their job. Open the scenarios one at a time and look at what the tests said next to what a person found.</p>
+
+            <div class="lab" id="bugLab">
+                <div class="lab-title">Interactive</div>
+                <h3>The green tests and the real product</h3>
+                <p class="lab-intro">Tap a scenario to see what the tests were happy about, what a person ran into, and why the two never met.</p>
+
+                <div class="bug-grid" id="bugGrid">
+                    <button class="bug" data-i="0" aria-expanded="false">
+                        <div class="tag">Online marketplace</div>
+                        <h4>The total that was off by one cent</h4>
+                        <div class="hint">Tap to open</div>
+                        <div class="detail">
+                            <div class="face-off">
+                                <div class="face ok"><div class="small-label">The tests</div>The pricing service rounds correctly. The cart displays totals correctly. Both are covered, both are green.</div>
+                                <div class="face bad"><div class="small-label">What a person saw</div>A customer with several discounted items was shown one total and charged another, a cent apart.</div>
+                            </div>
+                            <p class="cause">The pricing service rounded each item. The cart rounded the grand total. Each rule was perfectly reasonable on its own, and they disagreed as soon as the basket held more than one discounted item. No test looked at the two of them together, because each test lived inside one component.</p>
+                            <span class="pill amber">A gap between two correct parts</span>
+                        </div>
+                    </button>
+
+                    <button class="bug" data-i="1" aria-expanded="false">
+                        <div class="tag">Mobile app</div>
+                        <h4>The error that blamed the wifi</h4>
+                        <div class="hint">Tap to open</div>
+                        <div class="detail">
+                            <div class="face-off">
+                                <div class="face ok"><div class="small-label">The tests</div>When the server answers, the app shows the data. When the network is off, the app says there is no connection. Both pass.</div>
+                                <div class="face bad"><div class="small-label">What a person saw</div>During a brief backend problem, users with perfectly good wifi saw "No internet connection".</div>
+                            </div>
+                            <p class="cause">When the backend failed, it returned a plain error page instead of the data the app expected. The app could not read that page, and its error handling treated every unreadable response as a network problem. The symptom pointed at the user's connection while the cause sat on the server, and it took a person reading the real traffic to turn the diagnosis around.</p>
+                            <span class="pill amber">A symptom that points the wrong way</span>
+                        </div>
+                    </button>
+
+                    <button class="bug" data-i="2" aria-expanded="false">
+                        <div class="tag">Seller dashboard</div>
+                        <h4>The shop name that broke the page</h4>
+                        <div class="hint">Tap to open</div>
+                        <div class="detail">
+                            <div class="face-off">
+                                <div class="face ok"><div class="small-label">The tests</div>The tests used shop names like "Test Shop" and "Demo Store". Saving, editing and listing all worked.</div>
+                                <div class="face bad"><div class="small-label">What a person saw</div>For one seller, the Edit button did nothing, and the browser console showed a syntax error.</div>
+                            </div>
+                            <p class="cause">That seller's shop name contained an apostrophe. The page wrote the name straight into a button's click handler, so the apostrophe closed the handler early and everything after it broke. It only happens for some names, on one screen. Whether the bug appears depends on the data, and the tests had only ever been shown tidy data.</p>
+                            <span class="pill amber">Only certain data, through one screen</span>
+                        </div>
+                    </button>
+
+                    <button class="bug" data-i="3" aria-expanded="false">
+                        <div class="tag">Checkout on phones</div>
+                        <h4>The button that needed two taps</h4>
+                        <div class="hint">Tap to open</div>
+                        <div class="detail">
+                            <div class="face-off">
+                                <div class="face ok"><div class="small-label">The tests</div>An automated script clicked "Pay now" and the order went through, every time.</div>
+                                <div class="face bad"><div class="small-label">What a person saw</div>On a real phone, the first tap on "Pay now" did nothing. Only the second one worked.</div>
+                            </div>
+                            <p class="cause">A loading overlay was still fading out and covered the button for a moment. A script triggers the button directly, so the overlay never got in its way. A thumb cannot reach through an overlay. Whether something feels right to use is outside what a script that bypasses the screen can notice.</p>
+                            <span class="pill amber">Behavior no script was watching</span>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="progress"><div class="bar"><div class="fill" id="bugFill"></div></div><span id="bugCount">0 of 4 opened</span></div>
+
+                <div class="reveal" id="bugReveal">
+                    <h4>Four scenarios, no two alike</h4>
+                    <p>One was a gap between two correct parts, one a misleading error, one a quirk of the data, and one a matter of feel. A test suite only checks the cases someone thought to write down. Every one of these needed a person to run the real thing.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="separator">&bull; &bull; &bull;</div>
+
+        <div class="article-section">
+            <h2>This is the oracle problem</h2>
+
+            <p>Testers have a name for what went wrong in all four. A test needs an <strong>oracle</strong>, some way of knowing what the right answer is. The tests an AI agent writes use an oracle too, and it is the agent's own idea of what the feature should do. When that idea has a gap, the tests carry the same gap, and they pass with complete confidence.</p>
+
+            <p>Deciding what "correct" means for a real person using a real screen is the part that stays human. It is judgment, and judgment is not on the list of things a test can do for itself.</p>
+
+            <p class="pull-quote">Green tells you the code agrees with the tests. It says nothing about whether the tests agree with the world.</p>
+        </div>
+
+        <div class="separator">&bull; &bull; &bull;</div>
+
+        <div class="article-section">
+            <h2>What an agent is genuinely good at</h2>
+
+            <p>This is not an argument against AI coding agents. They are fast, patient, and thorough in a way most of us are not at the end of a long day. Asked for a broad set of checks on a backend, an agent will produce them quickly: wrong passwords, missing fields, oversized input, the cases a tired person means to write and never gets around to.</p>
+
+            <p>That is where these tools are strong. They are wide. They cover a lot of ground quickly, including the dull corners. The places they struggle are the deep ones, where someone has to know what the thing is for and how a person will really use it.</p>
+
+            <p>There is a practical side to this as well. When a person reports a problem precisely, with the exact error text and the exact steps, an agent can usually fix it fast. A vague "it's broken" gets a guess. A precise report gets a repair. How well you describe a problem decides how quickly it goes away.</p>
+        </div>
+
+        <div class="separator">&bull; &bull; &bull;</div>
+
+        <div class="article-section">
+            <h2>Where the human review sits</h2>
+
+            <p>People often ask where "human review" goes when an agent writes the code. A simple answer that works: every change lands on its own branch and in a pull request, someone runs it and clicks through it like a real user would, and only then does it merge, and only on a person's say-so.</p>
+
+            <p>That last step is the one that matters. It is a gate where a person, not a script, decides that this is good enough to go live.</p>
+
+            <p>If you are working with AI-written tests, three questions are worth carrying into the room.</p>
+
+            <ol class="checks">
+                <li>Who decided what "correct" means here, and was it anyone other than the thing that wrote the test?</li>
+                <li>Has a person run this the way a real user would, with real and awkward data?</li>
+                <li>What kind of input have these tests never seen?</li>
+            </ol>
+
+            <p class="pull-quote">AI makes writing code and tests much faster. It does not remove the need for someone to run the real flow and ask whether it actually works.</p>
+        </div>
+
+
+        <div class="cta-section">
+            <h2>Talk it through</h2>
+            <p>Working with AI in your QA team and not sure where the human checks belong? Let us ngobrol about it.</p>
+            <div class="cta-buttons">
+                <a href="/consult" class="cta-btn primary">Start a conversation</a>
+                <a href="/" class="cta-btn secondary">More insights</a>
+            </div>
+        </div>
+
+        <div class="share-section">
+            <p class="share-label">Know a team that is trusting green checkmarks a little too much? Pass this along.</p>
+            <div class="share-buttons">
+                <a href="#" onclick="shareLinkedIn(); return false;" class="share-btn linkedin">LinkedIn</a>
+                <a href="#" onclick="shareTwitter(); return false;" class="share-btn twitter">X / Twitter</a>
+                <a href="#" onclick="shareWhatsApp(); return false;" class="share-btn whatsapp">WhatsApp</a>
+                <button onclick="copyLink()" class="share-btn copy"><span id="copyText">Copy Link</span></button>
+            </div>
+        </div>
+
+        <p class="origin-note">Written by Aditya Mirza Bahari, 2026. The scenarios are illustrative composites of common failure patterns, not reports of any specific company.</p>
+    </div>
+
+    <footer>
+        <p>© 2026 Aditya Mirza Bahari. All Rights Reserved.</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">
+            <a href="https://id.linkedin.com/in/adityamirzabahari" target="_blank">LinkedIn</a> •
+            <a href="https://www.instagram.com/ngobrolqa/" target="_blank">Instagram</a> •
+            <a href="https://www.youtube.com/@ngobrolQA" target="_blank">YouTube</a> •
+            <a href="https://open.spotify.com/show/NgobrolQA" target="_blank">Podcast</a> •
+            <a href="https://idstb.org" target="_blank">IDSTB</a>
+        </p>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+        const pageUrl = 'https://ngobrolqa.com/qa-green-tests-not-proof';
+        const shareTitle = "The Tests Were Green. The Page Was Broken.";
+        const shareText = "Four scenarios where every AI-written test was green and a real person still found the bug.";
+        function shareLinkedIn() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(pageUrl), '_blank', 'noopener'); }
+        function shareTwitter() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText + ' ' + pageUrl), '_blank', 'noopener'); }
+        function shareWhatsApp() { window.open('https://wa.me/?text=' + encodeURIComponent(shareTitle + '\n\n' + shareText + '\n\n' + pageUrl), '_blank', 'noopener'); }
+        function copyLink() {
+            const done = function () {
+                document.getElementById('copyText').textContent = 'Copied!';
+                setTimeout(function () { document.getElementById('copyText').textContent = 'Copy Link'; }, 2000);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(pageUrl).then(done, function () {}); }
+        }
+
+        (function () {
+            var bugs = document.querySelectorAll('.bug');
+            var seen = {};
+            bugs.forEach(function (b) {
+                b.addEventListener('click', function () {
+                    var open = b.classList.toggle('open');
+                    b.setAttribute('aria-expanded', open ? 'true' : 'false');
+                    if (open) seen[b.dataset.i] = true;
+                    var n = Object.keys(seen).length;
+                    document.getElementById('bugFill').style.width = (n / 4 * 100) + '%';
+                    document.getElementById('bugCount').textContent = n + ' of 4 opened';
+                    if (n === 4) document.getElementById('bugReveal').classList.add('visible');
+                });
+            });
+        })();
+
+    </script>
+</body>
+</html>

@@ -256,3 +256,25 @@ serves `/x` from `x.html`, so both forms work. Old names (`QA_Consult`, `CTFL_Mo
 strings and hashes); do not delete them if old links may still be out there (e.g. LinkedIn shares of the Career
 Compounding article). `ctfl-mock-exam` is not `ctfl-exam` because that name is the data/apps-script folder.
 `python3 -m http.server` cannot serve extensionless URLs, so test locally with a server that tries `path.html`.
+
+## Insight pages (2026-10)
+
+Long-form, hand-built pieces that share the Career Compounding page's look (dark hero, serif body, one interactive
+element each, share block): `qa-career-compounding`, `qa-green-tests-not-proof`, `qa-api-function-calling-mcp`,
+`qa-start-with-ai-agents`, `qa-ai-agent-least-privilege`. All are listed on `/insights`; the home page shows only two featured pieces and links into the hub.
+The four newer pages were generated from a small script kept outside the repo (`ngobrolqa-insights-builder/` next to this
+repo), which copies the shared CSS, nav, share block and footer from `qa-career-compounding.html`. The output is plain
+static HTML; edit the files directly or re-run the generator. Pieces written in the Quill admin editor are different
+(`Article?slug=...`, plain template) and are not listed on the home page.
+
+### Insights hub (`/insights`)
+
+`insights.html` lists every hand-built insight piece as a card and filters them by topic (Career, AI & Testing,
+AI Engineering, Security), by format (Theory, Case Study, Explainer, Playbook) and by a search box. Filters combine,
+and the selection is kept in the URL (`/insights?topic=ai-testing&format=playbook`) so a filtered view can be shared.
+Cards are static HTML (work without JavaScript); JS only hides and shows them. "Insights" is in the nav and mobile menu
+of every page, and the home page links to it from the Insights block (header link, topic shortcuts that open the hub pre-filtered, and a button).
+
+To add a piece: build its page, add an entry to `PIECES` in `ngobrolqa-insights-builder/index_page.py`, re-run it, and add
+and, only if it should be featured, swap it into the two featured cards in the home page's NgobrolQA Insights block (static HTML, with hand-typed read times). Articles written in the Quill admin editor
+are not listed here; that would need a public "list published articles" action in `Code.gs` plus a redeploy.

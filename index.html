@@ -234,81 +234,32 @@
             font-weight: 600;
         }
 
-        .insights {
-            margin: 3rem 0;
+        .insights { margin: 3rem 0; }
+        .insights-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+        .insights-head h2 { font-size: 1.5rem; font-weight: 700; color: var(--text); }
+        .insights-all { color: var(--primary-dark); font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+        .insights-all:hover { text-decoration: underline; }
+        .insights-feature { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+        .feature-piece {
+            display: flex; flex-direction: column;
+            background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--primary);
+            border-radius: 0 16px 16px 0; padding: 1.75rem 2rem;
+            text-decoration: none; color: inherit; transition: all 0.3s;
         }
-
-        .insights h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1.25rem;
-            color: var(--text);
-        }
-
-        .insight-item {
-            display: block;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-left: 4px solid var(--primary);
-            border-radius: 0 12px 12px 0;
-            padding: 1.5rem 2rem;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s;
-            margin-bottom: 1rem;
-        }
-
-        .insight-item:hover {
-            border-left-color: var(--secondary);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            transform: translateX(4px);
-        }
-
-        .insight-meta {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .insight-tag {
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--primary);
-            background: rgba(15, 98, 240,0.1);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-        }
-
-        .insight-date {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .insight-item h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 0.4rem;
-        }
-
-        .insight-item p {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            margin-bottom: 0.75rem;
-            line-height: 1.6;
-        }
-
-        .insight-link {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .insight-item:hover .insight-link {
-            color: var(--secondary);
-        }
+        .feature-piece:hover { border-left-color: var(--secondary); box-shadow: 0 8px 30px rgba(7,28,68,0.08); transform: translateY(-3px); }
+        .feature-piece .meta { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .feature-piece .tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-dark); background: rgba(15,98,240,0.1); padding: 0.2rem 0.6rem; border-radius: 4px; }
+        .feature-piece .mins { font-size: 0.8rem; color: var(--text-muted); }
+        .feature-piece h3 { font-size: 1.3rem; font-weight: 700; line-height: 1.35; margin-bottom: 0.5rem; }
+        .feature-piece p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem; flex: 1; }
+        .feature-piece .read { font-size: 0.85rem; font-weight: 600; color: var(--primary); }
+        .feature-piece:hover .read { color: var(--secondary); }
+        .insights-more { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 1.25rem; background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1rem 1.5rem; }
+        .insights-topics { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; font-size: 0.85rem; color: var(--text-muted); }
+        .topic-link { color: var(--primary-dark); background: var(--bg); border: 1px solid var(--border); padding: 0.25rem 0.75rem; border-radius: 999px; font-weight: 600; text-decoration: none; font-size: 0.82rem; transition: all 0.15s; }
+        .topic-link:hover { border-color: var(--primary); background: #fff; }
+        .insights-btn { background: var(--navy); color: #fff; text-decoration: none; font-weight: 700; font-size: 0.9rem; padding: 0.65rem 1.4rem; border-radius: 25px; transition: all 0.2s; }
+        .insights-btn:hover { background: var(--primary); transform: translateY(-1px); }
 
         .about {
             background: var(--card);
@@ -398,6 +349,8 @@
             .nav-links { display: none; }
             .hamburger { display: flex; }
             .mobile-menu { display: flex; }
+            .insights-feature { grid-template-columns: 1fr; }
+            .feature-piece { padding: 1.4rem 1.5rem; }
         }
     </style>
 </head>
@@ -407,6 +360,7 @@
         <a href="/qa-skill-framework">Framework</a>
         <a href="/qa-self-assessment">Assessment</a>
         <a href="/qa-learning-plan">Learning</a>
+        <a href="/insights">Insights</a>
         <a href="/consult">Consult</a>
         <a href="/ctfl-mock-exam">CTFL Exam</a>
         <a href="/qa-self-assessment" class="nav-cta">Free Assessment</a>
@@ -423,6 +377,7 @@
                 <a href="/qa-skill-framework">Framework</a>
                 <a href="/qa-self-assessment">Assessment</a>
                 <a href="/qa-learning-plan">Learning</a>
+                <a href="/insights">Insights</a>
                 <a href="/consult">Consult</a>
                 <a href="/ctfl-mock-exam">CTFL Exam</a>
                 <a href="/qa-self-assessment" class="nav-cta">Free Assessment</a>
@@ -491,16 +446,34 @@
         </div>
 
         <div class="insights">
-            <h2>📝 NgobrolQA Insights</h2>
-            <a href="/qa-career-compounding" class="insight-item">
-                <div class="insight-meta">
-                    <span class="insight-tag">Original Theory</span>
-                    <span class="insight-date">2026</span>
+            <div class="insights-head">
+                <h2>📝 NgobrolQA Insights</h2>
+                <a href="/insights" class="insights-all">See all insights →</a>
+            </div>
+            <div class="insights-feature">
+                <a href="/qa-green-tests-not-proof" class="feature-piece">
+                    <div class="meta"><span class="tag">Case Study</span><span class="mins">6 min read</span></div>
+                    <h3>The Tests Were Green. The Page Was Broken.</h3>
+                    <p>Four scenarios where every AI-written test passed and a real person still found the bug.</p>
+                    <span class="read">Read more →</span>
+                </a>
+                <a href="/qa-career-compounding" class="feature-piece">
+                    <div class="meta"><span class="tag">Original Theory</span><span class="mins">8 min read</span></div>
+                    <h3>Career Compounding Theory</h3>
+                    <p>Why some QA professionals grow faster than others, and what your 20-year career is really made of.</p>
+                    <span class="read">Read more →</span>
+                </a>
+            </div>
+            <div class="insights-more">
+                <div class="insights-topics">
+                    <span>Browse by topic</span>
+                    <a href="/insights?topic=ai-testing" class="topic-link">AI &amp; Testing</a>
+                    <a href="/insights?topic=ai-engineering" class="topic-link">AI Engineering</a>
+                    <a href="/insights?topic=security" class="topic-link">Security</a>
+                    <a href="/insights?topic=career" class="topic-link">Career</a>
                 </div>
-                <h3>Career Compounding Theory</h3>
-                <p>Why some QA professionals grow faster than others, and what your 20-year career is really made of.</p>
-                <span class="insight-link">Read more →</span>
-            </a>
+                <a href="/insights" class="insights-btn">Explore all insights</a>
+            </div>
         </div>
 
         <div class="about">
