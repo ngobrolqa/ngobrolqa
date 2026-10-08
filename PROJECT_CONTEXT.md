@@ -261,7 +261,7 @@ Compounding article). `ctfl-mock-exam` is not `ctfl-exam` because that name is t
 
 Long-form, hand-built pieces that share the Career Compounding page's look (dark hero, serif body, one interactive
 element each, share block): `qa-career-compounding`, `qa-green-tests-not-proof`, `qa-api-function-calling-mcp`,
-`qa-start-with-ai-agents`, `qa-ai-agent-least-privilege`. All are listed under "NgobrolQA Insights" on the home page.
+`qa-start-with-ai-agents`, `qa-ai-agent-least-privilege`. All are listed on `/insights`; the home page shows only two featured pieces and links into the hub.
 The four newer pages were generated from a small script kept outside the repo (`ngobrolqa-insights-builder/` next to this
 repo), which copies the shared CSS, nav, share block and footer from `qa-career-compounding.html`. The output is plain
 static HTML; edit the files directly or re-run the generator. Pieces written in the Quill admin editor are different
@@ -273,8 +273,8 @@ static HTML; edit the files directly or re-run the generator. Pieces written in 
 AI Engineering, Security), by format (Theory, Case Study, Explainer, Playbook) and by a search box. Filters combine,
 and the selection is kept in the URL (`/insights?topic=ai-testing&format=playbook`) so a filtered view can be shared.
 Cards are static HTML (work without JavaScript); JS only hides and shows them. "Insights" is in the nav and mobile menu
-of every page, and the home page has a "See all insights" link.
+of every page, and the home page links to it from the Insights block (header link, topic shortcuts that open the hub pre-filtered, and a button).
 
 To add a piece: build its page, add an entry to `PIECES` in `ngobrolqa-insights-builder/index_page.py`, re-run it, and add
-a card to the home page's NgobrolQA Insights list (that list is static HTML). Articles written in the Quill admin editor
+and, only if it should be featured, swap it into the two featured cards in the home page's NgobrolQA Insights block (static HTML, with hand-typed read times). Articles written in the Quill admin editor
 are not listed here; that would need a public "list published articles" action in `Code.gs` plus a redeploy.
