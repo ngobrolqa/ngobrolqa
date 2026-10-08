@@ -238,6 +238,10 @@
             margin: 3rem 0;
         }
 
+        .insights-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+        .insights-head h2 { margin-bottom: 0; }
+        .insights-all { color: var(--primary-dark); font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+        .insights-all:hover { text-decoration: underline; }
         .insights h2 {
             font-size: 1.5rem;
             font-weight: 700;
@@ -407,6 +411,7 @@
         <a href="/qa-skill-framework">Framework</a>
         <a href="/qa-self-assessment">Assessment</a>
         <a href="/qa-learning-plan">Learning</a>
+        <a href="/insights">Insights</a>
         <a href="/consult">Consult</a>
         <a href="/ctfl-mock-exam">CTFL Exam</a>
         <a href="/qa-self-assessment" class="nav-cta">Free Assessment</a>
@@ -423,6 +428,7 @@
                 <a href="/qa-skill-framework">Framework</a>
                 <a href="/qa-self-assessment">Assessment</a>
                 <a href="/qa-learning-plan">Learning</a>
+                <a href="/insights">Insights</a>
                 <a href="/consult">Consult</a>
                 <a href="/ctfl-mock-exam">CTFL Exam</a>
                 <a href="/qa-self-assessment" class="nav-cta">Free Assessment</a>
@@ -491,7 +497,10 @@
         </div>
 
         <div class="insights">
-            <h2>📝 NgobrolQA Insights</h2>
+            <div class="insights-head">
+                <h2>📝 NgobrolQA Insights</h2>
+                <a href="/insights" class="insights-all">See all insights →</a>
+            </div>
             <a href="/qa-career-compounding" class="insight-item">
                 <div class="insight-meta">
                     <span class="insight-tag">Original Theory</span>
