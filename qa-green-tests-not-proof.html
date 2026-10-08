@@ -8,11 +8,11 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <meta name="description" content="Four real bugs from building a feature with an AI coding agent, all missed by green tests, and what that says about testing with AI.">
+    <meta name="description" content="Four illustrative scenarios, from marketplaces to mobile apps, where AI-written tests passed and a person still found the bug.">
     <meta name="author" content="Aditya Mirza Bahari">
     <meta name="copyright" content="&copy; 2026 Aditya Mirza Bahari. All Rights Reserved.">
     <meta property="og:title" content="The Tests Were Green. The Page Was Broken. | NgobrolQA">
-    <meta property="og:description" content="Four real bugs from building a feature with an AI coding agent, all missed by green tests, and what that says about testing with AI.">
+    <meta property="og:description" content="Four illustrative scenarios, from marketplaces to mobile apps, where AI-written tests passed and a person still found the bug.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://ngobrolqa.com/qa-green-tests-not-proof">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -445,7 +445,7 @@
     <div class="article-hero">
         <div class="badge">NgobrolQA Insight</div>
         <h1>The Tests Were Green. The Page Was Broken.</h1>
-        <p class="subtitle">Four real bugs from building a feature with an AI coding agent, and why none of the tests could see them.</p>
+        <p class="subtitle">Four illustrative scenarios of green tests and a broken product, and why no test could see them.</p>
         <div class="article-meta">
             <span>NgobrolQA</span>
             <span>&bull;</span>
@@ -456,11 +456,11 @@
     <div class="article">
 
         <div class="article-section">
-            <p>Not long ago I built a feature for this very website with an AI coding agent. It was a small publishing tool: a place to write an article, save it as a draft, and put it online when it was ready.</p>
+            <p>Picture a small team shipping a checkout feature for an online marketplace. They are using an AI coding agent, and it is going well. The agent writes the code, writes the tests, runs them, and reports that everything passes.</p>
 
-            <p>The agent wrote the code. It also wrote the tests, ran them, and reported that everything passed. It was a very good feeling, the kind where you almost don't want to look at the thing, in case looking changes the answer.</p>
+            <p>It is a very good feeling, the kind where you almost don't want to look at the thing, in case looking changes the answer. So someone looks. They use the feature by hand for an afternoon and find <strong>four problems</strong>, and not one of them had been caught by a single test.</p>
 
-            <p>I looked. Testing it by hand, I found <strong>four real bugs</strong>, and not one of them had been caught by a single test.</p>
+            <p>The four scenarios below are illustrations. They are built from failure patterns that turn up again and again in software, not accounts of one particular company. They are here because each one hides in a different place, and that is the whole point.</p>
 
             <p class="pull-quote">The code was correct according to its own tests. That was exactly the problem.</p>
         </div>
@@ -468,68 +468,68 @@
         <div class="separator">&bull; &bull; &bull;</div>
 
         <div class="article-section">
-            <h2>Four bugs, four different shapes</h2>
+            <h2>Four scenarios, four different shapes</h2>
 
-            <p>I want to be clear that none of this is a story about a careless tool. Each bug was different, and each one hid in a different place. Open them one at a time and look at what the tests said next to what I saw.</p>
+            <p>None of this is a story about a careless tool. The tests are doing their job. Open the scenarios one at a time and look at what the tests said next to what a person found.</p>
 
             <div class="lab" id="bugLab">
                 <div class="lab-title">Interactive</div>
-                <h3>The green tests and the real page</h3>
-                <p class="lab-intro">Tap a bug to see what the tests were happy about, what I actually ran into, and why the two never met.</p>
+                <h3>The green tests and the real product</h3>
+                <p class="lab-intro">Tap a scenario to see what the tests were happy about, what a person ran into, and why the two never met.</p>
 
                 <div class="bug-grid" id="bugGrid">
                     <button class="bug" data-i="0" aria-expanded="false">
-                        <div class="tag">Bug one</div>
-                        <h4>The draft that opened empty</h4>
+                        <div class="tag">Online marketplace</div>
+                        <h4>The total that was off by one cent</h4>
                         <div class="hint">Tap to open</div>
                         <div class="detail">
                             <div class="face-off">
-                                <div class="face ok"><div class="small-label">The tests</div>Every backend action behaved exactly as designed. The public action correctly refused to return drafts.</div>
-                                <div class="face bad"><div class="small-label">What I saw</div>I opened a saved draft to edit it. The editor was blank, with no error message of any kind.</div>
+                                <div class="face ok"><div class="small-label">The tests</div>The pricing service rounds correctly. The cart displays totals correctly. Both are covered, both are green.</div>
+                                <div class="face bad"><div class="small-label">What a person saw</div>A customer with several discounted items was shown one total and charged another, a cent apart.</div>
                             </div>
-                            <p class="cause">The editor loaded an article's text through that same public action, which is meant to show only published articles. For a draft it answered "not found", and the editor quietly displayed nothing. Both halves were right on their own. The mistake lived in how one used the other.</p>
-                            <span class="pill amber">A flow between two correct parts</span>
+                            <p class="cause">The pricing service rounded each item. The cart rounded the grand total. Each rule was perfectly reasonable on its own, and they disagreed as soon as the basket held more than one discounted item. No test looked at the two of them together, because each test lived inside one component.</p>
+                            <span class="pill amber">A gap between two correct parts</span>
                         </div>
                     </button>
 
                     <button class="bug" data-i="1" aria-expanded="false">
-                        <div class="tag">Bug two</div>
-                        <h4>An error that blamed the wrong thing</h4>
+                        <div class="tag">Mobile app</div>
+                        <h4>The error that blamed the wifi</h4>
                         <div class="hint">Tap to open</div>
                         <div class="detail">
                             <div class="face-off">
-                                <div class="face ok"><div class="small-label">The tests</div>Saving an article worked for every normal article the tests tried.</div>
-                                <div class="face bad"><div class="small-label">What I saw</div>Save failed with "Failed to fetch", and the console complained loudly about CORS.</div>
+                                <div class="face ok"><div class="small-label">The tests</div>When the server answers, the app shows the data. When the network is off, the app says there is no connection. Both pass.</div>
+                                <div class="face bad"><div class="small-label">What a person saw</div>During a brief backend problem, users with perfectly good wifi saw "No internet connection".</div>
                             </div>
-                            <p class="cause">It had nothing to do with CORS. I had pasted a screenshot into the editor, which embedded the image as text and pushed one spreadsheet cell past its limit of roughly 50,000 characters. The server crashed and replied with an error page that carries no CORS headers, so the browser could only report the wrong complaint. The symptom pointed away from the cause, and it took someone who knew what had actually been pasted to turn around.</p>
+                            <p class="cause">When the backend failed, it returned a plain error page instead of the data the app expected. The app could not read that page, and its error handling treated every unreadable response as a network problem. The symptom pointed at the user's connection while the cause sat on the server, and it took a person reading the real traffic to turn the diagnosis around.</p>
                             <span class="pill amber">A symptom that points the wrong way</span>
                         </div>
                     </button>
 
                     <button class="bug" data-i="2" aria-expanded="false">
-                        <div class="tag">Bug three</div>
-                        <h4>A title that broke the page</h4>
+                        <div class="tag">Seller dashboard</div>
+                        <h4>The shop name that broke the page</h4>
                         <div class="hint">Tap to open</div>
                         <div class="detail">
                             <div class="face-off">
-                                <div class="face ok"><div class="small-label">The tests</div>The tests exercised the backend. They never drew a button, so they never saw one.</div>
-                                <div class="face bad"><div class="small-label">What I saw</div>Clicking Edit on certain articles raised "Unexpected end of input" and did nothing.</div>
+                                <div class="face ok"><div class="small-label">The tests</div>The tests used shop names like "Test Shop" and "Demo Store". Saving, editing and listing all worked.</div>
+                                <div class="face bad"><div class="small-label">What a person saw</div>For one seller, the Edit button did nothing, and the browser console showed a syntax error.</div>
                             </div>
-                            <p class="cause">The article's title was written into the button's click handler, and a title containing a quotation mark closed the handler early. It only happened for some titles, on one screen. Whether it appears depends on the data, and the tests had never been shown that kind of data.</p>
+                            <p class="cause">That seller's shop name contained an apostrophe. The page wrote the name straight into a button's click handler, so the apostrophe closed the handler early and everything after it broke. It only happens for some names, on one screen. Whether the bug appears depends on the data, and the tests had only ever been shown tidy data.</p>
                             <span class="pill amber">Only certain data, through one screen</span>
                         </div>
                     </button>
 
                     <button class="bug" data-i="3" aria-expanded="false">
-                        <div class="tag">Bug four</div>
-                        <h4>An editor that wouldn't take typing</h4>
+                        <div class="tag">Checkout on phones</div>
+                        <h4>The button that needed two taps</h4>
                         <div class="hint">Tap to open</div>
                         <div class="detail">
                             <div class="face-off">
-                                <div class="face ok"><div class="small-label">The tests</div>Nothing failed, because nothing could check whether a cursor was active.</div>
-                                <div class="face bad"><div class="small-label">What I saw</div>The editor was on the screen, but clicking inside it did nothing until I clicked a toolbar button.</div>
+                                <div class="face ok"><div class="small-label">The tests</div>An automated script clicked "Pay now" and the order went through, every time.</div>
+                                <div class="face bad"><div class="small-label">What a person saw</div>On a real phone, the first tap on "Pay now" did nothing. Only the second one worked.</div>
                             </div>
-                            <p class="cause">The editor had been created while its container was still hidden, so it looked ready but never received focus. Whether something can be typed into is a matter of how it feels to use, and none of the automated checks I had could feel anything.</p>
+                            <p class="cause">A loading overlay was still fading out and covered the button for a moment. A script triggers the button directly, so the overlay never got in its way. A thumb cannot reach through an overlay. Whether something feels right to use is outside what a script that bypasses the screen can notice.</p>
                             <span class="pill amber">Behavior no script was watching</span>
                         </div>
                     </button>
@@ -538,7 +538,7 @@
                 <div class="progress"><div class="bar"><div class="fill" id="bugFill"></div></div><span id="bugCount">0 of 4 opened</span></div>
 
                 <div class="reveal" id="bugReveal">
-                    <h4>Four bugs, no two alike</h4>
+                    <h4>Four scenarios, no two alike</h4>
                     <p>One was a gap between two correct parts, one a misleading error, one a quirk of the data, and one a matter of feel. A test suite only checks the cases someone thought to write down. Every one of these needed a person to run the real thing.</p>
                 </div>
             </div>
@@ -549,9 +549,9 @@
         <div class="article-section">
             <h2>This is the oracle problem</h2>
 
-            <p>Testers have a name for what went wrong here. A test needs an <strong>oracle</strong>, some way of knowing what the right answer is. The tests the agent wrote used an oracle too, and it was the agent's own idea of what the feature should do. When that idea has a gap, the tests carry the same gap, and they pass with complete confidence.</p>
+            <p>Testers have a name for what went wrong in all four. A test needs an <strong>oracle</strong>, some way of knowing what the right answer is. The tests an AI agent writes use an oracle too, and it is the agent's own idea of what the feature should do. When that idea has a gap, the tests carry the same gap, and they pass with complete confidence.</p>
 
-            <p>Deciding what "correct" means for a real person using a real screen is the part that stayed with me. It is judgment, and judgment was not on the list of things the tests could do.</p>
+            <p>Deciding what "correct" means for a real person using a real screen is the part that stays human. It is judgment, and judgment is not on the list of things a test can do for itself.</p>
 
             <p class="pull-quote">Green tells you the code agrees with the tests. It says nothing about whether the tests agree with the world.</p>
         </div>
@@ -559,13 +559,13 @@
         <div class="separator">&bull; &bull; &bull;</div>
 
         <div class="article-section">
-            <h2>What the agent was genuinely good at</h2>
+            <h2>What an agent is genuinely good at</h2>
 
-            <p>I don't want to leave you with the idea that the agent was the weak link. It was fast, patient, and thorough in a way I rarely am at the end of a long day. Asked for a broad set of checks on the backend, it produced them quickly: wrong passwords, missing fields, oversized input, the cases I would have meant to write and then not gotten around to.</p>
+            <p>This is not an argument against AI coding agents. They are fast, patient, and thorough in a way most of us are not at the end of a long day. Asked for a broad set of checks on a backend, an agent will produce them quickly: wrong passwords, missing fields, oversized input, the cases a tired person means to write and never gets around to.</p>
 
             <p>That is where these tools are strong. They are wide. They cover a lot of ground quickly, including the dull corners. The places they struggle are the deep ones, where someone has to know what the thing is for and how a person will really use it.</p>
 
-            <p>The other half of the lesson was about how I reported things. Once I described each symptom precisely, with the exact error text and the exact steps, the agent fixed it quickly. A vague "it's broken" gets a guess. A precise report gets a repair. How well you describe a problem decides how fast it goes away.</p>
+            <p>There is a practical side to this as well. When a person reports a problem precisely, with the exact error text and the exact steps, an agent can usually fix it fast. A vague "it's broken" gets a guess. A precise report gets a repair. How well you describe a problem decides how quickly it goes away.</p>
         </div>
 
         <div class="separator">&bull; &bull; &bull;</div>
@@ -573,7 +573,7 @@
         <div class="article-section">
             <h2>Where the human review sits</h2>
 
-            <p>People often ask where "human review" goes when an agent writes the code. For this project the answer was boring and it worked. Every change went onto its own branch and into a pull request. I ran it locally and clicked through it like a user would. Only then did it get merged, and only after I said so.</p>
+            <p>People often ask where "human review" goes when an agent writes the code. A simple answer that works: every change lands on its own branch and in a pull request, someone runs it and clicks through it like a real user would, and only then does it merge, and only on a person's say-so.</p>
 
             <p>That last step is the one that matters. It is a gate where a person, not a script, decides that this is good enough to go live.</p>
 
@@ -608,7 +608,7 @@
             </div>
         </div>
 
-        <p class="origin-note">Written by Aditya Mirza Bahari, 2026. The bugs are real, from building the NgobrolQA article tool.</p>
+        <p class="origin-note">Written by Aditya Mirza Bahari, 2026. The scenarios are illustrative composites of common failure patterns, not reports of any specific company.</p>
     </div>
 
     <footer>
@@ -632,7 +632,7 @@
         }
         const pageUrl = 'https://ngobrolqa.com/qa-green-tests-not-proof';
         const shareTitle = "The Tests Were Green. The Page Was Broken.";
-        const shareText = "Four real bugs from building with an AI coding agent. All four passed the tests. None passed a real person.";
+        const shareText = "Four scenarios where every AI-written test was green and a real person still found the bug.";
         function shareLinkedIn() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(pageUrl), '_blank', 'noopener'); }
         function shareTwitter() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText + ' ' + pageUrl), '_blank', 'noopener'); }
         function shareWhatsApp() { window.open('https://wa.me/?text=' + encodeURIComponent(shareTitle + '\n\n' + shareText + '\n\n' + pageUrl), '_blank', 'noopener'); }
