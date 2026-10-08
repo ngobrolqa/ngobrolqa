@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Can Your AI Agent Break? A Least-Privilege Check | NgobrolQA</title>
+    <link rel="canonical" href="https://ngobrolqa.com/qa-ai-agent-least-privilege">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta name="description" content="A true story about passwords in a public repo, and an interactive least-privilege check for giving AI agents access to code and systems.">
+    <meta name="author" content="Aditya Mirza Bahari">
+    <meta name="copyright" content="&copy; 2026 Aditya Mirza Bahari. All Rights Reserved.">
+    <meta property="og:title" content="What Can Your AI Agent Break? A Least-Privilege Check | NgobrolQA">
+    <meta property="og:description" content="A true story about passwords in a public repo, and an interactive least-privilege check for giving AI agents access to code and systems.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://ngobrolqa.com/qa-ai-agent-least-privilege">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f62f0;
+            --navy: #071c44;
+            --primary-dark: #0a47b8;
+            --primary-light: #8db6ff;
+            --secondary: #071c44;
+            --accent: #f59e0b;
+            --bg: #f4f7fb;
+            --bg-dark: #071c44;
+            --card: #ffffff;
+            --text: #0f1f3d;
+            --text-muted: #55657f;
+            --border: #dbe3ef;
+            --fund: #0d9488;
+            --market: #6366f1;
+            --future: #f59e0b;
+            --others: #ec4899;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Nav */
+        nav {
+            background: var(--navy);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-brand img { height: 40px; }
+        .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+        .nav-brand span .qa { color: #5a9bff; }
+
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: white; }
+        .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
+
+        .nav-cta {
+            background: var(--primary);
+            color: white !important;
+            padding: 0.6rem 1.25rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(15, 98, 240, 0.45);
+        }
+        .nav-cta:hover { transform: translateY(-2px); }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+        .hamburger span { width: 25px; height: 3px; background: white; margin: 3px 0; border-radius: 3px; transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--navy);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        .mobile-menu.active { opacity: 1; visibility: visible; }
+        .mobile-menu a { color: white; text-decoration: none; font-size: 1.5rem; font-weight: 600; padding: 0.75rem 2rem; transition: all 0.2s; }
+        .mobile-menu a:hover { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .mobile-menu .nav-cta { font-size: 1.25rem; padding: 1rem 2rem; margin-top: 1rem; }
+
+        /* Article Hero */
+        .article-hero {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1e293b 100%);
+            color: white;
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .article-hero .badge {
+            display: inline-block;
+            background: rgba(245,158,11,0.15);
+            color: var(--accent);
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-hero h1 {
+            font-family: 'Lora', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            line-height: 1.3;
+            max-width: 700px;
+            margin: 0 auto 1rem;
+        }
+
+        .article-hero .subtitle {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.5);
+            max-width: 550px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .article-meta span { display: flex; align-items: center; gap: 0.4rem; }
+
+        /* Article Body */
+        .article {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 90%;
+        }
+
+        .article-section {
+            padding: 3rem 0;
+        }
+
+        .article p {
+            font-family: 'Lora', serif;
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #374151;
+            margin-bottom: 1.5rem;
+        }
+
+        .article p strong { color: var(--text); }
+
+        .article h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            line-height: 1.3;
+        }
+
+        .article h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 2rem 0 0.75rem;
+            color: var(--text);
+        }
+
+        .pull-quote {
+            font-family: 'Lora', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--primary-dark);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 0 1rem 2rem;
+            margin: 2.5rem 0;
+            line-height: 1.6;
+        }
+
+        .separator {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--border);
+            font-size: 1.5rem;
+            letter-spacing: 1rem;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            padding: 3.5rem 2rem;
+            text-align: center;
+            border-radius: 20px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 { font-size: 1.75rem; margin-bottom: 0.75rem; }
+        .cta-section p { font-family: 'Inter', sans-serif !important; font-size: 1rem !important; opacity: 0.8; margin-bottom: 1.5rem !important; color: white !important; }
+
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .cta-btn {
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .cta-btn.primary { background: white; color: var(--primary-dark); }
+        .cta-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+        .cta-btn.secondary { background: rgba(255,255,255,0.15); color: white; border: 2px solid rgba(255,255,255,0.3); }
+        .cta-btn.secondary:hover { background: rgba(255,255,255,0.25); }
+
+        /* Share */
+        .share-section {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            margin: 2rem 0;
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            background: var(--card);
+        }
+
+        .share-label {
+            font-family: 'Lora', serif !important;
+            font-size: 1.1rem !important;
+            color: var(--text) !important;
+            margin-bottom: 1.25rem !important;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        .share-btn.linkedin { background: #0A66C2; color: white; }
+        .share-btn.twitter { background: #000; color: white; }
+        .share-btn.whatsapp { background: #25D366; color: white; }
+        .share-btn.copy { background: var(--bg); color: var(--text); border: 1.5px solid var(--border); }
+        .share-btn.copy:hover { border-color: var(--primary); color: var(--primary); }
+
+        .origin-note {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        footer {
+            background: var(--bg-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        footer a { color: var(--primary-light); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+
+        /* Interactive blocks */
+        .lab {
+            background: var(--card);
+            border: 1.5px solid var(--border);
+            border-radius: 18px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            box-shadow: 0 4px 20px rgba(7,28,68,0.05);
+        }
+        .lab-title { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-dark); margin-bottom: 0.4rem; }
+        .lab h3 { font-family: 'Inter', sans-serif; font-size: 1.25rem; color: var(--text); margin-bottom: 0.5rem; }
+        .lab .lab-intro { font-family: 'Inter', sans-serif !important; font-size: 0.95rem !important; color: var(--text-muted) !important; line-height: 1.6 !important; margin-bottom: 1.25rem !important; }
+        .lab button { font-family: 'Inter', sans-serif; cursor: pointer; }
+        .lab :focus-visible, .share-btn:focus-visible, .cta-btn:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+        .pill { display: inline-block; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.65rem; border-radius: 999px; letter-spacing: 0.3px; }
+        .pill.green { background: #dcfce7; color: #166534; }
+        .pill.red { background: #fee2e2; color: #991b1b; }
+        .pill.blue { background: #e8f0fe; color: #0a47b8; }
+        .pill.amber { background: #fef3c7; color: #92400e; }
+        .small-label { font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.35rem; }
+        .lab p.plain { font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.65; color: #374151; margin-bottom: 0.9rem; }
+
+
+        .access-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-bottom: 1.25rem; }
+        .toggle { display: flex; align-items: center; gap: 0.7rem; width: 100%; text-align: left; border: 1.5px solid var(--border); background: var(--bg); border-radius: 12px; padding: 0.65rem 0.85rem; font-size: 0.85rem; font-weight: 600; color: var(--text); transition: all 0.15s; }
+        .toggle:hover { border-color: var(--primary); }
+        .toggle .box { width: 1.15rem; height: 1.15rem; border-radius: 5px; border: 2px solid #9aa8bd; flex-shrink: 0; display: grid; place-items: center; font-size: 0.75rem; color: #fff; }
+        .toggle.on { background: #fff; }
+        .toggle.access.on { border-color: #ef4444; } .toggle.access.on .box { background: #ef4444; border-color: #ef4444; }
+        .toggle.guard.on { border-color: #22c55e; } .toggle.guard.on .box { background: #22c55e; border-color: #22c55e; }
+        .group-label { font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; color: var(--text-muted); margin: 1rem 0 0.5rem; }
+        .gauge { height: 14px; border-radius: 7px; background: linear-gradient(90deg, #22c55e 0%, #eab308 40%, #f97316 70%, #dc2626 100%); position: relative; margin: 0.6rem 0 0.4rem; }
+        .gauge .needle { position: absolute; top: -5px; width: 5px; height: 24px; background: var(--bg-dark); border-radius: 3px; transition: left 0.4s; transform: translateX(-50%); }
+        .gauge-scale { display: flex; justify-content: space-between; font-family: 'Inter', sans-serif; font-size: 0.72rem; color: var(--text-muted); margin-bottom: 1rem; }
+        .blast { background: var(--bg-dark); color: #fff; border-radius: 14px; padding: 1.2rem 1.3rem; font-family: 'Inter', sans-serif; }
+        .blast .lvl { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.3rem; }
+        .blast p { font-family: 'Inter', sans-serif !important; font-size: 0.92rem !important; line-height: 1.65 !important; color: rgba(255,255,255,0.85) !important; margin: 0 !important; }
+        .hardening { margin: 1.25rem 0 0.5rem 1.4rem; font-family: 'Lora', serif; font-size: 1.1rem; line-height: 1.8; color: #374151; }
+        .hardening li { margin-bottom: 0.6rem; padding-left: 0.3rem; }
+        @media (max-width: 768px) { .access-grid { grid-template-columns: 1fr; } }
+
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu { display: flex; }
+            .article-hero { padding: 3.5rem 1.25rem 3rem; }
+            .article-hero h1 { font-size: 2rem; }
+            .article-hero .subtitle { font-size: 1rem; }
+            .article { padding: 0 1.25rem; }
+            .article p { font-size: 1.05rem; }
+            .pull-quote { font-size: 1.25rem; padding-left: 1.5rem; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .lab-grid { grid-template-columns: 1fr; }
+            .bug-grid { grid-template-columns: 1fr; }
+            .lab { padding: 1.25rem; }
+        }
+        @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/">Home</a>
+        <a href="/qa-skill-framework">Framework</a>
+        <a href="/qa-self-assessment">Assessment</a>
+        <a href="/qa-learning-plan">Learning</a>
+        <a href="/consult">Consult</a>
+        <a href="/ctfl-mock-exam">CTFL Exam</a>
+        <a href="/qa-self-assessment" class="nav-cta">Free Assessment</a>
+    </div>
+
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="nav-brand">
+                <img src="ngobrolqa-mark-reversed.svg" alt="NgobrolQA">
+                <span>Ngobrol<span class="qa">QA</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/qa-skill-framework">Framework</a>
+                <a href="/qa-self-assessment">Assessment</a>
+                <a href="/qa-learning-plan">Learning</a>
+                <a href="/consult">Consult</a>
+        <a href="/ctfl-mock-exam">CTFL Exam</a>
+                <a href="/qa-self-assessment" class="nav-cta">Free Assessment</a>
+            </div>
+            <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="article-hero">
+        <div class="badge">NgobrolQA Insight</div>
+        <h1>What Can Your AI Agent Break?</h1>
+        <p class="subtitle">Before an agent touches your code or your systems, ask what the worst day could look like.</p>
+        <div class="article-meta">
+            <span>NgobrolQA</span>
+            <span>&bull;</span>
+            <span>4 min read</span>
+        </div>
+    </div>
+
+    <div class="article">
+
+        <div class="article-section">
+            <p>Once an AI agent can run commands, read your repository and call your APIs, the question changes. It stops being how clever the agent is and becomes how much it is allowed to touch.</p>
+
+            <p>Security people have had an answer to this for a very long time. It is called <strong>least privilege</strong>, and it fits in one sentence: give something only the access it genuinely needs, and nothing more.</p>
+
+            <p>I want to tell you about the time I learned why that sentence matters, because it happened on my own project.</p>
+        </div>
+
+        <div class="separator">&bull; &bull; &bull;</div>
+
+        <div class="article-section">
+            <h2>The passwords in the public repo</h2>
+
+            <p>This website runs on static pages with a small Google Apps Script behind it, and its repository is public. Not long ago I found out that the password for the admin page, the password for the exam gate, and the entire answer key for the exam were written directly into files in that repository.</p>
+
+            <p>Anyone could have read them. And with them, anyone could have called the backend directly, without ever opening the admin page: publishing or deleting articles, uploading files into my Google Drive, reading drafts, or reading the exam's answer key.</p>
+
+            <p>As far as I can tell, nobody did any of that, and the hole is closed now. I am telling you because the same pattern turns up in almost every project I look at, with or without AI.</p>
+
+            <p>AI agents raise the stakes in two ways. They read repositories, and they often carry what they read into prompts, logs and output. And because people now build faster, the habit of "I'll tidy it up later" has less and less time to be tidied.</p>
+
+            <p class="pull-quote">The question worth asking about any agent: if it gets something wrong, or is steered wrong, what is the worst it could do with the access it has right now?</p>
+        </div>
+
+        <div class="separator">&bull; &bull; &bull;</div>
+
+        <div class="article-section">
+            <h2>What it looks like to widen access</h2>
+
+            <p>Try giving an imaginary agent some access and watch the worst-case damage move. Then switch on a few guardrails and see how much of it they take back.</p>
+
+            <div class="lab" id="blastLab">
+                <div class="lab-title">Interactive</div>
+                <h3>How big is the blast radius?</h3>
+                <p class="lab-intro">An illustration, not a standard. The weights are my own judgment, meant to make the trade-off visible.</p>
+
+                <div class="group-label">What the agent can do</div>
+                <div class="access-grid" id="accessGrid"></div>
+
+                <div class="group-label">What you put around it</div>
+                <div class="access-grid" id="guardGrid"></div>
+
+                <div class="gauge"><div class="needle" id="needle" style="left: 3%;"></div></div>
+                <div class="gauge-scale"><span>Contained</span><span>Serious</span><span>Severe</span></div>
+
+                <div class="blast" aria-live="polite"><div class="lvl" id="lvl"></div><p id="blastText"></p></div>
+            </div>
+        </div>
+
+        <div class="separator">&bull; &bull; &bull;</div>
+
+        <div class="article-section">
+            <h2>What we changed afterwards</h2>
+
+            <p>The fixes were not exotic. The passwords moved out of the code and into settings that live only on the server. The answer key moved into a private spreadsheet tab. If a password is not set, the server now refuses every request, rather than letting everyone in.</p>
+
+            <p>The pages stopped carrying any password at all: the visitor types it, and the server checks it. Wrong guesses are slowed down so that guessing is not worth the effort. And because git remembers everything, the old passwords were treated as leaked and replaced, even though the files had been cleaned.</p>
+
+            <p>One more layer went in for good measure. The page that shows articles now rebuilds their content from a short list of allowed tags, so that even if a password leaks again, an attacker still cannot run a script on the site.</p>
+
+            <h2>Before you hand an agent the keys</h2>
+
+            <p>Make sure there are no secrets in the repository, in prompts, or in any configuration file the agent can read. Keep them in a secret manager or in environment settings. Give the least access that works: reading first, writing later, production last, with one credential per purpose and the narrowest scope you can manage.</p>
+
+            <p>Let the agent work in a sandbox or on staging rather than directly on production. Ask a person to approve anything that is hard to undo, like deploying, deleting, sending something outside, or changing permissions. Keep a record of what the agent did and when. Treat what comes back from tools as untrusted, since outside text can hide instructions. And have a plan for changing a leaked secret quickly, ideally without a redeploy.</p>
+
+            <ol class="hardening">
+                <li>Where could a secret be sitting that this agent can read?</li>
+                <li>What is the smallest access that still lets it do the job?</li>
+                <li>Who has to say yes before anything irreversible happens?</li>
+            </ol>
+
+            <p class="pull-quote">Capability is what makes an agent useful. Access is what makes it dangerous. Decide on the second as carefully as you admire the first.</p>
+        </div>
+
+
+        <div class="cta-section">
+            <h2>Test it before you trust it</h2>
+            <p>See why green tests are not the same as a working feature, with four real bugs from an AI-built tool.</p>
+            <div class="cta-buttons">
+                <a href="/qa-green-tests-not-proof" class="cta-btn primary">Read: the tests were green</a>
+                <a href="/" class="cta-btn secondary">More insights</a>
+            </div>
+        </div>
+
+        <div class="share-section">
+            <p class="share-label">Is someone about to give an AI agent the keys? Send them this first.</p>
+            <div class="share-buttons">
+                <a href="#" onclick="shareLinkedIn(); return false;" class="share-btn linkedin">LinkedIn</a>
+                <a href="#" onclick="shareTwitter(); return false;" class="share-btn twitter">X / Twitter</a>
+                <a href="#" onclick="shareWhatsApp(); return false;" class="share-btn whatsapp">WhatsApp</a>
+                <button onclick="copyLink()" class="share-btn copy"><span id="copyText">Copy Link</span></button>
+            </div>
+        </div>
+
+        <p class="origin-note">Written by Aditya Mirza Bahari, 2026. The risk weights in the demo are an illustration, not a standard.</p>
+    </div>
+
+    <footer>
+        <p>© 2026 Aditya Mirza Bahari. All Rights Reserved.</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">
+            <a href="https://id.linkedin.com/in/adityamirzabahari" target="_blank">LinkedIn</a> •
+            <a href="https://www.instagram.com/ngobrolqa/" target="_blank">Instagram</a> •
+            <a href="https://www.youtube.com/@ngobrolQA" target="_blank">YouTube</a> •
+            <a href="https://open.spotify.com/show/NgobrolQA" target="_blank">Podcast</a> •
+            <a href="https://idstb.org" target="_blank">IDSTB</a>
+        </p>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+        const pageUrl = 'https://ngobrolqa.com/qa-ai-agent-least-privilege';
+        const shareTitle = "What Can Your AI Agent Break?";
+        const shareText = "A true story about passwords in a public repo, and a quick least-privilege check before you give an AI agent access.";
+        function shareLinkedIn() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(pageUrl), '_blank', 'noopener'); }
+        function shareTwitter() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText + ' ' + pageUrl), '_blank', 'noopener'); }
+        function shareWhatsApp() { window.open('https://wa.me/?text=' + encodeURIComponent(shareTitle + '\n\n' + shareText + '\n\n' + pageUrl), '_blank', 'noopener'); }
+        function copyLink() {
+            const done = function () {
+                document.getElementById('copyText').textContent = 'Copied!';
+                setTimeout(function () { document.getElementById('copyText').textContent = 'Copy Link'; }, 2000);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(pageUrl).then(done, function () {}); }
+        }
+
+        (function () {
+            var access = [
+                { id: 'read', t: 'Read the codebase', w: 1, risk: 'it can read everything in your repository' },
+                { id: 'branch', t: 'Edit code on a branch', w: 2, risk: 'it can change code, though a review can still catch it' },
+                { id: 'shell', t: 'Run shell commands', w: 3, risk: 'it can run commands on a machine that has your files' },
+                { id: 'prod-read', t: 'Read production data', w: 3, risk: 'it can see real customer information' },
+                { id: 'web', t: 'Browse the open web', w: 2, risk: 'it can read pages that try to steer it' },
+                { id: 'send', t: 'Send messages outside the company', w: 3, risk: 'it can send things you cannot take back' },
+                { id: 'secrets', t: 'Hold passwords and API keys', w: 4, risk: 'it can use, or leak, the keys to your systems' },
+                { id: 'deploy', t: 'Deploy to production', w: 5, risk: 'it can change what real users are running' },
+                { id: 'delete', t: 'Delete or overwrite data', w: 5, risk: 'it can destroy live data' }
+            ];
+            var guards = [
+                { id: 'sandbox', t: 'Works in a sandbox or on staging', cut: 0.30 },
+                { id: 'approval', t: 'A person approves risky actions', cut: 0.35 },
+                { id: 'scoped', t: 'Narrow, expiring credentials', cut: 0.20 },
+                { id: 'audit', t: 'Everything is logged and reviewed', cut: 0.10 }
+            ];
+            var on = {};
+            function build(list, host, cls) {
+                var grid = document.getElementById(host);
+                list.forEach(function (it) {
+                    var b = document.createElement('button');
+                    b.type = 'button'; b.className = 'toggle ' + cls; b.setAttribute('aria-pressed', 'false');
+                    b.innerHTML = '<span class="box"></span><span>' + it.t + '</span>';
+                    b.addEventListener('click', function () {
+                        on[it.id] = !on[it.id];
+                        b.classList.toggle('on', !!on[it.id]);
+                        b.setAttribute('aria-pressed', on[it.id] ? 'true' : 'false');
+                        b.querySelector('.box').textContent = on[it.id] ? '\u2713' : '';
+                        update();
+                    });
+                    grid.appendChild(b);
+                });
+            }
+            build(access, 'accessGrid', 'access');
+            build(guards, 'guardGrid', 'guard');
+            var MAX = access.reduce(function (s, a) { return s + a.w; }, 0);
+
+            function update() {
+                var picked = access.filter(function (a) { return on[a.id]; });
+                var base = picked.reduce(function (s, a) { return s + a.w; }, 0);
+                var factor = 1;
+                guards.forEach(function (g) { if (on[g.id]) factor *= (1 - g.cut); });
+                var score = base * factor;
+                document.getElementById('needle').style.left = Math.max(3, Math.min(97, (score / MAX) * 100 * 1.6)) + '%';
+                var lvl = document.getElementById('lvl'), txt = document.getElementById('blastText');
+                if (!picked.length) { lvl.textContent = 'No access, no damage'; txt.textContent = 'An agent with no access can do nothing wrong, and nothing useful either. Pick some access to see the trade-off.'; return; }
+                var worst = picked.slice().sort(function (a, b) { return b.w - a.w; })[0];
+                var level = score < 2.5 ? 'Contained' : score < 6 ? 'Serious' : score < 11 ? 'Severe' : 'Critical';
+                lvl.textContent = level;
+                var guardCount = guards.filter(function (g) { return on[g.id]; }).length;
+                var msg = 'The biggest concern is that ' + worst.risk + '.';
+                if (picked.length > 1) msg += ' Together, ' + picked.length + ' kinds of access give a mistake many places to land.';
+                msg += guardCount ? ' Your ' + guardCount + ' guardrail' + (guardCount > 1 ? 's' : '') + ' cut the potential damage, though not to zero.' : ' With no guardrails, one wrong move goes straight through.';
+                if (score >= 6 && !on.approval) msg += ' Anything this powerful is a good candidate for human approval.';
+                txt.textContent = msg;
+            }
+            update();
+        })();
+
+    </script>
+</body>
+</html>

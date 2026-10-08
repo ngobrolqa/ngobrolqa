@@ -256,3 +256,13 @@ serves `/x` from `x.html`, so both forms work. Old names (`QA_Consult`, `CTFL_Mo
 strings and hashes); do not delete them if old links may still be out there (e.g. LinkedIn shares of the Career
 Compounding article). `ctfl-mock-exam` is not `ctfl-exam` because that name is the data/apps-script folder.
 `python3 -m http.server` cannot serve extensionless URLs, so test locally with a server that tries `path.html`.
+
+## Insight pages (2026-10)
+
+Long-form, hand-built pieces that share the Career Compounding page's look (dark hero, serif body, one interactive
+element each, share block): `qa-career-compounding`, `qa-green-tests-not-proof`, `qa-api-function-calling-mcp`,
+`qa-start-with-ai-agents`, `qa-ai-agent-least-privilege`. All are listed under "NgobrolQA Insights" on the home page.
+The four newer pages were generated from a small script kept outside the repo (`ngobrolqa-insights-builder/` next to this
+repo), which copies the shared CSS, nav, share block and footer from `qa-career-compounding.html`. The output is plain
+static HTML; edit the files directly or re-run the generator. Pieces written in the Quill admin editor are different
+(`Article?slug=...`, plain template) and are not listed on the home page.

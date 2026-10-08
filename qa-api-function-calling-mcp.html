@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST, Function Calling and MCP: Layers, Not Rivals | NgobrolQA</title>
+    <link rel="canonical" href="https://ngobrolqa.com/qa-api-function-calling-mcp">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon-192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta name="description" content="REST APIs, function calling and MCP are layers of one stack, not competing choices. A plain explanation with two small interactive demos.">
+    <meta name="author" content="Aditya Mirza Bahari">
+    <meta name="copyright" content="&copy; 2026 Aditya Mirza Bahari. All Rights Reserved.">
+    <meta property="og:title" content="REST, Function Calling and MCP: Layers, Not Rivals | NgobrolQA">
+    <meta property="og:description" content="REST APIs, function calling and MCP are layers of one stack, not competing choices. A plain explanation with two small interactive demos.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://ngobrolqa.com/qa-api-function-calling-mcp">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f62f0;
+            --navy: #071c44;
+            --primary-dark: #0a47b8;
+            --primary-light: #8db6ff;
+            --secondary: #071c44;
+            --accent: #f59e0b;
+            --bg: #f4f7fb;
+            --bg-dark: #071c44;
+            --card: #ffffff;
+            --text: #0f1f3d;
+            --text-muted: #55657f;
+            --border: #dbe3ef;
+            --fund: #0d9488;
+            --market: #6366f1;
+            --future: #f59e0b;
+            --others: #ec4899;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Nav */
+        nav {
+            background: var(--navy);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-brand img { height: 40px; }
+        .nav-brand span { font-weight: 700; font-size: 1.25rem; }
+        .nav-brand span .qa { color: #5a9bff; }
+
+        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: white; }
+        .nav-links a.active { color: white; border-bottom: 2px solid white; padding-bottom: 2px; }
+
+        .nav-cta {
+            background: var(--primary);
+            color: white !important;
+            padding: 0.6rem 1.25rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(15, 98, 240, 0.45);
+        }
+        .nav-cta:hover { transform: translateY(-2px); }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+        .hamburger span { width: 25px; height: 3px; background: white; margin: 3px 0; border-radius: 3px; transition: all 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--navy);
+            z-index: 1000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        .mobile-menu.active { opacity: 1; visibility: visible; }
+        .mobile-menu a { color: white; text-decoration: none; font-size: 1.5rem; font-weight: 600; padding: 0.75rem 2rem; transition: all 0.2s; }
+        .mobile-menu a:hover { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .mobile-menu .nav-cta { font-size: 1.25rem; padding: 1rem 2rem; margin-top: 1rem; }
+
+        /* Article Hero */
+        .article-hero {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1e293b 100%);
+            color: white;
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .article-hero .badge {
+            display: inline-block;
+            background: rgba(245,158,11,0.15);
+            color: var(--accent);
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-hero h1 {
+            font-family: 'Lora', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            line-height: 1.3;
+            max-width: 700px;
+            margin: 0 auto 1rem;
+        }
+
+        .article-hero .subtitle {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.5);
+            max-width: 550px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .article-meta span { display: flex; align-items: center; gap: 0.4rem; }
+
+        /* Article Body */
+        .article {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 90%;
+        }
+
+        .article-section {
+            padding: 3rem 0;
+        }
+
+        .article p {
+            font-family: 'Lora', serif;
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #374151;
+            margin-bottom: 1.5rem;
+        }
+
+        .article p strong { color: var(--text); }
+
+        .article h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            line-height: 1.3;
+        }
+
+        .article h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 2rem 0 0.75rem;
+            color: var(--text);
+        }
+
+        .pull-quote {
+            font-family: 'Lora', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--primary-dark);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 0 1rem 2rem;
+            margin: 2.5rem 0;
+            line-height: 1.6;
+        }
+
+        .separator {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--border);
+            font-size: 1.5rem;
+            letter-spacing: 1rem;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            padding: 3.5rem 2rem;
+            text-align: center;
+            border-radius: 20px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 { font-size: 1.75rem; margin-bottom: 0.75rem; }
+        .cta-section p { font-family: 'Inter', sans-serif !important; font-size: 1rem !important; opacity: 0.8; margin-bottom: 1.5rem !important; color: white !important; }
+
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .cta-btn {
+            padding: 0.9rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .cta-btn.primary { background: white; color: var(--primary-dark); }
+        .cta-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+        .cta-btn.secondary { background: rgba(255,255,255,0.15); color: white; border: 2px solid rgba(255,255,255,0.3); }
+        .cta-btn.secondary:hover { background: rgba(255,255,255,0.25); }
+
+        /* Share */
+        .share-section {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            margin: 2rem 0;
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            background: var(--card);
+        }
+
+        .share-label {
+            font-family: 'Lora', serif !important;
+            font-size: 1.1rem !important;
+            color: var(--text) !important;
+            margin-bottom: 1.25rem !important;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .share-btn:hover { transform: translateY(-2px); }
+
+        .share-btn.linkedin { background: #0A66C2; color: white; }
+        .share-btn.twitter { background: #000; color: white; }
+        .share-btn.whatsapp { background: #25D366; color: white; }
+        .share-btn.copy { background: var(--bg); color: var(--text); border: 1.5px solid var(--border); }
+        .share-btn.copy:hover { border-color: var(--primary); color: var(--primary); }
+
+        .origin-note {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        footer {
+            background: var(--bg-dark);
+            color: rgba(255,255,255,0.6);
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        footer a { color: var(--primary-light); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+
+        /* Interactive blocks */
+        .lab {
+            background: var(--card);
+            border: 1.5px solid var(--border);
+            border-radius: 18px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            box-shadow: 0 4px 20px rgba(7,28,68,0.05);
+        }
+        .lab-title { font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--primary-dark); margin-bottom: 0.4rem; }
+        .lab h3 { font-family: 'Inter', sans-serif; font-size: 1.25rem; color: var(--text); margin-bottom: 0.5rem; }
+        .lab .lab-intro { font-family: 'Inter', sans-serif !important; font-size: 0.95rem !important; color: var(--text-muted) !important; line-height: 1.6 !important; margin-bottom: 1.25rem !important; }
+        .lab button { font-family: 'Inter', sans-serif; cursor: pointer; }
+        .lab :focus-visible, .share-btn:focus-visible, .cta-btn:focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
+        .pill { display: inline-block; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.65rem; border-radius: 999px; letter-spacing: 0.3px; }
+        .pill.green { background: #dcfce7; color: #166534; }
+        .pill.red { background: #fee2e2; color: #991b1b; }
+        .pill.blue { background: #e8f0fe; color: #0a47b8; }
+        .pill.amber { background: #fef3c7; color: #92400e; }
+        .small-label { font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.35rem; }
+        .lab p.plain { font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.65; color: #374151; margin-bottom: 0.9rem; }
+
+
+        /* Layer stack */
+        .stack { display: flex; flex-direction: column; gap: 0.6rem; margin: 0.5rem 0 1.25rem; }
+        .layer {
+            border: 2px solid var(--border); border-radius: 14px; padding: 0.9rem 1.1rem; background: var(--bg);
+            font-family: 'Inter', sans-serif; transition: all 0.25s; opacity: 0.55;
+        }
+        .layer .small-label { margin-bottom: 0.15rem; }
+        .layer h4 { font-size: 1rem; color: var(--text); margin-bottom: 0.15rem; }
+        .layer p.d { font-family: 'Inter', sans-serif !important; font-size: 0.85rem !important; line-height: 1.5 !important; color: var(--text-muted) !important; margin: 0 !important; }
+        .layer.on { opacity: 1; background: #fff; border-color: var(--primary); box-shadow: 0 6px 22px rgba(15,98,240,0.14); transform: translateX(6px); }
+        .layer.on h4 { color: var(--primary-dark); }
+        .layer .arrow { display: none; }
+        .picker { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.1rem; }
+        .picker button {
+            border: 1.5px solid var(--border); background: var(--bg); color: var(--text); border-radius: 999px;
+            padding: 0.5rem 0.95rem; font-size: 0.83rem; font-weight: 600; transition: all 0.2s; text-align: left;
+        }
+        .picker button:hover { border-color: var(--primary); }
+        .picker button.active { background: var(--bg-dark); color: #fff; border-color: var(--bg-dark); }
+        .verdict { background: var(--bg); border-left: 4px solid var(--primary); border-radius: 0 12px 12px 0; padding: 0.9rem 1.1rem; font-family: 'Inter', sans-serif; font-size: 0.93rem; line-height: 1.6; color: #374151; }
+        .verdict strong { color: var(--text); }
+        /* N x M */
+        .nm { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem; }
+        .nm label { display: block; font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 0.4rem; }
+        .nm label span { color: var(--primary-dark); font-weight: 800; }
+        .nm input[type=range] { width: 100%; accent-color: var(--primary); }
+        .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .count { border-radius: 14px; padding: 1.1rem 1.2rem; font-family: 'Inter', sans-serif; }
+        .count.many { background: #fef2f2; border: 1px solid #fecaca; }
+        .count.few { background: #eff6ff; border: 1px solid #bfdbfe; }
+        .count .num { font-size: 2.4rem; font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+        .count.many .num { color: #b91c1c; } .count.few .num { color: var(--primary-dark); }
+        .count .cap { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem; }
+        .meter { height: 10px; background: rgba(0,0,0,0.07); border-radius: 5px; margin-top: 0.7rem; overflow: hidden; }
+        .meter i { display: block; height: 100%; border-radius: 5px; transition: width 0.3s; }
+        .count.many .meter i { background: #ef4444; } .count.few .meter i { background: var(--primary); }
+        @media (max-width: 768px) { .nm, .compare { grid-template-columns: 1fr; } .layer.on { transform: none; } }
+
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .mobile-menu { display: flex; }
+            .article-hero { padding: 3.5rem 1.25rem 3rem; }
+            .article-hero h1 { font-size: 2rem; }
+            .article-hero .subtitle { font-size: 1rem; }
+            .article { padding: 0 1.25rem; }
+            .article p { font-size: 1.05rem; }
+            .pull-quote { font-size: 1.25rem; padding-left: 1.5rem; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .lab-grid { grid-template-columns: 1fr; }
+            .bug-grid { grid-template-columns: 1fr; }
+            .lab { padding: 1.25rem; }
+        }
+        @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+    </style>
+</head>
+<body>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/">Home</a>
+        <a href="/qa-skill-framework">Framework</a>
+        <a href="/qa-self-assessment">Assessment</a>
+        <a href="/qa-learning-plan">Learning</a>
+        <a href="/consult">Consult</a>
+        <a href="/ctfl-mock-exam">CTFL Exam</a>
+        <a href="/qa-self-assessment" class="nav-cta">Free Assessment</a>
+    </div>
+
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="nav-brand">
+                <img src="ngobrolqa-mark-reversed.svg" alt="NgobrolQA">
+                <span>Ngobrol<span class="qa">QA</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/qa-skill-framework">Framework</a>
+                <a href="/qa-self-assessment">Assessment</a>
+                <a href="/qa-learning-plan">Learning</a>
+                <a href="/consult">Consult</a>
+        <a href="/ctfl-mock-exam">CTFL Exam</a>
+                <a href="/qa-self-assessment" class="nav-cta">Free Assessment</a>
+            </div>
+            <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="article-hero">
+        <div class="badge">NgobrolQA Insight</div>
+        <h1>REST, Function Calling and MCP: Layers, Not Rivals</h1>
+        <p class="subtitle">A plain explanation for anyone who keeps being asked to choose between three things that were never competing.</p>
+        <div class="article-meta">
+            <span>NgobrolQA</span>
+            <span>&bull;</span>
+            <span>4 min read</span>
+        </div>
+    </div>
+
+    <div class="article">
+
+        <div class="article-section">
+            <p>Every few months a new acronym shows up in the AI world, and the same question follows it around the room: which one should we use?</p>
+
+            <p>Lately the question has been about three things at once. REST APIs, function calling, and something called MCP. They get lined up side by side like three phones on a shelf, as if you were meant to pick one and take it home.</p>
+
+            <p>That framing is where the confusion starts. These three were never competing. They sit on top of one another, and once you can see the stack, most of the decision makes itself.</p>
+
+            <p class="pull-quote">Asking which one to use is a bit like asking whether to use the road, the car, or the GPS.</p>
+        </div>
+
+        <div class="separator">&bull; &bull; &bull;</div>
+
+        <div class="article-section">
+            <h2>Three layers, three jobs</h2>
+
+            <p>REST is the oldest and the most familiar. It is how one program asks another to do something over the web, with endpoints, methods and parameters. It was built for programmers. Real services, like a payment provider or your ticket system, live at this level.</p>
+
+            <p>Function calling is how a language model asks for something to be done. The model never runs anything itself. It writes out a structured request, such as "look up this order with this number", and your own code decides whether to carry it out. The model proposes, and your application acts.</p>
+
+            <p>MCP, the Model Context Protocol, is an open standard introduced in late 2024 so that AI applications can discover and use tools in a common way. A server describes the tools it offers in terms a model can understand, and any app that speaks MCP can use them. Very often an MCP server is simply a friendly wrapper around a REST API that already exists.</p>
+
+            <div class="lab" id="stackLab">
+                <div class="lab-title">Interactive</div>
+                <h3>Which layers does your situation need?</h3>
+                <p class="lab-intro">Pick a scenario and watch which layers light up. Notice how often the answer is only one.</p>
+
+                <div class="picker" id="picker" role="group" aria-label="Scenarios">
+                    <button data-s="0" class="active">A web app calls a payment service</button>
+                    <button data-s="1">A support chatbot that can look up an order</button>
+                    <button data-s="2">An agent that uses calendar, tickets and docs in two AI apps</button>
+                    <button data-s="3">A nightly script exports a report</button>
+                    <button data-s="4">Prototyping an AI feature with one tool this week</button>
+                </div>
+
+                <div class="stack">
+                    <div class="layer" id="L-fc"><div class="small-label">Where the model asks</div><h4>Function calling</h4><p class="d">The model writes a structured request. Your code decides whether to run it.</p></div>
+                    <div class="layer" id="L-mcp"><div class="small-label">Where tools are shared</div><h4>MCP</h4><p class="d">A common way for apps and agents to find and use many tools without custom wiring for each.</p></div>
+                    <div class="layer" id="L-rest"><div class="small-label">Where the real work lives</div><h4>REST API</h4><p class="d">The services your systems already expose: payments, tickets, calendars, databases.</p></div>
+                </div>
+                <div class="verdict" id="verdict"></div>
+            </div>
+        </div>
+
+        <div class="separator">&bull; &bull; &bull;</div>
+
+        <div class="article-section">
+            <h2>The problem MCP exists to solve</h2>
+
+            <p>Picture a handful of AI apps and a handful of systems they all want to reach. Without a shared standard, every app needs its own hand-built connection to every system. Add one more app and you write several new integrations. Add one more system and you write several more.</p>
+
+            <p>With a shared standard, each system offers one MCP server, and each app learns to speak MCP once. The connections stop multiplying and start adding up. Move the sliders and see how quickly the two numbers drift apart.</p>
+
+            <div class="lab" id="nmLab">
+                <div class="lab-title">Interactive</div>
+                <h3>Connections to build and maintain</h3>
+                <p class="lab-intro">A simplified model, but it shows why a common standard matters once there are many apps and many systems.</p>
+                <div class="nm">
+                    <div><label for="sN">AI apps <span id="vN">3</span></label><input type="range" id="sN" min="1" max="12" value="3"></div>
+                    <div><label for="sM">Systems to connect <span id="vM">4</span></label><input type="range" id="sM" min="1" max="12" value="4"></div>
+                </div>
+                <div class="compare">
+                    <div class="count many"><div class="small-label">Custom wiring for each pair</div><div class="num" id="nMany">12</div><div class="cap">integrations to build</div><div class="meter"><i id="mMany"></i></div></div>
+                    <div class="count few"><div class="small-label">One shared standard</div><div class="num" id="nFew">7</div><div class="cap">integrations to build</div><div class="meter"><i id="mFew"></i></div></div>
+                </div>
+            </div>
+
+            <p>REST is not the thing that was missing. What REST does not tell a model is which tools exist and when to reach for them. MCP adds that layer of discovery and description, and that is why it appeared at the same time as agents.</p>
+        </div>
+
+        <div class="separator">&bull; &bull; &bull;</div>
+
+        <div class="article-section">
+            <h2>A simple way to choose</h2>
+
+            <p>If there is no AI anywhere in the path, REST on its own is the whole answer, and nothing else is needed. If you have one application with a few tools, function calling straight into your existing REST endpoints is simple and usually enough.</p>
+
+            <p>Once you have many tools, many apps, or a wish to reuse tools other people already built, that is when MCP starts to pay for itself. A single agent workflow can easily use all three at once. The model asks through function calling, the request travels through an MCP server, and that server calls a REST API underneath.</p>
+
+            <p class="pull-quote">Start with the simplest layer that works, and climb one level only when a real problem asks you to.</p>
+
+            <h2>One thing to take seriously</h2>
+
+            <p>The easier it becomes for an agent to find and use tools, the more it matters which tools it is allowed to use, and with what access. Tools from third parties are also a new place for things to go wrong. The text a tool returns can contain hidden instructions meant to steer the agent, which is called prompt injection. Treat what comes back from a tool as untrusted data, never as a command.</p>
+
+            <p>MCP is still evolving quickly. Before you build anything serious on it, read the current official documentation, because the details move faster than any article can.</p>
+        </div>
+
+
+        <div class="cta-section">
+            <h2>Building with AI agents?</h2>
+            <p>See how this connects to testing, and how to try agents safely in a QA team.</p>
+            <div class="cta-buttons">
+                <a href="/qa-start-with-ai-agents" class="cta-btn primary">Read: a safe first week with AI</a>
+                <a href="/" class="cta-btn secondary">More insights</a>
+            </div>
+        </div>
+
+        <div class="share-section">
+            <p class="share-label">Know someone stuck on REST versus MCP? Send them this.</p>
+            <div class="share-buttons">
+                <a href="#" onclick="shareLinkedIn(); return false;" class="share-btn linkedin">LinkedIn</a>
+                <a href="#" onclick="shareTwitter(); return false;" class="share-btn twitter">X / Twitter</a>
+                <a href="#" onclick="shareWhatsApp(); return false;" class="share-btn whatsapp">WhatsApp</a>
+                <button onclick="copyLink()" class="share-btn copy"><span id="copyText">Copy Link</span></button>
+            </div>
+        </div>
+
+        <p class="origin-note">Written by Aditya Mirza Bahari, 2026. MCP details change quickly, so check the official documentation before building on it.</p>
+    </div>
+
+    <footer>
+        <p>© 2026 Aditya Mirza Bahari. All Rights Reserved.</p>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">
+            <a href="https://id.linkedin.com/in/adityamirzabahari" target="_blank">LinkedIn</a> •
+            <a href="https://www.instagram.com/ngobrolqa/" target="_blank">Instagram</a> •
+            <a href="https://www.youtube.com/@ngobrolQA" target="_blank">YouTube</a> •
+            <a href="https://open.spotify.com/show/NgobrolQA" target="_blank">Podcast</a> •
+            <a href="https://idstb.org" target="_blank">IDSTB</a>
+        </p>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+        const pageUrl = 'https://ngobrolqa.com/qa-api-function-calling-mcp';
+        const shareTitle = "REST, Function Calling and MCP: Layers, Not Rivals";
+        const shareText = "REST, function calling and MCP are three layers of one stack, not three competing choices. A plain explanation with two small demos.";
+        function shareLinkedIn() { window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(pageUrl), '_blank', 'noopener'); }
+        function shareTwitter() { window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(shareText + ' ' + pageUrl), '_blank', 'noopener'); }
+        function shareWhatsApp() { window.open('https://wa.me/?text=' + encodeURIComponent(shareTitle + '\n\n' + shareText + '\n\n' + pageUrl), '_blank', 'noopener'); }
+        function copyLink() {
+            const done = function () {
+                document.getElementById('copyText').textContent = 'Copied!';
+                setTimeout(function () { document.getElementById('copyText').textContent = 'Copy Link'; }, 2000);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(pageUrl).then(done, function () {}); }
+        }
+
+        (function () {
+            var scenarios = [
+                { layers: ['rest'], text: '<strong>REST on its own.</strong> No model is deciding anything here, so there is nothing for function calling or MCP to do. The simplest answer is the right one.' },
+                { layers: ['fc', 'rest'], text: '<strong>Function calling into REST.</strong> One app and one or two tools. The model asks for the lookup, your code runs it against your own API, and that is plenty.' },
+                { layers: ['fc', 'mcp', 'rest'], text: '<strong>All three layers.</strong> Many tools used by more than one AI app is where MCP earns its place. Each tool sits behind an MCP server, and underneath each server is a REST API.' },
+                { layers: ['rest'], text: '<strong>REST on its own.</strong> A scheduled script calling an API. No model decides anything, so a plain API call is all you need.' },
+                { layers: ['fc', 'rest'], text: '<strong>Function calling into REST.</strong> Start simple. When a second tool or a second AI app shows up and the wiring starts to repeat, that is the moment to consider MCP.' }
+            ];
+            var ids = { fc: 'L-fc', mcp: 'L-mcp', rest: 'L-rest' };
+            function show(i) {
+                Object.keys(ids).forEach(function (k) { document.getElementById(ids[k]).classList.remove('on'); });
+                scenarios[i].layers.forEach(function (k) { document.getElementById(ids[k]).classList.add('on'); });
+                document.getElementById('verdict').innerHTML = scenarios[i].text;
+                document.querySelectorAll('#picker button').forEach(function (b) { b.classList.toggle('active', Number(b.dataset.s) === i); });
+            }
+            document.querySelectorAll('#picker button').forEach(function (b) {
+                b.addEventListener('click', function () { show(Number(b.dataset.s)); });
+            });
+            show(0);
+
+            var sN = document.getElementById('sN'), sM = document.getElementById('sM');
+            function calc() {
+                var n = Number(sN.value), m = Number(sM.value);
+                document.getElementById('vN').textContent = n;
+                document.getElementById('vM').textContent = m;
+                var many = n * m, few = n + m;
+                document.getElementById('nMany').textContent = many;
+                document.getElementById('nFew').textContent = few;
+                document.getElementById('mMany').style.width = (many / 144 * 100) + '%';
+                document.getElementById('mFew').style.width = (few / 144 * 100) + '%';
+            }
+            sN.addEventListener('input', calc); sM.addEventListener('input', calc);
+            calc();
+        })();
+
+    </script>
+</body>
+</html>
